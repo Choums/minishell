@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/22 15:28:29 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/04/22 16:49:28 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ int	main(int ac, char **av, char **envp)
 	while (ft_strcmp(line, "exit") != 0)
 	{
 		if(ft_strcmp(line, "env") == 0)
-		{
-			printf("in\n");
 			print_env(data);
-		}
 		free(line);
 		line = readline("minishell$ ");
 		if (line && *line)
@@ -61,5 +58,6 @@ int	main(int ac, char **av, char **envp)
 		
 	}
 	rl_clear_history();
-	return (0);
+	ft_lstclear(&data.env, del);
+	exit(EXIT_SUCCESS);
 }

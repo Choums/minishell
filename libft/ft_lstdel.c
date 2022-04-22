@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 11:35:53 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/22 11:36:04 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/04/22 16:47:00 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	del(char *content)
 {
-	free(content);
+	content = NULL;
 }
