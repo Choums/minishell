@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/22 15:27:46 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/04/22 19:35:39 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,24 @@ typedef struct s_data
 	char **env;
 }	t_data;
 
+
+
+
+typedef struct s_command
+{
+	char **env;
+}	t_command;
+
+/*
+ENV_C----------------------------------------------------------------------------
+*/
 void	get_env(t_data *data, char **envp);
 void	print_env(const t_data data);
+
+
+/*
+PARSING_C------------------------------------------------------------------------
+*/
+void	ft_parsing(char *line);
 
 #endif
