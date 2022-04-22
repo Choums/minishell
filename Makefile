@@ -1,16 +1,18 @@
 NAME    	= minishell
 
-SRCDIR			= ./srcs
-INCDIR			= ./includes
-OBJDIR			= obj
+SRCDIR		=	+./srcs
+INCDIR		=	./includes
+OBJDIR		=	obj
 
-SRC				= 	
+SRC			=	main.c\
+				get_next_line.c\
+				get_next_line_utils.c
 
 
-OBJ				= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
+OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
-CC				= clang
-CFLAGS			= -Wall -Wextra -Werror -g
+CC			=	clang
+CFLAGS		=	-Wall -Wextra -Werror -g
 
 FT			=	./libft/
 FT_LIB		=	$(addprefix $(FT),libft.a)
