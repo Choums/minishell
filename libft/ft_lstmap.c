@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 16:10:06 by chaidel           #+#    #+#             */
-/*   Updated: 2021/12/08 17:02:55 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/04/22 11:13:20 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+t_list	*ft_lstmap(t_list *lst, char *(*f)(char *), void (*del)(char *))
 {
 	t_list	*elem;
 	t_list	*new_lst;

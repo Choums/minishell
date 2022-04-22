@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/22 09:57:51 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/04/22 13:28:21 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,16 @@
 # include <signal.h>
 # include <dirent.h>
 # include <sys/ioctl.h>
+# include <readline/readline.h>
+# include <readline/chardefs.h>
 # include "../libft/libft.h"
+
+typedef struct s_data
+{
+	char **env;
+}	t_data;
+
+void	get_env(t_data *data, char **env);
+void	print_env(const t_data data);
 
 #endif

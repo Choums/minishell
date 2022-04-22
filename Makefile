@@ -1,18 +1,20 @@
-NAME    	= minishell
+NAME    	=	minishell
 
-SRCDIR		=	+./srcs
+SRCDIR		=	./src
 INCDIR		=	./includes
 OBJDIR		=	obj
 
 SRC			=	main.c\
 				get_next_line.c\
-				get_next_line_utils.c
+				get_next_line_utils.c\
+				get_env.c\
+				parsing.c
 
 
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
-CC			=	clang
-CFLAGS		=	-Wall -Wextra -Werror -g
+CC			=	gcc
+CFLAGS		=	-g -Wall -Wextra
 
 FT			=	./libft/
 FT_LIB		=	$(addprefix $(FT),libft.a)
@@ -24,13 +26,13 @@ obj:
 				mkdir -p $(OBJDIR)
 
 $(OBJDIR)/%.o:	$(SRCDIR)/%.c
-				$(CC) $(CFLAGS) $(FT_INC) -I $(INCDIR) -o $@ -c $<
+				$(CC) $(CFLAGS) $(FT_INC) -I $(INCDIR) -o $@ -c $< -lreadline
 
 $(FT_LIB):
 				make -C $(FT)
 
 $(NAME):		$(OBJ)
-				$(CC) $(CFLAGS) $(OBJ) $(FT_LIB) -o $(NAME)
+				$(CC) $(CFLAGS) $(OBJ) $(FT_LIB) -lreadline -o $(NAME)
 
 clean:
 				rm -rf $(OBJDIR)

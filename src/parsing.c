@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/06 17:58:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/22 11:08:10 by chaidel          ###   ########.fr       */
+/*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
+/*   Updated: 2022/04/22 13:39:37 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(char *))
+/*
+ *	Lexing Parsing
+ *	Parcourt la line et execute les differentes commandes
+ *	Separateur => espaces, '', "", <>, <<>>, | 
+ *	
+*/
+
+void	parsing(char *line)
 {
-	t_list	*tmp;
-
-	if (*lst && del)
-	{
-		while ((*lst)->next)
-		{
-			tmp = *lst;
-			*lst = (*lst)->next;
-			ft_lstdelone(tmp, del);
-		}
-		ft_lstdelone(*lst, del);
-		*lst = NULL;
-	}
+	
 }
