@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/22 13:28:21 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/04/22 15:27:46 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_data
 	char **env;
 }	t_data;
 
-void	get_env(t_data *data, char **env);
+void	get_env(t_data *data, char **envp);
 void	print_env(const t_data data);
 
 #endif

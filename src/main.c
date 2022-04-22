@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/22 13:32:36 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/04/22 15:28:29 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
  *	Creer les variables d'env.
  *	--------------------------
  *	getenv -> char *getenv(const char *varname)
- *	retourne une string avec la valeur de la var donner
+ *	retourne une string avec la valeur de la var donner || renvoie la var PATH malgre qu'elle soit unset
  *	ex: getenv("PATH")
- *	cas env -I a gerer -> PWD, SHLVL, _
+ *	cas env -i a gerer -> PWD, SHLVL, _
  *	var de base -> TERM, SHELL, USER, PATH, PWD, LANG, HOME,
  *	LANGUAGE, LOGNAME, _, SHLVL
 */

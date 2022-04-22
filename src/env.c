@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env.c                                          :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:40:50 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/22 13:28:02 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/04/22 15:30:12 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
  *	Env
  *	Recup toutes les variables d'environement
- *	
+ *	env et export sont des builtins a faire
 */
 void	get_env(t_data *data, char **env)
 {
@@ -35,6 +35,26 @@ void	get_env(t_data *data, char **env)
 		n++;
 	}
 }
+
+
+/*
+ *	export [var]
+ *	export -> ajoute la var a env 
+ *	
+*/
+// void	export(t_data *data)
+// {
+	
+// }
+
+// /*
+//  *	unset [var]
+//  *	Retire la var de l'env 
+// */
+// void	unset(t_data *data)
+// {
+	
+// }
 
 void	print_env(const t_data data)
 {
