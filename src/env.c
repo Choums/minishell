@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:40:50 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/22 16:42:25 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/04/24 22:12:53 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,42 @@ void	get_env(t_data *data, char **env)
  *	export -> ajoute la var a env 
  *	
 */
-// void	export(t_data *data)
+// void	export(t_data *data, char *var)
 // {
 	
 // }
 
-// /*
-//  *	unset [var]
-//  *	Retire la var de l'env 
-// */
-// void	unset(t_data *data)
-// {
-	
-// }
+/*
+ *	unset [var]
+ *	Retire la var de l'env 
+ *	Supp. le maillon de la var
+ *	tmp->previous->next = tmp->next
+ *	tmp->next->previous = tmp->previous
+*/
+void	unset(t_data *data, char *var)
+{
+	t_list	*tmp;
+
+	tmp = data->env;
+	while (tmp)
+	{
+		if (ft_strnstr(tmp->content, var, ft_strlen(var)))
+		{
+			tmp->previous->next = tmp->next;
+			tmp->next->previous = tmp->previous;	
+			// free(tmp);
+			tmp = tmp->next;
+		}
+		else
+			tmp = tmp->next;
+	}
+}
 
 void	print_env(const t_data data)
 {
 	t_list	*tmp;
 
 	tmp = data.env;
-	printf("display\n");
 	while (tmp)
 	{
 		ft_putendl_fd(tmp->content, STDOUT_FILENO);
