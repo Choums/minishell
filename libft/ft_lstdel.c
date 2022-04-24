@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 11:35:53 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/22 16:47:00 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/04/24 06:05:29 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 
 void	del(char *content)
 {
-	content = NULL;
+	if (*content)
+		content = NULL;
 }

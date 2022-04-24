@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/22 16:49:28 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/04/24 06:08:21 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	main(int ac, char **av, char **envp)
 	line = readline("minishell$ ");
 	if (line && *line)
 		add_history(line);
-	while (ft_strcmp(line, "exit") != 0)
+	while (is_exit(&data, line))
 	{
 		if(ft_strcmp(line, "env") == 0)
 			print_env(data);
@@ -57,7 +57,4 @@ int	main(int ac, char **av, char **envp)
 		//lexing parsing sur line, besoin des var d'env
 		
 	}
-	rl_clear_history();
-	ft_lstclear(&data.env, del);
-	exit(EXIT_SUCCESS);
 }

@@ -8,13 +8,14 @@ SRC			=	main.c\
 				get_next_line.c\
 				get_next_line_utils.c\
 				env.c\
-				parsing.c
+				parsing.c\
+				builtin.c
 
 
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
 CC			=	gcc
-CFLAGS		=	-g -Wall -Wextra
+CFLAGS		=	-g -Wall -Wextra #-fsanitize=address
 
 FT			=	./libft/
 FT_LIB		=	$(addprefix $(FT),libft.a)
