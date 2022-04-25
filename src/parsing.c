@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/25 17:02:11 by aptive           ###   ########.fr       */
+/*   Updated: 2022/04/25 19:01:18 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,43 @@ int	ft_affiche_struc(t_command *(*tab_cmd))
 		j = -1;
 		printf("tab_tab_cmd : %i ", tab_cmd[i]->nb_cmd);
 		while (tab_cmd[i]->tab_cmd[++j])
-		{
 			printf("%s ", tab_cmd[i]->tab_cmd[j]);
-		}
+		j = -1;
+		printf("\n");
+		while (tab_cmd[i]->tab_pipe && tab_cmd[i]->tab_pipe[++j])
+			printf("tab pipe: %s ", tab_cmd[i]->tab_pipe[j]);
 		printf("\n");
 	}
 	printf("-----------------------------------------------------\n");
 	return (1);
+}
+
+char	**ft_tab_pipe(t_command *tab_cmd)
+{
+	int	i;
+	int	y;
+
+	i = -1;
+	y = 0;
+	while (tab_cmd->tab_cmd[++i])
+		if (!ft_strcmp(tab_cmd->tab_cmd[i], "|")
+			|| !ft_strcmp(tab_cmd->tab_cmd[i], ">>")
+			|| !ft_strcmp(tab_cmd->tab_cmd[i], "<<"))
+			y++;
+	if (!y)
+		return (NULL);
+	tab_cmd->tab_pipe = malloc(sizeof(tab_cmd->tab_pipe) * (y + 1));
+	if (!tab_cmd->tab_pipe)
+		return (0);
+	tab_cmd->tab_pipe[y] = NULL;
+	i = -1;
+	y = -1;
+	while (tab_cmd->tab_cmd[++i])
+		if (!ft_strcmp(tab_cmd->tab_cmd[i], "|")
+			|| !ft_strcmp(tab_cmd->tab_cmd[i], ">>")
+			|| !ft_strcmp(tab_cmd->tab_cmd[i], "<<"))
+			tab_cmd->tab_pipe[++y] = tab_cmd->tab_cmd[i];
+	return (tab_cmd->tab_pipe);
 }
 
 t_command	**ft_parsing(char *line)
@@ -88,6 +118,7 @@ t_command	**ft_parsing(char *line)
 		tab_cmd[i] = malloc(sizeof(t_command));
 		tab_cmd[i]->nb_cmd = i;
 		tab_cmd[i]->tab_cmd = ft_split(tab_parse[i], ' ');
+		tab_cmd[i]->tab_pipe = ft_tab_pipe(tab_cmd[i]);
 	}
 	ft_affiche_struc(tab_cmd);
 	ft_free_doutab(tab_parse);

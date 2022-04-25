@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/25 17:01:58 by aptive           ###   ########.fr       */
+/*   Updated: 2022/04/25 17:35:57 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_command
 {
 	int		nb_cmd;
 	char	**tab_cmd;
+	char	**tab_pipe;
 }	t_command;
 
 /*
