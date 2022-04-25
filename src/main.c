@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/24 22:03:41 by root             ###   ########.fr       */
+/*   Updated: 2022/04/25 20:51:54 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 
 	get_env(&data, envp);
-
+	data.h_var = &data.var;
+	data.var = ft_lstnew("test=salut");
 	line = readline("minishell$ ");
 	if (line && *line)
 		add_history(line);
@@ -51,7 +52,9 @@ int	main(int ac, char **av, char **envp)
 		if(ft_strcmp(line, "env") == 0)
 			print_env(data);
 		if(ft_strcmp(line, "unset") == 0)
-			unset(&data, "HOME");
+			unset(&data, "test");
+		if (ft_strcmp(line, "export") == 0)
+			export(&data, "test");
 		free(line);
 		line = readline("minishell$ ");
 		if (line && *line)

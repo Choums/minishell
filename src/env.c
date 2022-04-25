@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:40:50 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/24 22:12:53 by root             ###   ########.fr       */
+/*   Updated: 2022/04/25 20:57:24 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,7 @@ void	get_env(t_data *data, char **env)
 	// printf("\n%s\nvar: %s", data->env->content, env[i - 1]);
 	while (n < i)
 		ft_lstadd_back(&data->env, ft_lstnew(env[n++]));
-	// data->env = (char **)malloc(sizeof(char *) * i);
-	// if (!data->env)
-	// 	return ;
-	// while (n < i)
-	// {
-	// 	data->env[n] = env[n];
-	// 	n++;
-	// }
+	data->h_env = &data->env;
 }
 
 
@@ -46,10 +39,22 @@ void	get_env(t_data *data, char **env)
  *	export -> ajoute la var a env 
  *	
 */
-// void	export(t_data *data, char *var)
-// {
+void	export(t_data *data, char *var)
+{
+	t_list	*tmp;
 	
-// }
+	tmp = data->var;
+	while (tmp)
+	{
+		if (ft_strnstr(tmp->content, var, ft_strlen(var)))
+		{
+			ft_lstadd_back(&data->env, ft_lstnew(tmp->content));
+			return ;
+		}
+		else
+			tmp = tmp->next;
+	}
+}
 
 /*
  *	unset [var]
@@ -57,20 +62,42 @@ void	get_env(t_data *data, char **env)
  *	Supp. le maillon de la var
  *	tmp->previous->next = tmp->next
  *	tmp->next->previous = tmp->previous
+ *	Cas a gerer => Premier	| previous NULL
+ *				=> Milieu	| previous et next true
+ *				=> Fin		| next NULL
 */
 void	unset(t_data *data, char *var)
 {
 	t_list	*tmp;
-
-	tmp = data->env;
+	t_list	*lst;
+	
+	tmp = (*data->h_env);
 	while (tmp)
 	{
 		if (ft_strnstr(tmp->content, var, ft_strlen(var)))
 		{
-			tmp->previous->next = tmp->next;
-			tmp->next->previous = tmp->previous;	
-			// free(tmp);
-			tmp = tmp->next;
+			if (tmp->previous == NULL)
+			{
+				(*data->h_env) = tmp->next;
+				free(tmp);
+				(*data->h_env)->previous = NULL;
+				return ;
+			}
+			else if (tmp->previous && tmp->next)
+			{
+				tmp->previous->next = tmp->next;
+				tmp->next->previous = tmp->previous;	
+				free(tmp);
+				return ;	
+			}
+			else if (tmp->next == NULL)
+			{
+				free(tmp);
+				lst = ft_lstlast((*data->h_env));
+				printf("last: %s\n", lst->content);
+				lst->next = NULL;
+				return ;
+			}
 		}
 		else
 			tmp = tmp->next;

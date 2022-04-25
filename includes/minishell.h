@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/24 20:54:37 by root             ###   ########.fr       */
+/*   Updated: 2022/04/25 20:19:30 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@
 typedef struct s_data
 {
 	t_list	*env;
+	t_list	**h_env;
+	t_list	*var;
+	t_list	**h_var;
 }	t_data;
 
 
@@ -36,5 +39,6 @@ void	print_env(const t_data data);
 int		is_exit(t_data *data, char *line);
 void	echo(char *arg);
 void	unset(t_data *data, char *var);
+void	export(t_data *data, char *var);
 
 #endif
