@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/25 19:01:18 by aptive           ###   ########.fr       */
+/*   Updated: 2022/04/25 19:16:04 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,14 @@ int	ft_affiche_struc(t_command *(*tab_cmd))
 	return (1);
 }
 
+int	ft_search_pipe(char *str)
+{
+	if (!ft_strcmp(str, "|") || !ft_strcmp(str, ">>") || !ft_strcmp(str, "<<")
+		|| !ft_strcmp(str, ">") || !ft_strcmp(str, "<"))
+		return (1);
+	return (0);
+}
+
 char	**ft_tab_pipe(t_command *tab_cmd)
 {
 	int	i;
@@ -78,9 +86,7 @@ char	**ft_tab_pipe(t_command *tab_cmd)
 	i = -1;
 	y = 0;
 	while (tab_cmd->tab_cmd[++i])
-		if (!ft_strcmp(tab_cmd->tab_cmd[i], "|")
-			|| !ft_strcmp(tab_cmd->tab_cmd[i], ">>")
-			|| !ft_strcmp(tab_cmd->tab_cmd[i], "<<"))
+		if (ft_search_pipe(tab_cmd->tab_cmd[i]))
 			y++;
 	if (!y)
 		return (NULL);
@@ -91,9 +97,7 @@ char	**ft_tab_pipe(t_command *tab_cmd)
 	i = -1;
 	y = -1;
 	while (tab_cmd->tab_cmd[++i])
-		if (!ft_strcmp(tab_cmd->tab_cmd[i], "|")
-			|| !ft_strcmp(tab_cmd->tab_cmd[i], ">>")
-			|| !ft_strcmp(tab_cmd->tab_cmd[i], "<<"))
+		if (ft_search_pipe(tab_cmd->tab_cmd[i]))
 			tab_cmd->tab_pipe[++y] = tab_cmd->tab_cmd[i];
 	return (tab_cmd->tab_pipe);
 }
