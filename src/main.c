@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/22 19:08:18 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/04/25 17:03:24 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 /*
  *	Creer les variables d'env.
  *	--------------------------
@@ -35,8 +34,9 @@
 
 int	main(int ac, char **av, char **envp)
 {
-	char	*line;
-	t_data	data;
+	char		*line;
+	t_data		data;
+	t_command	*(*tab_cmd);
 
 	(void)ac;
 	(void)av;
@@ -44,21 +44,18 @@ int	main(int ac, char **av, char **envp)
 	line = readline("minishell$ ");
 	if (line && *line)
 		add_history(line);
-
-	while (ft_strcmp(line, "exit") != 0)
+	while (is_exit(&data, line))
 	{
 		//lexing parsing sur line, besoin des var d'env
-		ft_parsing(line);
-		if(ft_strcmp(line, "env") == 0)
-		{
-			printf("in\n");
+		tab_cmd = ft_parsing(line);
+		if (ft_strcmp(line, "env") == 0)
 			print_env(data);
-		}
+		if (ft_strcmp(line, "unset") == 0)
+			unset(&data, "HOME");
 		free(line);
 		line = readline("minishell$ ");
 		if (line && *line)
 			add_history(line);
 	}
-	rl_clear_history();
-	return (0);
+	(void)tab_cmd;
 }

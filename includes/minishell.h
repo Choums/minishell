@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/25 15:20:05 by aptive           ###   ########.fr       */
+/*   Updated: 2022/04/25 17:01:58 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,8 @@
 
 typedef struct s_data
 {
-	char **env;
+	t_list	*env;
 }	t_data;
-
-
-
 
 typedef struct s_command
 {
@@ -43,11 +40,15 @@ ENV_C---------------------------------------------------------------------------
 */
 void	get_env(t_data *data, char **envp);
 void	print_env(const t_data data);
-
-
+int		is_exit(t_data *data, char *line);
+void	echo(char *arg);
+void	unset(t_data *data, char *var);
 /*
 PARSING_C------------------------------------------------------------------------
 */
-void	ft_parsing(char *line);
+int		ft_affiche_struc(t_command *(*tab_cmd));
+void	ft_free_doutab(char **tab);
+int		ft_doubletab_len(char **tab);
+t_command		**ft_parsing(char *line);
 
 #endif

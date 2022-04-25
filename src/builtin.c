@@ -1,19 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdel.c                                        :+:      :+:    :+:   */
+/*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/22 11:35:53 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/24 06:05:29 by root             ###   ########.fr       */
+/*   Created: 2022/04/24 05:48:30 by root              #+#    #+#             */
+/*   Updated: 2022/04/24 06:17:21 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "libft.h"
+#include "../includes/minishell.h"
 
-void	del(char *content)
+void	echo(char *arg)
 {
-	if (*content)
-		content = NULL;
+	if (*arg)
+		ft_putendl_fd(arg, STDOUT_FILENO);
+}
+
+int	is_exit(t_data *data, char *line)
+{
+	if (!ft_strcmp(line, "exit"))
+	{
+		free(line);
+		rl_clear_history();
+		ft_lstclear(&data->env, del);
+		exit(EXIT_SUCCESS);
+	}
+	return (1);
 }
