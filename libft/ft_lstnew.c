@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 10:57:10 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/22 11:07:41 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/04/26 10:12:27 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_list	*ft_lstnew(char *content)
 	another = malloc(sizeof(*another));
 	if (!another)
 		return (NULL);
-	another->content = content;
+	another->content = ft_strdup(content);
 	another->next = NULL;
 	another->previous = NULL;
 	return (another);

@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 11:35:53 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/24 06:05:29 by root             ###   ########.fr       */
+/*   Updated: 2022/04/26 10:12:52 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 void	del(char *content)
 {
 	if (*content)
-		content = NULL;
+		free(content);
 }

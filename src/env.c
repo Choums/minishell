@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:40:50 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/25 20:57:24 by root             ###   ########.fr       */
+/*   Updated: 2022/04/26 10:27:24 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 /*
  *	Env
- *	Recup toutes les variables d'environement
- *	env et export sont des builtins a faire
+ *	Recup. toutes les variables d'environement dans une lst.
+ *	Cas env -i => PWD, SHLVL et _ a set
 */
 void	get_env(t_data *data, char **env)
 {
@@ -24,20 +24,40 @@ void	get_env(t_data *data, char **env)
 
 	i = 0;
 	n = 0;
-	while (env[i])
-		i++;	
-	data->env = ft_lstnew(env[n++]);
-	// printf("\n%s\nvar: %s", data->env->content, env[i - 1]);
-	while (n < i)
-		ft_lstadd_back(&data->env, ft_lstnew(env[n++]));
+	if (env[i])
+	{
+		while (env[i])
+			i++;	
+		data->env = ft_lstnew(env[n++]);
+		while (n < i)
+			ft_lstadd_back(&data->env, ft_lstnew(env[n++]));
+		data->h_env = &data->env;	
+	}
+	else
+		set_env(data);
+}
+
+void	set_env(t_data *data)
+{
+	char	*path;
+	char	*var;
+	
+	path = getcwd(NULL, 0);
+	if (path == NULL)
+		perror("failed to get current directory\n"); //gestion d'erreur a faire
+	var = ft_strjoin("PWD=", path);
+	free(path);
+	data->env = ft_lstnew(var);
+	free(var);
+	ft_lstadd_back(&data->env, ft_lstnew("SHLVL=1"));
+	ft_lstadd_back(&data->env, ft_lstnew("_=/usr/bin/env"));
 	data->h_env = &data->env;
 }
 
-
 /*
  *	export [var]
- *	export -> ajoute la var a env 
- *	
+ *	export -> ajoute la var a l'env.
+ *	La var est mise en fin de chaine
 */
 void	export(t_data *data, char *var)
 {
@@ -58,50 +78,18 @@ void	export(t_data *data, char *var)
 
 /*
  *	unset [var]
- *	Retire la var de l'env 
+ *	Supp. la var (aussi de l'env.)
  *	Supp. le maillon de la var
  *	tmp->previous->next = tmp->next
  *	tmp->next->previous = tmp->previous
- *	Cas a gerer => Premier	| previous NULL
- *				=> Milieu	| previous et next true
- *				=> Fin		| next NULL
+ *	Cas	=> Premier	| head vers next, free(tmp), head previous NULL
+ *		=> Milieu	| redirection previous et next de tmp, free(tmp)
+ *		=> Fin		| lst = tmp, tmp->previous->next NULL, free(lst)
 */
 void	unset(t_data *data, char *var)
 {
-	t_list	*tmp;
-	t_list	*lst;
-	
-	tmp = (*data->h_env);
-	while (tmp)
-	{
-		if (ft_strnstr(tmp->content, var, ft_strlen(var)))
-		{
-			if (tmp->previous == NULL)
-			{
-				(*data->h_env) = tmp->next;
-				free(tmp);
-				(*data->h_env)->previous = NULL;
-				return ;
-			}
-			else if (tmp->previous && tmp->next)
-			{
-				tmp->previous->next = tmp->next;
-				tmp->next->previous = tmp->previous;	
-				free(tmp);
-				return ;	
-			}
-			else if (tmp->next == NULL)
-			{
-				free(tmp);
-				lst = ft_lstlast((*data->h_env));
-				printf("last: %s\n", lst->content);
-				lst->next = NULL;
-				return ;
-			}
-		}
-		else
-			tmp = tmp->next;
-	}
+	supp_elem(data->h_env, var);
+	supp_elem(data->h_var, var);
 }
 
 void	print_env(const t_data data)

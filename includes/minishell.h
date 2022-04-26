@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/25 20:19:30 by root             ###   ########.fr       */
+/*   Updated: 2022/04/26 10:50:34 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,16 @@ typedef struct s_data
 }	t_data;
 
 
-/*	Builtin	*/
+/*	Builtin */
 void	get_env(t_data *data, char **envp);
+void	set_env(t_data *data);
 void	print_env(const t_data data);
 int		is_exit(t_data *data, char *line);
 void	echo(char *arg);
 void	unset(t_data *data, char *var);
 void	export(t_data *data, char *var);
 
+/*	List */
+void	supp_elem(t_list **head, char *var);
+void	supp_fst_elem(t_list **head, t_list *tmp);
 #endif

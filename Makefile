@@ -9,7 +9,8 @@ SRC			=	main.c\
 				get_next_line_utils.c\
 				env.c\
 				parsing.c\
-				builtin.c
+				builtin.c\
+				lst_management.c
 
 
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
