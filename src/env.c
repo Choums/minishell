@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:40:50 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/26 10:27:24 by root             ###   ########.fr       */
+/*   Updated: 2022/04/26 16:40:14 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
  *	Env
  *	Recup. toutes les variables d'environement dans une lst.
- *	Cas env -i => PWD, SHLVL et _ a set
+ *	Cas env -i => PWD, SHLVL et _ | set_env
 */
 void	get_env(t_data *data, char **env)
 {
@@ -78,8 +78,8 @@ void	export(t_data *data, char *var)
 
 /*
  *	unset [var]
- *	Supp. la var (aussi de l'env.)
- *	Supp. le maillon de la var
+ *	Supp. la var
+ *	Supp. le maillon de la lst. var et env.
  *	tmp->previous->next = tmp->next
  *	tmp->next->previous = tmp->previous
  *	Cas	=> Premier	| head vers next, free(tmp), head previous NULL

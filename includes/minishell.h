@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/26 10:50:34 by root             ###   ########.fr       */
+/*   Updated: 2022/04/26 17:57:38 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,18 @@ int		is_exit(t_data *data, char *line);
 void	echo(char *arg);
 void	unset(t_data *data, char *var);
 void	export(t_data *data, char *var);
+void	pwd(void);
+void	change_dir(t_data *data, char *path);
+void	goto_home(t_list **env);
+int		is_oldpwd(t_list **env);
+void	create_oldpwd(t_list **env);
+void	goto_oldpwd(t_list **env);
+
 
 /*	List */
 void	supp_elem(t_list **head, char *var);
 void	supp_fst_elem(t_list **head, t_list *tmp);
+void	update_elem(t_list **head, char *var, char *content);
+
+
 #endif

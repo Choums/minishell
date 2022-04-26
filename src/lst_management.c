@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/04/26 10:59:56 by root             ###   ########.fr       */
+/*   Updated: 2022/04/26 16:55:45 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,29 @@ void	supp_fst_elem(t_list **head, t_list *tmp)
 		(*head) = tmp->next;
 		ft_lstdelone(tmp, del);
 		(*head)->previous = NULL;
+	}
+}
+
+/*
+ *	La var doit se terminer par le "="
+*/
+void	update_elem(t_list **head, char *var, char *content)
+{
+	t_list	*tmp;
+	char	*new;
+
+	tmp = (*head);
+	while (tmp)
+	{
+		if (ft_strnstr(tmp->content, var, ft_strlen(var)))
+		{
+			del(tmp->content);
+			new = ft_strjoin(var, content);
+			tmp->content = ft_strdup(new);
+			free(new);
+			return ;
+		}
+		else
+			tmp	= tmp->next;
 	}
 }

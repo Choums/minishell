@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 05:48:30 by root              #+#    #+#             */
-/*   Updated: 2022/04/25 17:54:36 by root             ###   ########.fr       */
+/*   Updated: 2022/04/26 17:42:17 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,15 @@ void	echo(char *arg)
 {
 	if (*arg)
 		ft_putendl_fd(arg, STDOUT_FILENO);
+}
+
+void	pwd(void)
+{
+	char	*path;
+	
+	path = getcwd(NULL, 0);
+	echo(path);
+	free(path);
 }
 
 int	is_exit(t_data *data, char *line)
