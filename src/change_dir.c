@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:41:51 by root              #+#    #+#             */
-/*   Updated: 2022/04/26 17:57:15 by root             ###   ########.fr       */
+/*   Updated: 2022/04/27 17:43:25 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,37 @@
  *	-	=> var OLDPWD | goto_oldpwd
  *	Cas => cwd supp. a prendre en compte
  *
- *	if (!is_oldpwd(data->h_env))
- *		create_oldpwd(data->h_env);
 */
-void	change_dir(t_data *data, char *path)
+void	change_dir(t_list **env, char *path)
 {
 	char	*current;
 
 	current = getcwd(NULL, 0);
 	if (!current)
 		perror(""); //Gestion d'erreur
-	update_elem(data->h_env, "OLDPWD=", current);
+	update_elem(env, "OLDPWD=", current);
 	free(current);
-	chdir(path);
+	if (chdir(path) < 0)
+		perror(""); //Gestion d'erreur
 	current = getcwd(NULL, 0);
 	if (!current)
 		perror(""); //Gestion d'erreur
-	update_elem(data->h_env, "PWD=", current);
+	update_elem(env, "PWD=", current);
 	free(current);
+}
+
+void	check_dir(t_data *data, char *path)
+{
+	if (access(path, R_OK | X_OK) < 0) //Check lequel renvoi l'erreur
+		perror(""); //Gestion d'erreur
+	if (!is_oldpwd(data->h_env))
+		create_oldpwd(data->h_env);
+	if (path[0] == '-')
+		goto_oldpwd(data->h_env);
+	else if (path[0] == '~')
+		goto_home(data->h_env);
+	else
+		change_dir(data->h_env, path);
 }
 
 void	goto_home(t_list **env)
@@ -54,7 +67,7 @@ void	goto_home(t_list **env)
 		if (ft_strcmp(tmp->content, "HOME=") == 0)
 		{
 			path = ft_substr(tmp->content, ft_strlen("HOME="), ft_strlen(tmp->content));
-			chdir(path);
+			change_dir(env, path);
 			free(path);
 			return ;
 		}
@@ -74,7 +87,7 @@ void	goto_oldpwd(t_list **env)
 		if (ft_strcmp(tmp->content, "OLDPWD=") == 0)
 		{
 			path = ft_substr(tmp->content, ft_strlen("OLDPWD="), ft_strlen(tmp->content));
-			chdir(path);
+			change_dir(env, path);
 			free(path);
 			return ;
 		}

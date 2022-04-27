@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 05:48:30 by root              #+#    #+#             */
-/*   Updated: 2022/04/26 17:42:17 by root             ###   ########.fr       */
+/*   Updated: 2022/04/27 17:37:51 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	pwd(void)
 	char	*path;
 	
 	path = getcwd(NULL, 0);
+	if (!path)
+		perror(""); //Gestion d'erreur
 	echo(path);
 	free(path);
 }

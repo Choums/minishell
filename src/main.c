@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/26 16:54:07 by root             ###   ########.fr       */
+/*   Updated: 2022/04/27 17:43:48 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,10 @@ int	main(int ac, char **av, char **envp)
 	{
 		if(ft_strcmp(line, "env") == 0)
 			print_env(data);
-		if(ft_strcmp(line, "unset") == 0)
-			unset(&data, "test");
 		if (ft_strcmp(line, "pwd") == 0)
 			pwd();
-		if (ft_strcmp(line, "export") == 0)
-			export(&data, "test");
-		if (ft_strcmp(line, "update") == 0)
-			update_elem(data.h_env, "test=", "Hola");
+		if (ft_strcmp(line, "cd") == 0)
+			check_dir(&data, "~");
 		free(line);
 		line = readline("minishell$ ");
 		if (line && *line)
