@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:40:50 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/29 21:03:54 by root             ###   ########.fr       */
+/*   Updated: 2022/04/29 21:38:39 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
  *	Env
  *	Recup. toutes les variables d'environement dans une lst.
- *	Cas env -i => PWD, SHLVL et _ | set_env
+ *	Cas env -i => PWD, SHLVL et _ et PATH | set_env
 */
 void	get_env(t_data *data, char **env)
 {
@@ -55,9 +55,12 @@ void	set_env(t_data *data)
 	// set_var(data, get_path());
 }
 
+/*
+ *	Permet d'init PATH en cas d'env -i
+*/
 char	*get_path(void)
 {
-	return (ft_strjoin("PATH=", getenv("PATH")));
+	
 }
 
 /*
