@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/27 17:39:05 by root             ###   ########.fr       */
+/*   Updated: 2022/04/29 20:57:53 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ typedef struct s_data
 /*	Builtin */
 void	get_env(t_data *data, char **envp);
 void	set_env(t_data *data);
-void	print_env(const t_data data);
+char	*get_path(void);
+void	print_env(t_list **h_env);
+void	print_var(t_list **head); // A supp.
 int		is_exit(t_data *data, char *line);
 void	echo(char *arg);
 void	pwd(void);
@@ -44,14 +46,15 @@ void	unset(t_data *data, char *var);
 void	export(t_data *data, char *var);
 void	pwd(void);
 void	check_dir(t_data *data, char *path);
-void	change_dir(t_list **env, char *path);
-void	goto_home(t_list **env);
-int		is_oldpwd(t_list **env);
-void	create_oldpwd(t_list **env);
-void	goto_oldpwd(t_list **env);
+void	change_dir(t_list **h_env, char *path);
+void	goto_home(t_list **h_env);
+int		is_oldpwd(t_list **h_env);
+void	create_oldpwd(t_list **h_env);
+void	goto_oldpwd(t_list **h_env);
 
 
 /*	List */
+void	set_var(t_data *data, char *content);
 void	supp_elem(t_list **head, char *var);
 void	supp_fst_elem(t_list **head, t_list *tmp);
 void	update_elem(t_list **head, char *var, char *content);

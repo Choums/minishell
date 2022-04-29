@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:41:51 by root              #+#    #+#             */
-/*   Updated: 2022/04/27 17:43:25 by root             ###   ########.fr       */
+/*   Updated: 2022/04/29 20:44:42 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,21 @@
  *	Cas => cwd supp. a prendre en compte
  *
 */
-void	change_dir(t_list **env, char *path)
+void	change_dir(t_list **h_env, char *path)
 {
 	char	*current;
 
 	current = getcwd(NULL, 0);
 	if (!current)
 		perror(""); //Gestion d'erreur
-	update_elem(env, "OLDPWD=", current);
+	update_elem(h_env, "OLDPWD=", current);
 	free(current);
 	if (chdir(path) < 0)
 		perror(""); //Gestion d'erreur
 	current = getcwd(NULL, 0);
 	if (!current)
 		perror(""); //Gestion d'erreur
-	update_elem(env, "PWD=", current);
+	update_elem(h_env, "PWD=", current);
 	free(current);
 }
 
@@ -56,18 +56,18 @@ void	check_dir(t_data *data, char *path)
 		change_dir(data->h_env, path);
 }
 
-void	goto_home(t_list **env)
+void	goto_home(t_list **h_env)
 {
 	char	*path;
 	t_list	*tmp;
 
-	tmp = (*env);
+	tmp = (*h_env);
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->content, "HOME=") == 0)
 		{
 			path = ft_substr(tmp->content, ft_strlen("HOME="), ft_strlen(tmp->content));
-			change_dir(env, path);
+			change_dir(h_env, path);
 			free(path);
 			return ;
 		}
@@ -76,18 +76,18 @@ void	goto_home(t_list **env)
 	}
 }
 
-void	goto_oldpwd(t_list **env)
+void	goto_oldpwd(t_list **h_env)
 {
 	char	*path;
 	t_list	*tmp;
 
-	tmp = (*env);
+	tmp = (*h_env);
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->content, "OLDPWD=") == 0)
 		{
 			path = ft_substr(tmp->content, ft_strlen("OLDPWD="), ft_strlen(tmp->content));
-			change_dir(env, path);
+			change_dir(h_env, path);
 			free(path);
 			return ;
 		}
@@ -95,7 +95,7 @@ void	goto_oldpwd(t_list **env)
 			tmp = tmp->next;
 	}
 }
-void	create_oldpwd(t_list **env)
+void	create_oldpwd(t_list **h_env)
 {
 	char	*path;
 	char	*var;
@@ -103,18 +103,18 @@ void	create_oldpwd(t_list **env)
 	path = getcwd(NULL, 0);
 	var = ft_strjoin("OLDPWD=", path);
 	free(path);
-	ft_lstadd_back(env, ft_lstnew(var));
+	ft_lstadd_back(h_env, ft_lstnew(var));
 	free(var);
 }
 
 /*
  *	Check si la var OLDPWD existe
 */
-int	is_oldpwd(t_list **env)
+int	is_oldpwd(t_list **h_env)
 {
 	t_list	*tmp;
 
-	tmp = (*env);
+	tmp = (*h_env);
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->content, "OLDPWD=") == 0)

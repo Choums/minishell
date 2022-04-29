@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:40:50 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/27 21:46:49 by root             ###   ########.fr       */
+/*   Updated: 2022/04/29 21:03:54 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,12 @@ void	set_env(t_data *data)
 	ft_lstadd_back(&data->env, ft_lstnew("SHLVL=1"));
 	ft_lstadd_back(&data->env, ft_lstnew("_=/usr/bin/env"));
 	data->h_env = &data->env;
+	// set_var(data, get_path());
+}
+
+char	*get_path(void)
+{
+	return (ft_strjoin("PATH=", getenv("PATH")));
 }
 
 /*
@@ -76,27 +82,11 @@ void	export(t_data *data, char *var)
 	}
 }
 
-/*
- *	unset [var]
- *	Supp. la var
- *	Supp. le maillon de la lst. var et env.
- *	tmp->previous->next = tmp->next
- *	tmp->next->previous = tmp->previous
- *	Cas	=> Premier	| head vers next, free(tmp), head previous NULL
- *		=> Milieu	| redirection previous et next de tmp, free(tmp)
- *		=> Fin		| lst = tmp, tmp->previous->next NULL, free(lst)
-*/
-void	unset(t_data *data, char *var)
-{
-	supp_elem(data->h_env, var);
-	supp_elem(data->h_var, var);
-}
-
-void	print_env(const t_data data)
+void	print_env(t_list **h_env)
 {
 	t_list	*tmp;
 
-	tmp = data.env;
+	tmp = (*h_env);
 	while (tmp)
 	{
 		ft_putendl_fd(tmp->content, STDOUT_FILENO);

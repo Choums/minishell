@@ -6,12 +6,25 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/04/26 16:55:45 by root             ###   ########.fr       */
+/*   Updated: 2022/04/29 20:46:16 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+
+/*
+ *	Ajoute une var à la lst.
+ *	La lst. sera init. si ce n'est pas déjà le cas
+*/
+void	set_var(t_data *data, char *content)
+{
+	if (&data->var)
+		data->var = ft_lstnew(content);
+	else
+		ft_lstadd_back(&data->var, ft_lstnew(content));
+	data->h_var = &data->var;
+}
 
 /*
  *	Retire le maillon de la chaine
@@ -89,5 +102,21 @@ void	update_elem(t_list **head, char *var, char *content)
 		}
 		else
 			tmp	= tmp->next;
+	}
+}
+
+/*
+ *	DEBUG
+ *	PRINT LA LST DES VARS
+*/
+void	print_var(const t_list **head)
+{
+	t_list	*tmp;
+
+	tmp = (*head);
+	while (tmp)
+	{
+		printf("%s\n", tmp->content);
+		tmp = tmp->next;
 	}
 }
