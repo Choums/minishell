@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/04/29 20:46:16 by root             ###   ########.fr       */
+/*   Updated: 2022/05/02 10:48:23 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@
 */
 void	set_var(t_data *data, char *content)
 {
-	if (&data->var == NULL)
+	if (&(*data->var) == NULL)
 	{
-		printf("in\n");
 		data->var = ft_lstnew(content);
 		data->h_var = &data->var;
 	}

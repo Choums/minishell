@@ -6,9 +6,23 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 10:49:04 by root              #+#    #+#             */
-/*   Updated: 2022/05/02 10:49:18 by root             ###   ########.fr       */
+/*   Updated: 2022/05/02 11:00:45 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void	free_double_tab(char **tab)
+{
+	size_t	i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	while (i)
+	{
+		free(tab[i]);
+		i--;
+	}
+	free(tab);
+}

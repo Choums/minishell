@@ -11,7 +11,8 @@ SRC			=	main.c\
 				parsing.c\
 				builtin.c\
 				lst_management.c\
-				change_dir.c
+				change_dir.c\
+				utils.c
 
 
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))

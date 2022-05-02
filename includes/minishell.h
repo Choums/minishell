@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/29 20:57:53 by root             ###   ########.fr       */
+/*   Updated: 2022/05/02 10:53:05 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ void	set_var(t_data *data, char *content);
 void	supp_elem(t_list **head, char *var);
 void	supp_fst_elem(t_list **head, t_list *tmp);
 void	update_elem(t_list **head, char *var, char *content);
+
+/*	Utils */
+void	free_double_tab(char **tab);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/29 21:20:27 by root             ###   ########.fr       */
+/*   Updated: 2022/05/02 10:35:46 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 
+	data.var = NULL;
 	get_env(&data, envp);
 	set_var(&data, "test=content");
 	line = readline("minishell$ ");
