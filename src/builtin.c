@@ -53,6 +53,7 @@ int	is_exit(t_data *data, char *line)
 		rl_clear_history();
 		ft_lstclear(&data->env, del);
 		ft_lstclear(&data->var, del);
+		ft_lstclear(&data->path, del);
 		exit(EXIT_SUCCESS);
 	}
 	return (1);

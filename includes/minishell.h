@@ -13,6 +13,8 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# define DEFAULT_PATH_VALUE "/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
+
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -30,13 +32,15 @@ typedef struct s_data
 	t_list	**h_env;
 	t_list	*var;
 	t_list	**h_var;
+	t_list	*path;
 }	t_data;
 
 
 /*	Builtin */
 void	get_env(t_data *data, char **envp);
 void	set_env(t_data *data);
-char	*get_path(void);
+void	get_path(t_data *data);
+void	set_path(t_data *data, char **path);
 void	print_env(t_list **h_env);
 void	print_var(t_list **head); // A supp.
 int		is_exit(t_data *data, char *line);

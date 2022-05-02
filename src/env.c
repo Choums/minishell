@@ -31,7 +31,8 @@ void	get_env(t_data *data, char **env)
 		data->env = ft_lstnew(env[n++]);
 		while (n < i)
 			ft_lstadd_back(&data->env, ft_lstnew(env[n++]));
-		data->h_env = &data->env;	
+		data->h_env = &data->env;
+		get_path(data);
 	}
 	else
 		set_env(data);
@@ -52,11 +53,12 @@ void	set_env(t_data *data)
 	ft_lstadd_back(&data->env, ft_lstnew("SHLVL=1"));
 	ft_lstadd_back(&data->env, ft_lstnew("_=/usr/bin/env"));
 	data->h_env = &data->env;
-	// set_var(data, get_path());
+	get_path(data);
 }
 
 /*
- *	Permet d'init PATH en cas d'env -i
+ *	Recupere tout les chemins possible et les place dans la lst. path
+ *	Si path est NULL => DEFAULT_PATH_VALUE
 */
 void	get_path(t_data *data)
 {
@@ -64,12 +66,13 @@ void	get_path(t_data *data)
 	char	**paths;
 	char	*all_paths;
 
-	tmp = data->h_env;
+	tmp = (*data->h_env);
 	while (tmp)
 	{
-		if (!ft_strcmp(tmp->content, "PATH+"))
+		if (ft_strnstr(tmp->content, "PATH=", ft_strlen("PATH=")))
 		{
-			all_paths = ft_substr(tmp->content, ft_strlen("PATH=", ft_strlen(tmp->content)));
+			set_var(data, tmp->content);
+			all_paths = ft_substr(tmp->content, ft_strlen("PATH="), ft_strlen(tmp->content));
 			paths = ft_split(all_paths, ':');
 			free(all_paths);
 			set_path(data, paths);
@@ -77,26 +80,31 @@ void	get_path(t_data *data)
 			return ;
 		}
 		else
-			tmp->next;
+			tmp = tmp->next;
 	}
+	set_var(data, DEFAULT_PATH_VALUE);
+	all_paths = ft_substr(DEFAULT_PATH_VALUE, ft_strlen("PATH="), ft_strlen(DEFAULT_PATH_VALUE));
+	paths = ft_split(all_paths, ':');
+	free(all_paths);
+	set_path(data, paths);
+	free(paths);
+	return ;
 }
 
 /*
  *	Permet d'init la lst. des paths
- *	Si path est NULL 	=> DEFAULT_PATH_VALUE
- *	Si path est donnee	=> ajoute tout les chemins
 */
-void	set_path(t_data *data, char **paths)
+void	set_path(t_data *data, char **path)
 {
 	int	i;
 
 	i = 0;
+
 	if (&data->path)
 		data->path = ft_lstnew(path[i++]);
 	else
-	{
-
-	}
+		while (path[i])
+			ft_lstadd_back(&data->path, ft_lstnew(path[i++]));
 }
 
 /*

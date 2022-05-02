@@ -56,8 +56,8 @@ int	main(int ac, char **av, char **envp)
 			print_env(data.h_env);
 		if (ft_strcmp(line, "pwd") == 0)
 			pwd();
-		if (ft_strcmp(line, "cd") == 0)
-			check_dir(&data, "../");
+		if (ft_strcmp(line, "path") == 0)
+			print_var(&data.path);
 		free(line);
 		line = readline("minishell: ");
 		if (line && *line)

@@ -19,11 +19,14 @@
 */
 void	set_var(t_data *data, char *content)
 {
-	if (&data->var)
+	if (&data->var == NULL)
+	{
+		printf("in\n");
 		data->var = ft_lstnew(content);
+		data->h_var = &data->var;
+	}
 	else
 		ft_lstadd_back(&data->var, ft_lstnew(content));
-	data->h_var = &data->var;
 }
 
 /*
@@ -109,7 +112,7 @@ void	update_elem(t_list **head, char *var, char *content)
  *	DEBUG
  *	PRINT LA LST DES VARS
 */
-void	print_var(const t_list **head)
+void	print_var(t_list **head)
 {
 	t_list	*tmp;
 
