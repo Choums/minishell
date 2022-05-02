@@ -58,9 +58,45 @@ void	set_env(t_data *data)
 /*
  *	Permet d'init PATH en cas d'env -i
 */
-char	*get_path(void)
+void	get_path(t_data *data)
 {
-	
+	t_list	*tmp;
+	char	**paths;
+	char	*all_paths;
+
+	tmp = data->h_env;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->content, "PATH+"))
+		{
+			all_paths = ft_substr(tmp->content, ft_strlen("PATH=", ft_strlen(tmp->content)));
+			paths = ft_split(all_paths, ':');
+			free(all_paths);
+			set_path(data, paths);
+			free(paths);
+			return ;
+		}
+		else
+			tmp->next;
+	}
+}
+
+/*
+ *	Permet d'init la lst. des paths
+ *	Si path est NULL 	=> DEFAULT_PATH_VALUE
+ *	Si path est donnee	=> ajoute tout les chemins
+*/
+void	set_path(t_data *data, char **paths)
+{
+	int	i;
+
+	i = 0;
+	if (&data->path)
+		data->path = ft_lstnew(path[i++]);
+	else
+	{
+
+	}
 }
 
 /*
