@@ -109,7 +109,7 @@ void	update_elem(t_list **head, char *var, char *content)
 
 /*
  *	DEBUG
- *	PRINT LA LST DES VARS
+ *	PRINT LA LST DONNEES 
 */
 void	print_var(t_list **head)
 {

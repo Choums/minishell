@@ -44,6 +44,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 
 	data.var = NULL;
+	data.path = NULL;
 	get_env(&data, envp);
 	set_var(&data, "test=content");
 	line = readline("minishell$ ");

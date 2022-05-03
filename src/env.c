@@ -99,12 +99,9 @@ void	set_path(t_data *data, char **path)
 	int	i;
 
 	i = 0;
-
-	if (&data->path)
-		data->path = ft_lstnew(path[i++]);
-	else
-		while (path[i])
-			ft_lstadd_back(&data->path, ft_lstnew(path[i++]));
+	data->path = ft_lstnew(path[i++]);
+	while (path[i])
+		ft_lstadd_back(&data->path, ft_lstnew(path[i++]));
 }
 
 /*

@@ -14,12 +14,12 @@
 
 void	free_double_tab(char **tab)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (tab[i])
 		i++;
-	while (i)
+	while (i >= 0)
 	{
 		free(tab[i]);
 		i--;
