@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_management.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/05/02 10:48:23 by root             ###   ########.fr       */
+/*   Updated: 2022/05/09 16:34:23 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	supp_elem(t_list **head, char *var)
 	tmp = (*head);
 	while (tmp)
 	{
-		if (ft_strnstr(tmp->content, var, ft_strlen(var)))
+		if (ft_strncmp(tmp->content, var, ft_strlen(var)) == 0)
 		{
 			if (tmp->previous == NULL)
 			{
@@ -94,7 +94,7 @@ void	update_elem(t_list **head, char *var, char *content)
 	tmp = (*head);
 	while (tmp)
 	{
-		if (ft_strnstr(tmp->content, var, ft_strlen(var)))
+		if (ft_strncmp(tmp->content, var, ft_strlen(var)) == 0)
 		{
 			del(tmp->content);
 			new = ft_strjoin(var, content);
@@ -111,7 +111,7 @@ void	update_elem(t_list **head, char *var, char *content)
  *	DEBUG
  *	PRINT LA LST DONNEES 
 */
-void	print_var(t_list **head)
+void	print_vars(t_list **head)
 {
 	t_list	*tmp;
 

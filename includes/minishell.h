@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/02 10:53:05 by root             ###   ########.fr       */
+/*   Updated: 2022/05/09 16:52:04 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	set_env(t_data *data);
 void	get_path(t_data *data);
 void	set_path(t_data *data, char **path);
 void	print_env(t_list **h_env);
-void	print_var(t_list **head); // A supp.
+void	print_vars(t_list **head); // A supp.
+char	*get_var(t_data *data, char *var);
 int		is_exit(t_data *data, char *line);
 void	echo(char *arg);
 void	pwd(void);
@@ -50,6 +51,7 @@ void	unset(t_data *data, char *var);
 void	export(t_data *data, char *var);
 void	pwd(void);
 void	check_dir(t_data *data, char *path);
+void	check_path(t_data *data, char *path);
 void	change_dir(t_list **h_env, char *path);
 void	goto_home(t_list **h_env);
 int		is_oldpwd(t_list **h_env);
@@ -65,6 +67,6 @@ void	update_elem(t_list **head, char *var, char *content);
 
 /*	Utils */
 void	free_double_tab(char **tab);
-
+void	ft_err(char *err);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:40:50 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/02 11:01:27 by root             ###   ########.fr       */
+/*   Updated: 2022/05/09 16:56:20 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	get_path(t_data *data)
 	tmp = (*data->h_env);
 	while (tmp)
 	{
-		if (ft_strnstr(tmp->content, "PATH=", ft_strlen("PATH=")))
+		if (ft_strncmp(tmp->content, "PATH=", ft_strlen("PATH=")) == 0)
 		{
 			set_var(data, tmp->content);
 			all_paths = ft_substr(tmp->content, ft_strlen("PATH="), ft_strlen(tmp->content));
@@ -116,7 +116,7 @@ void	export(t_data *data, char *var)
 	tmp = data->var;
 	while (tmp)
 	{
-		if (ft_strnstr(tmp->content, var, ft_strlen(var)))
+		if (ft_strncmp(tmp->content, var, ft_strlen(var)) == 0)
 		{
 			ft_lstadd_back(&data->env, ft_lstnew(tmp->content));
 			return ;
@@ -136,4 +136,27 @@ void	print_env(t_list **h_env)
 		ft_putendl_fd(tmp->content, STDOUT_FILENO);
 		tmp = tmp->next;
 	}
+}
+
+/*
+ *	Cherche la var dans l'env et la lst des var et renvoie sa valeur
+ *	La value est a free apres son usage
+*/
+char	*get_var(t_data *data, char *var)
+{
+	t_list	*tmp;
+	char	*value;
+
+	tmp = (*data->h_env);
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->content, var, ft_strlen(var)) == 0)
+		{
+			value = ft_substr(tmp->content, ft_strlen(var), ft_strlen(var) + 1);
+			return (value);
+		}
+		else
+			tmp = tmp->next;
+	}
+	return (NULL);
 }

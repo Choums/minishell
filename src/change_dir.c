@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_dir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:41:51 by root              #+#    #+#             */
-/*   Updated: 2022/04/29 20:44:42 by root             ###   ########.fr       */
+/*   Updated: 2022/05/09 16:59:01 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ void	change_dir(t_list **h_env, char *path)
 
 void	check_dir(t_data *data, char *path)
 {
-	if (access(path, R_OK | X_OK) < 0) //Check lequel renvoi l'erreur
-		perror(""); //Gestion d'erreur
+	check_path(data, path);
 	if (!is_oldpwd(data->h_env))
 		create_oldpwd(data->h_env);
 	if (path[0] == '-')
@@ -56,6 +55,40 @@ void	check_dir(t_data *data, char *path)
 		change_dir(data->h_env, path);
 }
 
+/*
+ *	check via access si le path donnee existe ainsi que ses droits, gere le '-' et '~'
+*/
+void	check_path(t_data *data, char *path)
+{
+	char	*tmp;
+
+	if (ft_strcmp(path, "-") == 0)
+	{
+		tmp = get_var(data, "OLDPWD=");
+		if (access(tmp, R_OK | X_OK) < 0)
+		{
+			free(tmp);
+			ft_err("cd");
+		}
+		else
+			free(tmp);
+	}
+	else if (ft_strcmp(path, "~") == 0)
+	{
+		tmp = get_var(data, "HOME=");
+		if (access(tmp, R_OK | X_OK) < 0)
+		{
+			free(tmp);
+			ft_err("cd");
+		}
+		else
+			free(tmp);
+	}
+	else
+		if (access(path, R_OK | X_OK) < 0)
+			ft_err("cd");
+}
+
 void	goto_home(t_list **h_env)
 {
 	char	*path;
@@ -64,7 +97,7 @@ void	goto_home(t_list **h_env)
 	tmp = (*h_env);
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->content, "HOME=") == 0)
+		if (ft_strncmp(tmp->content, "HOME=", ft_strlen("HOME=")) == 0)
 		{
 			path = ft_substr(tmp->content, ft_strlen("HOME="), ft_strlen(tmp->content));
 			change_dir(h_env, path);
@@ -84,7 +117,7 @@ void	goto_oldpwd(t_list **h_env)
 	tmp = (*h_env);
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->content, "OLDPWD=") == 0)
+		if (ft_strncmp(tmp->content, "OLDPWD=", ft_strlen("OLDPWD=")) == 0)
 		{
 			path = ft_substr(tmp->content, ft_strlen("OLDPWD="), ft_strlen(tmp->content));
 			change_dir(h_env, path);
@@ -95,6 +128,7 @@ void	goto_oldpwd(t_list **h_env)
 			tmp = tmp->next;
 	}
 }
+
 void	create_oldpwd(t_list **h_env)
 {
 	char	*path;
@@ -117,7 +151,7 @@ int	is_oldpwd(t_list **h_env)
 	tmp = (*h_env);
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->content, "OLDPWD=") == 0)
+		if (ft_strncmp(tmp->content, "OLDPWD=", ft_strlen("OLDPWD=")) == 0)
 			return (1);
 		tmp = tmp->next;
 	}

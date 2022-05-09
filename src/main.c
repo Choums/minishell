@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/02 10:35:46 by root             ###   ########.fr       */
+/*   Updated: 2022/05/09 16:35:32 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,15 @@ int	main(int ac, char **av, char **envp)
 	while (is_exit(&data, line))
 	{
 		if(ft_strcmp(line, "var") == 0)
-			print_var(data.h_var);
+			print_vars(data.h_var);
 		if(ft_strcmp(line, "env") == 0)
 			print_env(data.h_env);
 		if (ft_strcmp(line, "pwd") == 0)
 			pwd();
-		if (ft_strcmp(line, "path") == 0)
-			print_var(&data.path);
+		if (ft_strcmp(line, "oldpwd") == 0)
+			check_dir(&data, "-");
+		if (ft_strcmp(line, "cd") == 0)
+			check_dir(&data, "/var/log");
 		free(line);
 		line = readline("minishell: ");
 		if (line && *line)
