@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/18 15:46:43 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/18 15:54:55 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,16 @@ char	*find_bin(t_list *lst_path, char *bin)
  *	Si 1er process, doit ouvrir le fichier en input et check
  *	
 */
-void	process(t_data *data, char *command, char *args, char **envp)
+void	process(t_data *data, char *command, char **args, char **envp)
 {
 	char	*path;
 
 	path = find_bin(data->path, command);
 	if (execve(path, args, envp) > 0)
-		return(0);
+		return ;
 }
+
+// void	pipex(t_data *data, char **args)
+// {
+	
+// }
