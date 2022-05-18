@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/05/09 16:34:23 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/09 17:07:43 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,40 @@ void	update_elem(t_list **head, char *var, char *content)
 		else
 			tmp	= tmp->next;
 	}
+}
+
+/*
+ *	Cherche la var dans l'env et la lst des var et renvoie sa valeur
+ *	La value est a free apres son usage
+*/
+char	*get_var(t_data *data, char *var)
+{
+	t_list	*tmp;
+	char	*value;
+
+	tmp = (*data->h_env);
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->content, var, ft_strlen(var)) == 0)
+		{
+			value = ft_substr(tmp->content, ft_strlen(var), ft_strlen(var) + 1);
+			return (value);
+		}
+		else
+			tmp = tmp->next;
+	}
+	tmp = (*data->h_var);
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->content, var, ft_strlen(var)) == 0)
+		{
+			value = ft_substr(tmp->content, ft_strlen(var), ft_strlen(var) + 1);
+			return (value);
+		}
+		else
+			tmp = tmp->next;
+	}
+	return (NULL);
 }
 
 /*
