@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/18 15:54:35 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/19 15:05:47 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 /*
  *	Creer les variables d'env.
  *	--------------------------
@@ -35,15 +34,16 @@
  *	Ajouter la pos au prompt
 */
 
-int	main(int ac, char **av, char **envp)
+int main(int ac, char **av, char **envp)
 {
 	char	*line;
 	t_data	data;
 	char	**args;
+	//t_command commande_tab;
 
 	args[0] = "cat";
 	args[1] = "Hola";
-	args[2] = NULL;	
+	args[2] = NULL;
 	(void)ac;
 	(void)av;
 
@@ -56,13 +56,12 @@ int	main(int ac, char **av, char **envp)
 		add_history(line);
 	while (is_exit(&data, line))
 	{
-		if(ft_strcmp(line, "cat") == 0)
+		ft_parsing(line);
+		if (ft_strcmp(line, "cat") == 0)
 			process(&data, "cat", args, envp);
 		free(line);
 		line = readline("minishell: ");
 		if (line && *line)
 			add_history(line);
-		//lexing parsing sur line, besoin des var d'env
-		
 	}
 }

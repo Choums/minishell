@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/18 15:54:08 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/19 15:02:30 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,17 @@ typedef struct s_data
 	t_list	*path;
 }	t_data;
 
+typedef struct s_command
+{
+	int		nb_cmd;
+	char	**redirection;
+	char	**tab_cmd;
+	char	**tab_pipe;
+}	t_command;
 
-/*	Builtin */
+/*
+ENV_C----------------------------------------------------------------------------
+*/
 void	get_env(t_data *data, char **envp);
 void	set_env(t_data *data);
 void	get_path(t_data *data);
@@ -48,29 +57,12 @@ int		is_exit(t_data *data, char *line);
 void	echo(char *arg);
 void	pwd(void);
 void	unset(t_data *data, char *var);
-void	export(t_data *data, char *var);
-void	pwd(void);
-void	check_dir(t_data *data, char *path);
-void	check_path(t_data *data, char *path);
-void	change_dir(t_list **h_env, char *path);
-void	goto_home(t_list **h_env);
-int		is_oldpwd(t_list **h_env);
-void	create_oldpwd(t_list **h_env);
-void	goto_oldpwd(t_list **h_env);
-
-
-/*	Exec */
-char	*find_bin(t_list *lst_path, char *bin);
-void	process(t_data *data, char *command, char **args, char **envp);
-
-/*	List */
-void	set_var(t_data *data, char *content);
-void	supp_elem(t_list **head, char *var);
-void	supp_fst_elem(t_list **head, t_list *tmp);
-void	update_elem(t_list **head, char *var, char *content);
-
-/*	Utils */
-void	free_double_tab(char **tab);
-void	ft_err(char *err);
+/*
+PARSING_C------------------------------------------------------------------------
+*/
+int		ft_affiche_struc(t_command *(*tab_cmd));
+void	ft_free_doutab(char **tab);
+int		ft_doubletab_len(char **tab);
+void		ft_parsing(char *line);
 
 #endif
