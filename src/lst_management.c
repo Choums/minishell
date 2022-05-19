@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/05/19 19:12:46 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/19 20:10:19 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ char	*get_var(t_data *data, char *var)
 	{
 		if (ft_strncmp(tmp->content, var, ft_strlen(var)) == 0)
 		{
-			value = ft_substr(tmp->content, ft_strlen(var), ft_strlen(var) + 1);
+			value = ft_substr(tmp->content, ft_strlen(var) + 1, ft_strlen(tmp->content) - ft_strlen(var));
 			return (value);
 		}
 		else
@@ -132,7 +132,7 @@ char	*get_var(t_data *data, char *var)
 	{
 		if (ft_strncmp(tmp->content, var, ft_strlen(var)) == 0)
 		{
-			value = ft_substr(tmp->content, ft_strlen(var) + 1, ft_strlen(var) + 1);
+			value = ft_substr(tmp->content, ft_strlen(var) + 1, ft_strlen(tmp->content) - ft_strlen(var));
 			return (value);
 		}
 		else

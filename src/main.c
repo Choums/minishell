@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/19 19:07:30 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/19 20:09:51 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	main(int ac, char **av, char **envp)
 		add_history(line);
 	while (is_exit(&data, line))
 	{
-		if(ft_strcmp(line, "$test") == 0)
+		if(ft_strcmp(line, "$PWD") == 0)
 		{
 			value = which_dollar(&data, line);
 			printf("%s\n", value);
