@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/19 15:02:30 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/05/19 16:24:57 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,6 @@ PARSING_C-----------------------------------------------------------------------
 int		ft_affiche_struc(t_command *(*tab_cmd));
 void	ft_free_doutab(char **tab);
 int		ft_doubletab_len(char **tab);
-void		ft_parsing(char *line);
+void	ft_parsing(char *line);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/19 20:35:40 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/05/19 20:44:14 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ char	**ft_tab_pipe(t_command *tab_cmd)
 	return (tab_cmd->tab_pipe);
 }
 
-
 char	*ft_cut_redirection_out(char *command)
 {
 	char	*out;
@@ -171,4 +170,7 @@ void	ft_parsing(char *line)
 	// for (int i = 0; tmp_command[i]; i++)
 	// 	printf("	tmp command %i %s\n", i, tmp_command[i]);
 
+	// tmp_command = ft_split(line, '|');
+	// for (int i = 0; tmp_command[i]; i++)
+	// 	printf("	tmp command %i %s\n", i, tmp_command[i]);
 }
