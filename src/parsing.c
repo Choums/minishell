@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/19 15:16:44 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/05/19 17:57:55 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,35 +102,50 @@ char	**ft_tab_pipe(t_command *tab_cmd)
 	return (tab_cmd->tab_pipe);
 }
 
-
-char *ft_cut_redirection_out(char *command)
+char	*ft_cut_redirection_out(char *command)
 {
 	char	*out;
 	int		len_to_cut;
 
-
-	len_to_cut = 0;
-	while (command[len_to_cut] != '>')
-		len_to_cut++;
-	out = ft_substr(command, len_to_cut, ft_strlen(command) - len_to_cut);
+	out = ft_strchr(command, '>');
 	printf("out : %s\n", out);
-	return(out);
+	return (out);
+}
+
+void	ft_init_t_command(t_command *tab_command)
+{
+	int	i;
+
+	tab_command->redirection = malloc(sizeof(tab_command->redirection) * 4);
+	if (!tab_command)
+		return (NULL);
+	i = -1;
+	while (++i < 4)
+		tab_command->redirection[i] = NULL;
 }
 
 void	ft_parsing(char *line)
 {
 	char		**tmp_command;
-	t_command	tab_cmd;
+	t_command	*tab_command;
 
-	printf("HERE\n");
+	ft_init_t_command(tab_command);
+	for(int i = 0; i < 4; i++)
+		printf("tab_command->redirection %i: %p // %s\n", i,tab_command->redirection[i], tab_command->redirection[i]);
+
+
+	printf("ft_strchr : %s\n", ft_strchr(line, '>'));
 	if (ft_strchr(line, '>'))
-		{
-			tab_cmd.redirection[1] = ft_cut_redirection_out(line);
-			printf("	redirection out %s\n", tab_cmd.redirection[1]);
-		}
-	tmp_command = ft_split(line, '|');
+	{
+		printf("here");
+	// 	tab_command->redirection[1] = ft_cut_redirection_out(line);
+	// 	// printf("	redirection out %s\n", tab_cmd.redirection[1]);
+	}
 
-	for (int i = 0; tmp_command[i]; i++)
-		printf("	tmp command %i %s\n", i, tmp_command[i]);
+	// for(int i = 0; i < 4; i++)
+	// 	printf("tab_command->redirection %i: %p // %s\n", i,tab_command->redirection[i], tab_command->redirection[i]);
 
+	// tmp_command = ft_split(line, '|');
+	// for (int i = 0; tmp_command[i]; i++)
+	// 	printf("	tmp command %i %s\n", i, tmp_command[i]);
 }
