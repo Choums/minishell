@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/19 15:16:44 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/05/19 20:35:40 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,34 +103,72 @@ char	**ft_tab_pipe(t_command *tab_cmd)
 }
 
 
-char *ft_cut_redirection_out(char *command)
+char	*ft_cut_redirection_out(char *command)
 {
 	char	*out;
 	int		len_to_cut;
 
-
 	len_to_cut = 0;
 	while (command[len_to_cut] != '>')
 		len_to_cut++;
+	while (command[len_to_cut] == ' ' || command[len_to_cut] == '>')
+		len_to_cut++;
 	out = ft_substr(command, len_to_cut, ft_strlen(command) - len_to_cut);
-	printf("out : %s\n", out);
+	// printf("out :%s\n", out);
 	return(out);
+}
+
+char	*ft_cut_redirection_in(char *command)
+{
+	char	*in;
+	int		len_to_cut;
+
+	len_to_cut = 0;
+	while (command[len_to_cut] != '<')
+		len_to_cut++;
+	while (command[len_to_cut] == ' ')
+		len_to_cut--;
+	in = ft_substr(command, 0,len_to_cut);
+	printf("in :%s\n", in);
+	return(in);
+}
+
+// Fonction initialisation de la structure t_command
+void	ft_init_t_command(t_command *tab_command)
+{
+	int	i;
+
+	tab_command->redirection = malloc(sizeof(tab_command->redirection) * 3);
+	if (!tab_command)
+		return (NULL);
+	i = -1;
+	while (++i < 3)
+	{
+		tab_command->redirection[i] = malloc(sizeof(char) * 1);
+		if (!tab_command->redirection[i])
+			return (NULL);
+		tab_command->redirection[i] = '\0';
+	}
 }
 
 void	ft_parsing(char *line)
 {
 	char		**tmp_command;
-	t_command	tab_cmd;
+	t_command	tab_command;
 
-	printf("HERE\n");
-	if (ft_strchr(line, '>'))
-		{
-			tab_cmd.redirection[1] = ft_cut_redirection_out(line);
-			printf("	redirection out %s\n", tab_cmd.redirection[1]);
-		}
-	tmp_command = ft_split(line, '|');
+	ft_init_t_command(&tab_command);
+	if (ft_strchr(line, '>') || ft_strchr(line, '>>'))
+		tab_command.redirection[1] = ft_cut_redirection_out(line);
+	if (ft_strchr(line, '<') || ft_strchr(line, '<<'))
+		tab_command.redirection[0] = ft_cut_redirection_in(line);
 
-	for (int i = 0; tmp_command[i]; i++)
-		printf("	tmp command %i %s\n", i, tmp_command[i]);
+	for(int i = 0; i < 3; i++)
+		printf("tab_command->redirection %i: %p // %s\n", i, tab_command.redirection[i], tab_command.redirection[i]);
+
+
+	// tmp_command = ft_split(line, '|');
+
+	// for (int i = 0; tmp_command[i]; i++)
+	// 	printf("	tmp command %i %s\n", i, tmp_command[i]);
 
 }
