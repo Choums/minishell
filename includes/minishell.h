@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/18 15:54:08 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/19 18:59:47 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	set_var(t_data *data, char *content);
 void	supp_elem(t_list **head, char *var);
 void	supp_fst_elem(t_list **head, t_list *tmp);
 void	update_elem(t_list **head, char *var, char *content);
+char	*which_dollar(t_data *data, char *command);
 
 /*	Utils */
 void	free_double_tab(char **tab);
