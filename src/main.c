@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/09 16:35:32 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/18 15:54:35 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,11 @@ int	main(int ac, char **av, char **envp)
 {
 	char	*line;
 	t_data	data;
-	
+	char	**args;
+
+	args[0] = "cat";
+	args[1] = "Hola";
+	args[2] = NULL;	
 	(void)ac;
 	(void)av;
 
@@ -52,16 +56,8 @@ int	main(int ac, char **av, char **envp)
 		add_history(line);
 	while (is_exit(&data, line))
 	{
-		if(ft_strcmp(line, "var") == 0)
-			print_vars(data.h_var);
-		if(ft_strcmp(line, "env") == 0)
-			print_env(data.h_env);
-		if (ft_strcmp(line, "pwd") == 0)
-			pwd();
-		if (ft_strcmp(line, "oldpwd") == 0)
-			check_dir(&data, "-");
-		if (ft_strcmp(line, "cd") == 0)
-			check_dir(&data, "/var/log");
+		if(ft_strcmp(line, "cat") == 0)
+			process(&data, "cat", args, envp);
 		free(line);
 		line = readline("minishell: ");
 		if (line && *line)

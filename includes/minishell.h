@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/09 16:52:04 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/18 15:54:08 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,10 @@ int		is_oldpwd(t_list **h_env);
 void	create_oldpwd(t_list **h_env);
 void	goto_oldpwd(t_list **h_env);
 
+
+/*	Exec */
+char	*find_bin(t_list *lst_path, char *bin);
+void	process(t_data *data, char *command, char **args, char **envp);
 
 /*	List */
 void	set_var(t_data *data, char *content);
