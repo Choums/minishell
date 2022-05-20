@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/19 18:59:47 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/20 14:40:42 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	get_path(t_data *data);
 void	set_path(t_data *data, char **path);
 void	print_env(t_list **h_env);
 void	print_vars(t_list **head); // A supp.
-char	*get_var(t_data *data, char *var);
 int		is_exit(t_data *data, char *line);
 void	echo(char *arg);
 void	pwd(void);
@@ -68,6 +67,7 @@ void	set_var(t_data *data, char *content);
 void	supp_elem(t_list **head, char *var);
 void	supp_fst_elem(t_list **head, t_list *tmp);
 void	update_elem(t_list **head, char *var, char *content);
+char	*get_var(t_data *data, char *var);
 char	*which_dollar(t_data *data, char *command);
 
 /*	Utils */
