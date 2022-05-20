@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/18 15:54:35 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/19 20:09:51 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,8 @@ int	main(int ac, char **av, char **envp)
 {
 	char	*line;
 	t_data	data;
-	char	**args;
+	char	*value;
 
-	args[0] = "cat";
-	args[1] = "Hola";
-	args[2] = NULL;	
 	(void)ac;
 	(void)av;
 
@@ -56,8 +53,14 @@ int	main(int ac, char **av, char **envp)
 		add_history(line);
 	while (is_exit(&data, line))
 	{
-		if(ft_strcmp(line, "cat") == 0)
-			process(&data, "cat", args, envp);
+		if(ft_strcmp(line, "$PWD") == 0)
+		{
+			value = which_dollar(&data, line);
+			printf("%s\n", value);
+			free(value);
+		}
+		if (ft_strcmp(line, "var") == 0)
+			print_vars(data.h_var);
 		free(line);
 		line = readline("minishell: ");
 		if (line && *line)

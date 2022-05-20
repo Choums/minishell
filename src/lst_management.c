@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/05/09 17:07:43 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/19 20:10:19 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ char	*get_var(t_data *data, char *var)
 	{
 		if (ft_strncmp(tmp->content, var, ft_strlen(var)) == 0)
 		{
-			value = ft_substr(tmp->content, ft_strlen(var), ft_strlen(var) + 1);
+			value = ft_substr(tmp->content, ft_strlen(var) + 1, ft_strlen(tmp->content) - ft_strlen(var));
 			return (value);
 		}
 		else
@@ -132,7 +132,7 @@ char	*get_var(t_data *data, char *var)
 	{
 		if (ft_strncmp(tmp->content, var, ft_strlen(var)) == 0)
 		{
-			value = ft_substr(tmp->content, ft_strlen(var), ft_strlen(var) + 1);
+			value = ft_substr(tmp->content, ft_strlen(var) + 1, ft_strlen(tmp->content) - ft_strlen(var));
 			return (value);
 		}
 		else
@@ -140,6 +140,31 @@ char	*get_var(t_data *data, char *var)
 	}
 	return (NULL);
 }
+
+/*
+ *	Définie si la commande commence par un '$'
+ *	Vérifie ensuite si la valeur recheché est '?' ou le nom d'une var
+ *	Si aucun des deux, une valeur NULL est renvoyé
+ *	VAR=value
+ *	$VAR
+*/
+char	*which_dollar(t_data *data, char *command)
+{
+	char	*var;
+	char	*value;
+
+	if (command[0] == '$' && command[1])
+	{
+		if (command[1] == '?')
+			return (0); //Signaux a faire
+		var = ft_substr(command, 1, ft_strlen(command) + 1);
+		value = get_var(data, var);
+		free(var);
+		return (value);
+	}
+	return (NULL);
+}
+
 
 /*
  *	DEBUG

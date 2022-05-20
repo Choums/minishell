@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/20 14:36:36 by root             ###   ########.fr       */
+/*   Updated: 2022/05/20 14:38:05 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,11 @@ void	process(t_data *data, char *command, char **args, char **envp)
 		return ;
 }
 
+
+/*
+ *	Cree des processus enfant pour chaque commandes ainsi que les pipes
+ *	Les process s'executent en meme temps
+*/
 // void	pipex(t_data *data, char **args)
 // {
 	
