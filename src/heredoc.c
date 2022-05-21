@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 14:03:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/21 14:29:43 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/21 17:43:27 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	display_here(int n_pipe)
 		msg = ft_strjoin("pipe ", msg);
 	ft_putstr_fd(msg, STDIN_FILENO);
 	printf("out display\n");
-
 }
 
 char	*get_lim(char **args)

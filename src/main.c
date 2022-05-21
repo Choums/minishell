@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/21 14:32:04 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/21 17:44:51 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,5 @@ int	main(int ac, char **av, char **envp)
 		if (line && *line)
 			add_history(line);
 		//lexing parsing sur line, besoin des var d'env
-		
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 05:48:30 by root              #+#    #+#             */
-/*   Updated: 2022/04/29 21:01:48 by root             ###   ########.fr       */
+/*   Updated: 2022/05/21 17:43:39 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	unset(t_data *data, char *var)
 void	pwd(void)
 {
 	char	*path;
-	
+
 	path = getcwd(NULL, 0);
 	if (!path)
 		perror(""); //Gestion d'erreur

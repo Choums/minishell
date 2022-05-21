@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/21 14:25:11 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/21 18:05:55 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,13 @@ char	*which_dollar(t_data *data, char *command);
 /*	Utils */
 void	free_double_tab(char **tab);
 void	ft_err(char *err);
+
+// struct sigaction {
+//     void     (*sa_handler) (int);
+//     void     (*sa_sigaction) (int, siginfo_t *, void *);
+//     sigset_t   sa_mask;
+//     int        sa_flags;
+//     void     (*sa_restorer) (void);
+// };
 
 #endif
