@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/19 20:09:51 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/21 14:32:04 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,14 @@ int	main(int ac, char **av, char **envp)
 {
 	char	*line;
 	t_data	data;
-	char	*value;
+	char	*args[3];
 
+	args[0] = "ss";
+	args[1] = "EOF";
+	args[2] = NULL;
+	
 	(void)ac;
 	(void)av;
-
 	data.var = NULL;
 	data.path = NULL;
 	get_env(&data, envp);
@@ -53,14 +56,8 @@ int	main(int ac, char **av, char **envp)
 		add_history(line);
 	while (is_exit(&data, line))
 	{
-		if(ft_strcmp(line, "$PWD") == 0)
-		{
-			value = which_dollar(&data, line);
-			printf("%s\n", value);
-			free(value);
-		}
-		if (ft_strcmp(line, "var") == 0)
-			print_vars(data.h_var);
+		if (ft_strcmp(line, "<<") == 0)
+			heredoc(args, 1);
 		free(line);
 		line = readline("minishell: ");
 		if (line && *line)

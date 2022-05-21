@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:51:19 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/19 15:51:31 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/21 14:39:17 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,5 @@ char	*ft_join(char *rest, char const *brut)
 	while (brut[j])
 		one[i++] = brut[j++];
 	one[i] = '\0';
-	free(rest);
 	return (one);
 }

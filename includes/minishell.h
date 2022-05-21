@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/20 14:40:42 by root             ###   ########.fr       */
+/*   Updated: 2022/05/21 14:25:11 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <readline/readline.h>
 # include <readline/chardefs.h>
 # include "../libft/libft.h"
+# include "get_next_line.h"
 
 typedef struct s_data
 {
@@ -61,6 +62,10 @@ void	goto_oldpwd(t_list **h_env);
 /*	Exec */
 char	*find_bin(t_list *lst_path, char *bin);
 void	process(t_data *data, char *command, char **args, char **envp);
+void	heredoc(char **args, int n_pipe);
+void	display_here(int n_pipe);
+char	*get_lim(char **args);
+
 
 /*	List */
 void	set_var(t_data *data, char *content);

@@ -13,13 +13,14 @@ SRC			=	main.c\
 				lst_management.c\
 				change_dir.c\
 				utils.c\
-				exec.c
+				exec.c\
+				heredoc.c
 
 
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
 CC			=	gcc
-CFLAGS		=	-g -Wall -Wextra -fsanitize=address
+CFLAGS		=	-g -Wall -Wextra #-fsanitize=address
 
 FT			=	./libft/
 FT_LIB		=	$(addprefix $(FT),libft.a)
