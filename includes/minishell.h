@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/24 15:29:28 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/24 17:45:54 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	goto_oldpwd(t_list **h_env);
 /*	Exec */
 char	*find_bin(t_list *lst_path, char *bin);
 void	process(t_data *data, char *command, char **args, char **envp);
-void	heredoc(char **args);
+void	heredoc(t_data *data, char **args);
 void	display_here(void);
 char	*get_lim(char **args);
 
@@ -74,6 +74,8 @@ void	supp_fst_elem(t_list **head, t_list *tmp);
 void	update_elem(t_list **head, char *var, char *content);
 char	*get_var(t_data *data, char *var);
 char	*which_dollar(t_data *data, char *command);
+size_t	get_dollar_pos(char *str);
+char	*dollar_substitute(char *command, char *value, size_t pos);
 
 /*	Utils */
 void	free_double_tab(char **tab);

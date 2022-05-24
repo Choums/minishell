@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/05/19 20:10:19 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/24 18:27:48 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ char	*get_var(t_data *data, char *var)
 	tmp = (*data->h_env);
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->content, var, ft_strlen(var)) == 0)
+		if (ft_strncmp(tmp->content, var, ft_strlen(var) - 1) == 0)
 		{
 			value = ft_substr(tmp->content, ft_strlen(var) + 1, ft_strlen(tmp->content) - ft_strlen(var));
 			return (value);
@@ -130,9 +130,10 @@ char	*get_var(t_data *data, char *var)
 	tmp = (*data->h_var);
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->content, var, ft_strlen(var)) == 0)
+		// printf("var: %s\nln: %zu\nret: %d\n", tmp->content, ft_strlen(var) - 1, ft_strncmp(tmp->content, var, ft_strlen(var)-1));
+		if (ft_strncmp(tmp->content, var, ft_strlen(var) - 1) == 0)
 		{
-			value = ft_substr(tmp->content, ft_strlen(var) + 1, ft_strlen(tmp->content) - ft_strlen(var));
+			value = ft_substr(tmp->content, ft_strlen(var), ft_strlen(tmp->content) - ft_strlen(var));
 			return (value);
 		}
 		else
@@ -142,9 +143,11 @@ char	*get_var(t_data *data, char *var)
 }
 
 /*
- *	Définie si la commande commence par un '$'
+ *	Vérifie si la string possede un $
  *	Vérifie ensuite si la valeur recheché est '?' ou le nom d'une var
+ *	Échange le nom de la var par sa valeur dans la string
  *	Si aucun des deux, une valeur NULL est renvoyé
+ *	Command doit etre malloc
  *	VAR=value
  *	$VAR
 */
@@ -152,18 +155,56 @@ char	*which_dollar(t_data *data, char *command)
 {
 	char	*var;
 	char	*value;
+	size_t	pos;
+	char	*new;
 
-	if (command[0] == '$' && command[1])
+	if (ft_strchr(command, '$'))
 	{
-		if (command[1] == '?')
+		pos = get_dollar_pos(command);
+		if (command[pos + 1] == '?')
 			return (0); //Signaux a faire
-		var = ft_substr(command, 1, ft_strlen(command) + 1);
+		var = ft_substr(command, pos + 1, ft_strlen(command) - pos + 1);
+		// printf("var: %s\n", var);
 		value = get_var(data, var);
+		// printf("get_var: %s\n", value);
 		free(var);
-		return (value);
+		new = dollar_substitute(command, value, pos);
+		free(value);
+		free(command);
+		return (new);
 	}
 	return (NULL);
 }
+
+
+/*
+ *	Substitue $var par sa valeur
+*/
+char	*dollar_substitute(char *command, char *value, size_t pos)
+{
+	char	*str;
+	char	*join;
+
+	if (pos == 0)
+		return (ft_strdup(value));
+	str = ft_substr(command, 0, ft_strlen(command) - pos + 2);
+	join = ft_join(str, value);
+	return (join);
+}
+
+/*
+ *	Retourne la position du '$' dans la string
+*/
+size_t	get_dollar_pos(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] && str[i] != '$')
+		i++;
+	return (i);
+}
+
 
 
 /*

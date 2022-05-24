@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/24 15:30:12 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/24 18:35:51 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 	t_data	data;
 	char	*args[3];
+	char	*str;
 
 	args[0] = "ss";
 	args[1] = "EOF";
@@ -50,14 +51,15 @@ int	main(int ac, char **av, char **envp)
 	data.var = NULL;
 	data.path = NULL;
 	get_env(&data, envp);
-	set_var(&data, "test=content");
+	set_var(&data, "test=Hola");
 	line = readline("minishell$ ");
 	if (line && *line)
 		add_history(line);
 	while (is_exit(&data, line))
 	{
 		if (ft_strcmp(line, "<<") == 0)
-			heredoc(args);
+			heredoc(&data, args);
+
 		free(line);
 		line = readline("minishell: ");
 		if (line && *line)

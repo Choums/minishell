@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/24 15:11:28 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/24 15:54:11 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	append_mode(char **args)
 	out_fd = open(args[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (out_fd < 0)
 		ft_err("Open");
+	if (dup2(out_fd, STDOUT_FILENO) < 0)
+		ft_err("Dup2");
 }
 
 

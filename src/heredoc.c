@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 14:03:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/24 15:29:52 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/24 18:30:34 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
  *	Récup les lignes via gnl avec le fd du .temp
  *	Fermer le .temp et le supp.
 */
-void	heredoc(char **args)
+void	heredoc(t_data *data, char **args)
 {
 	char	*line;
 	char	*new_line;
@@ -47,6 +47,11 @@ void	heredoc(char **args)
 			free(end);
 			free(line);	
 			break;
+		}
+		if (ft_strchr(line, '$'))
+		{
+			line = which_dollar(data, line);
+			line = ft_join(line, "\n");
 		}
 		new_line = ft_join(new_line, line);
 		free(line);
