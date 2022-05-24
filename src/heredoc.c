@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 14:03:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/24 13:39:00 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/24 15:29:52 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,63 +27,44 @@
  *	Récup les lignes via gnl avec le fd du .temp
  *	Fermer le .temp et le supp.
 */
-void	heredoc(char **args, int n_pipe)
+void	heredoc(char **args)
 {
 	char	*line;
+	char	*new_line;
 	char	*end;
-	// int		fd[2];
 	int		file;
 
-	// if (pipe(fd) == -1)
-	// 	ft_err("Pipe");
-	file = open(".here", O_CREAT | O_WRONLY, 0644);
-	line = malloc(sizeof(char));
+	file = open(".here", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	new_line = ft_calloc(1, 1);
 	end = get_lim(args);
 	end = ft_strjoin(end, "\n");
-	while (ft_strcmp(line, end) != 0)
+	while (1)
 	{
+		display_here();
+		line = get_next_line(STDIN_FILENO);
+		if (ft_strcmp(line, end) == 0)
+		{
+			free(end);
+			free(line);	
+			break;
+		}
+		new_line = ft_join(new_line, line);
 		free(line);
-		display_here(n_pipe);
-		line = get_next_line(file);
-		ft_putstr_fd(line, file);
-		printf("l:%s\ne:%s\n", line, end);
 	}
-	free(line);
-	unlink(".here");
-	// if (dup2(fd[0], STDIN_FILENO) == -1)
+	ft_putstr_fd(new_line, file);
+	free(new_line);
+	// unlink(".here");
+	// if (dup2(file, STDIN_FILENO) < 0)
 	// 	ft_err("Dup2");
-	// close(fd[0]);
-	// close(fd[1]);
+	close(file);
 }
 
-// int	temp_here(char **args)
-// {
-// 	int	fd;
-// 	char	*line;
-	
-// 	fd = open(".here", O_CREAT | O_WRONLY, 0644);
-	
-// 	line = get_next_line(STDIN_FILENO);
-// 	ft_putstr_fd(line, fd);
-// 	return (fd);
-// 	// sleep(30);
-// 	// unlink(".here");
-// }
-
-void	display_here(int n_pipe)
+void	display_here(void)
 {
 	char	*msg;
 
-	msg = "heredoc> ";
-	if (n_pipe == 1)
-	{
-		ft_putstr_fd(msg, STDIN_FILENO);
-		return ;
-	}
-	while (--n_pipe)
-		msg = ft_strjoin("pipe ", msg);
+	msg = "> ";
 	ft_putstr_fd(msg, STDIN_FILENO);
-	printf("out display\n");
 }
 
 char	*get_lim(char **args)
@@ -93,6 +74,6 @@ char	*get_lim(char **args)
 	i = 0;
 	while (args[i])
 		i++;
-	printf("lim: %s\n", args[i-1]);
+	// printf("lim: %s\n", args[i-1]);
 	return (args[i - 1]);
 }

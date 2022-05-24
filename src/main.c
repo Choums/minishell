@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/24 13:35:06 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/24 15:30:12 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@
  *	Prompt
  *	readline -> affiche un prompt et attend une saisie (le \n n'est pas pris en compte).
  *	rl_clear_history ->	Supp. l'historique des saisies.
- *	rl_on_new_line ->
- *	rl_replace_line ->
- *	rl_redisplay ->
+ *	rl_on_new_line -> Pour gérer le Ctrl + \ | 1
+ *	rl_replace_line -> 
+ *	rl_redisplay -> Pour gérer le Ctrl + \ | 2
  *	add_history -> ajoute la saisie a la liste de toutes les saisies.
  *	-----------------
  *	Ajouter la pos au prompt
@@ -57,7 +57,7 @@ int	main(int ac, char **av, char **envp)
 	while (is_exit(&data, line))
 	{
 		if (ft_strcmp(line, "<<") == 0)
-			heredoc(args, 0);
+			heredoc(args);
 		free(line);
 		line = readline("minishell: ");
 		if (line && *line)

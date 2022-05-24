@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 05:48:30 by root              #+#    #+#             */
-/*   Updated: 2022/05/21 17:43:39 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/24 14:19:27 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,17 @@ void	pwd(void)
 
 int	is_exit(t_data *data, char *line)
 {
-	if (!ft_strcmp(line, "exit"))
+	if (line)
 	{
-		free(line);
-		rl_clear_history();
-		ft_lstclear(&data->env, del);
-		ft_lstclear(&data->var, del);
-		ft_lstclear(&data->path, del);
-		exit(EXIT_SUCCESS);
+		if (!ft_strcmp(line, "exit"))
+		{
+			free(line);
+			rl_clear_history();
+			ft_lstclear(&data->env, del);
+			ft_lstclear(&data->var, del);
+			ft_lstclear(&data->path, del);
+			exit(EXIT_SUCCESS);
+		}	
 	}
 	return (1);
 }

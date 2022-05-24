@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/24 13:22:22 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/24 15:11:28 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void	out_redir(char **args)
 	out_fd  = open(args[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (out_fd < 0)
 		ft_err("Open");
+	if (dup2(out_fd, STDOUT_FILENO) < 0)
+		ft_err("Dup");
 }
 
 void	in_redir(char **args)
@@ -65,5 +67,7 @@ void	in_redir(char **args)
 		i++;
 	in_fd = open(args[i], O_RDONLY);
 	if (in_fd < 0)
-		ft_err(Open);
+		ft_err("Open");
+	if (dup2(in_fd, STDIN_FILENO) < 0)
+		ft_err("Dup");
 }
