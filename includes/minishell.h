@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/21 18:05:55 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/24 13:34:29 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <fcntl.h>
 # include <sys/wait.h>
 # include <signal.h>
 # include <dirent.h>
@@ -66,7 +67,7 @@ void	heredoc(char **args, int n_pipe);
 void	display_here(int n_pipe);
 char	*get_lim(char **args);
 
-
+// void	new_here();
 /*	List */
 void	set_var(t_data *data, char *content);
 void	supp_elem(t_list **head, char *var);

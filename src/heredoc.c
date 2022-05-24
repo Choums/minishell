@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 14:03:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/21 17:43:27 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/24 13:39:00 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,35 +21,54 @@
  *			n	 => cmd arg
  *			last => Limiter
  *	(Display the pipes)
+ *	-------------------------
+ *	Créer et ouvrir un fichier .temp
+ *	Écrire dedans les inputs
+ *	Récup les lignes via gnl avec le fd du .temp
+ *	Fermer le .temp et le supp.
 */
 void	heredoc(char **args, int n_pipe)
 {
 	char	*line;
 	char	*end;
-	char	*new_line;
-	int		fd[2];
+	// int		fd[2];
+	int		file;
 
-	if (pipe(fd) == -1)
-		ft_err("Pipe");
-	line = "\0";
-	new_line = line;
+	// if (pipe(fd) == -1)
+	// 	ft_err("Pipe");
+	file = open(".here", O_CREAT | O_WRONLY, 0644);
+	line = malloc(sizeof(char));
 	end = get_lim(args);
 	end = ft_strjoin(end, "\n");
 	while (ft_strcmp(line, end) != 0)
 	{
+		free(line);
 		display_here(n_pipe);
-		line = get_next_line(STDIN_FILENO);
-		new_line = ft_join(new_line, line);
+		line = get_next_line(file);
+		ft_putstr_fd(line, file);
+		printf("l:%s\ne:%s\n", line, end);
 	}
 	free(line);
-	if (write(fd[1], new_line, ft_strlen(new_line)) == -1)
-		ft_err("Write");
-	free(new_line);
-	if (dup2(fd[0], STDIN_FILENO) == -1)
-		ft_err("Dup2");
-	close(fd[0]);
-	close(fd[1]);
+	unlink(".here");
+	// if (dup2(fd[0], STDIN_FILENO) == -1)
+	// 	ft_err("Dup2");
+	// close(fd[0]);
+	// close(fd[1]);
 }
+
+// int	temp_here(char **args)
+// {
+// 	int	fd;
+// 	char	*line;
+	
+// 	fd = open(".here", O_CREAT | O_WRONLY, 0644);
+	
+// 	line = get_next_line(STDIN_FILENO);
+// 	ft_putstr_fd(line, fd);
+// 	return (fd);
+// 	// sleep(30);
+// 	// unlink(".here");
+// }
 
 void	display_here(int n_pipe)
 {
