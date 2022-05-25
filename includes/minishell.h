@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/19 16:24:57 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/05/25 18:45:34 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,25 @@ typedef struct s_data
 	t_list	*path;
 }	t_data;
 
+
+typedef struct s_redirection
+{
+	char	*in;
+	int		token_in;
+	char	*out;
+	int		token_out;
+}	t_redirection;
+
 typedef struct s_command
 {
-	int		nb_cmd;
-	char	**redirection;
-	char	**tab_cmd;
-	char	**tab_pipe;
+	char			*all_pipe;
+	char			**tab_cmd;
+	char			**tab_token;
+	t_redirection	tab_redirection;
+
 }	t_command;
+
+
 
 /*
 ENV_C----------------------------------------------------------------------------

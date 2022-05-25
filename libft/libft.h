@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:28:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/22 11:36:15 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/25 17:24:26 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int		ft_tolower(int c);
 char	*ft_strupper(char *str);
 char	*ft_strlower(char *str);
 char	*ft_strchr(const char *s, int c);
+char	*ft_strchr_after(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
 int		ft_strncmp(const char *s1, const char *s2, size_t len);
 int		ft_strcmp(const char *s1, const char *s2);
