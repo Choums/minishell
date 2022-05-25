@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/05/24 18:27:48 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/25 18:52:17 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,10 +130,10 @@ char	*get_var(t_data *data, char *var)
 	tmp = (*data->h_var);
 	while (tmp)
 	{
-		// printf("var: %s\nln: %zu\nret: %d\n", tmp->content, ft_strlen(var) - 1, ft_strncmp(tmp->content, var, ft_strlen(var)-1));
+		// printf("var: %s\nln: %zu+1\nret: %d\n", tmp->content, ft_strlen(var) - 1, ft_strncmp(tmp->content, var, ft_strlen(var)-1));
 		if (ft_strncmp(tmp->content, var, ft_strlen(var) - 1) == 0)
 		{
-			value = ft_substr(tmp->content, ft_strlen(var), ft_strlen(tmp->content) - ft_strlen(var));
+			value = ft_substr(tmp->content, ft_strlen(var) + 1, ft_strlen(tmp->content) - ft_strlen(var));
 			return (value);
 		}
 		else
@@ -147,7 +147,6 @@ char	*get_var(t_data *data, char *var)
  *	Vérifie ensuite si la valeur recheché est '?' ou le nom d'une var
  *	Échange le nom de la var par sa valeur dans la string
  *	Si aucun des deux, une valeur NULL est renvoyé
- *	Command doit etre malloc
  *	VAR=value
  *	$VAR
 */
@@ -170,7 +169,6 @@ char	*which_dollar(t_data *data, char *command)
 		free(var);
 		new = dollar_substitute(command, value, pos);
 		free(value);
-		free(command);
 		return (new);
 	}
 	return (NULL);

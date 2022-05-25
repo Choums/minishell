@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:40:50 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/19 19:01:06 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/25 17:15:23 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,28 +102,6 @@ void	set_path(t_data *data, char **path)
 	data->path = ft_lstnew(path[i++]);
 	while (path[i])
 		ft_lstadd_back(&data->path, ft_lstnew(path[i++]));
-}
-
-/*
- *	export [var]
- *	export -> ajoute la var a l'env.
- *	La var est mise en fin de chaine
-*/
-void	export(t_data *data, char *var)
-{
-	t_list	*tmp;
-	
-	tmp = data->var;
-	while (tmp)
-	{
-		if (ft_strncmp(tmp->content, var, ft_strlen(var)) == 0)
-		{
-			ft_lstadd_back(&data->env, ft_lstnew(tmp->content));
-			return ;
-		}
-		else
-			tmp = tmp->next;
-	}
 }
 
 void	print_env(t_list **h_env)

@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/24 17:45:54 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/25 18:36:10 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,13 @@ void	set_env(t_data *data);
 void	get_path(t_data *data);
 void	set_path(t_data *data, char **path);
 void	print_env(t_list **h_env);
-void	print_vars(t_list **head); // A supp.
+void	print_vars(t_list **head); // DEBUG, à supp.
 int		is_exit(t_data *data, char *line);
 void	echo(char *arg);
 void	pwd(void);
 void	unset(t_data *data, char *var);
 void	export(t_data *data, char *var);
+void	display_env(t_data *data);
 void	pwd(void);
 void	check_dir(t_data *data, char *path);
 void	check_path(t_data *data, char *path);
