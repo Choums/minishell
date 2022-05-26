@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/25 19:28:06 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/05/26 03:21:53 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,51 +284,98 @@ int	ft_count_pipe(char *line)
 	return (count_pipe);
 }
 
-void	ft_parsing(char *line)
+void	ft_affiche_t_command(t_command	*(*table_pipe))
 {
-	char		**tmp;
-	t_command	*(*table_pipe);
+	printf("\n\n\033[31m***************** tableau_t_command ******************************************\033[0m\n");
+	for (int i = 0; table_pipe[i]; i++)
+		printf("table_pipe[%i]:\033[1;32m%p\033[0m\n", i, table_pipe[i]);
+	printf("\033[31m***************** all_pipe ***************************************************\033[0m\n");
+	for (int i = 0; table_pipe[i]; i++)
+		printf("table_pipe->all_pipe[%i]:\033[1;32m%s\033[0m\n", i, table_pipe[i]->all_pipe);
+	printf("\033[31m***************** tab_cmd ****************************************************\033[0m\n");
+	for (int i = 0; table_pipe[i]; i++)
+	{
+		for (int j = 0; table_pipe[i]->tab_cmd[j]; j++)
+			printf("table_pipe[%i]->tab_cmd[%i]:\033[1;32m%s\033[0m\n", i, j,table_pipe[i]->tab_cmd[j]);
+	}
+	printf("\033[31m***************** END ********************************************************\033[0m\n\n");
+}
 
-	if (!ft_strlen(line))
-		return;
+t_command	**ft_parse_pipe(t_command	*(*table_pipe), char *line)
+{
+	char	**tmp;
+	int		i;
 
-
-	// table_pipe = malloc(sizeof(table_pipe) * (ft_count_pipe(line) + 1));
-	// if (!table_pipe)
-	// 	return;
-	// table_pipe[ft_count_pipe(line)] = NULL;
-
-
-	int i;
-
+	table_pipe = malloc(sizeof(table_pipe) * (ft_count_pipe(line) + 1));
+	if (!table_pipe)
+		return (NULL);
+	table_pipe[ft_count_pipe(line)] = NULL;
 	i = -1;
 	while (++i <= ft_count_pipe(line))
 	{
 		table_pipe[i] = malloc(sizeof(t_command) * (1));
 		if (!table_pipe[i])
-			return;
+			return (NULL);
 	}
 	table_pipe[ft_count_pipe(line)] = NULL;
-
-
-
-
-	for (int i = 0; table_pipe[i]; i++)
-		printf("table_pipe[%i]:%p\n", i, table_pipe[i]);
-
 	tmp = ft_split(line, '|');
-
-	for (int i = 0; tmp[i]; i++)
-		printf("tmp[%i]:%s\n", i, tmp[i]);
-
-
-
 	i = -1;
-	while (tmp[++i])
+	while (tmp[++i] && table_pipe[i]->all_pipe)
 		table_pipe[i]->all_pipe = tmp[i];
+	return (table_pipe);
+}
 
-	for (int i = 0; i < 2; i++)
-		printf("table_pipe[%i]:%s\n", i, table_pipe[i]->all_pipe);
+t_command	**ft_parse_cmd(t_command	*(*table_pipe))
+{
+	char *tmp;
+	int	to_cut;
+	int	k;
+	int	index;
+
+	k = -1;
+	index = 0;
+	while (table_pipe[++k])
+	{
+		to_cut = 0;
+		if (ft_strchr_after(table_pipe[k]->all_pipe, '<'))
+		{
+			tmp = ft_strchr_after(table_pipe[k]->all_pipe, '<');
+			while (tmp[index] && (tmp[index] == '<' || tmp[index] == ' '))
+				index++;
+			while (tmp[index] && tmp[index] != ' ')
+				index++;
+			tmp = tmp + index;
+			printf("index %i\n", index);
+			printf("tmp : %s\n", tmp);
+		}
+		else
+			tmp = table_pipe[k]->all_pipe;
+
+
+
+		while(tmp[to_cut] && tmp[to_cut] != '>')
+			to_cut++;
+		tmp = ft_substr(tmp, 0, to_cut);
+		table_pipe[k]->tab_cmd = ft_split(tmp, ' ');
+		printf ("tmp = %s\n", tmp);
+		free(tmp);
+	}
+	return (table_pipe);
+}
+//< infile cmd1 -opt1 > outfile | < infile2 cmd2 -opt2 > outfile2
+void	ft_parsing(char *line)
+{
+	t_command	*(*table_pipe);
+
+	if (!ft_strlen(line))
+		return;
+	table_pipe = ft_parse_pipe(table_pipe, line);
+	table_pipe = ft_parse_cmd(table_pipe);
+
+
+
+
+	ft_affiche_t_command(table_pipe);
 
 
 }
