@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/25 18:45:34 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/05/27 00:21:17 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_data
 
 typedef struct s_redirection
 {
-	char	*in;
+	char	**in;
 	int		token_in;
 	char	*out;
 	int		token_out;
@@ -49,7 +49,7 @@ typedef struct s_command
 	char			*all_pipe;
 	char			**tab_cmd;
 	char			**tab_token;
-	t_redirection	tab_redirection;
+	t_redirection	*tab_redirection;
 
 }	t_command;
 
