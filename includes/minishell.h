@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/27 00:21:17 by aptive           ###   ########.fr       */
+/*   Updated: 2022/05/27 20:00:01 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_redirection
 {
 	char	**in;
 	int		token_in;
-	char	*out;
+	char	**out;
 	int		token_out;
 }	t_redirection;
 
@@ -69,10 +69,31 @@ int		is_exit(t_data *data, char *line);
 void	echo(char *arg);
 void	pwd(void);
 void	unset(t_data *data, char *var);
+
+/*
+AFFICHAGE_C----------------------------------------------------------------------
+*/
+void	ft_affiche_t_command(t_command	*(*table_pipe));
+
+/*
+COMMAND_C------------------------------------------------------------------------
+*/
+t_command	**ft_parse_cmd(t_command	*(*table_pipe), int	number_pipe);
+/*
+REDIRECTION_C--------------------------------------------------------------------
+*/
+int	ft_count_redirection(char *str, char c_redirect);
+t_command	**ft_redirection_init(t_command	*(*table_pipe), int number_pipe);
+t_command	**ft_parse_redirection_in(t_command	*(*table_pipe), int	number_pipe, char c_redirect);
+t_command	**ft_parse_redirection_out(t_command	*(*table_pipe), int	number_pipe, char c_redirect)
+;
+
+
 /*
 PARSING_C------------------------------------------------------------------------
 */
-int		ft_affiche_struc(t_command *(*tab_cmd));
+int	ft_count_pipe(char *line);
+t_command	**ft_parse_pipe(t_command	*(*table_pipe), char *line);
 void	ft_free_doutab(char **tab);
 int		ft_doubletab_len(char **tab);
 void	ft_parsing(char *line);
