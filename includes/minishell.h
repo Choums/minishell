@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/27 20:00:01 by aptive           ###   ########.fr       */
+/*   Updated: 2022/05/28 21:15:35 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,21 +78,21 @@ void	ft_affiche_t_command(t_command	*(*table_pipe));
 /*
 COMMAND_C------------------------------------------------------------------------
 */
-t_command	**ft_parse_cmd(t_command	*(*table_pipe), int	number_pipe);
+char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd);
+void	copy_cmd(t_command *(*table_pipe), int	nb_pp, char *cmd);
+t_command	**ft_parse_cmd(t_command *(*table_pipe), int number_pipe);
 /*
 REDIRECTION_C--------------------------------------------------------------------
 */
-int	ft_count_redirection(char *str, char c_redirect);
+int		ft_count_redirection(char *str, char c_redirect);
 t_command	**ft_redirection_init(t_command	*(*table_pipe), int number_pipe);
-t_command	**ft_parse_redirection_in(t_command	*(*table_pipe), int	number_pipe, char c_redirect);
-t_command	**ft_parse_redirection_out(t_command	*(*table_pipe), int	number_pipe, char c_redirect)
-;
-
+void	ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c);
+void	ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c);
 
 /*
 PARSING_C------------------------------------------------------------------------
 */
-int	ft_count_pipe(char *line);
+int		ft_count_pipe(char *line);
 t_command	**ft_parse_pipe(t_command	*(*table_pipe), char *line);
 void	ft_free_doutab(char **tab);
 int		ft_doubletab_len(char **tab);
