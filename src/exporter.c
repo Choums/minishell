@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:14:47 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/28 16:56:45 by root             ###   ########.fr       */
+/*   Updated: 2022/05/28 19:42:47 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,15 @@ void	sort_env(char **env)
 	i = 0;
 	while (env[i])
 	{
-		while (env[i][j])
+		j = i + 1;
+		while (env[j])
 		{
+			if (ft_strcmp(env[i], env[j]) > 0)
+			{
+				swap = env[i];
+				env[i] = env[j];
+				env[j] = swap;
+			}
 			j++;
 		}
 		i++;

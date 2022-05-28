@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/28 16:21:50 by root             ###   ########.fr       */
+/*   Updated: 2022/05/28 19:46:21 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	main(int ac, char **av, char **envp)
 	data.path = NULL;
 	get_env(&data, envp);
 	set_var(&data, "test=Hola");
-	set_var(&data, "test=Hola");
+	set_var(&data, "tdst=Hola");
 	set_var(&data, "Hola");
 	line = readline("minishell$ ");
 	if (line && *line)
@@ -59,6 +59,8 @@ int	main(int ac, char **av, char **envp)
 			export(&data, "Hola");
 		if (ft_strcmp(line, "test") == 0)
 			export(&data, "test");
+		if (ft_strcmp(line, "tdst") == 0)
+			export(&data, "tdst");
 		if (ft_strcmp(line, "r") == 0)
 			export(&data, "salut");
 		if (ft_strcmp(line, "env") == 0)
