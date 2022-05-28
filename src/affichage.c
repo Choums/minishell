@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:06:35 by aptive            #+#    #+#             */
-/*   Updated: 2022/05/27 19:47:27 by aptive           ###   ########.fr       */
+/*   Updated: 2022/05/28 01:41:25 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ void	ft_affiche_t_command(t_command	*(*table_pipe))
 	for (int i = 0; table_pipe[i]; i++)
 		printf("table_pipe->all_pipe[\033[1;32m%i]:\033[1;32m%s\033[0m\n", i, table_pipe[i]->all_pipe);
 	printf("\033[31m***************** tab_cmd ****************************************************\033[0m\n");
-	// for (int i = 0; table_pipe[i]; i++)
-	// {
-	// 	for (int j = 0; table_pipe[i]->tab_cmd[j]; j++)
-	// 		printf("table_pipe[\033[1;32m%i\033[0m]->tab_cmd[\033[1;32m%i\033[0m]:\033[1;32m%s\033[0m\n", i, j,table_pipe[i]->tab_cmd[j]);
-	// }
+	for (int i = 0; table_pipe[i]; i++)
+	{
+		for (int j = 0; table_pipe[i]->tab_cmd[j]; j++)
+			printf("table_pipe[\033[1;32m%i\033[0m]->tab_cmd[\033[1;32m%i\033[0m]:\033[1;32m%s\033[0m\n", i, j,table_pipe[i]->tab_cmd[j]);
+	}
 	printf("\033[31m***************** tab_redirection_in ****************************************************\033[0m\n");
 
 	for (int j = 0; table_pipe[j]; j++)
