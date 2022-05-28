@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/28 01:43:20 by aptive           ###   ########.fr       */
+/*   Updated: 2022/05/28 02:19:42 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,9 @@ int	ft_count_pipe(char *line)
 
 	count_pipe = 1;
 	i = -1;
-
-	while(line[++i])
+	while (line[++i])
 	{
-		if(line[i] == '|')
+		if (line[i] == '|')
 			count_pipe++;
 	}
 	return (count_pipe);
@@ -87,7 +86,6 @@ t_command	**ft_parse_pipe(t_command	*(*table_pipe), char *line)
 	return (table_pipe);
 }
 
-
 //< infile cmd1 -opt1 > outfile | < infile2 cmd2 -opt2 > outfile2
 //cmd1 -opt1 <infile
 // < infile1 < infile2 cmd | < infile3 <infile4 cmd2
@@ -96,21 +94,17 @@ t_command	**ft_parse_pipe(t_command	*(*table_pipe), char *line)
 void	ft_parsing(char *line)
 {
 	t_command	*(*table_pipe);
+	int			i;
 
 	if (!ft_strlen(line))
-		return;
+		return ;
 	table_pipe = ft_parse_pipe(table_pipe, line);
-	int	i;
-
 	i = -1;
 	while (table_pipe[++i])
 	{
-
 		table_pipe = ft_parse_redirection_in(table_pipe, i, '<');
 		table_pipe = ft_parse_redirection_out(table_pipe, i, '>');
 		table_pipe = ft_parse_cmd(table_pipe, i);
 	}
-
-
 	// ft_affiche_t_command(table_pipe);
 }

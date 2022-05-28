@@ -6,12 +6,11 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:54:45 by aptive            #+#    #+#             */
-/*   Updated: 2022/05/28 02:09:17 by aptive           ###   ########.fr       */
+/*   Updated: 2022/05/28 02:20:53 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 char	*ft_straddc_first(char c)
 {
@@ -49,11 +48,11 @@ char	*ft_straddc(char *str, char c)
 	return (add);
 }
 
-char *ft_cup_all_cmd(char *tmp)
+char	*ft_cup_all_cmd(char *tmp)
 {
-	char *tmp_cmd;
-	int	len;
-	int	i;
+	char	*tmp_cmd;
+	int		len;
+	int		i;
 
 	len = ft_strlen(tmp);
 	i = 0;
@@ -62,16 +61,16 @@ char *ft_cup_all_cmd(char *tmp)
 	{
 		if (tmp[i] == '<' || tmp[i] == '>')
 		{
-			while(tmp[i] && (tmp[i] == '<' || tmp[i] == ' ' || tmp[i] == '>'))
+			while (tmp[i] && (tmp[i] == '<' || tmp[i] == ' ' || tmp[i] == '>'))
 				i++;
-			while(tmp[i] && tmp[i] != ' ' )
+			while (tmp[i] && tmp[i] != ' ' )
 				i++;
 		}
 		else if (ft_isalnum(tmp[i]))
 		{
-			while(tmp[i] && tmp[i] != '<' && tmp[i] != '>')
+			while (tmp[i] && tmp[i] != '<' && tmp[i] != '>')
 			{
-				tmp_cmd = ft_straddc(tmp_cmd,tmp[i]);
+				tmp_cmd = ft_straddc(tmp_cmd, tmp[i]);
 				i++;
 			}
 		}
@@ -85,10 +84,12 @@ t_command	**ft_count_cmd(t_command	*(*table_pipe), int	number_pipe, char *cut_cm
 {
 	int	i;
 	int	count_arg;
+	int	len_cut_cmd;
+
 	i = 0;
 	count_arg = 0;
-	int	len_cut_cmd  = ft_strlen(cut_cmd);
-	while(i < len_cut_cmd)
+	len_cut_cmd = ft_strlen(cut_cmd);
+	while (i < len_cut_cmd)
 	{
 		if (ft_isalnum(cut_cmd[i]))
 		{
@@ -104,25 +105,25 @@ t_command	**ft_count_cmd(t_command	*(*table_pipe), int	number_pipe, char *cut_cm
 		}
 		else
 			i++;
-
 	}
 	table_pipe[number_pipe]->tab_cmd = malloc(sizeof(char) * (count_arg + 1));
-	if(!table_pipe[number_pipe]->tab_cmd)
-		return(NULL);
-	// printf("count  arg: %i\n", count_arg);
+	if (!table_pipe[number_pipe]->tab_cmd)
+		return (NULL);
 	return (table_pipe);
 }
 
 t_command	**ft_copy_cmd(t_command	*(*table_pipe), int	number_pipe, char *cut_cmd)
 {
-	int	i;
-	int	count_arg;
-	int	to_cut;
-	int	len_cut_cmd  = ft_strlen(cut_cmd);
-	char *tmp;
+	int		i;
+	int		count_arg;
+	int		to_cut;
+	int		len_cut_cmd;
+	char	*tmp;
+
 	i = 0;
+	len_cut_cmd = ft_strlen(cut_cmd);
 	count_arg = 0;
-	while(i < len_cut_cmd)
+	while (i < len_cut_cmd)
 	{
 		to_cut = 0;
 		if (ft_isalnum(cut_cmd[i]))
@@ -153,15 +154,15 @@ t_command	**ft_copy_cmd(t_command	*(*table_pipe), int	number_pipe, char *cut_cmd
 	return (table_pipe);
 
 }
+
 t_command	**ft_parse_cmd(t_command	*(*table_pipe), int	number_pipe)
 {
-	char *cut_cmd;
-	char **tab_command;
+	char	*cut_cmd;
+	char	**tab_command;
+
 	cut_cmd = ft_cup_all_cmd(table_pipe[number_pipe]->all_pipe);
 	table_pipe = ft_count_cmd(table_pipe, number_pipe, cut_cmd);
 	ft_copy_cmd(table_pipe, number_pipe, cut_cmd);
-
-
 	printf("cut_cmd : %s\n", cut_cmd);
 	return (table_pipe);
 }

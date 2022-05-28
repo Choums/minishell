@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:08:18 by aptive            #+#    #+#             */
-/*   Updated: 2022/05/27 19:44:43 by aptive           ###   ########.fr       */
+/*   Updated: 2022/05/28 02:23:19 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_count_redirection(char *str, char c_redirect)
 
 	i = -1;
 	count = 0;
-	while(str[++i])
+	while (str[++i])
 	{
 		if (str[i] == c_redirect)
 		{
@@ -32,97 +32,29 @@ int	ft_count_redirection(char *str, char c_redirect)
 	return (count);
 }
 
-// t_command	**ft_redirection_in_init(t_command	*(*table_pipe), int number_pipe)
-// {
-// 	int nb_pipe;
-
-// 	nb_pipe = ft_count_redirection(table_pipe[number_pipe]->all_pipe, '<');
-
-
-
-// 	table_pipe[number_pipe]->tab_redirection = malloc(sizeof(t_redirection));
-// 	if(!table_pipe[number_pipe]->tab_redirection)
-// 		return (NULL);
-
-
-// 	if (nb_pipe)
-// 	{
-// 		table_pipe[number_pipe]->tab_redirection->in = malloc(sizeof(char **) * (nb_pipe + 1));
-// 		if(!table_pipe[number_pipe]->tab_redirection->in)
-// 			return (NULL);
-// 		table_pipe[number_pipe]->tab_redirection->in[nb_pipe] = NULL;
-// 	}
-// 	else
-// 	{
-// 		table_pipe[number_pipe]->tab_redirection = NULL;
-// 	}
-// 	return (table_pipe);
-// }
-
-// t_command	**ft_redirection_out_init(t_command	*(*table_pipe), int number_pipe)
-// {
-// 	int nb_pipe;
-
-// 	nb_pipe = ft_count_redirection(table_pipe[number_pipe]->all_pipe, '>');
-// 	printf("number redirect out : %i\n", nb_pipe);
-
-// 	if(!table_pipe[number_pipe]->tab_redirection)
-// 		table_pipe[number_pipe]->tab_redirection = malloc(sizeof(t_redirection));
-
-
-// 	if(!table_pipe[number_pipe]->tab_redirection)
-// 		return (NULL);
-
-
-// 	if (nb_pipe)
-// 	{
-// 		table_pipe[number_pipe]->tab_redirection->out = malloc(sizeof(char **) * (nb_pipe + 1));
-// 		if(!table_pipe[number_pipe]->tab_redirection->out)
-// 			return (NULL);
-// 		table_pipe[number_pipe]->tab_redirection->out[nb_pipe] = NULL;
-// 	}
-// 	else
-// 	{
-// 		// table_pipe[number_pipe]->tab_redirection->out[nb_pipe] = NULL;
-// 		table_pipe[number_pipe]->tab_redirection = NULL;
-// 	}
-// 	return (table_pipe);
-// }
-
-
 t_command	**ft_redirection_init(t_command	*(*table_pipe), int number_pipe)
 {
-	int nb_pipe_in;
-	int nb_pipe_out;
+	int	nb_pipe_in;
+	int	nb_pipe_out;
 
 	nb_pipe_in = ft_count_redirection(table_pipe[number_pipe]->all_pipe, '<');
 	nb_pipe_out = ft_count_redirection(table_pipe[number_pipe]->all_pipe, '>');
-
 	table_pipe[number_pipe]->tab_redirection = malloc(sizeof(t_redirection));
-
-	if(!nb_pipe_in && !nb_pipe_out)
+	if (!nb_pipe_in && !nb_pipe_out)
 	{
 		table_pipe[number_pipe]->tab_redirection = NULL;
-		return(table_pipe);
+		return (table_pipe);
 	}
-
-
-	table_pipe[number_pipe]->tab_redirection->in = malloc(sizeof(char **) * (nb_pipe_in + 1));
-	if(!table_pipe[number_pipe]->tab_redirection->in)
+	table_pipe[number_pipe]->tab_redirection->in
+		= malloc(sizeof(char **) * (nb_pipe_in + 1));
+	if (!table_pipe[number_pipe]->tab_redirection->in)
 		return (NULL);
 	table_pipe[number_pipe]->tab_redirection->in[nb_pipe_in] = NULL;
-
-
-
-
-	table_pipe[number_pipe]->tab_redirection->out = malloc(sizeof(char **) * (nb_pipe_out + 1));
-	if(!table_pipe[number_pipe]->tab_redirection->out)
+	table_pipe[number_pipe]->tab_redirection->out
+		= malloc(sizeof(char **) * (nb_pipe_out + 1));
+	if (!table_pipe[number_pipe]->tab_redirection->out)
 		return (NULL);
 	table_pipe[number_pipe]->tab_redirection->out[nb_pipe_out] = NULL;
-
-	printf("nb_pipe_in :%i\n", nb_pipe_in);
-	printf("nb_pipe_out :%i\n", nb_pipe_out);
-
 	return (table_pipe);
 }
 
@@ -135,7 +67,6 @@ t_command	**ft_parse_redirection_in(t_command	*(*table_pipe), int	number_pipe, c
 	int		nb_redirect;
 
 	i = 0;
-
 	table_pipe = ft_redirection_init(table_pipe, number_pipe);
 	nb_redirect = ft_count_redirection(table_pipe[number_pipe]->all_pipe, c_redirect);
 	tmp = table_pipe[number_pipe]->all_pipe;
@@ -161,15 +92,13 @@ t_command	**ft_parse_redirection_in(t_command	*(*table_pipe), int	number_pipe, c
 
 t_command	**ft_parse_redirection_out(t_command	*(*table_pipe), int	number_pipe, char c_redirect)
 {
-
-		char	*tmp;
+	char	*tmp;
 	int		to_cut;
 	int		index;
 	int		i;
 	int		nb_redirect;
 
 	i = 0;
-
 	nb_redirect = ft_count_redirection(table_pipe[number_pipe]->all_pipe, c_redirect);
 	tmp = table_pipe[number_pipe]->all_pipe;
 	while (nb_redirect)
