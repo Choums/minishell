@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:40:50 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/25 17:15:23 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/28 16:00:52 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void	set_env(t_data *data)
 		perror("failed to get current directory\n"); //gestion d'erreur a faire
 	var = ft_strjoin("PWD=", path);
 	free(path);
-	data->env = ft_lstnew(var);
+	data->env = ft_lstnew("OLDPWD");
+	ft_lstadd_back(&data->env, ft_lstnew(var));
 	free(var);
 	ft_lstadd_back(&data->env, ft_lstnew("SHLVL=1"));
 	ft_lstadd_back(&data->env, ft_lstnew("_=/usr/bin/env"));
@@ -111,7 +112,8 @@ void	print_env(t_list **h_env)
 	tmp = (*h_env);
 	while (tmp)
 	{
-		ft_putendl_fd(tmp->content, STDOUT_FILENO);
+		if (ft_strchr(tmp->content, '='))
+			ft_putendl_fd(tmp->content, STDOUT_FILENO);
 		tmp = tmp->next;
 	}
 }

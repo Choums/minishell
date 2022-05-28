@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_management.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/05/25 18:52:17 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/28 16:51:16 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	set_var(t_data *data, char *content)
 		data->h_var = &data->var;
 	}
 	else
-		ft_lstadd_back(&data->var, ft_lstnew(content));
+		if (get_elem(data->h_var, content) == NULL)
+			ft_lstadd_back(&data->var, ft_lstnew(content));
 }
 
 /*
@@ -105,6 +106,24 @@ void	update_elem(t_list **head, char *var, char *content)
 		else
 			tmp	= tmp->next;
 	}
+}
+
+/*
+ *	Cherche un element dans la list donnée et le renvoie
+ *	NULL si l'elem n'existe pas
+*/
+char	*get_elem(t_list **head, char *content)
+{
+	t_list	*tmp;
+
+	tmp = (*head);
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->content, content, ft_strlen(content)) == 0)
+			return (tmp->content);
+		tmp = tmp->next;
+	}
+	return (NULL);
 }
 
 /*

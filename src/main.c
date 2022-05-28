@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/25 18:48:16 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/28 16:21:50 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,21 @@ int	main(int ac, char **av, char **envp)
 	data.path = NULL;
 	get_env(&data, envp);
 	set_var(&data, "test=Hola");
-	set_var(&data, "Hola=Salute");
+	set_var(&data, "test=Hola");
+	set_var(&data, "Hola");
 	line = readline("minishell$ ");
 	if (line && *line)
 		add_history(line);
 	while (is_exit(&data, line))
 	{
-		if (ft_strcmp(line, "$test") == 0)
-			export(&data, "$test");
+		if (ft_strcmp(line, "x") == 0)
+			export(&data, NULL);
+		if (ft_strcmp(line, "H") == 0)
+			export(&data, "Hola");
+		if (ft_strcmp(line, "test") == 0)
+			export(&data, "test");
+		if (ft_strcmp(line, "r") == 0)
+			export(&data, "salut");
 		if (ft_strcmp(line, "env") == 0)
 			print_env(data.h_env);
 		if (ft_strcmp(line, "var") == 0)

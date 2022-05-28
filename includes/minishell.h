@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/25 18:36:10 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/28 16:55:06 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ void	echo(char *arg);
 void	pwd(void);
 void	unset(t_data *data, char *var);
 void	export(t_data *data, char *var);
+void	add_var(t_data *data, char *var);
 void	display_env(t_data *data);
+void	sort_env(char **env);
+void	print_export(char **env);
 void	pwd(void);
 void	check_dir(t_data *data, char *path);
 void	check_path(t_data *data, char *path);
@@ -73,14 +76,18 @@ void	set_var(t_data *data, char *content);
 void	supp_elem(t_list **head, char *var);
 void	supp_fst_elem(t_list **head, t_list *tmp);
 void	update_elem(t_list **head, char *var, char *content);
+char	*get_elem(t_list **head, char *content);
 char	*get_var(t_data *data, char *var);
 char	*which_dollar(t_data *data, char *command);
 size_t	get_dollar_pos(char *str);
 char	*dollar_substitute(char *command, char *value, size_t pos);
+char	**lst_dup(t_list **head);
+size_t	get_lst_len(t_list **head);
 
 /*	Utils */
 void	free_double_tab(char **tab);
 void	ft_err(char *err);
+void	print_double_tab(char **tab); //DEBUG
 
 // struct sigaction {
 //     void     (*sa_handler) (int);
