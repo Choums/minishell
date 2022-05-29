@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 10:49:04 by root              #+#    #+#             */
-/*   Updated: 2022/05/28 14:57:44 by root             ###   ########.fr       */
+/*   Updated: 2022/05/29 17:58:51 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,5 @@ void	print_double_tab(char **tab)
 void	ft_err(char *err)
 {
 	perror(err);
+	exit(EXIT_FAILURE);
 }

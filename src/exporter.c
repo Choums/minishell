@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:14:47 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/28 19:42:47 by root             ###   ########.fr       */
+/*   Updated: 2022/05/29 18:02:51 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,19 @@
 /*
  *	export [var]
  *	export -> ajoute la var a l'env.
- *	La var est mise en fin de chaine
+ *	argument var a mettre en double tab et boucler dessus pour chaque arg.
  *	--------------------------------
- *	Seul le 1er '=' signifie la valeur, les autres ne comptent pas
- *	Une var sans value peut etre export mais elle n'apparait pas
- *	export sans arg affiche les vars sans value
- *	L'expansion des var
- *	La var '_' n'est pas affiché en export sans arg
- *	Une var déjà export ne peut plus l'être
+ *	Seul le 1er '=' signifie la valeur, les autres ne comptent pas.
+ *	Une var sans value peut etre export mais elle n'apparait pas (via env).
+ *	export sans arg affiche les vars sans value.
+ *	L'expansion des var.
+ *	La var '_' n'est pas affiché en export sans arg.
+ *	Une var sans value déjà export ne peut plus l'être.
+ *	Export une var déjà export avec une value différente mettra à jour sa value.
+ *	La var doit commencer par une lettre (ou un '_').
+ *	La var doit avoir que des alphanum dans son nom (hormis '_').
+ *	Le '+' n'est tolerer qu'avant le =.
+ *	"+=" concatene la précedente value avec la nouvelle.
 */
 void	export(t_data *data, char *var)
 {
@@ -48,16 +53,43 @@ void	export(t_data *data, char *var)
 		var = which_dollar(data, var);
 		alloc = 1;
 	}
-	if (ft_strchr(var, '='))
-	{
-		
-	}
-	else
+	if (check_var(var))
 		add_var(data, var);
-	if (alloc)
-		free(var);
+	else
+		export_err(var, alloc);
 }
 
+int	check_var(char *var)
+{
+	size_t	i;
+	int		first_alpha;
+
+	first_alpha = 0;
+	i = 0;
+	if (!var || !var[i])
+		return (0);
+	else if (ft_isalpha(var[i]) || var[i] == '_')
+		first_alpha = 1;
+	while (var[i] && var[i] != '=')
+	{
+		if (!first_alpha || !ft_isalnum(var[i]) || !(var[i] != '_'))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+/*
+ *	Ajoute une var a l'env
+ *	----------------------
+ *	Si la var existe dans l'env et elle a une value	=>	La value de la var est mise a jour.
+ *	Si la var existe dans l'env mais n'a pas de value	=>	La value est ajouté la var.
+ *	Si la var n'est pas dans l'env => La var est ajouté a l'env. (avec ou sans value)
+ *	----------------------
+ *	Recup le nom de la var
+ *	Check si elle existe :	mise a jour
+ *	si elle n'existe pas :	add
+*/
 void	add_var(t_data *data, char *var)
 {
 	t_list	*tmp;
@@ -144,10 +176,10 @@ void	print_export(char **env)
 }
 
 /*
- *	Dupplique la lst donnée et retourne un double tab
- *	1- Prendre la taille de la lst
- *	2- Init le tab
- *	3- Boucle sur la taille, chaque strdup sur chaque maillon
+ *	Dupplique la lst donnée et retourne un double tab.
+ *	1- Prendre la taille de la lst.
+ *	2- Init le tab.
+ *	3- Boucle sur la taille, dupplique chaque maillon.
 */
 char	**lst_dup(t_list **head)
 {
