@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/19 20:09:51 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/30 17:53:22 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@
  *	Prompt
  *	readline -> affiche un prompt et attend une saisie (le \n n'est pas pris en compte).
  *	rl_clear_history ->	Supp. l'historique des saisies.
- *	rl_on_new_line ->
- *	rl_replace_line ->
- *	rl_redisplay ->
+ *	rl_on_new_line -> Pour gérer le Ctrl + \ | 1
+ *	rl_replace_line -> 
+ *	rl_redisplay -> Pour gérer le Ctrl + \ | 2
  *	add_history -> ajoute la saisie a la liste de toutes les saisies.
  *	-----------------
  *	Ajouter la pos au prompt
@@ -39,26 +39,34 @@ int	main(int ac, char **av, char **envp)
 {
 	char	*line;
 	t_data	data;
-	char	*value;
-
+	
 	(void)ac;
 	(void)av;
-
 	data.var = NULL;
 	data.path = NULL;
 	get_env(&data, envp);
-	set_var(&data, "test=content");
+	set_var(&data, "test=Hola");
+	set_var(&data, "tdst=Hola");
+	set_var(&data, "Hola");
 	line = readline("minishell$ ");
 	if (line && *line)
 		add_history(line);
 	while (is_exit(&data, line))
 	{
-		if(ft_strcmp(line, "$PWD") == 0)
-		{
-			value = which_dollar(&data, line);
-			printf("%s\n", value);
-			free(value);
-		}
+		if (ft_strcmp(line, "x") == 0)
+			export(&data, NULL);
+		if (ft_strcmp(line, "test") == 0)
+			export(&data, "test");
+		if (ft_strcmp(line, "tdst") == 0)
+			export(&data, "tdst");
+		if (ft_strcmp(line, "a") == 0)
+			export(&data, "test=bonjourno");
+		if (ft_strcmp(line, "s") == 0)
+			export(&data, "ss=sad");
+		if (ft_strcmp(line, "ss") == 0)
+			export(&data, "ss=sadest");
+		if (ft_strcmp(line, "env") == 0)
+			print_env(data.h_env);
 		if (ft_strcmp(line, "var") == 0)
 			print_vars(data.h_var);
 		free(line);
@@ -66,6 +74,5 @@ int	main(int ac, char **av, char **envp)
 		if (line && *line)
 			add_history(line);
 		//lexing parsing sur line, besoin des var d'env
-		
 	}
 }

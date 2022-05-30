@@ -13,7 +13,10 @@ SRC			=	main.c\
 				lst_management.c\
 				change_dir.c\
 				utils.c\
-				exec.c
+				exec.c\
+				heredoc.c\
+				exporter.c\
+				errors.c
 
 
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
