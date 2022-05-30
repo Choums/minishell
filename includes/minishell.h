@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/29 17:59:20 by root             ###   ########.fr       */
+/*   Updated: 2022/05/30 17:47:18 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	unset(t_data *data, char *var);
 void	export(t_data *data, char *var);
 int		check_var(char *var);
 void	add_var(t_data *data, char *var);
+size_t	name_len(char *var);
 void	display_env(t_data *data);
 void	sort_env(char **env);
 void	print_export(char **env);
@@ -76,7 +77,7 @@ char	*get_lim(char **args);
 void	set_var(t_data *data, char *content);
 void	supp_elem(t_list **head, char *var);
 void	supp_fst_elem(t_list **head, t_list *tmp);
-void	update_elem(t_list **head, char *var, char *content);
+void	update_elem(t_data *data, char *var);
 char	*get_elem(t_list **head, char *content);
 char	*get_var(t_data *data, char *var);
 char	*which_dollar(t_data *data, char *command);

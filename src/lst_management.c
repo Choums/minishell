@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_management.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/05/28 16:51:16 by root             ###   ########.fr       */
+/*   Updated: 2022/05/30 18:01:18 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,23 +85,38 @@ void	supp_fst_elem(t_list **head, t_list *tmp)
 }
 
 /*
- *	La var doit se terminer par le "="
+ *	Update la var donnée
 */
-void	update_elem(t_list **head, char *var, char *content)
+void	update_elem(t_data *data, char *var)
 {
 	t_list	*tmp;
-	char	*new;
+	size_t	len;
 
-	tmp = (*head);
+	len = 0;
+	while (var[len] != '=' && var[len])
+		len++;
+	tmp = (*data->h_env);
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->content, var, ft_strlen(var)) == 0)
+			// printf("up env\n");
+		if (ft_strncmp(tmp->content, var, len - 1) == 0)
 		{
 			del(tmp->content);
-			new = ft_strjoin(var, content);
-			tmp->content = ft_strdup(new);
-			free(new);
-			return ;
+			tmp->content = ft_strdup(var);
+			break ;
+		}
+		else
+			tmp	= tmp->next;
+	}
+	tmp = (*data->h_var);
+	while (tmp)
+	{
+		// printf("up var\n");
+		if (ft_strncmp(tmp->content, var, len - 1) == 0)
+		{
+			del(tmp->content);
+			tmp->content = ft_strdup(var);
+			break ;
 		}
 		else
 			tmp	= tmp->next;
@@ -115,11 +130,13 @@ void	update_elem(t_list **head, char *var, char *content)
 char	*get_elem(t_list **head, char *content)
 {
 	t_list	*tmp;
+	size_t	len;
 
+	len = name_len(content);
 	tmp = (*head);
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->content, content, ft_strlen(content)) == 0)
+		if (ft_strncmp(tmp->content, content, len) == 0)
 			return (tmp->content);
 		tmp = tmp->next;
 	}

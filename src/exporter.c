@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exporter.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:14:47 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/29 18:02:51 by root             ###   ########.fr       */
+/*   Updated: 2022/05/30 18:01:12 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	export(t_data *data, char *var)
 		add_var(data, var);
 	else
 		export_err(var, alloc);
+	if (alloc)
+		free(var);
 }
 
 int	check_var(char *var)
@@ -82,7 +84,7 @@ int	check_var(char *var)
 /*
  *	Ajoute une var a l'env
  *	----------------------
- *	Si la var existe dans l'env et elle a une value	=>	La value de la var est mise a jour.
+ *	Si la var existe dans l'env et elle a une value	=>	La value de la var est mise a jour. (dans la lst des var aussi)
  *	Si la var existe dans l'env mais n'a pas de value	=>	La value est ajouté la var.
  *	Si la var n'est pas dans l'env => La var est ajouté a l'env. (avec ou sans value)
  *	----------------------
@@ -93,21 +95,53 @@ int	check_var(char *var)
 void	add_var(t_data *data, char *var)
 {
 	t_list	*tmp;
+	size_t	len;
 
-	tmp = (*data->h_var);
-	while (tmp)
+	len = name_len(var);
+	// printf("%s | %p\n", var, get_elem(data->h_env, var));
+	if (var[len] == '=' && (get_elem(data->h_env, var) || get_elem(data->h_var, var))) //mod
 	{
-		if (ft_strncmp(tmp->content, var, ft_strlen(var)) == 0
-				&& get_elem(data->h_env, tmp->content) == NULL)
-		{
-			ft_lstadd_back(&data->env, ft_lstnew(tmp->content));
-			return ;
-		}
-		else
-			tmp = tmp->next;
+		// printf("in up\n");
+		if (get_elem(data->h_env, var) == NULL)
+			ft_lstadd_back(&data->env, ft_lstnew(var));
+		update_elem(data, var);
 	}
-	if (get_elem(data->h_env, var) == NULL)
+	else if (get_elem(data->h_env, var) == NULL && get_elem(data->h_var, var)) //add existing
+	{
+		tmp = (*data->h_var);
+		while (tmp)
+		{
+			if (ft_strncmp(tmp->content, var, ft_strlen(var)) == 0)
+			{
+				// printf("ex var %s\n", var);
+				ft_lstadd_back(&data->env, ft_lstnew(tmp->content));
+				return ;
+			}
+			else
+				tmp = tmp->next;
+		}	
+	}
+	else // non existing var (declaration)
+	{
+		// printf("add\n");
 		ft_lstadd_back(&data->env, ft_lstnew(var));
+		ft_lstadd_back(&data->var, ft_lstnew(var));
+	}
+}
+
+/*
+ *	Renvoi la taille du nom de la var
+ *	len est soit:	l'index du '='
+ *					la fin du nom
+*/
+size_t	name_len(char *var)
+{
+	size_t	len;
+
+	len = 0;
+	while (var[len] != '=' && var[len])
+		len++;
+	return (len);
 }
 
 /*	When no arguments are given, the results  are  unspecified.

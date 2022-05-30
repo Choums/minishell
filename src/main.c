@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/29 17:34:54 by root             ###   ########.fr       */
+/*   Updated: 2022/05/30 17:53:22 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,18 @@ int	main(int ac, char **av, char **envp)
 			export(&data, NULL);
 		if (ft_strcmp(line, "test") == 0)
 			export(&data, "test");
+		if (ft_strcmp(line, "tdst") == 0)
+			export(&data, "tdst");
 		if (ft_strcmp(line, "a") == 0)
 			export(&data, "test=bonjourno");
+		if (ft_strcmp(line, "s") == 0)
+			export(&data, "ss=sad");
+		if (ft_strcmp(line, "ss") == 0)
+			export(&data, "ss=sadest");
 		if (ft_strcmp(line, "env") == 0)
 			print_env(data.h_env);
+		if (ft_strcmp(line, "var") == 0)
+			print_vars(data.h_var);
 		free(line);
 		line = readline("minishell: ");
 		if (line && *line)
