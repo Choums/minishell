@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:14:47 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/30 19:11:56 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/30 20:13:25 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,12 @@ void	export(t_data *data, char *var)
 		alloc = 1;
 	}
 	if (check_var(var))
-		add_var(data, var);
+	{
+		if (var[name_len(var)] == '=' && var[name_len(var) - 1] == '+')
+			cat_var(data, var);
+		else
+			add_var(data, var);
+	}
 	else
 		export_err(var, alloc);
 	if (alloc)
@@ -74,11 +79,21 @@ int	check_var(char *var)
 		first_alpha = 1;
 	while (var[i] && var[i] != '=')
 	{
+		if (var[i] == '+' && var[i + 1] == '=')
+			return (1);
 		if (!first_alpha || !ft_isalnum(var[i]) || !(var[i] != '_'))
 			return (0);
 		i++;
 	}
 	return (1);
+}
+
+/*
+ *	Concatene la valeur donnée avec la valeur precedente
+*/
+void	cat_var(t_data *data, char *var)
+{
+	
 }
 
 /*

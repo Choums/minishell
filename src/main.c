@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/30 19:41:18 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/30 20:00:15 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ int main(int ac, char **av, char **envp)
 	{
 		if (ft_strcmp(line, "x") == 0)
 			export(&data, NULL);
-		if (ft_strcmp(line, "x") == 0)
-			export(&data, NULL);
+		if (ft_strcmp(line, "+") == 0)
+			export(&data, "test+=s");
+		if (ft_strcmp(line, "t") == 0)
+			export(&data, "+");
 		if (ft_strcmp(line, "env") == 0)
 			print_env(data.h_env);
 		if (ft_strcmp(line, "var") == 0)
