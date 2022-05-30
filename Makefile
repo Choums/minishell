@@ -16,7 +16,8 @@ SRC			=	main.c\
 				lst_management.c\
 				change_dir.c\
 				utils.c\
-				exec.c
+				exec.c\
+				tokenizer.c
 
 
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))

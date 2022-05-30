@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/28 21:15:55 by aptive           ###   ########.fr       */
+/*   Updated: 2022/05/30 19:58:05 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	ft_parsing(char *line)
 		ft_parse_redir_in(table_pipe, i, '<');
 		ft_parse_redir_out(table_pipe, i, '>');
 		table_pipe = ft_parse_cmd(table_pipe, i);
+		tokenizer_cmd(table_pipe, i);
 	}
 	ft_affiche_t_command(table_pipe);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   affichage.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:06:35 by aptive            #+#    #+#             */
-/*   Updated: 2022/05/28 01:41:25 by aptive           ###   ########.fr       */
+/*   Updated: 2022/05/30 20:05:31 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	ft_affiche_t_command(t_command	*(*table_pipe))
 		if(table_pipe[j]->tab_redirection)
 			for(int	i = 0; table_pipe[j]->tab_redirection->in[i]; i++)
 			{
-
 				printf("table_pipe[\033[1;32m%i\033[0m]->tab_redirection->in[\033[1;32m%i\033[0m]:\033[1;32m%s\033[0m\n", j, i,table_pipe[j]->tab_redirection->in[i]);
 			}
 	}
