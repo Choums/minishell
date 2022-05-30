@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/30 18:08:58 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/30 18:13:10 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@ char	*find_bin(t_list *lst_path, char *bin)
 		path = ft_strjoin(dir, bin);
 		free(dir);
 		if (access(path, F_OK) == 0)
+		{
+			printf("path");
 			return (path);
+		}
+
 		free(path);
 		lst_path = lst_path->next;
 	}
@@ -39,7 +43,7 @@ char	*find_bin(t_list *lst_path, char *bin)
  *	Child processus
  *	Trouve le path de la commande et l'execute
  *	Si 1er process, doit ouvrir le fichier en input et check
- *	
+ *
 */
 void	process(t_data *data, char *command, char **args, char **envp)
 {
@@ -57,5 +61,5 @@ void	process(t_data *data, char *command, char **args, char **envp)
 */
 // void	pipex(t_data *data, char **args)
 // {
-	
+
 // }

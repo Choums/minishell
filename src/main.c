@@ -6,12 +6,11 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/30 17:53:22 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/30 19:41:18 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 /*
  *	Creer les variables d'env.
  *	--------------------------
@@ -35,7 +34,7 @@
  *	Ajouter la pos au prompt
 */
 
-int	main(int ac, char **av, char **envp)
+int main(int ac, char **av, char **envp)
 {
 	char	*line;
 	t_data	data;
@@ -55,24 +54,16 @@ int	main(int ac, char **av, char **envp)
 	{
 		if (ft_strcmp(line, "x") == 0)
 			export(&data, NULL);
-		if (ft_strcmp(line, "test") == 0)
-			export(&data, "test");
-		if (ft_strcmp(line, "tdst") == 0)
-			export(&data, "tdst");
-		if (ft_strcmp(line, "a") == 0)
-			export(&data, "test=bonjourno");
-		if (ft_strcmp(line, "s") == 0)
-			export(&data, "ss=sad");
-		if (ft_strcmp(line, "ss") == 0)
-			export(&data, "ss=sadest");
+		if (ft_strcmp(line, "x") == 0)
+			export(&data, NULL);
 		if (ft_strcmp(line, "env") == 0)
 			print_env(data.h_env);
 		if (ft_strcmp(line, "var") == 0)
 			print_vars(data.h_var);
+		// ft_parsing(line);
 		free(line);
-		line = readline("minishell: ");
+		line = readline("minishell$ ");
 		if (line && *line)
 			add_history(line);
-		//lexing parsing sur line, besoin des var d'env
 	}
 }

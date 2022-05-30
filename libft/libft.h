@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:28:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/04/22 11:36:15 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/28 20:14:31 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int		ft_tolower(int c);
 char	*ft_strupper(char *str);
 char	*ft_strlower(char *str);
 char	*ft_strchr(const char *s, int c);
+char	*ft_strchr_after(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
 int		ft_strncmp(const char *s1, const char *s2, size_t len);
 int		ft_strcmp(const char *s1, const char *s2);
@@ -62,6 +63,8 @@ size_t	ft_putchar_fd(char c, int fd);
 size_t	ft_putstr_fd(char *s, int fd);
 size_t	ft_putendl_fd(char *s, int fd);
 size_t	ft_putnbr_fd(int n, int fd);
+char	*ft_straddc_first(char c);
+char	*ft_straddc(char *str, char c);
 
 t_list	*ft_lstnew(char *content);
 void	ft_lstadd_front(t_list **alst, t_list *new);

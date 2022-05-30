@@ -8,6 +8,9 @@ SRC			=	main.c\
 				get_next_line.c\
 				get_next_line_utils.c\
 				env.c\
+				redirection.c\
+				affichage.c\
+				command.c\
 				parsing.c\
 				builtin.c\
 				lst_management.c\

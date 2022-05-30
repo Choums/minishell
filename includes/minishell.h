@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/30 17:47:18 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/30 18:24:30 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,25 @@ typedef struct s_data
 	t_list	**h_var;
 	t_list	*path;
 }	t_data;
+
+
+typedef struct s_redirection
+{
+	char	**in;
+	int		token_in;
+	char	**out;
+	int		token_out;
+}	t_redirection;
+
+typedef struct s_command
+{
+	char			*all_pipe;
+	char			**tab_cmd;
+	char			**tab_token;
+	t_redirection	*tab_redirection;
+
+}	t_command;
+
 
 
 /*	Builtin */
@@ -103,5 +122,33 @@ void	export_err(char *command, int alloc);
 //     int        sa_flags;
 //     void     (*sa_restorer) (void);
 // };
+
+/*
+AFFICHAGE_C----------------------------------------------------------------------
+*/
+void	ft_affiche_t_command(t_command	*(*table_pipe));
+
+/*
+COMMAND_C------------------------------------------------------------------------
+*/
+char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd);
+void	copy_cmd(t_command *(*table_pipe), int	nb_pp, char *cmd);
+t_command	**ft_parse_cmd(t_command *(*table_pipe), int number_pipe);
+/*
+REDIRECTION_C--------------------------------------------------------------------
+*/
+int			ft_count_redirection(char *str, char c_redirect);
+t_command	**ft_redirection_init(t_command	*(*table_pipe), int number_pipe);
+void		ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c);
+void		ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c);
+
+/*
+PARSING_C------------------------------------------------------------------------
+*/
+int			ft_count_pipe(char *line);
+t_command	**ft_parse_pipe(t_command *(*table_pipe), char *line);
+void		ft_free_doutab(char **tab);
+int			ft_doubletab_len(char **tab);
+void		ft_parsing(char *line);
 
 #endif

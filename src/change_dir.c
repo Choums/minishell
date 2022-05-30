@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:41:51 by root              #+#    #+#             */
-/*   Updated: 2022/05/30 15:53:48 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/30 18:16:25 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ void	change_dir(t_list **h_env, char *path)
 	current = getcwd(NULL, 0);
 	if (!current)
 		perror(""); //Gestion d'erreur
-	update_elem(h_env, "OLDPWD=", current);
+	// update_elem(h_env, "OLDPWD=", current);
 	free(current);
 	if (chdir(path) < 0)
 		perror(""); //Gestion d'erreur
 	current = getcwd(NULL, 0);
 	if (!current)
 		perror(""); //Gestion d'erreur
-	update_elem(h_env, "PWD=", current);
+	// update_elem(h_env, "PWD=", current);
 	free(current);
 }
 
