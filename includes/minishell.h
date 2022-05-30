@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/30 18:24:30 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/30 20:30:42 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_data
 typedef struct s_redirection
 {
 	char	**in;
-	int		token_in;
+	char	**token_in;
 	char	**out;
 	int		token_out;
 }	t_redirection;
@@ -54,8 +54,6 @@ typedef struct s_command
 	t_redirection	*tab_redirection;
 
 }	t_command;
-
-
 
 /*	Builtin */
 void	get_env(t_data *data, char **envp);
@@ -149,6 +147,9 @@ int			ft_count_pipe(char *line);
 t_command	**ft_parse_pipe(t_command *(*table_pipe), char *line);
 void		ft_free_doutab(char **tab);
 int			ft_doubletab_len(char **tab);
-void		ft_parsing(char *line);
-
+void		ft_parsing(char *line, t_data *data;);
+/*
+TOKENIZER_C----------------------------------------------------------------------
+*/
+void	tokenizer_cmd(t_command **table_pipe, int nb_pp, t_data *data;);
 #endif

@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/05/30 20:18:17 by tdelauna          #+#    #+#              #
+#    Updated: 2022/05/30 20:27:20 by tdelauna         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME    	=	minishell
 
 SRCDIR		=	./src
@@ -19,7 +31,8 @@ SRC			=	main.c\
 				exec.c\
 				heredoc.c\
 				exporter.c\
-				errors.c
+				errors.c\
+				tokenizer.c\
 
 
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))

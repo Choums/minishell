@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/30 19:41:18 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/30 20:29:51 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
  *	readline -> affiche un prompt et attend une saisie (le \n n'est pas pris en compte).
  *	rl_clear_history ->	Supp. l'historique des saisies.
  *	rl_on_new_line -> Pour gérer le Ctrl + \ | 1
- *	rl_replace_line -> 
+ *	rl_replace_line ->
  *	rl_redisplay -> Pour gérer le Ctrl + \ | 2
  *	add_history -> ajoute la saisie a la liste de toutes les saisies.
  *	-----------------
@@ -38,7 +38,7 @@ int main(int ac, char **av, char **envp)
 {
 	char	*line;
 	t_data	data;
-	
+
 	(void)ac;
 	(void)av;
 	data.var = NULL;
@@ -60,7 +60,7 @@ int main(int ac, char **av, char **envp)
 			print_env(data.h_env);
 		if (ft_strcmp(line, "var") == 0)
 			print_vars(data.h_var);
-		// ft_parsing(line);
+		ft_parsing(line, &data);
 		free(line);
 		line = readline("minishell$ ");
 		if (line && *line)

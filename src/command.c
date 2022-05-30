@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:54:45 by aptive            #+#    #+#             */
-/*   Updated: 2022/05/28 20:48:18 by aptive           ###   ########.fr       */
+/*   Updated: 2022/05/30 20:03:56 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd)
 	return (tmp_cmd);
 }
 
-void	count_cmd(t_command	*(*table_pipe), int	nb_pp, char *cut_cmd)
+void	count_cmd(t_command	*(*table_pipe), int nb_pp, char *cut_cmd)
 {
 	int	i;
 	int	count_arg;
@@ -69,7 +69,7 @@ void	count_cmd(t_command	*(*table_pipe), int	nb_pp, char *cut_cmd)
 	table_pipe[nb_pp]->tab_cmd = ft_calloc(count_arg + 1, sizeof(char *));
 }
 
-void	copy_cmd(t_command	*(*table_pipe), int	nb_pp, char *cmd)
+void	copy_cmd(t_command	*(*table_pipe), int nb_pp, char *cmd)
 {
 	int		i;
 	int		count_arg;
@@ -98,7 +98,7 @@ void	copy_cmd(t_command	*(*table_pipe), int	nb_pp, char *cmd)
 	}
 }
 
-t_command	**ft_parse_cmd(t_command	*(*table_pipe), int	number_pipe)
+t_command	**ft_parse_cmd(t_command *(*table_pipe), int number_pipe)
 {
 	char	*cut_cmd;
 	char	**tab_command;
