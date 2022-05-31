@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:54:45 by aptive            #+#    #+#             */
-/*   Updated: 2022/05/30 20:03:56 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/05/31 01:47:46 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd)
 	int		i;
 
 	i = 0;
-	while (i < ft_strlen(tmp))
+	while (i < (int)ft_strlen(tmp))
 	{
 		if (tmp[i] == '<' || tmp[i] == '>')
 		{
@@ -77,7 +77,7 @@ void	copy_cmd(t_command	*(*table_pipe), int nb_pp, char *cmd)
 
 	i = 0;
 	count_arg = -1;
-	while (i < ft_strlen(cmd))
+	while (i < (int)ft_strlen(cmd))
 	{
 		cut = 0;
 		if (ft_isalnum(cmd[i]) || cmd[i] == '-' || cmd[i] == '.')
@@ -101,11 +101,11 @@ void	copy_cmd(t_command	*(*table_pipe), int nb_pp, char *cmd)
 t_command	**ft_parse_cmd(t_command *(*table_pipe), int number_pipe)
 {
 	char	*cut_cmd;
-	char	**tab_command;
 
 	cut_cmd = NULL;
 	cut_cmd = ft_cup_all_cmd(table_pipe[number_pipe]->all_pipe, cut_cmd);
 	count_cmd(table_pipe, number_pipe, cut_cmd);
 	copy_cmd(table_pipe, number_pipe, cut_cmd);
+	free(cut_cmd);
 	return (table_pipe);
 }

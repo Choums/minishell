@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/30 20:30:42 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/05/31 03:06:38 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_redirection
 	char	**in;
 	char	**token_in;
 	char	**out;
-	int		token_out;
+	char	**token_out;
 }	t_redirection;
 
 typedef struct s_command
@@ -145,11 +145,20 @@ PARSING_C-----------------------------------------------------------------------
 */
 int			ft_count_pipe(char *line);
 t_command	**ft_parse_pipe(t_command *(*table_pipe), char *line);
-void		ft_free_doutab(char **tab);
 int			ft_doubletab_len(char **tab);
 void		ft_parsing(char *line, t_data *data;);
 /*
 TOKENIZER_C----------------------------------------------------------------------
 */
+int		check_builtin(char *str);
+int		struc_len(t_command **table_pipe);
 void	tokenizer_cmd(t_command **table_pipe, int nb_pp, t_data *data;);
+void	tokenizer_redir_in(t_command **table_pipe, int np);
+void	tokenizer_redir_out(t_command **table_pipe, int np);
+
+/*
+FREE-----------------------------------------------------------------------------
+*/
+void		ft_free_doutab(char **tab);
+void		free_struc(t_command **table_pipe);
 #endif
