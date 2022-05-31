@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exporter.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:14:47 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/30 20:13:25 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/31 16:46:42 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	check_var(char *var)
 }
 
 /*
- *	Concatene la valeur donnée avec la valeur precedente
+ *	Concatene la valeur donnée avec la valeur précédente
 */
 void	cat_var(t_data *data, char *var)
 {

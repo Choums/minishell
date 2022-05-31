@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/30 18:13:10 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/31 19:16:44 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ char	*find_bin(t_list *lst_path, char *bin)
  *	Si 1er process, doit ouvrir le fichier en input et check
  *
 */
-void	process(t_data *data, char *command, char **args, char **envp)
+void	process(t_data *data, char *command, char **args, char **env)
 {
 	char	*path;
 
 	path = find_bin(data->path, command);
-	if (execve(path, args, envp) > 0)
+	if (execve(path, args, env) > 0)
 		return ;
 }
 

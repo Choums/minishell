@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/30 20:11:28 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/31 19:16:51 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	goto_oldpwd(t_list **h_env);
 
 /*	Exec */
 char	*find_bin(t_list *lst_path, char *bin);
-void	process(t_data *data, char *command, char **args, char **envp);
+void	process(t_data *data, char *command, char **args, char **env);
 void	heredoc(t_data *data, char **args);
 void	display_here(void);
 char	*get_lim(char **args);

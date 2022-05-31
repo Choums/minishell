@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/30 20:00:15 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/05/31 19:23:49 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,7 @@ int main(int ac, char **av, char **envp)
 		add_history(line);
 	while (is_exit(&data, line))
 	{
-		if (ft_strcmp(line, "x") == 0)
-			export(&data, NULL);
-		if (ft_strcmp(line, "+") == 0)
-			export(&data, "test+=s");
-		if (ft_strcmp(line, "t") == 0)
-			export(&data, "+");
-		if (ft_strcmp(line, "env") == 0)
-			print_env(data.h_env);
-		if (ft_strcmp(line, "var") == 0)
-			print_vars(data.h_var);
-		// ft_parsing(line);
+		ft_parsing(line);
 		free(line);
 		line = readline("minishell$ ");
 		if (line && *line)
