@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/28 21:15:55 by aptive           ###   ########.fr       */
+/*   Updated: 2022/05/31 20:42:53 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_command	**ft_parse_pipe(t_command	*(*table_pipe), char *line)
 // < infile1 < infile2 cmd | < infile3 <infile4 cmd2
 // < infile1 < infile2 cmd | < infile3 <infile4 cmd2 | <infile5 cmd3
 //< infile <infile2 cmd | <infile3 cmd2 | <infile4<<infile5 cmd3
-void	ft_parsing(char *line)
+void	ft_parsing(t_data *data, char *line)
 {
 	t_command	*(*table_pipe);
 	int			i;
@@ -107,4 +107,5 @@ void	ft_parsing(char *line)
 		table_pipe = ft_parse_cmd(table_pipe, i);
 	}
 	ft_affiche_t_command(table_pipe);
+	mom_process(data, table_pipe[0]);
 }

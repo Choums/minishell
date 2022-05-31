@@ -19,7 +19,8 @@ SRC			=	main.c\
 				exec.c\
 				heredoc.c\
 				exporter.c\
-				errors.c
+				errors.c\
+				redir.c
 
 
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))

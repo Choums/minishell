@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/31 19:16:51 by root             ###   ########.fr       */
+/*   Updated: 2022/05/31 20:42:46 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,15 @@ void	goto_oldpwd(t_list **h_env);
 
 /*	Exec */
 char	*find_bin(t_list *lst_path, char *bin);
-void	process(t_data *data, char *command, char **args, char **env);
-void	heredoc(t_data *data, char **args);
+void	mom_process(t_data *data, t_command *cmd);
+void	process(t_data *data, t_command *cmd);
 void	display_here(void);
 char	*get_lim(char **args);
+void	redir(t_redirection *tab);
+void	out_redir(char *file);
+void	in_redir(char *file);
+void	append_mode(char *file);
+void	heredoc(t_data *data, char **args);
 
 /*	List */
 void	set_var(t_data *data, char *content);
@@ -150,6 +155,6 @@ int			ft_count_pipe(char *line);
 t_command	**ft_parse_pipe(t_command *(*table_pipe), char *line);
 void		ft_free_doutab(char **tab);
 int			ft_doubletab_len(char **tab);
-void		ft_parsing(char *line);
+void		ft_parsing(t_data *data, char *line);
 
 #endif

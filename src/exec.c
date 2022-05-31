@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/31 19:16:44 by root             ###   ########.fr       */
+/*   Updated: 2022/05/31 21:09:27 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,7 @@ char	*find_bin(t_list *lst_path, char *bin)
 		path = ft_strjoin(dir, bin);
 		free(dir);
 		if (access(path, F_OK) == 0)
-		{
-			printf("path");
 			return (path);
-		}
-
 		free(path);
 		lst_path = lst_path->next;
 	}
@@ -45,21 +41,41 @@ char	*find_bin(t_list *lst_path, char *bin)
  *	Si 1er process, doit ouvrir le fichier en input et check
  *
 */
-void	process(t_data *data, char *command, char **args, char **env)
+void	process(t_data *data, t_command *cmd)
 {
 	char	*path;
+	char	**env;
 
-	path = find_bin(data->path, command);
-	if (execve(path, args, env) > 0)
+	env = lst_dup(data->h_env);
+	redir(cmd->tab_redirection);
+	path = find_bin(data->path, cmd->tab_cmd[0]);
+	if (execve(path, cmd->tab_cmd, env) > 0)
 		return ;
 }
-
 
 /*
  *	Cree des processus enfant pour chaque commandes ainsi que les pipes
  *	Les process s'executent en meme temps
+ *	-------------------------------------
+ *	Ordre des process
+ *	2 a la fois
+ *	echo salut > outfile | wc -l >> outfile | cat | ls
+ *	echo et wc on ecrit dans le outfile
+ *	PAR CONTRE ls devance le cat et affiche les fichers 
+ *		dont outfile avec les ecritures
+ *	-------------------------------------
+ *	double redir
+ *	echo salut > infile > outfile
+ *	les 2 fichiers sont crees
+ *	salut n'est ecrit que dans outfile
+ *	ouverture et redir de gauche a droite
 */
-// void	pipex(t_data *data, char **args)
-// {
+void	mom_process(t_data *data, t_command *cmd)
+{
+	pid_t	child;
 
-// }
+	child = fork();
+	if (child == 0)
+		process(data, cmd);
+	waitpid(child, NULL, 0);
+}
