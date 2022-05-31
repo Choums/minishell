@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 19:46:05 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/05/31 02:53:43 by aptive           ###   ########.fr       */
+/*   Updated: 2022/05/31 18:47:36 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,25 +65,25 @@ void	tokenizer_redir_in(t_command **t_p, int np)
 	int	i;
 	int	j;
 
-	if (t_p[np]->tab_redirection)
+	if (t_p[np]->tab_redir)
 	{
-		i = ft_doubletab_len(t_p[np]->tab_redirection->in);
-		t_p[np]->tab_redirection->token_in = ft_calloc(i + 1, sizeof(char *));
-		if (!t_p[np]->tab_redirection->token_in)
+		i = ft_doubletab_len(t_p[np]->tab_redir->in);
+		t_p[np]->tab_redir->token_in = ft_calloc(i + 1, sizeof(char *));
+		if (!t_p[np]->tab_redir->token_in)
 			return ;
 		i = 0;
 		j = 0;
-		while (i < ft_doubletab_len(t_p[np]->tab_redirection->in))
+		while (i < ft_doubletab_len(t_p[np]->tab_redir->in))
 		{
-			t_p[np]->tab_redirection->token_in[i] = ft_calloc(2, sizeof(char));
-			if (t_p[np]->all_pipe[j] == '<'
-				&& t_p[np]->all_pipe[j + 1] == '<')
+			if (t_p[np]->all_pipe[j] == '<')
+				t_p[np]->tab_redir->token_in[i] = ft_calloc(2, sizeof(char));
+			if (t_p[np]->all_pipe[j] == '<' && t_p[np]->all_pipe[j + 1] == '<')
 			{
-				t_p[np]->tab_redirection->token_in[i++][0] = '2';
+				t_p[np]->tab_redir->token_in[i++][0] = '2';
 				j++;
 			}
 			else if (t_p[np]->all_pipe[j] == '<')
-				t_p[np]->tab_redirection->token_in[i++][0] = '1';
+				t_p[np]->tab_redir->token_in[i++][0] = '1';
 			j++;
 		}
 	}
@@ -94,25 +94,25 @@ void	tokenizer_redir_out(t_command **t_p, int np)
 	int	i;
 	int	j;
 
-	if (t_p[np]->tab_redirection)
+	if (t_p[np]->tab_redir)
 	{
-		i = ft_doubletab_len(t_p[np]->tab_redirection->out);
-		t_p[np]->tab_redirection->token_out = ft_calloc(i + 1, sizeof(char *));
-		if (!t_p[np]->tab_redirection->token_out)
+		i = ft_doubletab_len(t_p[np]->tab_redir->out);
+		t_p[np]->tab_redir->token_out = ft_calloc(i + 1, sizeof(char *));
+		if (!t_p[np]->tab_redir->token_out)
 			return ;
 		i = 0;
 		j = 0;
-		while (i < ft_doubletab_len(t_p[np]->tab_redirection->out))
+		while (i < ft_doubletab_len(t_p[np]->tab_redir->out))
 		{
-			t_p[np]->tab_redirection->token_out[i] = ft_calloc(2, sizeof(char));
-			if (t_p[np]->all_pipe[j] == '>'
-				&& t_p[np]->all_pipe[j + 1] == '>')
+			if (t_p[np]->all_pipe[j] == '>')
+				t_p[np]->tab_redir->token_out[i] = ft_calloc(2, sizeof(char));
+			if (t_p[np]->all_pipe[j] == '>' && t_p[np]->all_pipe[j + 1] == '>')
 			{
-				t_p[np]->tab_redirection->token_out[i++][0] = '2';
+				t_p[np]->tab_redir->token_out[i++][0] = '2';
 				j++;
 			}
 			else if (t_p[np]->all_pipe[j] == '>')
-				t_p[np]->tab_redirection->token_out[i++][0] = '1';
+				t_p[np]->tab_redir->token_out[i++][0] = '1';
 			j++;
 		}
 	}

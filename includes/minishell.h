@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/31 03:06:38 by aptive           ###   ########.fr       */
+/*   Updated: 2022/05/31 18:05:03 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_command
 	char			*all_pipe;
 	char			**tab_cmd;
 	char			**tab_token;
-	t_redirection	*tab_redirection;
+	t_redirection	*tab_redir;
 
 }	t_command;
 
@@ -146,13 +146,13 @@ PARSING_C-----------------------------------------------------------------------
 int			ft_count_pipe(char *line);
 t_command	**ft_parse_pipe(t_command *(*table_pipe), char *line);
 int			ft_doubletab_len(char **tab);
-void		ft_parsing(char *line, t_data *data;);
+void		ft_parsing(char *line, t_data *data);
 /*
 TOKENIZER_C----------------------------------------------------------------------
 */
 int		check_builtin(char *str);
 int		struc_len(t_command **table_pipe);
-void	tokenizer_cmd(t_command **table_pipe, int nb_pp, t_data *data;);
+void	tokenizer_cmd(t_command **table_pipe, int nb_pp, t_data *data);
 void	tokenizer_redir_in(t_command **table_pipe, int np);
 void	tokenizer_redir_out(t_command **table_pipe, int np);
 

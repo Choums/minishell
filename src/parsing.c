@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/31 03:17:08 by aptive           ###   ########.fr       */
+/*   Updated: 2022/05/31 18:05:41 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 Les tab_cmdes séparées par un ';' sont exécutées successivement,
 l'interpréteur attend que chaque tab_cmde se termine avant de lancer la suivante
 */
-
 int	ft_doubletab_len(char **tab)
 {
 	int	i;
@@ -71,8 +70,7 @@ t_command	**ft_parse_pipe(t_command	*(*table_pipe), char *line)
 	i = -1;
 	while (tmp[++i] && table_pipe[i]->all_pipe)
 		table_pipe[i]->all_pipe = tmp[i];
-	// free(table_pipe[i]->all_pipe);
-
+	free(tmp);
 	return (table_pipe);
 }
 
@@ -89,21 +87,20 @@ void	ft_parsing(char *line, t_data	*data)
 	table_pipe = NULL;
 	if (!ft_strlen(line))
 		return ;
-	table_pipe = ft_parse_pipe(table_pipe, line);//leak
+	table_pipe = ft_parse_pipe(table_pipe, line);
 	i = -1;
 	while (table_pipe[++i])
 	{
-		if(ft_strchr(table_pipe[i]->all_pipe, '<') || ft_strchr(table_pipe[i]->all_pipe, '>'))
+		if (ft_strchr(table_pipe[i]->all_pipe, '<')
+			|| ft_strchr(table_pipe[i]->all_pipe, '>'))
 		{
-			ft_parse_redir_in(table_pipe, i, '<'); // leak
+			ft_parse_redir_in(table_pipe, i, '<');
 			ft_parse_redir_out(table_pipe, i, '>');
 			tokenizer_redir_in(table_pipe, i);
 			tokenizer_redir_out(table_pipe, i);
 		}
 		else
-			table_pipe[i]->tab_redirection = NULL;
-
-
+			table_pipe[i]->tab_redir = NULL;
 		table_pipe = ft_parse_cmd(table_pipe, i);
 		tokenizer_cmd(table_pipe, i, data);
 	}
