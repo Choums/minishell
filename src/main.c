@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/31 20:25:52 by root             ###   ########.fr       */
+/*   Updated: 2022/06/01 21:09:17 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 int main(int ac, char **av, char **envp)
 {
 	char	*line;
-	t_data	data;
+	// t_data	data;
 	
 	(void)ac;
 	(void)av;

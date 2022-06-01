@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/31 20:42:46 by root             ###   ########.fr       */
+/*   Updated: 2022/06/01 21:09:20 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_data
 	t_list	*path;
 }	t_data;
 
+t_data data;
 
 typedef struct s_redirection
 {
@@ -88,7 +89,7 @@ void	goto_oldpwd(t_list **h_env);
 
 /*	Exec */
 char	*find_bin(t_list *lst_path, char *bin);
-void	mom_process(t_data *data, t_command *cmd);
+void	mother_board(t_data *data, t_command *cmd);
 void	process(t_data *data, t_command *cmd);
 void	display_here(void);
 char	*get_lim(char **args);

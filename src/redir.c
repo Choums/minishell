@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/31 21:00:43 by root             ###   ########.fr       */
+/*   Updated: 2022/06/01 21:12:54 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,20 @@ void	redir(t_redirection *tab)
 void	out_redir(char *file)
 {
 	int		out_fd;
+	int		alloc;
+	char	*var;
 
+	alloc = 0;
+	if (ft_strchr(file, '$'))
+	{
+		var = which_dollar(&data, file);
+		alloc = 1;
+		if (var == NULL)
+		{
+			free(var);
+			ft_err("ambiguous redirect");
+		}
+	}
 	printf("start outredir\nfile: %s: ", file);
 	out_fd  = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	printf("%d\n", out_fd);

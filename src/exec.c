@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/31 21:09:27 by root             ###   ########.fr       */
+/*   Updated: 2022/06/01 20:49:52 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,42 @@ void	process(t_data *data, t_command *cmd)
  *	les 2 fichiers sont crees
  *	salut n'est ecrit que dans outfile
  *	ouverture et redir de gauche a droite
+ *	-------------------------------------
+ *	builtin
+ *	cd ~ | ls (dans un dossier autre que le HOME)
+ *	le 1er process se rend au HOME mais ls affiche le dossier actuel
+ *	echo salut
+ *	la commande est executé via sa fontion dans le process parent
+ *	echo salut | wc
+ *	les 2 cmd sont fork, en cas de pipe les builtins ont leur propre process
 */
-void	mom_process(t_data *data, t_command *cmd)
+void	mother_board(t_data *data, t_command *cmd)
 {
 	pid_t	child;
 
+	
 	child = fork();
 	if (child == 0)
 		process(data, cmd);
 	waitpid(child, NULL, 0);
+}
+
+int	is_builtin(t_data *data, t_command *cmd)
+{
+	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
+		echo(cmd->tab_cmd);
+	else if (ft_strcmp(cmd->tab_cmd[0], "cd") == 0)
+		change_dir(data->h_env, cmd->tab_cmd);
+	else if (ft_strcmp(cmd->tab_cmd[0], "pwd") == 0)
+		pwd();
+	else if (ft_strcmp(cmd->tab_cmd[0], "export") == 0)
+		export(data, cmd->tab_cmd);
+	else if (ft_strcmp(cmd->tab_cmd[0], "unset") == 0)
+		unset(data, cmd->tab_cmd);
+	else if (ft_strcmp(cmd->tab_cmd[0], "env") == 0)
+		print_env(data->h_env);
+	else if (ft_strcmp(cmd->tab_cmd[0], "exit") == 0)
+		is_exit(data, cmd->tab_cmd[0]);
+	else
+		return (0);
 }
