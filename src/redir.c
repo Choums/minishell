@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/02 17:30:37 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/02 18:50:53 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ void	redir(t_data *data, t_redirection *tab)
 		// printf("token: %d\n", tab->token_out);
 		if (tab->token_out[i][i] == '1')
 		{
-			printf("inout\n");
+			// printf("inout\n");
 			out_redir(data, tab->out[i]);
-			printf("out\n");
+			// printf("out\n");
 		}
 		else
 			append_mode(data, tab->out[i]);
@@ -101,19 +101,13 @@ void	out_redir(t_data *data, char *file)
 			ft_err("ambiguous redirect");
 		}
 	}
-	printf("start outredir\nfile: %s: ", file);
 	out_fd  = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	printf("%d\n", out_fd);
+	// printf("%d\n", out_fd);
 	if (out_fd < 0)
 		ft_err("Open");
-	printf("start dup\n");
 	if (dup2(out_fd, STDOUT_FILENO) < 0)
-	{
-		printf("echec dup ?\n");
 		ft_err("Dup");
-	}
 	close(out_fd);
-	printf("end outredir\n");
 	if (alloc)
 		free(var);
 }
@@ -136,10 +130,20 @@ void	in_redir(t_data *data, char *file)
 		}
 	}
 	in_fd = open(file, O_RDONLY);
-	if (in_fd < 0)
-		ft_err("Open");
+	// if (in_fd < 0)
+	// 	ft_err("Open");
 	if (dup2(in_fd, STDIN_FILENO) < 0)
-		ft_err("Dup");
+		// ft_err("Dup");
 	if (alloc)
 		free(var);
+}
+
+/*
+ *	Definis si file est un fichier ou un directory et recup son fd
+ *	-------------------------------------
+ *	Appel de stat()
+*/
+void	opening_mode(char *pathname)
+{
+	
 }

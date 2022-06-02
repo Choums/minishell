@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/06/02 14:44:40 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/02 18:04:25 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,13 @@ char	*which_dollar(t_data *data, char *command)
 			return (0); //Signaux a faire
 		var = ft_substr(command, pos + 1, ft_strlen(command) - pos + 1);
 		// printf("var: %s\n", var);
-		value = get_var(data, var);
+		if (get_elem(data->h_env, var) || get_elem(data->h_var, var))
+			value = get_var(data, var);
+		else
+		{
+			free(var);
+			return (NULL);
+		}
 		// printf("get_var: %s\n", value);
 		free(var);
 		new = dollar_substitute(command, value, pos);

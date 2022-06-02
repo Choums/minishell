@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/02 17:23:53 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/02 17:44:37 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	process(t_data *data, t_command *cmd)
 	char	**env;
 
 	env = lst_dup(data->h_env);
-	redir(data, cmd->tab_redir);
+	if (cmd->tab_redir)
+		redir(data, cmd->tab_redir);
 	path = find_bin(data->path, cmd->tab_cmd[0]);
 	if (execve(path, cmd->tab_cmd, env) > 0)
 		return ;
