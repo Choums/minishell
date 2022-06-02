@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/02 18:50:53 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/02 19:05:35 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,11 @@ void	in_redir(t_data *data, char *file)
 			ft_err("ambiguous redirect");
 		}
 	}
-	in_fd = open(file, O_RDONLY);
+	printf("type: %d\n", opening_mode(file));
+	if (opening_mode(file))
+		in_fd = open(file, O_RDONLY);
+	else
+		in_fd = opendir(file);
 	// if (in_fd < 0)
 	// 	ft_err("Open");
 	if (dup2(in_fd, STDIN_FILENO) < 0)
@@ -140,10 +144,15 @@ void	in_redir(t_data *data, char *file)
 
 /*
  *	Definis si file est un fichier ou un directory et recup son fd
+ *	Return	=>	0 directory
+ *				1 file
  *	-------------------------------------
  *	Appel de stat()
+ *
 */
-void	opening_mode(char *pathname)
+int	opening_mode(char *pathname)
 {
-	
+	struct stat path_stat;
+	stat(pathname, &path_stat);
+	return (S_ISREG(path_stat.st_mode));
 }

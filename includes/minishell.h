@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/02 17:31:15 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/02 18:57:18 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <signal.h>
 # include <dirent.h>
 # include <sys/ioctl.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/chardefs.h>
 # include "../libft/libft.h"
@@ -94,7 +96,7 @@ void	out_redir(t_data *data, char *file);
 void	in_redir(t_data *data, char *file);
 void	append_mode(t_data *data, char *file);
 void	heredoc(t_data *data, char **args);
-
+int		opening_mode(char *pathname);
 /*	List */
 void	set_var(t_data *data, char *content);
 void	supp_elem(t_list **head, char *var);
