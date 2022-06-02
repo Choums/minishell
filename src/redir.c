@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/01 21:12:54 by root             ###   ########.fr       */
+/*   Updated: 2022/06/02 14:57:43 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,16 @@ void	out_redir(char *file)
 	char	*var;
 
 	alloc = 0;
-	if (ft_strchr(file, '$'))
-	{
-		var = which_dollar(&data, file);
-		alloc = 1;
-		if (var == NULL)
-		{
-			free(var);
-			ft_err("ambiguous redirect");
-		}
-	}
+	// if (ft_strchr(file, '$'))
+	// {
+	// 	var = which_dollar(&data, file);
+	// 	alloc = 1;
+	// 	if (var == NULL)
+	// 	{
+	// 		free(var);
+	// 		ft_err("ambiguous redirect");
+	// 	}
+	// }
 	printf("start outredir\nfile: %s: ", file);
 	out_fd  = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	printf("%d\n", out_fd);
@@ -100,6 +100,8 @@ void	out_redir(char *file)
 	}
 	close(out_fd);
 	printf("end outredir\n");
+	if (alloc)
+		free(var);
 }
 
 void	in_redir(char *file)

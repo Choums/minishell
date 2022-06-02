@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exporter.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:14:47 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/31 16:46:42 by root             ###   ########.fr       */
+/*   Updated: 2022/06/02 14:54:03 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,28 @@ int	check_var(char *var)
 
 /*
  *	Concatene la valeur donnée avec la valeur précédente
+ *	name+=value_to_add
+ *	recup la var via son nom
+ *	ajoute la value a la precedente
+ *	-------------------------------------
+ *	taille var et len sont egaux	-> Pas de value => si la var n'existe pas
+ 														elle est init avec value NULL
+														 (diff d'une var sans value)
+ *	export test+=	=>	test=
+ *	export ss		=>	ss
+ *	-------------------------------------
+ *	
 */
 void	cat_var(t_data *data, char *var)
 {
-	
+	t_list	*tmp;
+	size_t	len;
+
+	len = name_len(var);
+	if (ft_strlen(var) == len)
+	{
+		add_var(data, NULL);
+	}
 }
 
 /*

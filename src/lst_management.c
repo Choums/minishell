@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/05/30 18:01:18 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/02 14:44:40 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,16 +127,16 @@ void	update_elem(t_data *data, char *var)
  *	Cherche un element dans la list donnée et le renvoie
  *	NULL si l'elem n'existe pas
 */
-char	*get_elem(t_list **head, char *content)
+char	*get_elem(t_list **head, char *var)
 {
 	t_list	*tmp;
 	size_t	len;
 
-	len = name_len(content);
+	len = name_len(var);
 	tmp = (*head);
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->content, content, len) == 0)
+		if (ft_strncmp(tmp->content, var, len) == 0)
 			return (tmp->content);
 		tmp = tmp->next;
 	}

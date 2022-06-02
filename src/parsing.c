@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/31 20:42:53 by root             ###   ########.fr       */
+/*   Updated: 2022/06/02 14:58:36 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,5 @@ void	ft_parsing(t_data *data, char *line)
 		table_pipe = ft_parse_cmd(table_pipe, i);
 	}
 	ft_affiche_t_command(table_pipe);
-	mom_process(data, table_pipe[0]);
+	mother_board(data, table_pipe[0]);
 }

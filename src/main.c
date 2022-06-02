@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/01 21:09:17 by root             ###   ########.fr       */
+/*   Updated: 2022/06/02 15:03:01 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,24 @@
 int main(int ac, char **av, char **envp)
 {
 	char	*line;
-	// t_data	data;
+	t_data	data;
 	
 	(void)ac;
 	(void)av;
 	data.var = NULL;
 	data.path = NULL;
 	get_env(&data, envp);
-	set_var(&data, "test=Hola");
-	set_var(&data, "tdst=Hola");
-	set_var(&data, "Hola");
+	// set_var(&data, "test=Hola");
+	// set_var(&data, "tdst=Hola");
+	// set_var(&data, "Hola");
 	line = readline("minishell$ ");
 	if (line && *line)
 		add_history(line);
 	while (is_exit(&data, line))
 	{
-		ft_parsing(&data, line);
+		if (ft_strcmp(line, "test"))
+			export(&data, NULL);
+		// ft_parsing(&data, line);
 		free(line);
 		line = readline("minishell$ ");
 		if (line && *line)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/01 21:09:20 by root             ###   ########.fr       */
+/*   Updated: 2022/06/02 14:56:54 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ typedef struct s_data
 	t_list	**h_var;
 	t_list	*path;
 }	t_data;
-
-t_data data;
 
 typedef struct s_redirection
 {
@@ -104,7 +102,7 @@ void	set_var(t_data *data, char *content);
 void	supp_elem(t_list **head, char *var);
 void	supp_fst_elem(t_list **head, t_list *tmp);
 void	update_elem(t_data *data, char *var);
-char	*get_elem(t_list **head, char *content);
+char	*get_elem(t_list **head, char *var);
 char	*get_var(t_data *data, char *var);
 char	*which_dollar(t_data *data, char *command);
 size_t	get_dollar_pos(char *str);
