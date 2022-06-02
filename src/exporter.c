@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:14:47 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/02 15:49:45 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/02 15:59:51 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,9 @@ void	cat_var(t_data *data, char *var)
 		add_var(data, NULL);
 	}
 	else if (ft_strlen(var) - 1 > len)
+	{
+		
+	}
 }
 
 /*

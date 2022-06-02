@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/02 14:57:43 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/02 16:08:39 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	redir(t_redirection *tab)
 		i++;
 	}
 	i = 0;
-	while (/*tab->out[i]*/0)
+	while (tab->out[i])
 	{
 		tab->token_out = 1;
 		printf("token: %d\n", tab->token_out);
@@ -77,16 +77,16 @@ void	out_redir(char *file)
 	char	*var;
 
 	alloc = 0;
-	// if (ft_strchr(file, '$'))
-	// {
-	// 	var = which_dollar(&data, file);
-	// 	alloc = 1;
-	// 	if (var == NULL)
-	// 	{
-	// 		free(var);
-	// 		ft_err("ambiguous redirect");
-	// 	}
-	// }
+	if (ft_strchr(file, '$'))
+	{
+		var = which_dollar(&data, file);
+		alloc = 1;
+		if (var == NULL)
+		{
+			free(var);
+			ft_err("ambiguous redirect");
+		}
+	}
 	printf("start outredir\nfile: %s: ", file);
 	out_fd  = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	printf("%d\n", out_fd);

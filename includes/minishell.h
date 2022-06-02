@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/02 14:56:54 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/02 16:07:46 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef struct s_data
 	t_list	**h_var;
 	t_list	*path;
 }	t_data;
+
+t_data *data;
 
 typedef struct s_redirection
 {
