@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:14:47 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/02 14:54:03 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/02 15:49:45 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,9 @@ int	check_var(char *var)
  *	export test+=	=>	test=
  *	export ss		=>	ss
  *	-------------------------------------
- *	
+ *	test=salut
+ *	export test+=_hola	=>	test=salut_hola
+ *	la value donné se concatene a la precedente
 */
 void	cat_var(t_data *data, char *var)
 {
@@ -108,10 +110,13 @@ void	cat_var(t_data *data, char *var)
 	size_t	len;
 
 	len = name_len(var);
-	if (ft_strlen(var) == len)
+	printf("%c\n", var[len]);
+	if (var[len] == '=' && ft_strlen(var) - 1 == len)
 	{
+		printf("in\n");
 		add_var(data, NULL);
 	}
+	else if (ft_strlen(var) - 1 > len)
 }
 
 /*
