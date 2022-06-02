@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:08:18 by aptive            #+#    #+#             */
-/*   Updated: 2022/05/28 21:15:01 by aptive           ###   ########.fr       */
+/*   Updated: 2022/05/31 19:13:41 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,22 @@ t_command	**ft_redirection_init(t_command	*(*table_pipe), int number_pipe)
 
 	nb_pipe_in = ft_count_redirection(table_pipe[number_pipe]->all_pipe, '<');
 	nb_pipe_out = ft_count_redirection(table_pipe[number_pipe]->all_pipe, '>');
-	table_pipe[number_pipe]->tab_redirection = malloc(sizeof(t_redirection));
+	table_pipe[number_pipe]->tab_redir = malloc(sizeof(t_redirection));
 	if (!nb_pipe_in && !nb_pipe_out)
 	{
-		table_pipe[number_pipe]->tab_redirection = NULL;
+		table_pipe[number_pipe]->tab_redir = NULL;
 		return (table_pipe);
 	}
-	table_pipe[number_pipe]->tab_redirection->in
+	table_pipe[number_pipe]->tab_redir->in
 		= malloc(sizeof(char **) * (nb_pipe_in + 1));
-	if (!table_pipe[number_pipe]->tab_redirection->in)
+	if (!table_pipe[number_pipe]->tab_redir->in)
 		return (NULL);
-	table_pipe[number_pipe]->tab_redirection->in[nb_pipe_in] = NULL;
-	table_pipe[number_pipe]->tab_redirection->out
+	table_pipe[number_pipe]->tab_redir->in[nb_pipe_in] = NULL;
+	table_pipe[number_pipe]->tab_redir->out
 		= malloc(sizeof(char **) * (nb_pipe_out + 1));
-	if (!table_pipe[number_pipe]->tab_redirection->out)
+	if (!table_pipe[number_pipe]->tab_redir->out)
 		return (NULL);
-	table_pipe[number_pipe]->tab_redirection->out[nb_pipe_out] = NULL;
+	table_pipe[number_pipe]->tab_redir->out[nb_pipe_out] = NULL;
 	return (table_pipe);
 }
 
@@ -79,7 +79,7 @@ void	ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c)
 			dex++;
 		while (tmp[dex + cut] != ' ' && tmp[dex + cut] != c && tmp[dex + cut])
 			cut++;
-		table_pp[nb_pp]->tab_redirection->in[i] = ft_substr(tmp, dex, cut);
+		table_pp[nb_pp]->tab_redir->in[i] = ft_substr(tmp, dex, cut);
 		tmp = tmp + dex;
 		nb_redirect--;
 		i++;
@@ -106,7 +106,7 @@ void	ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c)
 			dex++;
 		while ((tmp[dex + cut] != ' ' && tmp[dex + cut] != c) && tmp[dex + cut])
 			cut++;
-		table_pp[nb_pp]->tab_redirection->out[i] = ft_substr(tmp, dex, cut);
+		table_pp[nb_pp]->tab_redir->out[i] = ft_substr(tmp, dex, cut);
 		tmp = tmp + dex;
 		nb_redirect--;
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/01 20:49:52 by root             ###   ########.fr       */
+/*   Updated: 2022/06/02 17:23:53 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	process(t_data *data, t_command *cmd)
 	char	**env;
 
 	env = lst_dup(data->h_env);
-	redir(cmd->tab_redirection);
+	redir(data, cmd->tab_redir);
 	path = find_bin(data->path, cmd->tab_cmd[0]);
 	if (execve(path, cmd->tab_cmd, env) > 0)
 		return ;
@@ -89,22 +89,22 @@ void	mother_board(t_data *data, t_command *cmd)
 	waitpid(child, NULL, 0);
 }
 
-int	is_builtin(t_data *data, t_command *cmd)
-{
-	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
-		echo(cmd->tab_cmd);
-	else if (ft_strcmp(cmd->tab_cmd[0], "cd") == 0)
-		change_dir(data->h_env, cmd->tab_cmd);
-	else if (ft_strcmp(cmd->tab_cmd[0], "pwd") == 0)
-		pwd();
-	else if (ft_strcmp(cmd->tab_cmd[0], "export") == 0)
-		export(data, cmd->tab_cmd);
-	else if (ft_strcmp(cmd->tab_cmd[0], "unset") == 0)
-		unset(data, cmd->tab_cmd);
-	else if (ft_strcmp(cmd->tab_cmd[0], "env") == 0)
-		print_env(data->h_env);
-	else if (ft_strcmp(cmd->tab_cmd[0], "exit") == 0)
-		is_exit(data, cmd->tab_cmd[0]);
-	else
-		return (0);
-}
+// int	is_builtin(t_data *data, t_command *cmd)
+// {
+// 	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
+// 		echo(cmd->tab_cmd);
+// 	else if (ft_strcmp(cmd->tab_cmd[0], "cd") == 0)
+// 		change_dir(data->h_env, cmd->tab_cmd);
+// 	else if (ft_strcmp(cmd->tab_cmd[0], "pwd") == 0)
+// 		pwd();
+// 	else if (ft_strcmp(cmd->tab_cmd[0], "export") == 0)
+// 		export(data, cmd->tab_cmd);
+// 	else if (ft_strcmp(cmd->tab_cmd[0], "unset") == 0)
+// 		unset(data, cmd->tab_cmd);
+// 	else if (ft_strcmp(cmd->tab_cmd[0], "env") == 0)
+// 		print_env(data->h_env);
+// 	else if (ft_strcmp(cmd->tab_cmd[0], "exit") == 0)
+// 		is_exit(data, cmd->tab_cmd[0]);
+// 	else
+// 		return (0);
+// }

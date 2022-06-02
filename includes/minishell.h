@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/02 16:07:46 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/02 17:31:15 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,12 @@ typedef struct s_data
 	t_list	*path;
 }	t_data;
 
-t_data *data;
-
 typedef struct s_redirection
 {
 	char	**in;
-	int		token_in;
+	char	**token_in;
 	char	**out;
-	int		token_out;
+	char	**token_out;
 }	t_redirection;
 
 typedef struct s_command
@@ -52,11 +50,9 @@ typedef struct s_command
 	char			*all_pipe;
 	char			**tab_cmd;
 	char			**tab_token;
-	t_redirection	*tab_redirection;
+	t_redirection	*tab_redir;
 
 }	t_command;
-
-
 
 /*	Builtin */
 void	get_env(t_data *data, char **envp);
@@ -93,10 +89,10 @@ void	mother_board(t_data *data, t_command *cmd);
 void	process(t_data *data, t_command *cmd);
 void	display_here(void);
 char	*get_lim(char **args);
-void	redir(t_redirection *tab);
-void	out_redir(char *file);
-void	in_redir(char *file);
-void	append_mode(char *file);
+void	redir(t_data *data, t_redirection *tab);
+void	out_redir(t_data *data, char *file);
+void	in_redir(t_data *data, char *file);
+void	append_mode(t_data *data, char *file);
 void	heredoc(t_data *data, char **args);
 
 /*	List */
@@ -154,8 +150,20 @@ PARSING_C-----------------------------------------------------------------------
 */
 int			ft_count_pipe(char *line);
 t_command	**ft_parse_pipe(t_command *(*table_pipe), char *line);
-void		ft_free_doutab(char **tab);
 int			ft_doubletab_len(char **tab);
 void		ft_parsing(t_data *data, char *line);
+/*
+TOKENIZER_C----------------------------------------------------------------------
+*/
+int		check_builtin(char *str);
+int		struc_len(t_command **table_pipe);
+void	tokenizer_cmd(t_command **table_pipe, int nb_pp, t_data *data);
+void	tokenizer_redir_in(t_command **table_pipe, int np);
+void	tokenizer_redir_out(t_command **table_pipe, int np);
 
+/*
+FREE-----------------------------------------------------------------------------
+*/
+void		ft_free_doutab(char **tab);
+void		free_struc(t_command **table_pipe);
 #endif
