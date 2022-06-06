@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/02 18:57:18 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/06 21:15:56 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ void	set_path(t_data *data, char **path);
 void	print_env(t_list **h_env);
 void	print_vars(t_list **head); // DEBUG, à supp.
 int		is_exit(t_data *data, char *line);
-void	echo(char *arg);
+void	echo(char **arg);
 void	pwd(void);
-void	unset(t_data *data, char *var);
-void	export(t_data *data, char *var);
+void	unset(t_data *data, char **var);
+void	export(t_data *data, char **var);
 int		check_var(char *var);
 void	cat_var(t_data *data, char *var);
 void	add_var(t_data *data, char *var);
@@ -78,7 +78,7 @@ void	print_export(char **env);
 void	pwd(void);
 void	check_dir(t_data *data, char *path);
 void	check_path(t_data *data, char *path);
-void	change_dir(t_list **h_env, char *path);
+void	change_dir(t_list **h_env, char **path);
 void	goto_home(t_list **h_env);
 int		is_oldpwd(t_list **h_env);
 void	create_oldpwd(t_list **h_env);
@@ -87,8 +87,10 @@ void	goto_oldpwd(t_list **h_env);
 
 /*	Exec */
 char	*find_bin(t_list *lst_path, char *bin);
-void	mother_board(t_data *data, t_command *cmd);
+void	mother_board(t_data *data, t_command **cmd);
+int		is_builtin(t_data *data, t_command *cmd);
 void	process(t_data *data, t_command *cmd);
+void	redir_pipe(void);
 void	display_here(void);
 char	*get_lim(char **args);
 void	redir(t_data *data, t_redirection *tab);
@@ -113,7 +115,7 @@ size_t	get_lst_len(t_list **head);
 /*	Utils */
 void	free_double_tab(char **tab);
 void	print_double_tab(char **tab); //DEBUG
-
+size_t	get_double_tab_len(char **tab);
 
 /*	Errors */
 void	ft_err(char *err);

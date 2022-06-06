@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/02 17:44:37 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/06 21:20:37 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ void	process(t_data *data, t_command *cmd)
 	if (cmd->tab_redir)
 		redir(data, cmd->tab_redir);
 	path = find_bin(data->path, cmd->tab_cmd[0]);
+	// if (!cmd->tab_redir)
+	// 	redir_pipe();
+	printf("in\n");
 	if (execve(path, cmd->tab_cmd, env) > 0)
 		return ;
 }
@@ -79,33 +82,32 @@ void	process(t_data *data, t_command *cmd)
  *	echo salut | wc
  *	les 2 cmd sont fork, en cas de pipe les builtins ont leur propre process
 */
-void	mother_board(t_data *data, t_command *cmd)
+void	mother_board(t_data *data, t_command **cmd)
 {
 	pid_t	child;
 
-	
 	child = fork();
 	if (child == 0)
-		process(data, cmd);
-	waitpid(child, NULL, 0);
+		process(data, cmd[1]);
+	waitpid(0, NULL, 0);
 }
 
-// int	is_builtin(t_data *data, t_command *cmd)
-// {
-// 	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
-// 		echo(cmd->tab_cmd);
-// 	else if (ft_strcmp(cmd->tab_cmd[0], "cd") == 0)
-// 		change_dir(data->h_env, cmd->tab_cmd);
-// 	else if (ft_strcmp(cmd->tab_cmd[0], "pwd") == 0)
-// 		pwd();
-// 	else if (ft_strcmp(cmd->tab_cmd[0], "export") == 0)
-// 		export(data, cmd->tab_cmd);
-// 	else if (ft_strcmp(cmd->tab_cmd[0], "unset") == 0)
-// 		unset(data, cmd->tab_cmd);
-// 	else if (ft_strcmp(cmd->tab_cmd[0], "env") == 0)
-// 		print_env(data->h_env);
-// 	else if (ft_strcmp(cmd->tab_cmd[0], "exit") == 0)
-// 		is_exit(data, cmd->tab_cmd[0]);
-// 	else
-// 		return (0);
-// }
+int	is_builtin(t_data *data, t_command *cmd)
+{
+	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
+		echo(cmd->tab_cmd);
+	else if (ft_strcmp(cmd->tab_cmd[0], "cd") == 0)
+		change_dir(data->h_env, cmd->tab_cmd);
+	else if (ft_strcmp(cmd->tab_cmd[0], "pwd") == 0)
+		pwd();
+	else if (ft_strcmp(cmd->tab_cmd[0], "export") == 0)
+		export(data, cmd->tab_cmd);
+	else if (ft_strcmp(cmd->tab_cmd[0], "unset") == 0)
+		unset(data, cmd->tab_cmd);
+	else if (ft_strcmp(cmd->tab_cmd[0], "env") == 0)
+		print_env(data->h_env);
+	else if (ft_strcmp(cmd->tab_cmd[0], "exit") == 0)
+		is_exit(data, cmd->tab_cmd[0]);
+	else
+		return (0);
+}

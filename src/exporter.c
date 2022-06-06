@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exporter.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:14:47 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/02 15:59:51 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/06 19:44:51 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,33 +37,39 @@
  *	Le '+' n'est tolerer qu'avant le =.
  *	"+=" concatene la précedente value avec la nouvelle.
 */
-void	export(t_data *data, char *var)
+void	export(t_data *data, char **var)
 {
 	int		alloc;
-	
+	size_t	i;
+
+	i = 1;
 	alloc = 0;
 	// printf("%s\n", var);
-	if (var == NULL)
+	while (var[i])
 	{
-		display_env(data);
-		return ;
-	}
-	if (ft_strchr(var, '$'))
-	{
-		var = which_dollar(data, var);
-		alloc = 1;
-	}
-	if (check_var(var))
-	{
-		if (var[name_len(var)] == '=' && var[name_len(var) - 1] == '+')
-			cat_var(data, var);
+		if (var == NULL)
+		{
+			display_env(data);
+			return ;
+		}
+		if (ft_strchr(var, '$'))
+		{
+			var = which_dollar(data, var);
+			alloc = 1;
+		}
+		if (check_var(var))
+		{
+			if (var[name_len(var)] == '=' && var[name_len(var) - 1] == '+')
+				cat_var(data, var);
+			else
+				add_var(data, var);
+		}
 		else
-			add_var(data, var);
+			export_err(var, alloc);
+		if (alloc)
+			free(var);		
+		i++;
 	}
-	else
-		export_err(var, alloc);
-	if (alloc)
-		free(var);
 }
 
 int	check_var(char *var)

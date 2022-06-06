@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 10:49:04 by root              #+#    #+#             */
-/*   Updated: 2022/05/31 21:04:41 by root             ###   ########.fr       */
+/*   Updated: 2022/06/06 19:51:26 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,15 @@ void	free_double_tab(char **tab)
 	free(tab);
 }
 
+size_t	get_double_tab_len(char **tab)
+{
+	size_t	len;
+
+	len = 0;
+	while (tab[len])
+		len++;
+	return (len);
+}
 void	print_double_tab(char **tab)
 {
 	size_t	len;
