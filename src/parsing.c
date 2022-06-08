@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/02 17:43:07 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/08 16:22:36 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	ft_parsing(t_data *data, char *line)
 	int			i;
 
 	table_pipe = NULL;
-	if (!ft_strlen(line))
+	if (!line || !ft_strlen(line))
 		return ;
 	table_pipe = ft_parse_pipe(table_pipe, line);
 	i = -1;

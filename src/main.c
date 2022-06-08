@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/02 17:21:15 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/08 17:19:04 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,25 @@
 
 int main(int ac, char **av, char **envp)
 {
-	char	*line;
-	t_data	data;
+	char				*line;
+	t_data				data;
+	struct sigaction	s_sigaction;
+	pid_t				pid_server;
+	sigset_t			block_mask;
+
+	signal_init();
 
 	(void)ac;
 	(void)av;
 	data.var = NULL;
 	data.path = NULL;
+
+
+	s_sigaction.sa_sigaction = ft_signal;
+	s_sigaction.sa_flags = SA_SIGINFO;
+	sigaction(SIGINT, &s_sigaction, 0);
+	sigaction(SIGQUIT, &s_sigaction, 0);
+
 	get_env(&data, envp);
 	// set_var(&data, "test=Hola");
 	// set_var(&data, "tdst=Hola");
@@ -50,7 +62,7 @@ int main(int ac, char **av, char **envp)
 	line = readline("minishell$ ");
 	if (line && *line)
 		add_history(line);
-	while (is_exit(&data, line))
+	while (is_exit(&data, line) && line)
 	{
 		ft_parsing(&data, line);
 		free(line);
@@ -59,4 +71,5 @@ int main(int ac, char **av, char **envp)
 			add_history(line);
 		// free_struc(table_pipe)
 	}
+
 }

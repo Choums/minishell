@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/02 18:57:18 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/08 17:25:00 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@
 # include <readline/chardefs.h>
 # include "../libft/libft.h"
 # include "get_next_line.h"
+# include <sys/types.h>
+# include <signal.h>
+# define STDIN 0
+# define STDOUT 1
+# define STDERR 2
 
 typedef struct s_data
 {
@@ -55,6 +60,15 @@ typedef struct s_command
 	t_redirection	*tab_redir;
 
 }	t_command;
+
+typedef struct s_signal
+{
+	int	quit;
+	int	sigint;
+	int	pid;
+	int	exit_status;
+}	t_signal;
+
 
 /*	Builtin */
 void	get_env(t_data *data, char **envp);
@@ -128,6 +142,8 @@ void	export_err(char *command, int alloc);
 //     void     (*sa_restorer) (void);
 // };
 
+t_signal			g_signal;
+
 /*
 AFFICHAGE_C----------------------------------------------------------------------
 */
@@ -168,4 +184,15 @@ FREE----------------------------------------------------------------------------
 */
 void		ft_free_doutab(char **tab);
 void		free_struc(t_command **table_pipe);
+
+
+/*
+SIGNAL_C-------------------------------------------------------------------------
+*/
+void	ft_signal(int sig, siginfo_t *info, void *context);
+void	sig_int(int sig, siginfo_t *info, void *context);
+void	sig_quit(int sig, siginfo_t *info, void *context);
+void	signal_init(void);
+
+
 #endif
