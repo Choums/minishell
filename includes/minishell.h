@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/06 21:15:56 by root             ###   ########.fr       */
+/*   Updated: 2022/06/08 20:12:12 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ void	goto_oldpwd(t_list **h_env);
 /*	Exec */
 char	*find_bin(t_list *lst_path, char *bin);
 void	mother_board(t_data *data, t_command **cmd);
-int		is_builtin(t_data *data, t_command *cmd);
+int		is_builtin(t_command *cmd);
+void	run_builtin(t_data *data, t_command *cmd)''
 void	process(t_data *data, t_command *cmd);
 void	redir_pipe(void);
 void	display_here(void);

@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/06 21:20:37 by root             ###   ########.fr       */
+/*   Updated: 2022/06/08 20:15:55 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,38 @@ void	mother_board(t_data *data, t_command **cmd)
 {
 	pid_t	child;
 
+	if (is_builtin(cmd) && get_double_tab_len(cmd) == 1)
+	{
+		run_builtin(data, cmd[0]);
+		exit(EXIT_SUCCESS);
+	}
 	child = fork();
 	if (child == 0)
 		process(data, cmd[1]);
 	waitpid(0, NULL, 0);
 }
 
-int	is_builtin(t_data *data, t_command *cmd)
+int	is_builtin(t_command *cmd)
+{
+	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
+		return (1);
+	else if (ft_strcmp(cmd->tab_cmd[0], "cd") == 0)
+		return (1);
+	else if (ft_strcmp(cmd->tab_cmd[0], "pwd") == 0)
+		return (1);
+	else if (ft_strcmp(cmd->tab_cmd[0], "export") == 0)
+		return (1);
+	else if (ft_strcmp(cmd->tab_cmd[0], "unset") == 0)
+		return (1);
+	else if (ft_strcmp(cmd->tab_cmd[0], "env") == 0)
+		return (1);
+	else if (ft_strcmp(cmd->tab_cmd[0], "exit") == 0)
+		return (1);
+	else
+		return (0);
+}
+
+void	run_builtin(t_data *data, t_command *cmd)
 {
 	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
 		echo(cmd->tab_cmd);
@@ -108,6 +133,4 @@ int	is_builtin(t_data *data, t_command *cmd)
 		print_env(data->h_env);
 	else if (ft_strcmp(cmd->tab_cmd[0], "exit") == 0)
 		is_exit(data, cmd->tab_cmd[0]);
-	else
-		return (0);
 }
