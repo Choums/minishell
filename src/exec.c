@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/08 20:15:55 by root             ###   ########.fr       */
+/*   Updated: 2022/06/09 16:18:39 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,18 @@ void	mother_board(t_data *data, t_command **cmd)
 	pid_t	child;
 
 	if (is_builtin(cmd) && get_double_tab_len(cmd) == 1)
-	{
 		run_builtin(data, cmd[0]);
-		exit(EXIT_SUCCESS);
+	else if (!is_builtin(cmd) && get_double_tab_len(cmd) == 1)
+	{
+		child = fork();
+		if (child == 0)
+			process(data, cmd[0]);
+		waitpid(0, NULL, 0);
 	}
-	child = fork();
-	if (child == 0)
-		process(data, cmd[1]);
-	waitpid(0, NULL, 0);
+	else
+	{
+		
+	}
 }
 
 int	is_builtin(t_command *cmd)
