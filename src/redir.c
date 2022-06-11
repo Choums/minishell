@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/06 21:06:47 by root             ###   ########.fr       */
+/*   Updated: 2022/06/11 20:40:15 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,10 +130,7 @@ void	in_redir(t_data *data, char *file)
 		}
 	}
 	printf("type: %d\n", opening_mode(file));
-	if (opening_mode(file))
-		in_fd = open(file, O_RDONLY);
-	else
-		in_fd = opendir(file);
+	in_fd = open(file, O_RDONLY);
 	// if (in_fd < 0)
 	// 	ft_err("Open");
 	if (dup2(in_fd, STDIN_FILENO) < 0)
@@ -155,4 +152,12 @@ int	opening_mode(char *pathname)
 	struct stat path_stat;
 	stat(pathname, &path_stat);
 	return (S_ISREG(path_stat.st_mode));
+}
+
+/*
+ *	Redirige l'entrée et sortie du process vers le/les pipes
+*/
+void	redir_pipe(t_command *cmd, int **pipefd)
+{
+	
 }

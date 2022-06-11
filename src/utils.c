@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 10:49:04 by root              #+#    #+#             */
-/*   Updated: 2022/06/06 19:51:26 by root             ###   ########.fr       */
+/*   Updated: 2022/06/11 18:23:53 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ void	free_double_tab(char **tab)
 	free(tab);
 }
 
-size_t	get_double_tab_len(char **tab)
+size_t	get_cmd_num(t_command **cmd)
 {
 	size_t	len;
 
 	len = 0;
-	while (tab[len])
+	while (cmd[len])
 		len++;
 	return (len);
 }
