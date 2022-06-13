@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/11 20:29:07 by root             ###   ########.fr       */
+/*   Updated: 2022/06/13 18:38:28 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*find_bin(t_list *lst_path, char *bin)
  *	Trouve le path de la commande et l'execute
  *
 */
-void	process(t_data *data, t_command *cmd, int **pipefd)
+void	process(t_data *data, t_command *cmd, int pipefd[][2], int pos)
 {
 	char	*path;
 	char	**env;
@@ -48,14 +48,16 @@ void	process(t_data *data, t_command *cmd, int **pipefd)
 	env = lst_dup(data->h_env);
 	if (cmd->tab_redir)
 		redir(data, cmd->tab_redir);
-	redir_pipe(cmd, pipefd);
+	if (pos != -1 && ni > 1)
+		redir_pipe(pipefd, pos);
 	if (is_builtin(cmd))
 	{
 		run_builtin(data, cmd);
 		exit(EXIT_SUCCESS);
 	}
+	if (ni > 1)
+		close_unused_pipes(pipefd, pos);
 	path = find_bin(data->path, cmd->tab_cmd[0]);
-	// printf("in\n");
 	if (execve(path, cmd->tab_cmd, env) < 0)
 		return ; // error
 }
@@ -89,6 +91,7 @@ void	mother_board(t_data *data, t_command **cmd)
 {
 	pid_t	child;
 
+	ni = 0;
 	if (is_builtin(cmd[0]) && get_cmd_num(cmd) == 1)
 		run_builtin(data, cmd[0]);
 	else if (!is_builtin(cmd[0]) && get_cmd_num(cmd) == 1)
@@ -96,46 +99,102 @@ void	mother_board(t_data *data, t_command **cmd)
 		printf("one child w/o builtin\n");
 		child = fork();
 		if (child == 0)
-			process(data, cmd[0], NULL);
+			process(data, cmd[0], NULL, -1);
 		waitpid(0, NULL, 0);
 	}
 	else
 	{
 		printf("multiple cmd\n");
 		pipex(data, cmd);
-		wait(NULL); //status a recup
 	}
 }
 
 void	pipex(t_data *data, t_command **cmd)
 {
 	int		pipefd[get_cmd_num(cmd) - 1][2];
-	size_t	num;
-	size_t	i;
+	int		num;
+	int		i;
 	pid_t	child;
 
 	i = 0;
-	num = get_cmd_num(cmd) - 1;
+	num = get_cmd_num(cmd);
+	ni = num;
 	while (i < num)
 	{
 		if (pipe(pipefd[i]) < 0)
-			return ; //error a gerer | close prec pipe
+			return ; //gerer l'error
 		i++;
 	}
 	i = 0;
 	while (num > 0)
 	{
-		printf("num: %zu\n", num);
+		printf("num: %d\npos: %d\n", num, i);
 		child = fork();
 		if (child == 0)
 		{
-			printf("cmd: %zu\n", i);
-			process(data, cmd[i], pipefd);
+			printf("cmd: %d\n", i);
+			process(data, cmd[i], pipefd, i);
 		}
 		else if (child < 0)
 			printf("error\n");
 		i++;
 		num--;
+	}
+	close_pipes(pipefd);
+	while (wait(NULL) > 0)
+		printf("child stoped\n");
+}
+
+void	close_pipes(int pipefd[][2])
+{
+	int	i;
+
+	i = 0;
+	while (i < ni - 1)
+	{
+		printf("ni: %d | i: %d\n", ni - 1, i);
+		close(pipefd[i][0]);
+		close(pipefd[i][1]);
+		i++;
+	}
+}
+
+void	close_unused_pipes(int pipefd[][2], int pos)
+{
+	int	i;
+
+	i = 0;
+	if (pos == 0)
+	{
+		close(pipefd[0][0]);
+		i++;
+		while (i < ni - 1)
+		{
+			close(pipefd[i][0]);
+			close(pipefd[i][1]);
+			i++;
+		}
+	}
+	else if (pos == ni - 1)
+	{
+		while (i < ni - 2)
+		{
+			close(pipefd[i][0]);
+			close(pipefd[i][1]);
+			i++;
+		}
+		close(pipefd[i][1]);
+	}
+	else
+	{
+		while (i < ni - 1)
+		{
+			if (i != pos - 1)
+				close(pipefd[i][0]);
+			if (i != pos)
+				close(pipefd[i][1]);
+			i++;
+		}
 	}
 }
 
