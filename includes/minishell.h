@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/08 17:25:00 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/13 15:09:02 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ typedef struct s_signal
 	int	pid;
 	int	exit_status;
 }	t_signal;
+
+
+extern t_signal			g_signal;
 
 
 /*	Builtin */
@@ -142,7 +145,6 @@ void	export_err(char *command, int alloc);
 //     void     (*sa_restorer) (void);
 // };
 
-t_signal			g_signal;
 
 /*
 AFFICHAGE_C----------------------------------------------------------------------

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:27:54 by aptive            #+#    #+#             */
-/*   Updated: 2022/06/08 17:28:03 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/13 15:11:11 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ void	sig_int(int sig, siginfo_t *info, void *context)
 
 void	signal_init(void)
 {
+	t_signal			g_signal;
+
+
 	g_signal.quit = 0;
 	g_signal.sigint = 0;
 	g_signal.exit_status = 0;
