@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/08 16:22:36 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/13 16:11:40 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,10 @@ t_command	**ft_parse_pipe(t_command	*(*table_pipe), char *line)
 // < infile1 < infile2 cmd | < infile3 <infile4 cmd2
 // < infile1 < infile2 cmd | < infile3 <infile4 cmd2 | <infile5 cmd3
 //< infile <infile2 cmd | <infile3 cmd2 | <infile4<<infile5 cmd3
-void	ft_parsing(t_data *data, char *line)
+t_command	**ft_parsing(t_data *data, char *line, t_command	*(*table_pipe))
 {
-	t_command	*(*table_pipe);
-	int			i;
+	int		i;
 
-	table_pipe = NULL;
-	if (!line || !ft_strlen(line))
-		return ;
 	table_pipe = ft_parse_pipe(table_pipe, line);
 	i = -1;
 	while (table_pipe[++i])
@@ -104,7 +100,5 @@ void	ft_parsing(t_data *data, char *line)
 		table_pipe = ft_parse_cmd(table_pipe, i);
 		tokenizer_cmd(table_pipe, i, data);
 	}
-	ft_affiche_t_command(table_pipe);
-	mother_board(data, table_pipe[0]);
-	free_struc(table_pipe);
+	return (table_pipe);
 }

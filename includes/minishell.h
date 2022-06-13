@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/13 15:09:02 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/06/13 16:03:28 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ PARSING_C-----------------------------------------------------------------------
 int			ft_count_pipe(char *line);
 t_command	**ft_parse_pipe(t_command *(*table_pipe), char *line);
 int			ft_doubletab_len(char **tab);
-void		ft_parsing(t_data *data, char *line);
+t_command	**ft_parsing(t_data *data, char *line, t_command *(*table_pipe));
 /*
 TOKENIZER_C----------------------------------------------------------------------
 */
