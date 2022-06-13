@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/13 16:03:28 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/06/13 17:31:08 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_command
 	char			**tab_cmd;
 	char			**tab_token;
 	t_redirection	*tab_redir;
+	int				len_pipe;
 
 }	t_command;
 
@@ -195,6 +196,10 @@ void	ft_signal(int sig, siginfo_t *info, void *context);
 void	sig_int(int sig, siginfo_t *info, void *context);
 void	sig_quit(int sig, siginfo_t *info, void *context);
 void	signal_init(void);
-
+/*
+SIGNAL_C-------------------------------------------------------------------------
+*/
+int		verif_quote(char *line);
+int		verif_line(char *line);
 
 #endif

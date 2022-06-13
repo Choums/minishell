@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/13 16:11:40 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/06/13 17:39:30 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,19 @@ t_command	**ft_parse_pipe(t_command	*(*table_pipe), char *line)
 	return (table_pipe);
 }
 
+void	ft_pipe_len(t_command *(*table_pipe))
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = -1;
+	while (table_pipe[i])
+		i++;
+	while (table_pipe[++j])
+		table_pipe[j]->len_pipe = i - 1;
+}
+
 //< infile cmd1 -opt1 > outfile | < infile2 cmd2 -opt2 > outfile2
 //cmd1 -opt1 <infile
 // < infile1 < infile2 cmd | < infile3 <infile4 cmd2
@@ -100,5 +113,6 @@ t_command	**ft_parsing(t_data *data, char *line, t_command	*(*table_pipe))
 		table_pipe = ft_parse_cmd(table_pipe, i);
 		tokenizer_cmd(table_pipe, i, data);
 	}
+	ft_pipe_len(table_pipe);
 	return (table_pipe);
 }

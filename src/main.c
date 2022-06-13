@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/13 16:16:02 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/06/13 16:36:37 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	main_two(t_data *data, char *line)
 	t_command	*(*table_pipe);
 
 	table_pipe = NULL;
-	if (line && ft_strlen(line))
+	if (verif_line(line))
 	{
 		table_pipe = ft_parsing(data, line, table_pipe);
 		ft_affiche_t_command(table_pipe);
