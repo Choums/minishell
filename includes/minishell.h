@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/11 20:18:48 by root             ###   ########.fr       */
+/*   Updated: 2022/06/13 18:49:41 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@
 # include <readline/chardefs.h>
 # include "../libft/libft.h"
 # include "get_next_line.h"
+# include <sys/types.h>
+# include <signal.h>
+# define STDIN 0
+# define STDOUT 1
+# define STDERR 2
 
 typedef struct s_data
 {
@@ -53,8 +58,21 @@ typedef struct s_command
 	char			**tab_cmd;
 	char			**tab_token;
 	t_redirection	*tab_redir;
+	int				len_pipe;
 
 }	t_command;
+
+typedef struct s_signal
+{
+	int	quit;
+	int	sigint;
+	int	pid;
+	int	exit_status;
+}	t_signal;
+
+
+extern t_signal			g_signal;
+
 
 /*	Builtin */
 void	get_env(t_data *data, char **envp);
@@ -133,6 +151,7 @@ void	export_err(char *command, int alloc);
 //     void     (*sa_restorer) (void);
 // };
 
+
 /*
 AFFICHAGE_C----------------------------------------------------------------------
 */
@@ -158,7 +177,7 @@ PARSING_C-----------------------------------------------------------------------
 int			ft_count_pipe(char *line);
 t_command	**ft_parse_pipe(t_command *(*table_pipe), char *line);
 int			ft_doubletab_len(char **tab);
-void		ft_parsing(t_data *data, char *line);
+t_command	**ft_parsing(t_data *data, char *line, t_command *(*table_pipe));
 /*
 TOKENIZER_C----------------------------------------------------------------------
 */
@@ -173,4 +192,19 @@ FREE----------------------------------------------------------------------------
 */
 void		ft_free_doutab(char **tab);
 void		free_struc(t_command **table_pipe);
+
+
+/*
+SIGNAL_C-------------------------------------------------------------------------
+*/
+void	ft_signal(int sig, siginfo_t *info, void *context);
+void	sig_int(int sig, siginfo_t *info, void *context);
+void	sig_quit(int sig, siginfo_t *info, void *context);
+void	signal_init(void);
+/*
+SIGNAL_C-------------------------------------------------------------------------
+*/
+int		verif_quote(char *line);
+int		verif_line(char *line);
+
 #endif
