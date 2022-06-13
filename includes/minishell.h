@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/11 20:18:48 by root             ###   ########.fr       */
+/*   Updated: 2022/06/13 18:36:42 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_command
 
 }	t_command;
 
+extern int ni;
 /*	Builtin */
 void	get_env(t_data *data, char **envp);
 void	set_env(t_data *data);
@@ -84,24 +85,24 @@ int		is_oldpwd(t_list **h_env);
 void	create_oldpwd(t_list **h_env);
 void	goto_oldpwd(t_list **h_env);
 
-
 /*	Exec */
 char	*find_bin(t_list *lst_path, char *bin);
 void	mother_board(t_data *data, t_command **cmd);
 int		is_builtin(t_command *cmd);
 void	run_builtin(t_data *data, t_command *cmd);
-void	process(t_data *data, t_command *cmd, int **pipefd);
-void	redir_pipe(t_command *cmd, int **pipefd);
+void	process(t_data *data, t_command *cmd, int pipefd[][2], int pos);
+void	redir_pipe(int pipefd[][2], int pos);
 void	display_here(void);
-char	*get_lim(char **args);
+char	*get_lim(t_redirection *args);
 void	redir(t_data *data, t_redirection *tab);
 void	out_redir(t_data *data, char *file);
 void	in_redir(t_data *data, char *file);
 void	append_mode(t_data *data, char *file);
-void	heredoc(t_data *data, char **args);
+void	heredoc(t_data *data, t_redirection *args);
 int		opening_mode(char *pathname);
 void	pipex(t_data *data, t_command **cmd);
-
+void	close_pipes(int pipefd[][2]);
+void	close_unused_pipes(int pipefd[][2], int pos);
 /*	List */
 void	set_var(t_data *data, char *content);
 void	supp_elem(t_list **head, char *var);

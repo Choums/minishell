@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/02 17:21:15 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/13 15:08:01 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
  *	-----------------
  *	Ajouter la pos au prompt
 */
-
+ni=0;
 int main(int ac, char **av, char **envp)
 {
 	char	*line;
