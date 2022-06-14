@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/13 18:38:28 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/14 18:47:38 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,15 @@ void	process(t_data *data, t_command *cmd, int pipefd[][2], int pos)
 	env = lst_dup(data->h_env);
 	if (cmd->tab_redir)
 		redir(data, cmd->tab_redir);
-	if (pos != -1 && ni > 1)
-		redir_pipe(pipefd, pos);
+	if (pos != -1 && cmd->len_pipe > 1)
+		redir_pipe(pipefd, pos, cmd->len_pipe);
 	if (is_builtin(cmd))
 	{
 		run_builtin(data, cmd);
 		exit(EXIT_SUCCESS);
 	}
-	if (ni > 1)
-		close_unused_pipes(pipefd, pos);
+	if (cmd->len_pipe > 1)
+		close_unused_pipes(pipefd, pos, cmd->len_pipe);
 	path = find_bin(data->path, cmd->tab_cmd[0]);
 	if (execve(path, cmd->tab_cmd, env) < 0)
 		return ; // error
@@ -91,10 +91,9 @@ void	mother_board(t_data *data, t_command **cmd)
 {
 	pid_t	child;
 
-	ni = 0;
-	if (is_builtin(cmd[0]) && get_cmd_num(cmd) == 1)
+	if (get_cmd_num(cmd) == 1 && is_builtin(cmd[0]))
 		run_builtin(data, cmd[0]);
-	else if (!is_builtin(cmd[0]) && get_cmd_num(cmd) == 1)
+	else if (get_cmd_num(cmd) == 1 && !is_builtin(cmd[0]))
 	{
 		printf("one child w/o builtin\n");
 		child = fork();
@@ -118,7 +117,6 @@ void	pipex(t_data *data, t_command **cmd)
 
 	i = 0;
 	num = get_cmd_num(cmd);
-	ni = num;
 	while (i < num)
 	{
 		if (pipe(pipefd[i]) < 0)
@@ -140,26 +138,26 @@ void	pipex(t_data *data, t_command **cmd)
 		i++;
 		num--;
 	}
-	close_pipes(pipefd);
+	close_pipes(pipefd, cmd[0]->len_pipe);
 	while (wait(NULL) > 0)
 		printf("child stoped\n");
 }
 
-void	close_pipes(int pipefd[][2])
+void	close_pipes(int pipefd[][2], int n_pipe)
 {
 	int	i;
 
 	i = 0;
-	while (i < ni - 1)
+	while (i < n_pipe - 1)
 	{
-		printf("ni: %d | i: %d\n", ni - 1, i);
+		printf("ni: %d | i: %d\n", n_pipe - 1, i);
 		close(pipefd[i][0]);
 		close(pipefd[i][1]);
 		i++;
 	}
 }
 
-void	close_unused_pipes(int pipefd[][2], int pos)
+void	close_unused_pipes(int pipefd[][2], int pos, int n_pipe)
 {
 	int	i;
 
@@ -168,16 +166,16 @@ void	close_unused_pipes(int pipefd[][2], int pos)
 	{
 		close(pipefd[0][0]);
 		i++;
-		while (i < ni - 1)
+		while (i < n_pipe - 1)
 		{
 			close(pipefd[i][0]);
 			close(pipefd[i][1]);
 			i++;
 		}
 	}
-	else if (pos == ni - 1)
+	else if (pos == n_pipe - 1)
 	{
-		while (i < ni - 2)
+		while (i < n_pipe - 2)
 		{
 			close(pipefd[i][0]);
 			close(pipefd[i][1]);
@@ -187,7 +185,7 @@ void	close_unused_pipes(int pipefd[][2], int pos)
 	}
 	else
 	{
-		while (i < ni - 1)
+		while (i < n_pipe - 1)
 		{
 			if (i != pos - 1)
 				close(pipefd[i][0]);
