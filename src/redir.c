@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/14 18:42:29 by root             ###   ########.fr       */
+/*   Updated: 2022/06/14 18:52:04 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ void	out_redir(t_data *data, char *file)
 		}
 	}
 	out_fd  = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	// printf("%d\n", out_fd);
 	if (out_fd < 0)
 		ft_err("Open");
 	if (dup2(out_fd, STDOUT_FILENO) < 0)
