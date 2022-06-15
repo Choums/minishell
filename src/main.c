@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/08 17:19:04 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/13 18:54:09 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,21 @@
  *	Ajouter la pos au prompt
 */
 
-int main(int ac, char **av, char **envp)
+void	main_two(t_data *data, char *line)
+{
+	t_command	*(*table_pipe);
+
+	table_pipe = NULL;
+	if (verif_line(line))
+	{
+		table_pipe = ft_parsing(data, line, table_pipe);
+		ft_affiche_t_command(table_pipe);
+		mother_board(data, table_pipe[0]);
+		free_struc(table_pipe);
+	}
+}
+
+int		main(int ac, char **av, char **envp)
 {
 	char				*line;
 	t_data				data;
@@ -56,20 +70,15 @@ int main(int ac, char **av, char **envp)
 	sigaction(SIGQUIT, &s_sigaction, 0);
 
 	get_env(&data, envp);
-	// set_var(&data, "test=Hola");
-	// set_var(&data, "tdst=Hola");
-	// set_var(&data, "Hola");
 	line = readline("minishell$ ");
 	if (line && *line)
 		add_history(line);
 	while (is_exit(&data, line) && line)
 	{
-		ft_parsing(&data, line);
+		main_two(&data, line);
 		free(line);
 		line = readline("minishell$ ");
 		if (line && *line)
 			add_history(line);
-		// free_struc(table_pipe)
 	}
-
 }

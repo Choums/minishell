@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/02 19:05:35 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/13 18:41:36 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	redir(t_data *data, t_redirection *tab)
 		if (tab->token_in[i][i] == '1')
 			in_redir(data, tab->in[i]);
 		else
-			printf("here\n");		
+			heredoc(data, tab);
 		i++;
 	}
 	i = 0;
@@ -130,10 +130,7 @@ void	in_redir(t_data *data, char *file)
 		}
 	}
 	printf("type: %d\n", opening_mode(file));
-	if (opening_mode(file))
-		in_fd = open(file, O_RDONLY);
-	else
-		in_fd = opendir(file);
+	in_fd = open(file, O_RDONLY);
 	// if (in_fd < 0)
 	// 	ft_err("Open");
 	if (dup2(in_fd, STDIN_FILENO) < 0)
@@ -155,4 +152,27 @@ int	opening_mode(char *pathname)
 	struct stat path_stat;
 	stat(pathname, &path_stat);
 	return (S_ISREG(path_stat.st_mode));
+}
+
+/*
+ *	Redirige l'entrée et sortie du process vers le/les pipes
+*/
+void	redir_pipe(int pipefd[][2], int pos)
+{
+	if (pos == 0)
+	{
+		fprintf(stderr, "fst cmd\n");
+		dup2(pipefd[pos][1], STDOUT_FILENO);
+	}
+	else if (pos == ni - 1)
+	{
+		fprintf(stderr, "lst cmd\n");
+		dup2(pipefd[pos - 1][0], STDIN_FILENO);
+	}
+	else
+	{
+		fprintf(stderr, "mid %d cmd\n", pos);
+		dup2(pipefd[pos - 1][0], STDIN_FILENO);
+		dup2(pipefd[pos][1], STDOUT_FILENO);
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/08 17:25:00 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/13 18:53:27 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_command
 	char			**tab_cmd;
 	char			**tab_token;
 	t_redirection	*tab_redir;
+	int				len_pipe;
 
 }	t_command;
 
@@ -70,6 +71,10 @@ typedef struct s_signal
 }	t_signal;
 
 
+extern t_signal			g_signal;
+
+
+extern int ni;
 /*	Builtin */
 void	get_env(t_data *data, char **envp);
 void	set_env(t_data *data);
@@ -78,10 +83,10 @@ void	set_path(t_data *data, char **path);
 void	print_env(t_list **h_env);
 void	print_vars(t_list **head); // DEBUG, à supp.
 int		is_exit(t_data *data, char *line);
-void	echo(char *arg);
+void	echo(char **arg);
 void	pwd(void);
-void	unset(t_data *data, char *var);
-void	export(t_data *data, char *var);
+void	unset(t_data *data, char **var);
+void	export(t_data *data, char **var);
 int		check_var(char *var);
 void	cat_var(t_data *data, char *var);
 void	add_var(t_data *data, char *var);
@@ -92,25 +97,30 @@ void	print_export(char **env);
 void	pwd(void);
 void	check_dir(t_data *data, char *path);
 void	check_path(t_data *data, char *path);
-void	change_dir(t_list **h_env, char *path);
+void	change_dir(t_list **h_env, char **path);
 void	goto_home(t_list **h_env);
 int		is_oldpwd(t_list **h_env);
 void	create_oldpwd(t_list **h_env);
 void	goto_oldpwd(t_list **h_env);
 
-
 /*	Exec */
 char	*find_bin(t_list *lst_path, char *bin);
-void	mother_board(t_data *data, t_command *cmd);
-void	process(t_data *data, t_command *cmd);
+void	mother_board(t_data *data, t_command **cmd);
+int		is_builtin(t_command *cmd);
+void	run_builtin(t_data *data, t_command *cmd);
+void	process(t_data *data, t_command *cmd, int pipefd[][2], int pos);
+void	redir_pipe(int pipefd[][2], int pos);
 void	display_here(void);
-char	*get_lim(char **args);
+char	*get_lim(t_redirection *args);
 void	redir(t_data *data, t_redirection *tab);
 void	out_redir(t_data *data, char *file);
 void	in_redir(t_data *data, char *file);
 void	append_mode(t_data *data, char *file);
-void	heredoc(t_data *data, char **args);
+void	heredoc(t_data *data, t_redirection *args);
 int		opening_mode(char *pathname);
+void	pipex(t_data *data, t_command **cmd);
+void	close_pipes(int pipefd[][2]);
+void	close_unused_pipes(int pipefd[][2], int pos);
 /*	List */
 void	set_var(t_data *data, char *content);
 void	supp_elem(t_list **head, char *var);
@@ -127,7 +137,7 @@ size_t	get_lst_len(t_list **head);
 /*	Utils */
 void	free_double_tab(char **tab);
 void	print_double_tab(char **tab); //DEBUG
-
+size_t	get_cmd_num(t_command **cmd);
 
 /*	Errors */
 void	ft_err(char *err);
@@ -142,7 +152,6 @@ void	export_err(char *command, int alloc);
 //     void     (*sa_restorer) (void);
 // };
 
-t_signal			g_signal;
 
 /*
 AFFICHAGE_C----------------------------------------------------------------------
@@ -169,7 +178,7 @@ PARSING_C-----------------------------------------------------------------------
 int			ft_count_pipe(char *line);
 t_command	**ft_parse_pipe(t_command *(*table_pipe), char *line);
 int			ft_doubletab_len(char **tab);
-void		ft_parsing(t_data *data, char *line);
+t_command	**ft_parsing(t_data *data, char *line, t_command *(*table_pipe));
 /*
 TOKENIZER_C----------------------------------------------------------------------
 */
@@ -193,6 +202,10 @@ void	ft_signal(int sig, siginfo_t *info, void *context);
 void	sig_int(int sig, siginfo_t *info, void *context);
 void	sig_quit(int sig, siginfo_t *info, void *context);
 void	signal_init(void);
-
+/*
+SIGNAL_C-------------------------------------------------------------------------
+*/
+int		verif_quote(char *line);
+int		verif_line(char *line);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 10:49:04 by root              #+#    #+#             */
-/*   Updated: 2022/05/31 21:04:41 by root             ###   ########.fr       */
+/*   Updated: 2022/06/13 17:49:07 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,16 @@ void	free_double_tab(char **tab)
 		i--;
 	}
 	free(tab);
+}
+
+size_t	get_cmd_num(t_command **cmd)
+{
+	size_t	len;
+
+	len = 0;
+	while (cmd[len])
+		len++;
+	return (len);
 }
 
 void	print_double_tab(char **tab)
