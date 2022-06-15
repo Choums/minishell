@@ -6,14 +6,14 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/15 11:46:22 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/15 11:59:07 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define DEFAULT_PATH_VALUE "PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
+# define DEF "PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 
 # include <stdio.h>
 # include <unistd.h>
@@ -70,7 +70,6 @@ typedef struct s_signal
 	int	exit_status;
 }	t_signal;
 
-
 extern t_signal	g_signal;
 
 /*	Builtin */
@@ -81,7 +80,7 @@ void	set_path(t_data *data, char **path);
 void	print_env(t_list **h_env);
 void	print_vars(t_list **head); // DEBUG, à supp.
 int		is_exit(t_data *data, char *line);
-void	echo(t_data *data, char **arg);
+void	echo(char **arg);
 int		check_atr_n(char **args);
 void	pwd(void);
 void	unset(t_data *data, char **var);
@@ -159,17 +158,17 @@ t_command	**ft_parse_cmd(t_command *(*table_pipe), int number_pipe);
 /*
 REDIRECTION_C--------------------------------------------------------------------
 */
-int			ft_count_redirection(char *str, char c_redirect);
+int		ft_count_redirection(char *str, char c_redirect);
 t_command	**ft_redirection_init(t_command	*(*table_pipe), int number_pipe);
-void		ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c);
-void		ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c);
+void	ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c);
+void	ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c);
 
 /*
 PARSING_C------------------------------------------------------------------------
 */
-int			ft_count_pipe(char *line);
+int		ft_count_pipe(char *line);
 t_command	**ft_parse_pipe(t_command *(*table_pipe), char *line);
-int			ft_doubletab_len(char **tab);
+int		ft_doubletab_len(char **tab);
 t_command	**ft_parsing(t_data *data, char *line, t_command *(*table_pipe));
 /*
 TOKENIZER_C----------------------------------------------------------------------
@@ -183,8 +182,8 @@ void	tokenizer_redir_out(t_command **table_pipe, int np);
 /*
 FREE-----------------------------------------------------------------------------
 */
-void		ft_free_doutab(char **tab);
-void		free_struc(t_command **table_pipe);
+void	ft_free_doutab(char **tab);
+void	free_struc(t_command **table_pipe);
 
 
 /*
