@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/14 18:54:58 by root             ###   ########.fr       */
+/*   Updated: 2022/06/15 07:53:11 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_command	**ft_parse_pipe(t_command	*(*table_pipe), char *line)
 	i = -1;
 	while (tmp[++i] && table_pipe[i]->all_pipe)
 		table_pipe[i]->all_pipe = tmp[i];
-	free_double_tab(tmp);
+	free(tmp);
 	return (table_pipe);
 }
 

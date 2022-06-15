@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/13 18:54:09 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/15 11:20:08 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	main_two(t_data *data, char *line)
 	if (verif_line(line))
 	{
 		table_pipe = ft_parsing(data, line, table_pipe);
-		ft_affiche_t_command(table_pipe);
-		mother_board(data, table_pipe[0]);
+		// ft_affiche_t_command(table_pipe);
+		mother_board(data, table_pipe);
 		free_struc(table_pipe);
 	}
 }
@@ -63,21 +63,24 @@ int		main(int ac, char **av, char **envp)
 	data.var = NULL;
 	data.path = NULL;
 
-
+	// char	**t = ft_split("echo sep $lol sep $HOME", ' ');
 	s_sigaction.sa_sigaction = ft_signal;
 	s_sigaction.sa_flags = SA_SIGINFO;
 	sigaction(SIGINT, &s_sigaction, 0);
 	sigaction(SIGQUIT, &s_sigaction, 0);
 
 	get_env(&data, envp);
-	line = readline("minishell$ ");
+	line = readline("minishell: ");
 	if (line && *line)
 		add_history(line);
 	while (is_exit(&data, line) && line)
 	{
+		// if (ft_strcmp(line, "test") == 0)
+		// 	echo(&data, t);
+		// free_double_tab(t);
 		main_two(&data, line);
 		free(line);
-		line = readline("minishell$ ");
+		line = readline("minishell: ");
 		if (line && *line)
 			add_history(line);
 	}

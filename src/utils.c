@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 10:49:04 by root              #+#    #+#             */
-/*   Updated: 2022/06/13 17:49:07 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/15 11:06:58 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,19 @@ void	print_double_tab(char **tab)
 void	ft_err(char *err)
 {
 	perror(err);
+	exit(EXIT_FAILURE);
+}
+
+void	pipe_err(int **pipefd, int i)
+{
+	while (i)
+	{
+		close(pipefd[i][0]);
+		close(pipefd[i][1]);
+		// free(pipefd[i]);
+		i--;
+	}
+	free(pipefd);
+	perror("failed to create pipes");
 	exit(EXIT_FAILURE);
 }

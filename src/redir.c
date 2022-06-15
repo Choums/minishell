@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/14 18:52:04 by root             ###   ########.fr       */
+/*   Updated: 2022/06/15 07:50:59 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	out_redir(t_data *data, char *file)
 			ft_err("ambiguous redirect");
 		}
 	}
-	out_fd  = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	out_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (out_fd < 0)
 		ft_err("Open");
 	if (dup2(out_fd, STDOUT_FILENO) < 0)
@@ -148,7 +148,8 @@ void	in_redir(t_data *data, char *file)
 */
 int	opening_mode(char *pathname)
 {
-	struct stat path_stat;
+	struct stat	path_stat;
+
 	stat(pathname, &path_stat);
 	return (S_ISREG(path_stat.st_mode));
 }
@@ -156,7 +157,7 @@ int	opening_mode(char *pathname)
 /*
  *	Redirige l'entrée et sortie du process vers le/les pipes
 */
-void	redir_pipe(int pipefd[][2], int pos, int n_pipe)
+void	redir_pipe(int **pipefd, int pos, int n_pipe)
 {
 	if (pos == 0)
 	{
