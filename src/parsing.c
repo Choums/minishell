@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/08 16:22:36 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/15 17:09:12 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_command	**ft_parse_pipe(t_command	*(*table_pipe), char *line)
 			return (NULL);
 	}
 	table_pipe[ft_count_pipe(line)] = NULL;
+	split_pipe(line);
 	tmp = ft_split(line, '|');
 	i = -1;
 	while (tmp[++i] && table_pipe[i]->all_pipe)

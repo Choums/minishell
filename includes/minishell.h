@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/08 17:25:00 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/15 17:11:00 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,5 +194,9 @@ void	sig_int(int sig, siginfo_t *info, void *context);
 void	sig_quit(int sig, siginfo_t *info, void *context);
 void	signal_init(void);
 
+/*
+SPLIT_PIPE_C---------------------------------------------------------------------
+*/
+char	**split_pipe(char *str);
 
 #endif
