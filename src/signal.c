@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:27:54 by aptive            #+#    #+#             */
-/*   Updated: 2022/06/08 17:28:03 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/08 17:40:33 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	ft_signal(int sig, siginfo_t *info, void *context)
 	(void)sig;
 	(void)info;
 	(void)context;
+	printf("test\n");
+	printf("sig %i\n", sig);
 	if (sig == SIGQUIT)
 		sig_quit(sig, info, context);
 	else if (sig == SIGINT)
