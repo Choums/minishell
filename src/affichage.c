@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   affichage.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:06:35 by aptive            #+#    #+#             */
-/*   Updated: 2022/05/31 18:46:16 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/13 17:37:42 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ void	ft_affiche_t_command(t_command	*(*table_pipe))
 {
 	printf("\n\n\033[31m***************** tableau_t_command ******************************************\033[0m\n");
 	for (int i = 0; table_pipe[i]; i++)
+	{
 		printf("table_pipe[\033[1;32m%i\033[0m]:\033[1;32m%p\033[0m\n", i, table_pipe[i]);
+		printf("len_pipe : \033[1;32m%i\033[0m\033\n",table_pipe[i]->len_pipe);
+	}
 	printf("\033[31m***************** all_pipe ***************************************************\033[0m\n");
 	for (int i = 0; table_pipe[i]; i++)
 		printf("table_pipe->all_pipe[\033[1;32m%i]:\033[1;32m%s\033[0m\n", i, table_pipe[i]->all_pipe);

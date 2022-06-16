@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/02 17:44:37 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/15 17:42:25 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,29 @@ char	*find_bin(t_list *lst_path, char *bin)
 /*
  *	Child processus
  *	Trouve le path de la commande et l'execute
- *	Si 1er process, doit ouvrir le fichier en input et check
  *
 */
-void	process(t_data *data, t_command *cmd)
+void	process(t_data *data, t_command *cmd, int pipefd[][2], int pos)
 {
 	char	*path;
 	char	**env;
 
+	int test = 0;
 	env = lst_dup(data->h_env);
 	if (cmd->tab_redir)
 		redir(data, cmd->tab_redir);
+	if (pos != -1 && test > 1)
+		redir_pipe(pipefd, pos);
+	if (is_builtin(cmd))
+	{
+		run_builtin(data, cmd);
+		exit(EXIT_SUCCESS);
+	}
+	if (test > 1)
+		close_unused_pipes(pipefd, pos);
 	path = find_bin(data->path, cmd->tab_cmd[0]);
-	if (execve(path, cmd->tab_cmd, env) > 0)
-		return ;
+	if (execve(path, cmd->tab_cmd, env) < 0)
+		return ; // error
 }
 
 /*
@@ -62,7 +71,7 @@ void	process(t_data *data, t_command *cmd)
  *	2 a la fois
  *	echo salut > outfile | wc -l >> outfile | cat | ls
  *	echo et wc on ecrit dans le outfile
- *	PAR CONTRE ls devance le cat et affiche les fichers 
+ *	PAR CONTRE ls devance le cat et affiche les fichers
  *		dont outfile avec les ecritures
  *	-------------------------------------
  *	double redir
@@ -79,33 +88,197 @@ void	process(t_data *data, t_command *cmd)
  *	echo salut | wc
  *	les 2 cmd sont fork, en cas de pipe les builtins ont leur propre process
 */
-void	mother_board(t_data *data, t_command *cmd)
+void	mother_board(t_data *data, t_command **cmd)
 {
 	pid_t	child;
 
-	
-	child = fork();
-	if (child == 0)
-		process(data, cmd);
-	waitpid(child, NULL, 0);
+	if (is_builtin(cmd[0]) && get_cmd_num(cmd) == 1)
+		run_builtin(data, cmd[0]);
+	else if (!is_builtin(cmd[0]) && get_cmd_num(cmd) == 1)
+	{
+		printf("one child w/o builtin\n");
+		child = fork();
+		if (child == 0)
+			process(data, cmd[0], NULL, -1);
+		waitpid(0, NULL, 0);
+	}
+	else
+	{
+		printf("multiple cmd\n");
+		pipex(data, cmd);
+	}
 }
 
-// int	is_builtin(t_data *data, t_command *cmd)
+void	pipex(t_data *data, t_command **cmd)
+{
+	int		pipefd[get_cmd_num(cmd) - 1][2];
+	int		num;
+	int		i;
+	pid_t	child;
+
+	i = 0;
+	num = get_cmd_num(cmd);
+	while (i < num)
+	{
+		if (pipe(pipefd[i]) < 0)
+			return ; //gerer l'error
+		i++;
+	}
+	i = 0;
+	while (num > 0)
+	{
+		printf("num: %d\npos: %d\n", num, i);
+		child = fork();
+		if (child == 0)
+		{
+			printf("cmd: %d\n", i);
+			process(data, cmd[i], pipefd, i);
+		}
+		else if (child < 0)
+			printf("error\n");
+		i++;
+		num--;
+	}
+	close_pipes(pipefd);
+	while (wait(NULL) > 0)
+		printf("child stoped\n");
+}
+
+void	close_pipes(int pipefd[][2])
+{
+	int	i;
+
+	i = 0;
+	int test = 0;
+	while (i < test - 1)
+	{
+		printf("ni: %d | i: %d\n", test - 1, i);
+		close(pipefd[i][0]);
+		close(pipefd[i][1]);
+		i++;
+	}
+}
+
+void	close_unused_pipes(int pipefd[][2], int pos)
+{
+	int	i;
+
+	i = 0;
+	int test = 0;
+	if (pos == 0)
+	{
+		close(pipefd[0][0]);
+		i++;
+		while (i < test - 1)
+		{
+			close(pipefd[i][0]);
+			close(pipefd[i][1]);
+			i++;
+		}
+	}
+	else if (pos == test - 1)
+	{
+		while (i < test - 2)
+		{
+			close(pipefd[i][0]);
+			close(pipefd[i][1]);
+			i++;
+		}
+		close(pipefd[i][1]);
+	}
+	else
+	{
+		while (i < test - 1)
+		{
+			if (i != pos - 1)
+				close(pipefd[i][0]);
+			if (i != pos)
+				close(pipefd[i][1]);
+			i++;
+		}
+	}
+}
+
+/*
+ *	Ferme les pipes non utilisé par le child actuel
+ *	num	=> nbr total de pipes
+ *	i	=> ordre de la cmd
+ *	n et j sont les compteurs respectifs
+ *	-------------------------------------
+ *	cmd[0]
+ *	écrit dans l'entrée du 1er pipe
+ *	-------------------------------------
+ *	cmd[1]
+ *	Lis dans la sortie du 1er pipe
+ *	écrit dans l'entrée du pipe suivant
+ *	-------------------------------------
+ *	cmd[2]
+ *	Lis dans la sortie du pipe précédent
+ *	-------------------------------------
+*/
+// void	close_unused_pipe(int **pipefd, int i)
 // {
-// 	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
-// 		echo(cmd->tab_cmd);
-// 	else if (ft_strcmp(cmd->tab_cmd[0], "cd") == 0)
-// 		change_dir(data->h_env, cmd->tab_cmd);
-// 	else if (ft_strcmp(cmd->tab_cmd[0], "pwd") == 0)
-// 		pwd();
-// 	else if (ft_strcmp(cmd->tab_cmd[0], "export") == 0)
-// 		export(data, cmd->tab_cmd);
-// 	else if (ft_strcmp(cmd->tab_cmd[0], "unset") == 0)
-// 		unset(data, cmd->tab_cmd);
-// 	else if (ft_strcmp(cmd->tab_cmd[0], "env") == 0)
-// 		print_env(data->h_env);
-// 	else if (ft_strcmp(cmd->tab_cmd[0], "exit") == 0)
-// 		is_exit(data, cmd->tab_cmd[0]);
-// 	else
-// 		return (0);
+// 	size_t	n;
+// 	size_t	num;
+// 	size_t	j;
+
+// 	num = 0;
+// 	while (pipefd[num])
+// 		num++;
+// 	j = 0;
+// 	n = 0;
+// 	if (i == 0)
+// 	{
+// 		while (n < num)
+// 		{
+// 			j = 0;
+// 			while (j <= 1)
+// 			{
+
+// 			}
+// 			n++;
+// 		}
+// 		close(pipefd[0][0]);
+// 		close(pipefd[1][1]);
+// 		close(pipefd[1][0]);
+// 	}
 // }
+
+int	is_builtin(t_command *cmd)
+{
+	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
+		return (1);
+	else if (ft_strcmp(cmd->tab_cmd[0], "cd") == 0)
+		return (1);
+	else if (ft_strcmp(cmd->tab_cmd[0], "pwd") == 0)
+		return (1);
+	else if (ft_strcmp(cmd->tab_cmd[0], "export") == 0)
+		return (1);
+	else if (ft_strcmp(cmd->tab_cmd[0], "unset") == 0)
+		return (1);
+	else if (ft_strcmp(cmd->tab_cmd[0], "env") == 0)
+		return (1);
+	else if (ft_strcmp(cmd->tab_cmd[0], "exit") == 0)
+		return (1);
+	else
+		return (0);
+}
+
+void	run_builtin(t_data *data, t_command *cmd)
+{
+	printf("builin run\n");
+	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
+		echo(cmd->tab_cmd);
+	else if (ft_strcmp(cmd->tab_cmd[0], "cd") == 0)
+		change_dir(data->h_env, cmd->tab_cmd);
+	else if (ft_strcmp(cmd->tab_cmd[0], "pwd") == 0)
+		pwd();
+	else if (ft_strcmp(cmd->tab_cmd[0], "export") == 0)
+		export(data, cmd->tab_cmd);
+	else if (ft_strcmp(cmd->tab_cmd[0], "unset") == 0)
+		unset(data, cmd->tab_cmd);
+	else if (ft_strcmp(cmd->tab_cmd[0], "env") == 0)
+		print_env(data->h_env);
+	else if (ft_strcmp(cmd->tab_cmd[0], "exit") == 0)
+		is_exit(data, cmd->tab_cmd[0]);
+}

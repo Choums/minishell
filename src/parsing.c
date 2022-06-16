@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/15 17:09:12 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/16 02:23:44 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,46 @@ int	ft_doubletab_len(char **tab)
 	return (i);
 }
 
+// int	ft_count_pipe(char *line)
+// {
+// 	int	count_pipe;
+// 	int	i;
+
+// 	count_pipe = 1;
+// 	i = -1;
+// 	while (line[++i])
+// 	{
+// 		if (line[i] == '|')
+// 			count_pipe++;
+// 	}
+// 	return (count_pipe);
+// }
+
 int	ft_count_pipe(char *line)
 {
-	int	count_pipe;
 	int	i;
+	int	j;
+	int	count;
 
-	count_pipe = 1;
-	i = -1;
-	while (line[++i])
+	i = 0;
+	count = 1;
+	while (i < ft_strlen(line))
 	{
-		if (line[i] == '|')
-			count_pipe++;
+		j = 1;
+		if (line[i] == '\'' || line[i] == '"')
+		{
+			while (line[i + j] && line[i + j] != line[i])
+				j++;
+			j++;
+		}
+		else if (line[i] == '|')
+			count++;
+
+		i += j;
+		// printf("%c", line[i]);
 	}
-	return (count_pipe);
+	// printf("\n");
+	return (count);
 }
 
 t_command	**ft_parse_pipe(t_command	*(*table_pipe), char *line)
@@ -66,13 +93,29 @@ t_command	**ft_parse_pipe(t_command	*(*table_pipe), char *line)
 			return (NULL);
 	}
 	table_pipe[ft_count_pipe(line)] = NULL;
-	split_pipe(line);
-	tmp = ft_split(line, '|');
+	tmp = split_pipe(line);
+	// tmp = ft_split(line, '|');
 	i = -1;
 	while (tmp[++i] && table_pipe[i]->all_pipe)
+	{
 		table_pipe[i]->all_pipe = tmp[i];
+		printf("%p\n", tmp[i]);
+	}
 	free(tmp);
 	return (table_pipe);
+}
+
+void	ft_pipe_len(t_command *(*table_pipe))
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = -1;
+	while (table_pipe[i])
+		i++;
+	while (table_pipe[++j])
+		table_pipe[j]->len_pipe = i - 1;
 }
 
 //< infile cmd1 -opt1 > outfile | < infile2 cmd2 -opt2 > outfile2
@@ -80,18 +123,15 @@ t_command	**ft_parse_pipe(t_command	*(*table_pipe), char *line)
 // < infile1 < infile2 cmd | < infile3 <infile4 cmd2
 // < infile1 < infile2 cmd | < infile3 <infile4 cmd2 | <infile5 cmd3
 //< infile <infile2 cmd | <infile3 cmd2 | <infile4<<infile5 cmd3
-void	ft_parsing(t_data *data, char *line)
+t_command	**ft_parsing(t_data *data, char *line, t_command	*(*table_pipe))
 {
-	t_command	*(*table_pipe);
-	int			i;
+	int		i;
 
-	table_pipe = NULL;
-	if (!line || !ft_strlen(line))
-		return ;
 	table_pipe = ft_parse_pipe(table_pipe, line);
 	i = -1;
 	while (table_pipe[++i])
 	{
+		printf("i : %i\n", i);
 		if (ft_strchr(table_pipe[i]->all_pipe, '<')
 			|| ft_strchr(table_pipe[i]->all_pipe, '>'))
 		{
@@ -105,7 +145,6 @@ void	ft_parsing(t_data *data, char *line)
 		table_pipe = ft_parse_cmd(table_pipe, i);
 		tokenizer_cmd(table_pipe, i, data);
 	}
-	ft_affiche_t_command(table_pipe);
-	mother_board(data, table_pipe[0]);
-	free_struc(table_pipe);
+	ft_pipe_len(table_pipe);
+	return (table_pipe);
 }

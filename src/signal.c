@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:27:54 by aptive            #+#    #+#             */
-/*   Updated: 2022/06/08 17:40:33 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/15 17:03:33 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ void	sig_int(int sig, siginfo_t *info, void *context)
 
 void	signal_init(void)
 {
+	t_signal			g_signal;
+
+
 	g_signal.quit = 0;
 	g_signal.sigint = 0;
 	g_signal.exit_status = 0;
