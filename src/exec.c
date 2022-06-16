@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/16 20:35:01 by root             ###   ########.fr       */
+/*   Updated: 2022/06/17 00:18:47 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	process(t_data *data, t_command *cmd, int *pipefd, int pos)
 	char	*path;
 	char	**env;
 
-	printf("cmd: %s | len: %d\n", cmd->tab_cmd[0], cmd->len_pipe);
+	printf("cmd: %s\n", cmd->tab_cmd[0]);
 	env = lst_dup(data->h_env);
 	if (cmd->tab_redir)
 	{
@@ -59,17 +59,16 @@ void	process(t_data *data, t_command *cmd, int *pipefd, int pos)
 	}
 	if (pos != -1 && cmd->len_pipe > 0)
 		redir_pipe(pipefd, pos, cmd->len_pipe);
+	if (cmd->len_pipe > 0)
+		close_unused_pipes(pipefd, pos, cmd->len_pipe);
 	if (is_builtin(cmd))
 	{
 		printf("in builtin\n");
 		run_builtin(data, cmd);
 		exit(EXIT_SUCCESS);
 	}
-	if (1)
-	{
-		printf("cmd: %s\n", cmd->tab_cmd[0]);
-		close_unused_pipes(pipefd, pos, cmd->len_pipe);
-	}
+	printf("here %d\n", pos);
+
 	path = find_bin(data->path, cmd->tab_cmd[0]);
 	if (execve(path, cmd->tab_cmd, env) < 0)
 		return ; // error
@@ -164,9 +163,10 @@ int	*create_pipes(int num)
 	{
 		if (pipe(&pipefd[i * 2]) < 0)
 			pipe_err(pipefd, i);
-		printf("fd %d: %d | fd %d: %d\n", i, pipefd[i], i+1, pipefd[i+1]);
 		i++;
 	}
+	for (int p = 0; p < num + 1; p+=2)
+		printf("fd[%d]: %d | fd[%d]: %d\n", p, pipefd[p], p+1, pipefd[p+1]);
 	return (pipefd);
 }
 

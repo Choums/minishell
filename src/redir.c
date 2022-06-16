@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/16 20:36:18 by root             ###   ########.fr       */
+/*   Updated: 2022/06/17 00:16:44 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	append_mode(t_data *data, char *file)
 	}
 	out_fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (out_fd < 0)
-		ft_err("Open");
+		perror("Open");
 	if (dup2(out_fd, STDOUT_FILENO) < 0)
 		ft_err("Dup2");
 	if (alloc)
@@ -103,9 +103,9 @@ void	out_redir(t_data *data, char *file)
 	}
 	out_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (out_fd < 0)
-		ft_err("Open");
+		perror("Open");
 	if (dup2(out_fd, STDOUT_FILENO) < 0)
-		ft_err("Dup");
+		perror("Dup");
 	close(out_fd);
 	if (alloc)
 		free(var);
@@ -164,20 +164,24 @@ void	redir_pipe(int *pipefd, int pos, int n_pipe)
 	{
 		printf("fst cmd\n");
 		printf("fd [%d]: %d \n", pos + 1, pipefd[pos+1]);
-		dup2(pipefd[pos + 1], STDOUT_FILENO);
+		if (dup2(pipefd[pos + 1], STDOUT_FILENO) < 0)
+			perror("dup2");
+		printf("dup done\n---\n");
 	}
 	else if (pos == n_pipe)
 	{
 		printf("lst cmd\n");
 		printf("fd [%d]: %d \n", (n_pipe * 2) - 2, pipefd[(n_pipe * 2) - 2]);
 		dup2(pipefd[(n_pipe * 2) - 2], STDIN_FILENO);
+		printf("dup done\n---\n");
 	}
 	else
 	{
 		printf("mid %d cmd\n", pos);
-		printf("fd [%d]: %d \n", pos * 2, pipefd[pos * 2]);
-		printf("fd [%d]: %d \n", (pos * 2) - 1, pipefd[(pos * 2) - 1]);
-		dup2(pipefd[pos * 2], STDIN_FILENO);
-		dup2(pipefd[(pos * 2) - 1], STDOUT_FILENO);
+		printf("fd [%d]: %d \n", (pos * 2)-2, pipefd[(pos * 2)-2]);
+		printf("fd [%d]: %d \n", (pos * 2) + 1, pipefd[(pos * 2) + 1]);
+		dup2(pipefd[(pos * 2) - 2], STDIN_FILENO);
+		dup2(pipefd[(pos * 2) + 1], STDOUT_FILENO);
+		printf("dup done\n---\n");
 	}
 }
