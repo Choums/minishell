@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/15 07:50:59 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/16 20:36:18 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,22 +157,27 @@ int	opening_mode(char *pathname)
 /*
  *	Redirige l'entrée et sortie du process vers le/les pipes
 */
-void	redir_pipe(int **pipefd, int pos, int n_pipe)
+void	redir_pipe(int *pipefd, int pos, int n_pipe)
 {
+	printf("redir pipe | pos: %d\n", pos);
 	if (pos == 0)
 	{
-		fprintf(stderr, "fst cmd\n");
-		dup2(pipefd[pos][1], STDOUT_FILENO);
+		printf("fst cmd\n");
+		printf("fd [%d]: %d \n", pos + 1, pipefd[pos+1]);
+		dup2(pipefd[pos + 1], STDOUT_FILENO);
 	}
-	else if (pos == n_pipe - 1)
+	else if (pos == n_pipe)
 	{
-		fprintf(stderr, "lst cmd\n");
-		dup2(pipefd[pos - 1][0], STDIN_FILENO);
+		printf("lst cmd\n");
+		printf("fd [%d]: %d \n", (n_pipe * 2) - 2, pipefd[(n_pipe * 2) - 2]);
+		dup2(pipefd[(n_pipe * 2) - 2], STDIN_FILENO);
 	}
 	else
 	{
-		fprintf(stderr, "mid %d cmd\n", pos);
-		dup2(pipefd[pos - 1][0], STDIN_FILENO);
-		dup2(pipefd[pos][1], STDOUT_FILENO);
+		printf("mid %d cmd\n", pos);
+		printf("fd [%d]: %d \n", pos * 2, pipefd[pos * 2]);
+		printf("fd [%d]: %d \n", (pos * 2) - 1, pipefd[(pos * 2) - 1]);
+		dup2(pipefd[pos * 2], STDIN_FILENO);
+		dup2(pipefd[(pos * 2) - 1], STDOUT_FILENO);
 	}
 }

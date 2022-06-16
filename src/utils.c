@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 10:49:04 by root              #+#    #+#             */
-/*   Updated: 2022/06/15 11:06:58 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/16 19:39:30 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,11 @@ void	ft_err(char *err)
 	exit(EXIT_FAILURE);
 }
 
-void	pipe_err(int **pipefd, int i)
+void	pipe_err(int *pipefd, int i)
 {
 	while (i)
 	{
-		close(pipefd[i][0]);
-		close(pipefd[i][1]);
-		// free(pipefd[i]);
+		close(pipefd[i]);
 		i--;
 	}
 	free(pipefd);

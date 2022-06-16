@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/15 11:59:07 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/16 19:39:07 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ char	*find_bin(t_list *lst_path, char *bin);
 void	mother_board(t_data *data, t_command **cmd);
 int		is_builtin(t_command *cmd);
 void	run_builtin(t_data *data, t_command *cmd);
-void	process(t_data *data, t_command *cmd, int **pipefd, int pos);
-void	redir_pipe(int **pipefd, int pos, int n_pipe);
+void	process(t_data *data, t_command *cmd, int *pipefd, int pos);
+void	redir_pipe(int *pipefd, int pos, int n_pipe);
 void	display_here(void);
 char	*get_lim(t_redirection *args);
 void	redir(t_data *data, t_redirection *tab);
@@ -117,9 +117,9 @@ void	append_mode(t_data *data, char *file);
 void	heredoc(t_data *data, t_redirection *args);
 int		opening_mode(char *pathname);
 void	pipex(t_data *data, t_command **cmd);
-int		**create_pipes(int num);
-void	close_pipes(int **pipefd, int n_pipe);
-void	close_unused_pipes(int **pipefd, int pos, int n_pipe);
+int		*create_pipes(int num);
+void	close_pipes(int *pipefd, int n_pipe);
+void	close_unused_pipes(int *pipefd, int pos, int n_pipe);
 
 /*	List */
 void	set_var(t_data *data, char *content);
@@ -138,7 +138,7 @@ size_t	get_lst_len(t_list **head);
 void	free_double_tab(char **tab);
 void	print_double_tab(char **tab); //DEBUG
 size_t	get_cmd_num(t_command **cmd);
-void	pipe_err(int **pipefd, int i);
+void	pipe_err(int *pipefd, int i);
 
 /*	Errors */
 void	ft_err(char *err);
