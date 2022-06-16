@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:08:18 by aptive            #+#    #+#             */
-/*   Updated: 2022/06/16 03:12:34 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/16 18:29:10 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	ft_count_redirection(char *str, char c_redirect)
 	int	count;
 	int	j;
 
-	i = -1;
+	i = 0;
 	count = 0;
-	while (i < ft_strlen(str))
+	while (i < (int)ft_strlen(str))
 	{
 		j = 1;
 		if (str[i] == '\'' || str[i] == '"')
@@ -31,10 +31,8 @@ int	ft_count_redirection(char *str, char c_redirect)
 		}
 		else if (str[i] == c_redirect)
 		{
-			if (str[++i])
-				count++;
-			else
-				count++;
+			count++;
+			j++;
 		}
 		i += j;
 	}
@@ -103,7 +101,7 @@ char	*ft_search_redir(char *str, char c)
 	i = 0;
 	while (str[i])
 	{
-		j = 0;
+		j = 1;
 		if (str[i] == '\'' || str[i] == '"')
 		{
 			while (str[i + j] && str[i + j] != str[i])
@@ -111,7 +109,7 @@ char	*ft_search_redir(char *str, char c)
 			j++;
 		}
 		else if (str[i] == c)
-			return(str + i + j);
+			return (str + i + j);
 		i += j;
 	}
 	return (str + i);
@@ -127,14 +125,12 @@ void	ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c)
 
 	i = 0;
 	nb_redirect = ft_count_redirection(table_pp[nb_pp]->all_pipe, c);
-	printf("nb_redirect : %i\n", nb_redirect);
 	tmp = table_pp[nb_pp]->all_pipe;
 	while (nb_redirect)
 	{
 		cut = 0;
 		dex = 0;
 		tmp = ft_search_redir(tmp, c);
-		// tmp = ft_strchr(tmp, c);
 		while (tmp[dex] == c || tmp[dex] == ' ')
 			dex++;
 		while ((tmp[dex + cut] != ' ' && tmp[dex + cut] != c) && tmp[dex + cut])

@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/15 17:24:20 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/16 18:09:53 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void	ft_affiche_t_command(t_command	*(*table_pipe));
 /*
 COMMAND_C------------------------------------------------------------------------
 */
-char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd);
+char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd, char c);
 void	copy_cmd(t_command *(*table_pipe), int	nb_pp, char *cmd);
 t_command	**ft_parse_cmd(t_command *(*table_pipe), int number_pipe);
 /*

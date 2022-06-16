@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:08:09 by aptive            #+#    #+#             */
-/*   Updated: 2022/06/16 02:09:54 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/16 18:21:08 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,28 +60,24 @@ static int	count_pipe(char *line)
 		}
 		else if (line[i] == '|')
 			count++;
-
 		i += j;
-		// printf("%c", line[i]);
 	}
-	// printf("\n");
 	return (count);
 }
 
 static	void	ft_get_to_next_pipe(char **str, int *len)
 {
+	int	i;
+
 	*str = *str + *len;
 	while (**str == '|' && **str)
 		(*str)++;
 	*len = 0;
-
-
-
 	while ((*str)[*len] != '|' && (*str)[*len])
 	{
 		if ((*str)[*len] == '\'' || (*str)[*len] == '"')
 		{
-			int	i = *len;
+			i = *len;
 			(*len)++;
 			while ((*str)[*len] != (*str)[i])
 			{
@@ -98,10 +94,8 @@ char	**split_pipe(char *s)
 	char	*tmp_s;
 	int		word_len;
 	size_t	num;
-	int	i;
+	int		i;
 
-	printf("Line : %s\n", s);
-	printf("count pipe %i\n", count_pipe(s));
 	if (!s)
 		return (NULL);
 	i = 0;
@@ -112,19 +106,12 @@ char	**split_pipe(char *s)
 	if (!split)
 		return (NULL);
 	split[num] = NULL;
-	printf("Num : %i\n", num);
 	while (i < num)
 	{
 		ft_get_to_next_pipe(&tmp_s, &word_len);
-		printf("word len : %i\n", word_len);
 		split[i] = (char *)malloc(sizeof(char) * (word_len + 1));
-		// if (!split[i])
-		// 	return (ft_free_tab(split, i));
 		ft_strlcpy(split[i], tmp_s, word_len + 1);
-		printf("tab[%i] : %s\n", i, split[i]);
 		i++;
-		printf("word len2 : %i\n", word_len);
 	}
-	printf("len : %i\n", ft_strlen("test '|'"));
-	return(split);
+	return (split);
 }

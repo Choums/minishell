@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/16 02:23:44 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/16 18:26:09 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,6 @@ int	ft_doubletab_len(char **tab)
 	return (i);
 }
 
-// int	ft_count_pipe(char *line)
-// {
-// 	int	count_pipe;
-// 	int	i;
-
-// 	count_pipe = 1;
-// 	i = -1;
-// 	while (line[++i])
-// 	{
-// 		if (line[i] == '|')
-// 			count_pipe++;
-// 	}
-// 	return (count_pipe);
-// }
-
 int	ft_count_pipe(char *line)
 {
 	int	i;
@@ -68,11 +53,8 @@ int	ft_count_pipe(char *line)
 		}
 		else if (line[i] == '|')
 			count++;
-
 		i += j;
-		// printf("%c", line[i]);
 	}
-	// printf("\n");
 	return (count);
 }
 
@@ -94,13 +76,9 @@ t_command	**ft_parse_pipe(t_command	*(*table_pipe), char *line)
 	}
 	table_pipe[ft_count_pipe(line)] = NULL;
 	tmp = split_pipe(line);
-	// tmp = ft_split(line, '|');
 	i = -1;
 	while (tmp[++i] && table_pipe[i]->all_pipe)
-	{
 		table_pipe[i]->all_pipe = tmp[i];
-		printf("%p\n", tmp[i]);
-	}
 	free(tmp);
 	return (table_pipe);
 }
@@ -131,7 +109,6 @@ t_command	**ft_parsing(t_data *data, char *line, t_command	*(*table_pipe))
 	i = -1;
 	while (table_pipe[++i])
 	{
-		printf("i : %i\n", i);
 		if (ft_strchr(table_pipe[i]->all_pipe, '<')
 			|| ft_strchr(table_pipe[i]->all_pipe, '>'))
 		{
