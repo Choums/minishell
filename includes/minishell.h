@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/16 18:09:53 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/16 18:37:26 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ typedef struct s_signal
 
 
 extern t_signal			g_signal;
-
 
 extern int	ni;
 /*	Builtin */
@@ -151,7 +150,6 @@ void	export_err(char *command, int alloc);
 //     int        sa_flags;
 //     void     (*sa_restorer) (void);
 // };
-
 
 /*
 AFFICHAGE_C----------------------------------------------------------------------
