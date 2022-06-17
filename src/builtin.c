@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 05:48:30 by root              #+#    #+#             */
-/*   Updated: 2022/06/15 11:55:13 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/17 20:26:51 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	echo(char **args)
 
 	if (ft_doubletab_len(args) == 1)
 	{
-		ft_putchar_fd('\n', STDIN_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		return ;
 	}
 	i = check_atr_n(args);
@@ -26,18 +26,18 @@ void	echo(char **args)
 	{
 		while (args[i])
 		{
-			ft_putstr_fd(args[i++], STDIN_FILENO);
-			ft_putchar_fd(' ', STDIN_FILENO);
+			ft_putstr_fd(args[i++], STDOUT_FILENO);
+			ft_putchar_fd(' ', STDOUT_FILENO);
 		}
 	}
 	else
 	{
 		while (args[i])
 		{
-			ft_putstr_fd(args[i++], STDIN_FILENO);
-			ft_putchar_fd(' ', STDIN_FILENO);
+			ft_putstr_fd(args[i++], STDOUT_FILENO);
+			ft_putchar_fd(' ', STDOUT_FILENO);
 		}
-		ft_putchar_fd('\n', STDIN_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 	}
 }
 

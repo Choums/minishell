@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/17 00:16:44 by root             ###   ########.fr       */
+/*   Updated: 2022/06/17 20:20:53 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,29 +159,29 @@ int	opening_mode(char *pathname)
 */
 void	redir_pipe(int *pipefd, int pos, int n_pipe)
 {
-	printf("redir pipe | pos: %d\n", pos);
+	// printf("redir pipe | pos: %d\n", pos);
 	if (pos == 0)
 	{
-		printf("fst cmd\n");
-		printf("fd [%d]: %d \n", pos + 1, pipefd[pos+1]);
+		// printf("fst cmd\n");
+		// printf("fd [%d]: %d \n", pos + 1, pipefd[pos+1]);
 		if (dup2(pipefd[pos + 1], STDOUT_FILENO) < 0)
 			perror("dup2");
-		printf("dup done\n---\n");
+		// printf("dup done\n---\n");
 	}
 	else if (pos == n_pipe)
 	{
-		printf("lst cmd\n");
-		printf("fd [%d]: %d \n", (n_pipe * 2) - 2, pipefd[(n_pipe * 2) - 2]);
+		// printf("lst cmd\n");
+		// printf("fd [%d]: %d \n", (n_pipe * 2) - 2, pipefd[(n_pipe * 2) - 2]);
 		dup2(pipefd[(n_pipe * 2) - 2], STDIN_FILENO);
-		printf("dup done\n---\n");
+		// printf("dup done\n---\n");
 	}
 	else
 	{
-		printf("mid %d cmd\n", pos);
-		printf("fd [%d]: %d \n", (pos * 2)-2, pipefd[(pos * 2)-2]);
-		printf("fd [%d]: %d \n", (pos * 2) + 1, pipefd[(pos * 2) + 1]);
+		// printf("mid %d cmd\n", pos);
+		// printf("fd [%d]: %d \n", (pos * 2)-2, pipefd[(pos * 2)-2]);
+		// printf("fd [%d]: %d \n", (pos * 2) + 1, pipefd[(pos * 2) + 1]);
 		dup2(pipefd[(pos * 2) - 2], STDIN_FILENO);
 		dup2(pipefd[(pos * 2) + 1], STDOUT_FILENO);
-		printf("dup done\n---\n");
+		// printf("dup done\n---\n");
 	}
 }
