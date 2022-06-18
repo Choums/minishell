@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/16 19:39:07 by root             ###   ########.fr       */
+/*   Updated: 2022/06/18 12:30:49 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,13 @@ typedef struct s_data
 	t_list	*path;
 }	t_data;
 
+
 typedef struct s_redirection
 {
+	int		in_fd;
+	int		out_fd;
+	int		cpy_in;
+	int		cpy_out;
 	char	**in;
 	char	**token_in;
 	char	**out;
@@ -111,9 +116,11 @@ void	redir_pipe(int *pipefd, int pos, int n_pipe);
 void	display_here(void);
 char	*get_lim(t_redirection *args);
 void	redir(t_data *data, t_redirection *tab);
-void	out_redir(t_data *data, char *file);
-void	in_redir(t_data *data, char *file);
-void	append_mode(t_data *data, char *file);
+void	redirect(t_redirection *tab);
+void	restore_redir(t_redirection *tab);
+void	out_redir(t_data *data, t_redirection *tab, char *file);
+void	in_redir(t_data *data, t_redirection *tab, char *file);
+void	append_mode(t_data *data, t_redirection *tab, char *file);
 void	heredoc(t_data *data, t_redirection *args);
 int		opening_mode(char *pathname);
 void	pipex(t_data *data, t_command **cmd);

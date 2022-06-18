@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/17 20:20:53 by root             ###   ########.fr       */
+/*   Updated: 2022/06/18 12:56:33 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@
  *	args[n]		-> ">>"
  *	args[n+1]	-> fichier
 */
-void	append_mode(t_data *data, char *file)
+void	append_mode(t_data *data, t_redirection *tab, char *file)
 {
-	int		out_fd;
 	int		alloc;
 	char	*var;
 
@@ -37,15 +36,47 @@ void	append_mode(t_data *data, char *file)
 			ft_err("ambiguous redirect");
 		}
 	}
-	out_fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (out_fd < 0)
+	tab->out_fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (tab->out_fd < 0)
 		perror("Open");
-	if (dup2(out_fd, STDOUT_FILENO) < 0)
-		ft_err("Dup2");
+	redirect(tab);
 	if (alloc)
 		free(var);
 }
 
+/*
+ *	Remet a leur valeur initiale stdin, stdout et stderr s'ils ont été utilisé
+ *	(Utile uniquement pour les builtins éxecutés dans le parent)
+*/
+void	restore_redir(t_redirection *tab)
+{
+	if (tab->in)
+	{
+		// fprintf(stderr, "in %s\n", tab->in[0]);
+		dup2(tab->cpy_in, 0);
+	}
+	if (tab->out)
+	{
+		// fprintf(stderr, "out\n");
+		dup2(tab->cpy_out, 1);
+	}
+}
+
+void	redirect(t_redirection *tab)
+{
+	if (tab->in)
+	{
+		tab->cpy_in = dup(STDIN_FILENO);
+		close(STDIN_FILENO);
+		dup2(tab->in_fd, STDIN_FILENO);
+	}
+	if (tab->out)
+	{
+		tab->cpy_out = dup(STDOUT_FILENO);
+		close(STDOUT_FILENO);
+		dup2(tab->out_fd, STDOUT_FILENO);
+	}
+}
 
 void	redir(t_data *data, t_redirection *tab)
 {
@@ -55,7 +86,7 @@ void	redir(t_data *data, t_redirection *tab)
 	while (tab->in[i])
 	{
 		if (tab->token_in[i][i] == '1')
-			in_redir(data, tab->in[i]);
+			in_redir(data, tab, tab->in[i]);
 		else
 			heredoc(data, tab);
 		i++;
@@ -63,15 +94,16 @@ void	redir(t_data *data, t_redirection *tab)
 	i = 0;
 	while (tab->out[i])
 	{
-		// printf("token: %d\n", tab->token_out);
+		// printf("file n%zu: %s\t| ", i, tab->out[i]);
+		// printf("token: %s\n", tab->token_out[i]);
 		if (tab->token_out[i][i] == '1')
 		{
 			// printf("inout\n");
-			out_redir(data, tab->out[i]);
+			out_redir(data, tab, tab->out[i]);
 			// printf("out\n");
 		}
 		else
-			append_mode(data, tab->out[i]);
+			append_mode(data, tab, tab->out[i]);
 		i++;
 	}
 }
@@ -84,9 +116,8 @@ void	redir(t_data *data, t_redirection *tab)
  *	args[n]		-> '>'
  *	args[n+1]	-> fichier
 */
-void	out_redir(t_data *data, char *file)
+void	out_redir(t_data *data, t_redirection *tab, char *file)
 {
-	int		out_fd;
 	int		alloc;
 	char	*var;
 
@@ -101,19 +132,17 @@ void	out_redir(t_data *data, char *file)
 			ft_err("ambiguous redirect");
 		}
 	}
-	out_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (out_fd < 0)
+	tab->out_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (tab->out_fd < 0)
 		perror("Open");
-	if (dup2(out_fd, STDOUT_FILENO) < 0)
-		perror("Dup");
-	close(out_fd);
+	redirect(tab);
+	// close(out_fd);
 	if (alloc)
 		free(var);
 }
 
-void	in_redir(t_data *data, char *file)
+void	in_redir(t_data *data, t_redirection *tab, char *file)
 {
-	int		in_fd;
 	int		alloc;
 	char	*var;
 
@@ -129,11 +158,10 @@ void	in_redir(t_data *data, char *file)
 		}
 	}
 	printf("type: %d\n", opening_mode(file));
-	in_fd = open(file, O_RDONLY);
+	tab->in_fd = open(file, O_RDONLY);
 	// if (in_fd < 0)
 	// 	ft_err("Open");
-	if (dup2(in_fd, STDIN_FILENO) < 0)
-		// ft_err("Dup");
+	redirect(tab);
 	if (alloc)
 		free(var);
 }

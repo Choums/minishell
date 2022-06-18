@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/17 20:25:09 by root             ###   ########.fr       */
+/*   Updated: 2022/06/18 12:25:37 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,26 @@ void	mother_board(t_data *data, t_command **cmd)
 	pid_t	child;
 
 	if (get_cmd_num(cmd) == 1 && is_builtin(cmd[0]))
+	{
+		if (cmd[0]->tab_redir)
+		{
+			// printf("in simple redir\n");
+			redir(data, cmd[0]->tab_redir);
+		}
 		run_builtin(data, cmd[0]);
+		if (cmd[0]->tab_redir)
+		{
+			// fprintf(stderr, "restore\n");
+			restore_redir(cmd[0]->tab_redir);
+		}
+	}
 	else if (get_cmd_num(cmd) == 1 && !is_builtin(cmd[0]))
 	{
 		// printf("one child w/o builtin\n");
 		child = fork();
 		if (child == 0)
 			process(data, cmd[0], NULL, -1);
-		waitpid(0, NULL, 0);
+		waitpid(child, NULL, 0);
 	}
 	else
 	{
@@ -269,7 +281,7 @@ int	is_builtin(t_command *cmd)
 
 void	run_builtin(t_data *data, t_command *cmd)
 {
-	printf("builin run\n");
+	// printf("builin run\n");
 	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
 		echo(cmd->tab_cmd);
 	else if (ft_strcmp(cmd->tab_cmd[0], "cd") == 0)
