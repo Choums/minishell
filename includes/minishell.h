@@ -6,14 +6,14 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/19 15:10:25 by root             ###   ########.fr       */
+/*   Updated: 2022/06/19 15:24:24 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define DEFAULT_PATH_VALUE "PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
+# define DEF "PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 
 # include <stdio.h>
 # include <unistd.h>
@@ -44,8 +44,13 @@ typedef struct s_data
 	t_list	*path;
 }	t_data;
 
+
 typedef struct s_redirection
 {
+	int		in_fd;
+	int		out_fd;
+	int		cpy_in;
+	int		cpy_out;
 	char	**in;
 	char	**token_in;
 	char	**out;
@@ -70,7 +75,6 @@ typedef struct s_signal
 	int	exit_status;
 }	t_signal;
 
-
 extern t_signal	g_signal;
 
 /*	Builtin */
@@ -82,6 +86,7 @@ void	print_env(t_list **h_env);
 void	print_vars(t_list **head); // DEBUG, à supp.
 int		is_exit(t_data *data, char *line);
 void	echo(char **arg);
+int		check_atr_n(char **args);
 void	pwd(void);
 void	unset(t_data *data, char **var);
 void	export(t_data *data, char **var);
@@ -106,19 +111,22 @@ char	*find_bin(t_list *lst_path, char *bin);
 void	mother_board(t_data *data, t_command **cmd);
 int		is_builtin(t_command *cmd);
 void	run_builtin(t_data *data, t_command *cmd);
-void	process(t_data *data, t_command *cmd, int pipefd[][2], int pos);
-void	redir_pipe(int pipefd[][2], int pos, int n_pipe);
+void	process(t_data *data, t_command *cmd, int *pipefd, int pos);
+void	redir_pipe(int *pipefd, int pos, int n_pipe);
 void	display_here(void);
 char	*get_lim(t_redirection *args);
 void	redir(t_data *data, t_redirection *tab);
-void	out_redir(t_data *data, char *file);
-void	in_redir(t_data *data, char *file);
-void	append_mode(t_data *data, char *file);
+void	redirect(t_redirection *tab);
+void	restore_redir(t_redirection *tab);
+void	out_redir(t_data *data, t_redirection *tab, char *file);
+void	in_redir(t_data *data, t_redirection *tab, char *file);
+void	append_mode(t_data *data, t_redirection *tab, char *file);
 void	heredoc(t_data *data, t_redirection *args);
 int		opening_mode(char *pathname);
 void	pipex(t_data *data, t_command **cmd);
-void	close_pipes(int pipefd[][2], int n_pipe);
-void	close_unused_pipes(int pipefd[][2], int pos, int n_pipe);
+int		*create_pipes(int num);
+void	close_pipes(int *pipefd, int n_pipe);
+void	close_unused_pipes(int *pipefd, int pos, int n_pipe);
 
 /*	List */
 void	set_var(t_data *data, char *content);
@@ -137,19 +145,11 @@ size_t	get_lst_len(t_list **head);
 void	free_double_tab(char **tab);
 void	print_double_tab(char **tab); //DEBUG
 size_t	get_cmd_num(t_command **cmd);
+void	pipe_err(int *pipefd, int i);
 
 /*	Errors */
 void	ft_err(char *err);
 void	export_err(char *command, int alloc);
-
-
-// struct sigaction {
-//     void     (*sa_handler) (int);
-//     void     (*sa_sigaction) (int, siginfo_t *, void *);
-//     sigset_t   sa_mask;
-//     int        sa_flags;
-//     void     (*sa_restorer) (void);
-// };
 
 /*
 AFFICHAGE_C----------------------------------------------------------------------
@@ -165,17 +165,17 @@ t_command	**ft_parse_cmd(t_command *(*table_pipe), int number_pipe);
 /*
 REDIRECTION_C--------------------------------------------------------------------
 */
-int			ft_count_redirection(char *str, char c_redirect);
+int		ft_count_redirection(char *str, char c_redirect);
 t_command	**ft_redirection_init(t_command	*(*table_pipe), int number_pipe);
-void		ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c);
-void		ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c);
+void	ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c);
+void	ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c);
 
 /*
 PARSING_C------------------------------------------------------------------------
 */
-int			ft_count_pipe(char *line);
+int		ft_count_pipe(char *line);
 t_command	**ft_parse_pipe(t_command *(*table_pipe), char *line);
-int			ft_doubletab_len(char **tab);
+int		ft_doubletab_len(char **tab);
 t_command	**ft_parsing(t_data *data, char *line, t_command *(*table_pipe));
 /*
 TOKENIZER_C----------------------------------------------------------------------
@@ -189,8 +189,8 @@ void	tokenizer_redir_out(t_command **table_pipe, int np);
 /*
 FREE-----------------------------------------------------------------------------
 */
-void		ft_free_doutab(char **tab);
-void		free_struc(t_command **table_pipe);
+void	ft_free_doutab(char **tab);
+void	free_struc(t_command **table_pipe);
 
 
 /*

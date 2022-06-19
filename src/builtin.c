@@ -6,26 +6,63 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 05:48:30 by root              #+#    #+#             */
-/*   Updated: 2022/06/06 19:46:12 by root             ###   ########.fr       */
+/*   Updated: 2022/06/17 20:26:51 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	echo(char **arg)
+void	echo(char **args)
 {
 	size_t	i;
 
-	i = 1;
-	if (ft_strcmp(arg[i], "-n")) //affichage sans nl
+	if (ft_doubletab_len(args) == 1)
 	{
-		i++;
-		while (arg[i])
-			ft_putstr_fd(arg[i], STDIN_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		return ;
 	}
-	else //affichqge avec nl
-		while (arg[i])
-			ft_putendl_fd(arg[i++], STDIN_FILENO);
+	i = check_atr_n(args);
+	if (i > 1)
+	{
+		while (args[i])
+		{
+			ft_putstr_fd(args[i++], STDOUT_FILENO);
+			ft_putchar_fd(' ', STDOUT_FILENO);
+		}
+	}
+	else
+	{
+		while (args[i])
+		{
+			ft_putstr_fd(args[i++], STDOUT_FILENO);
+			ft_putchar_fd(' ', STDOUT_FILENO);
+		}
+		ft_putchar_fd('\n', STDOUT_FILENO);
+	}
+}
+
+int	check_atr_n(char **args)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 1;
+	while (args[i])
+	{
+		j = 0;
+		if (args[i][j] && args[i][j] == '-' && args[i][j + 1] == 'n')
+		{
+			j++;
+			while (args[i][j] == 'n')
+				j++;
+			if (args[i][j] && args[i][j] != 'n')
+				return (1);
+		}
+		else
+			return (i);
+		i++;
+	}
+	return (i);
 }
 
 /*
@@ -45,8 +82,8 @@ void	unset(t_data *data, char **var)
 	i = 0;
 	while (var[i])
 	{
-		supp_elem(data->h_env, var);
-		supp_elem(data->h_var, var);
+		supp_elem(data->h_env, var[i]);
+		supp_elem(data->h_var, var[i]);
 		i++;
 	}
 }
@@ -58,7 +95,7 @@ void	pwd(void)
 	path = getcwd(NULL, 0);
 	if (!path)
 		perror(""); //Gestion d'erreur
-	echo(path);
+	ft_putendl_fd(path, STDIN_FILENO);
 	free(path);
 }
 

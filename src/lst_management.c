@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/06/02 18:04:25 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/15 10:24:06 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,7 @@ char	*which_dollar(t_data *data, char *command)
 		free(var);
 		new = dollar_substitute(command, value, pos);
 		free(value);
+		// printf("new: %s\n", new);
 		return (new);
 	}
 	return (NULL);
