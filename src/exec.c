@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
 /*   Updated: 2022/06/14 18:47:38 by root             ###   ########.fr       */
+=======
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
+/*   Updated: 2022/06/15 17:42:25 by aptive           ###   ########.fr       */
+>>>>>>> a6b8c5419114a6c46271a19948111e30991682d7
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +52,29 @@ void	process(t_data *data, t_command *cmd, int pipefd[][2], int pos)
 	char	*path;
 	char	**env;
 
+	int test = 0;
 	env = lst_dup(data->h_env);
 	if (cmd->tab_redir)
 		redir(data, cmd->tab_redir);
+<<<<<<< HEAD
 	if (pos != -1 && cmd->len_pipe > 1)
 		redir_pipe(pipefd, pos, cmd->len_pipe);
+=======
+	if (pos != -1 && test > 1)
+		redir_pipe(pipefd, pos);
+>>>>>>> a6b8c5419114a6c46271a19948111e30991682d7
 	if (is_builtin(cmd))
 	{
 		run_builtin(data, cmd);
 		exit(EXIT_SUCCESS);
 	}
+<<<<<<< HEAD
 	if (cmd->len_pipe > 1)
 		close_unused_pipes(pipefd, pos, cmd->len_pipe);
+=======
+	if (test > 1)
+		close_unused_pipes(pipefd, pos);
+>>>>>>> a6b8c5419114a6c46271a19948111e30991682d7
 	path = find_bin(data->path, cmd->tab_cmd[0]);
 	if (execve(path, cmd->tab_cmd, env) < 0)
 		return ; // error
@@ -70,7 +88,7 @@ void	process(t_data *data, t_command *cmd, int pipefd[][2], int pos)
  *	2 a la fois
  *	echo salut > outfile | wc -l >> outfile | cat | ls
  *	echo et wc on ecrit dans le outfile
- *	PAR CONTRE ls devance le cat et affiche les fichers 
+ *	PAR CONTRE ls devance le cat et affiche les fichers
  *		dont outfile avec les ecritures
  *	-------------------------------------
  *	double redir
@@ -162,6 +180,7 @@ void	close_unused_pipes(int pipefd[][2], int pos, int n_pipe)
 	int	i;
 
 	i = 0;
+	int test = 0;
 	if (pos == 0)
 	{
 		close(pipefd[0][0]);
@@ -231,7 +250,7 @@ void	close_unused_pipes(int pipefd[][2], int pos, int n_pipe)
 // 			j = 0;
 // 			while (j <= 1)
 // 			{
-				
+
 // 			}
 // 			n++;
 // 		}

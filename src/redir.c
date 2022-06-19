@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/14 18:52:04 by root             ###   ########.fr       */
+/*   Updated: 2022/06/19 15:10:39 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,8 @@ void	in_redir(t_data *data, char *file)
 int	opening_mode(char *pathname)
 {
 	struct stat path_stat;
+	int test = 0;
+
 	stat(pathname, &path_stat);
 	return (S_ISREG(path_stat.st_mode));
 }
@@ -158,6 +160,7 @@ int	opening_mode(char *pathname)
 */
 void	redir_pipe(int pipefd[][2], int pos, int n_pipe)
 {
+	int test = 0;
 	if (pos == 0)
 	{
 		fprintf(stderr, "fst cmd\n");

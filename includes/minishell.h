@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/14 18:43:37 by root             ###   ########.fr       */
+/*   Updated: 2022/06/19 15:10:25 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,6 @@ void	export_err(char *command, int alloc);
 //     void     (*sa_restorer) (void);
 // };
 
-
 /*
 AFFICHAGE_C----------------------------------------------------------------------
 */
@@ -160,7 +159,7 @@ void	ft_affiche_t_command(t_command	*(*table_pipe));
 /*
 COMMAND_C------------------------------------------------------------------------
 */
-char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd);
+char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd, char c);
 void	copy_cmd(t_command *(*table_pipe), int	nb_pp, char *cmd);
 t_command	**ft_parse_cmd(t_command *(*table_pipe), int number_pipe);
 /*
@@ -201,8 +200,14 @@ void	ft_signal(int sig, siginfo_t *info, void *context);
 void	sig_int(int sig, siginfo_t *info, void *context);
 void	sig_quit(int sig, siginfo_t *info, void *context);
 void	signal_init(void);
+
 /*
-SIGNAL_C-------------------------------------------------------------------------
+SPLIT_PIPE_C---------------------------------------------------------------------
+*/
+char	**split_pipe(char *str);
+
+/*
+VERIF_LINE_C---------------------------------------------------------------------
 */
 int		verif_quote(char *line);
 int		verif_line(char *line);

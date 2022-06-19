@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/13 18:54:09 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/16 18:23:06 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	main_two(t_data *data, char *line)
 	{
 		table_pipe = ft_parsing(data, line, table_pipe);
 		ft_affiche_t_command(table_pipe);
-		mother_board(data, table_pipe[0]);
+		// mother_board(data, table_pipe[0]);
 		free_struc(table_pipe);
 	}
 }
@@ -62,7 +62,6 @@ int		main(int ac, char **av, char **envp)
 	(void)av;
 	data.var = NULL;
 	data.path = NULL;
-
 
 	s_sigaction.sa_sigaction = ft_signal;
 	s_sigaction.sa_flags = SA_SIGINFO;
