@@ -3,17 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/14 18:47:38 by root             ###   ########.fr       */
-=======
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/15 17:42:25 by aptive           ###   ########.fr       */
->>>>>>> a6b8c5419114a6c46271a19948111e30991682d7
+/*   Updated: 2022/06/19 15:20:46 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +49,15 @@ void	process(t_data *data, t_command *cmd, int pipefd[][2], int pos)
 	env = lst_dup(data->h_env);
 	if (cmd->tab_redir)
 		redir(data, cmd->tab_redir);
-<<<<<<< HEAD
 	if (pos != -1 && cmd->len_pipe > 1)
 		redir_pipe(pipefd, pos, cmd->len_pipe);
-=======
-	if (pos != -1 && test > 1)
-		redir_pipe(pipefd, pos);
->>>>>>> a6b8c5419114a6c46271a19948111e30991682d7
 	if (is_builtin(cmd))
 	{
 		run_builtin(data, cmd);
 		exit(EXIT_SUCCESS);
 	}
-<<<<<<< HEAD
 	if (cmd->len_pipe > 1)
 		close_unused_pipes(pipefd, pos, cmd->len_pipe);
-=======
-	if (test > 1)
-		close_unused_pipes(pipefd, pos);
->>>>>>> a6b8c5419114a6c46271a19948111e30991682d7
 	path = find_bin(data->path, cmd->tab_cmd[0]);
 	if (execve(path, cmd->tab_cmd, env) < 0)
 		return ; // error
