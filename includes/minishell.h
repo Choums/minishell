@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/19 15:24:24 by root             ###   ########.fr       */
+/*   Updated: 2022/06/19 15:45:04 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ int		ft_count_redirection(char *str, char c_redirect);
 t_command	**ft_redirection_init(t_command	*(*table_pipe), int number_pipe);
 void	ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c);
 void	ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c);
+char	*ft_search_redir(char *str, char c);
 
 /*
 PARSING_C------------------------------------------------------------------------
@@ -191,7 +192,6 @@ FREE----------------------------------------------------------------------------
 */
 void	ft_free_doutab(char **tab);
 void	free_struc(t_command **table_pipe);
-
 
 /*
 SIGNAL_C-------------------------------------------------------------------------
