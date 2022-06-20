@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/19 15:26:08 by root             ###   ########.fr       */
+/*   Updated: 2022/06/20 18:03:22 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	append_mode(t_data *data, t_redirection *tab, char *file)
 	if (tab->out_fd < 0)
 		perror("Open");
 	redirect(tab);
+	close(tab->out_fd);
 	if (alloc)
 		free(var);
 }
@@ -54,11 +55,13 @@ void	restore_redir(t_redirection *tab)
 	{
 		// fprintf(stderr, "in %s\n", tab->in[0]);
 		dup2(tab->cpy_in, STDIN_FILENO);
+		close(tab->cpy_in);
 	}
 	if (tab->out)
 	{
 		// fprintf(stderr, "out\n");
 		dup2(tab->cpy_out, STDOUT_FILENO);
+		close(tab->cpy_out);
 	}
 }
 
@@ -136,7 +139,7 @@ void	out_redir(t_data *data, t_redirection *tab, char *file)
 	if (tab->out_fd < 0)
 		perror("Open");
 	redirect(tab);
-	// close(out_fd);
+	close(tab->out_fd);
 	if (alloc)
 		free(var);
 }
@@ -162,6 +165,7 @@ void	in_redir(t_data *data, t_redirection *tab, char *file)
 	// if (in_fd < 0)
 	// 	ft_err("Open");
 	redirect(tab);
+	close(tab->in_fd);
 	if (alloc)
 		free(var);
 }
