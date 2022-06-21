@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/18 12:25:37 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/19 15:25:03 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	process(t_data *data, t_command *cmd, int *pipefd, int pos)
  *	2 a la fois
  *	echo salut > outfile | wc -l >> outfile | cat | ls
  *	echo et wc on ecrit dans le outfile
- *	PAR CONTRE ls devance le cat et affiche les fichers 
+ *	PAR CONTRE ls devance le cat et affiche les fichers
  *		dont outfile avec les ecritures
  *	-------------------------------------
  *	double redir

@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/18 16:23:39 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/21 14:25:34 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,8 @@ void	ft_affiche_t_command(t_command	*(*table_pipe));
 /*
 COMMAND_C------------------------------------------------------------------------
 */
-char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd);
-void	copy_cmd(t_command *(*table_pipe), int nb_pp, char *cmd);
+char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd, char c);
+void	copy_cmd(t_command *(*table_pipe), int	nb_pp, char *cmd);
 t_command	**ft_parse_cmd(t_command *(*table_pipe), int number_pipe);
 /*
 REDIRECTION_C--------------------------------------------------------------------
@@ -168,6 +168,7 @@ int		ft_count_redirection(char *str, char c_redirect);
 t_command	**ft_redirection_init(t_command	*(*table_pipe), int number_pipe);
 void	ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c);
 void	ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c);
+char	*ft_search_redir(char *str, char c);
 
 /*
 PARSING_C------------------------------------------------------------------------
@@ -191,7 +192,6 @@ FREE----------------------------------------------------------------------------
 void	ft_free_doutab(char **tab);
 void	free_struc(t_command **table_pipe);
 
-
 /*
 SIGNAL_C-------------------------------------------------------------------------
 */
@@ -199,8 +199,14 @@ void	ft_signal(int sig, siginfo_t *info, void *context);
 void	sig_int(int sig, siginfo_t *info, void *context);
 void	sig_quit(int sig, siginfo_t *info, void *context);
 void	signal_init(void);
+
 /*
-SIGNAL_C-------------------------------------------------------------------------
+SPLIT_PIPE_C---------------------------------------------------------------------
+*/
+char	**split_pipe(char *str);
+
+/*
+VERIF_LINE_C---------------------------------------------------------------------
 */
 int		verif_quote(char *line);
 int		verif_line(char *line);

@@ -6,7 +6,7 @@
 #    By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 20:18:17 by tdelauna          #+#    #+#              #
-#    Updated: 2022/06/18 16:46:26 by chaidel          ###   ########.fr        #
+#    Updated: 2022/06/21 14:25:59 by chaidel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,13 +36,15 @@ SRC			=	main.c\
 				tokenizer.c\
 				free.c\
 				signal.c\
+				split_pipe.c\
 				verif_line.c\
 
 
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
 CC			=	gcc
-CFLAGS		=	-g -Wall -Wextra -fsanitize=address
+CFLAGS		=	-g -Wall -Wextra
+#-fsanitize=address -static-libasan
 
 FT			=	./libft/
 FT_LIB		=	$(addprefix $(FT),libft.a)

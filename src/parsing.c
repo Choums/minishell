@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/15 07:53:11 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/20 17:12:27 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,26 @@ int	ft_doubletab_len(char **tab)
 
 int	ft_count_pipe(char *line)
 {
-	int	count_pipe;
 	int	i;
+	int	j;
+	int	count;
 
-	count_pipe = 1;
-	i = -1;
-	while (line[++i])
+	i = 0;
+	count = 1;
+	while (i < ft_strlen(line))
 	{
-		if (line[i] == '|')
-			count_pipe++;
+		j = 1;
+		if (line[i] == '\'' || line[i] == '"')
+		{
+			while (line[i + j] && line[i + j] != line[i])
+				j++;
+			j++;
+		}
+		else if (line[i] == '|')
+			count++;
+		i += j;
 	}
-	return (count_pipe);
+	return (count);
 }
 
 t_command	**ft_parse_pipe(t_command	*(*table_pipe), char *line)
@@ -66,9 +75,9 @@ t_command	**ft_parse_pipe(t_command	*(*table_pipe), char *line)
 			return (NULL);
 	}
 	table_pipe[ft_count_pipe(line)] = NULL;
-	tmp = ft_split(line, '|');
+	tmp = split_pipe(line);
 	i = -1;
-	while (tmp[++i] && table_pipe[i]->all_pipe)
+	while (tmp[++i] /*&& table_pipe[i]->all_pipe*/)
 		table_pipe[i]->all_pipe = tmp[i];
 	free(tmp);
 	return (table_pipe);
