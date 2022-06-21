@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/18 13:48:11 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/18 16:23:52 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ void	out_redir(t_data *data, t_redirection *tab, char *file)
 	if (tab->out_fd < 0)
 		perror("Open");
 	redirect(tab);
-	// close(out_fd);
 	if (alloc)
 		free(var);
 }
