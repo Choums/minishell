@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/19 15:25:03 by root             ###   ########.fr       */
+/*   Updated: 2022/06/21 17:58:50 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,27 @@ void	process(t_data *data, t_command *cmd, int *pipefd, int pos)
 	if (is_builtin(cmd))
 	{
 		// printf("in builtin\n");
-		run_builtin(data, cmd);
+		exec_builtin(cmd, data);
 		exit(EXIT_SUCCESS);
 	}
 	path = find_bin(data->path, cmd->tab_cmd[0]);
 	if (execve(path, cmd->tab_cmd, env) < 0)
 		return ; // error
+}
+
+void	exec_builtin(t_command *cmd, t_data *data)
+{
+	if (cmd->tab_redir)
+	{
+		printf("in simple redir\n");
+		redir(data, cmd->tab_redir);
+	}
+	run_builtin(data, cmd);
+	if (cmd->tab_redir)
+	{
+		// fprintf(stderr, "restore\n");
+		restore_redir(cmd->tab_redir);
+	}
 }
 
 /*
@@ -102,19 +117,7 @@ void	mother_board(t_data *data, t_command **cmd)
 	pid_t	child;
 
 	if (get_cmd_num(cmd) == 1 && is_builtin(cmd[0]))
-	{
-		if (cmd[0]->tab_redir)
-		{
-			// printf("in simple redir\n");
-			redir(data, cmd[0]->tab_redir);
-		}
-		run_builtin(data, cmd[0]);
-		if (cmd[0]->tab_redir)
-		{
-			// fprintf(stderr, "restore\n");
-			restore_redir(cmd[0]->tab_redir);
-		}
-	}
+		exec_builtin(cmd[0], data);
 	else if (get_cmd_num(cmd) == 1 && !is_builtin(cmd[0]))
 	{
 		// printf("one child w/o builtin\n");

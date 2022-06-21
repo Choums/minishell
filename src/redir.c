@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/21 14:25:49 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/21 17:55:11 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,33 +51,33 @@ void	append_mode(t_data *data, t_redirection *tab, char *file)
 */
 void	restore_redir(t_redirection *tab)
 {
-	if (tab->in)
+	if (*(tab->in))
 	{
-		// fprintf(stderr, "in %s\n", tab->in[0]);
-		dup2(tab->cpy_in, STDIN_FILENO);
+		fprintf(stderr, "in\n");
+		dup2(tab->cpy_in, 0);
 		close(tab->cpy_in);
 	}
-	if (tab->out)
+	if (*(tab->out))
 	{
-		// fprintf(stderr, "out\n");
-		dup2(tab->cpy_out, STDOUT_FILENO);
+		fprintf(stderr, "out\n");
+		dup2(tab->cpy_out, 1);
 		close(tab->cpy_out);
 	}
 }
 
 void	redirect(t_redirection *tab)
 {
-	if (tab->in)
+	if (*(tab->in))
 	{
 		tab->cpy_in = dup(STDIN_FILENO);
-		close(STDIN_FILENO);
 		dup2(tab->in_fd, STDIN_FILENO);
+		close(tab->in_fd);
 	}
-	if (tab->out)
+	if (*(tab->out))
 	{
 		tab->cpy_out = dup(STDOUT_FILENO);
-		close(STDOUT_FILENO);
 		dup2(tab->out_fd, STDOUT_FILENO);
+		close(tab->out_fd);
 	}
 }
 
@@ -139,7 +139,6 @@ void	out_redir(t_data *data, t_redirection *tab, char *file)
 	if (tab->out_fd < 0)
 		perror("Open");
 	redirect(tab);
-	close(tab->out_fd);
 	if (alloc)
 		free(var);
 }
@@ -165,7 +164,6 @@ void	in_redir(t_data *data, t_redirection *tab, char *file)
 	// if (in_fd < 0)
 	// 	ft_err("Open");
 	redirect(tab);
-	close(tab->in_fd);
 	if (alloc)
 		free(var);
 }
@@ -198,6 +196,7 @@ void	redir_pipe(int *pipefd, int pos, int n_pipe)
 		// printf("fd [%d]: %d \n", pos + 1, pipefd[pos+1]);
 		if (dup2(pipefd[pos + 1], STDOUT_FILENO) < 0)
 			perror("dup2");
+		close(pipefd[pos + 1]);
 		// printf("dup done\n---\n");
 	}
 	else if (pos == n_pipe)
@@ -205,6 +204,7 @@ void	redir_pipe(int *pipefd, int pos, int n_pipe)
 		// printf("lst cmd\n");
 		// printf("fd [%d]: %d \n", (n_pipe * 2) - 2, pipefd[(n_pipe * 2) - 2]);
 		dup2(pipefd[(n_pipe * 2) - 2], STDIN_FILENO);
+		close(pipefd[(n_pipe * 2) - 2]);
 		// printf("dup done\n---\n");
 	}
 	else
@@ -214,6 +214,8 @@ void	redir_pipe(int *pipefd, int pos, int n_pipe)
 		// printf("fd [%d]: %d \n", (pos * 2) + 1, pipefd[(pos * 2) + 1]);
 		dup2(pipefd[(pos * 2) - 2], STDIN_FILENO);
 		dup2(pipefd[(pos * 2) + 1], STDOUT_FILENO);
+		close(pipefd[(pos * 2) - 2]);
+		close(pipefd[(pos * 2) + 1]);
 		// printf("dup done\n---\n");
 	}
 }

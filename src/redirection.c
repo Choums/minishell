@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:08:18 by aptive            #+#    #+#             */
-/*   Updated: 2022/06/16 18:29:10 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/21 14:41:38 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ t_command	**ft_redirection_init(t_command	*(*table_pipe), int number_pipe)
 		table_pipe[number_pipe]->tab_redir = NULL;
 		return (table_pipe);
 	}
+	table_pipe[number_pipe]->tab_redir->cpy_in = 0;
+	table_pipe[number_pipe]->tab_redir->cpy_out = 0;
+	table_pipe[number_pipe]->tab_redir->in_fd = 0;
+	table_pipe[number_pipe]->tab_redir->out_fd = 0;
 	table_pipe[number_pipe]->tab_redir->in
 		= malloc(sizeof(char **) * (nb_pipe_in + 1));
 	if (!table_pipe[number_pipe]->tab_redir->in)

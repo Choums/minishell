@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/21 14:25:34 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/21 17:26:12 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void	goto_oldpwd(t_list **h_env);
 char	*find_bin(t_list *lst_path, char *bin);
 void	mother_board(t_data *data, t_command **cmd);
 int		is_builtin(t_command *cmd);
+void	exec_builtin(t_command *cmd, t_data *data);
 void	run_builtin(t_data *data, t_command *cmd);
 void	process(t_data *data, t_command *cmd, int *pipefd, int pos);
 void	redir_pipe(int *pipefd, int pos, int n_pipe);
