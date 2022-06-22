@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:27:54 by aptive            #+#    #+#             */
-/*   Updated: 2022/06/16 18:38:22 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/22 15:50:27 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	ft_signal(int sig, siginfo_t *info, void *context)
 
 void	sig_quit(int sig, siginfo_t *info, void *context)
 {
+	
 	ft_putstr_fd("\b\b  \b\b", STDERR);
 }
 
@@ -42,7 +43,7 @@ void	sig_int(int sig, siginfo_t *info, void *context)
 {
 	ft_putstr_fd("\b\b  \b\b", STDERR);
 	ft_putstr_fd("\n", STDERR);
-	ft_putstr_fd("minishell$ ", STDERR);
+	ft_putstr_fd("minishell: ", STDERR);
 }
 // Interruption (ctrl-C) == sigint == Terminaison int sig 2
 // Interruption forte (ctrl-\)	 == sigquit == Terminaison + core dump int sig 3
