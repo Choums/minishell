@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:41:51 by root              #+#    #+#             */
-/*   Updated: 2022/06/22 17:08:33 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/22 17:51:27 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,16 @@ void	check_dir(t_data *data, char **args)
 		ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);
 		return ;
 	}
-	// check_path(data, args[1]);
+	if (!check_path(data, args[1]))
+		return ;
 	if (!args[1] || ft_strncmp(args[1], "~", 1) == 0)
 	{
-		if (get_elem(data->h_env, "HOME"))
-			goto_home(data);
-		else
-			ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);	
+		goto_home(data);	
 		return ;
 	}
 	if (ft_strncmp(args[1], "-", 1) == 0)
 	{
-		if (get_elem(data->h_env, "OLDPWD"))
-			goto_oldpwd(data);
-		else
-			ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
+		goto_oldpwd(data);
 		return ;
 	}
 	change_dir(data, args[1]);
@@ -80,35 +75,51 @@ void	check_dir(t_data *data, char **args)
 /*
  *	check via access si le path donnee existe ainsi que ses droits, gere le '-' et '~'
 */
-void	check_path(t_data *data, char *path)
+int	check_path(t_data *data, char *path)
 {
 	char	*tmp;
-
 	if (ft_strncmp(path, "-", 1) == 0)
 	{
+		printf("in me\n");
+		if (!get_elem(data->h_env, "OLDPWD"))
+		{
+			ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
+			return (0);
+		}
 		tmp = get_var(data, "OLDPWD=");
 		if (access(tmp, R_OK | X_OK) < 0)
 		{
 			free(tmp);
-			ft_err("cd");
+			perror("");
+			return (0);
 		}
 		else
 			free(tmp);
 	}
 	else if (ft_strncmp(path, "~", 1) == 0)
 	{
+		if (!get_elem(data->h_env, "HOME"))
+		{
+			ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
+			return (0);
+		}
 		tmp = get_var(data, "HOME=");
 		if (access(tmp, R_OK | X_OK) < 0)
 		{
 			free(tmp);
-			ft_err("cd");
+			return (0);
 		}
 		else
 			free(tmp);
 	}
 	else
 		if (access(path, R_OK | X_OK) < 0)
-			ft_err("cd");
+		{
+			ft_putstr_fd("cd: ", STDERR_FILENO);
+			perror(path);
+			return (0);
+		}
+	return (1);
 }
 
 

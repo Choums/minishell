@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/22 15:25:36 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/22 17:12:52 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	print_export(char **env);
 void	pwd(void);
 
 void	check_dir(t_data *data, char **args);
-void	check_path(t_data *data, char *path);
+int		check_path(t_data *data, char *path);
 void	change_dir(t_data *data, char *path);
 void	goto_home(t_data *data);
 int		is_oldpwd(t_list **h_env);
