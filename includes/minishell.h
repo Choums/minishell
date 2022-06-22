@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/22 11:32:56 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/22 17:12:52 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,14 @@ void	display_env(t_data *data);
 void	sort_env(char **env);
 void	print_export(char **env);
 void	pwd(void);
-void	check_dir(t_data *data, char *path);
-void	check_path(t_data *data, char *path);
-void	change_dir(t_list **h_env, char **path);
-void	goto_home(t_list **h_env);
+
+void	check_dir(t_data *data, char **args);
+int		check_path(t_data *data, char *path);
+void	change_dir(t_data *data, char *path);
+void	goto_home(t_data *data);
 int		is_oldpwd(t_list **h_env);
-void	create_oldpwd(t_list **h_env);
-void	goto_oldpwd(t_list **h_env);
+void	create_oldpwd(t_data *data);
+void	goto_oldpwd(t_data *data);
 
 /*	Exec */
 char	*find_bin(t_list *lst_path, char *bin);

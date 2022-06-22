@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/22 13:35:34 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/22 17:54:14 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,7 +287,7 @@ void	run_builtin(t_data *data, t_command *cmd)
 	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
 		echo(cmd->tab_cmd);
 	else if (ft_strcmp(cmd->tab_cmd[0], "cd") == 0)
-		change_dir(data->h_env, cmd->tab_cmd);
+		check_dir(data, cmd->tab_cmd);
 	else if (ft_strcmp(cmd->tab_cmd[0], "pwd") == 0)
 		pwd();
 	else if (ft_strcmp(cmd->tab_cmd[0], "export") == 0)
