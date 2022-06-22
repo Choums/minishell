@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_dir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:41:51 by root              #+#    #+#             */
-/*   Updated: 2022/05/30 18:16:25 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/06 19:42:47 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
  *	Cas => cwd supp. a prendre en compte
  *
 */
-void	change_dir(t_list **h_env, char *path)
+void	change_dir(t_list **h_env, char **path)
 {
 	char	*current;
 

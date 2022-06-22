@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+         #
+#    By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 20:18:17 by tdelauna          #+#    #+#              #
-#    Updated: 2022/06/13 16:35:10 by tdelauna         ###   ########.fr        #
+#    Updated: 2022/06/22 11:33:14 by chaidel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,13 +36,14 @@ SRC			=	main.c\
 				tokenizer.c\
 				free.c\
 				signal.c\
+				split_pipe.c\
 				verif_line.c\
 
 
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
 CC			=	gcc
-CFLAGS		=	-g -Wall -Wextra -fsanitize=address
+CFLAGS		=	-g -Wall -Wextra -fsanitize=address #-static-libasan
 
 FT			=	./libft/
 FT_LIB		=	$(addprefix $(FT),libft.a)
@@ -53,7 +54,7 @@ all:			obj $(FT_LIB) $(NAME)
 obj:
 				mkdir -p $(OBJDIR)
 
-$(OBJDIR)/%.o:	$(SRCDIR)/%.c
+$(OBJDIR)/%.o:	$(SRCDIR)/%.c includes/minishell.h
 				$(CC) $(CFLAGS) $(FT_INC) -I $(INCDIR) -o $@ -c $< -lreadline
 
 $(FT_LIB):

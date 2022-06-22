@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 10:49:04 by root              #+#    #+#             */
-/*   Updated: 2022/05/31 21:04:41 by root             ###   ########.fr       */
+/*   Updated: 2022/06/17 20:24:31 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@ void	free_double_tab(char **tab)
 	free(tab);
 }
 
+size_t	get_cmd_num(t_command **cmd)
+{
+	size_t	len;
+
+	len = 0;
+	while (cmd[len])
+		len++;
+	return (len);
+}
+
 void	print_double_tab(char **tab)
 {
 	size_t	len;
@@ -43,5 +53,22 @@ void	print_double_tab(char **tab)
 void	ft_err(char *err)
 {
 	perror(err);
+	exit(EXIT_FAILURE);
+}
+
+/*
+ *	Ferme les fds precedement ouvert et free le tableau
+*/
+void	pipe_err(int *pipefd, int i)
+{
+	if (i == 0)
+		i+= 2;
+	while (i)
+	{
+		close(pipefd[i]);
+		i--;
+	}
+	free(pipefd);
+	perror("failed to create pipes");
 	exit(EXIT_FAILURE);
 }

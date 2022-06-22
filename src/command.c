@@ -6,13 +6,17 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:54:45 by aptive            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/06/22 17:20:50 by tdelauna         ###   ########.fr       */
+=======
+/*   Updated: 2022/06/16 18:24:40 by aptive           ###   ########.fr       */
+>>>>>>> ecaac83b2c819e29d12cdd04f5739da1dc225aa6
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd)
+char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd, char c)
 {
 	int		i;
 
@@ -26,16 +30,17 @@ char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd)
 			while (tmp[i] && tmp[i] != ' ' )
 				i++;
 		}
-		else if (ft_isalnum(tmp[i]))
-		{
-			while (tmp[i] && tmp[i] != '<' && tmp[i] != '>')
-			{
-				tmp_cmd = ft_straddc(tmp_cmd, tmp[i]);
-				i++;
-			}
-		}
 		else
-			i++;
+		{
+			if (tmp[i] == '\'' || tmp[i] == '"')
+			{
+				c = tmp[i];
+				tmp_cmd = ft_straddc(tmp_cmd, tmp[i++]);
+				while (tmp[i] && tmp[i] != c)
+					tmp_cmd = ft_straddc(tmp_cmd, tmp[i++]);
+			}
+			tmp_cmd = ft_straddc(tmp_cmd, tmp[i++]);
+		}
 	}
 	return (tmp_cmd);
 }
@@ -165,7 +170,7 @@ t_command	**ft_parse_cmd(t_command *(*table_pipe), int number_pipe)
 	char	*cut_cmd;
 
 	cut_cmd = NULL;
-	cut_cmd = ft_cup_all_cmd(table_pipe[number_pipe]->all_pipe, cut_cmd);
+	cut_cmd = ft_cup_all_cmd(table_pipe[number_pipe]->all_pipe, cut_cmd, 'c');
 	count_cmd(table_pipe, number_pipe, cut_cmd);
 	copy_cmd(table_pipe, number_pipe, cut_cmd);
 	free(cut_cmd);

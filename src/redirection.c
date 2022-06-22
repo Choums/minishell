@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:08:18 by aptive            #+#    #+#             */
-/*   Updated: 2022/05/31 19:13:41 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/21 14:41:38 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,25 @@ int	ft_count_redirection(char *str, char c_redirect)
 {
 	int	i;
 	int	count;
+	int	j;
 
-	i = -1;
+	i = 0;
 	count = 0;
-	while (str[++i])
+	while (i < (int)ft_strlen(str))
 	{
-		if (str[i] == c_redirect)
+		j = 1;
+		if (str[i] == '\'' || str[i] == '"')
 		{
-			if (str[++i])
-				count++;
-			else
-				count++;
+			while (str[i + j] && str[i + j] != str[i])
+				j++;
+			j++;
 		}
+		else if (str[i] == c_redirect)
+		{
+			count++;
+			j++;
+		}
+		i += j;
 	}
 	return (count);
 }
@@ -45,6 +52,10 @@ t_command	**ft_redirection_init(t_command	*(*table_pipe), int number_pipe)
 		table_pipe[number_pipe]->tab_redir = NULL;
 		return (table_pipe);
 	}
+	table_pipe[number_pipe]->tab_redir->cpy_in = 0;
+	table_pipe[number_pipe]->tab_redir->cpy_out = 0;
+	table_pipe[number_pipe]->tab_redir->in_fd = 0;
+	table_pipe[number_pipe]->tab_redir->out_fd = 0;
 	table_pipe[number_pipe]->tab_redir->in
 		= malloc(sizeof(char **) * (nb_pipe_in + 1));
 	if (!table_pipe[number_pipe]->tab_redir->in)
@@ -86,6 +97,28 @@ void	ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c)
 	}
 }
 
+char	*ft_search_redir(char *str, char c)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (str[i])
+	{
+		j = 1;
+		if (str[i] == '\'' || str[i] == '"')
+		{
+			while (str[i + j] && str[i + j] != str[i])
+				j++;
+			j++;
+		}
+		else if (str[i] == c)
+			return (str + i + j);
+		i += j;
+	}
+	return (str + i);
+}
+
 void	ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c)
 {
 	char	*tmp;
@@ -101,7 +134,7 @@ void	ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c)
 	{
 		cut = 0;
 		dex = 0;
-		tmp = ft_strchr(tmp, c);
+		tmp = ft_search_redir(tmp, c);
 		while (tmp[dex] == c || tmp[dex] == ' ')
 			dex++;
 		while ((tmp[dex + cut] != ' ' && tmp[dex + cut] != c) && tmp[dex + cut])

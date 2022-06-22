@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:40:50 by chaidel           #+#    #+#             */
-/*   Updated: 2022/05/28 16:00:52 by root             ###   ########.fr       */
+/*   Updated: 2022/06/15 12:00:52 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	get_env(t_data *data, char **env)
 	if (env[i])
 	{
 		while (env[i])
-			i++;	
+			i++;
 		data->env = ft_lstnew(env[n++]);
 		while (n < i)
 			ft_lstadd_back(&data->env, ft_lstnew(env[n++]));
@@ -42,7 +42,7 @@ void	set_env(t_data *data)
 {
 	char	*path;
 	char	*var;
-	
+
 	path = getcwd(NULL, 0);
 	if (path == NULL)
 		perror("failed to get current directory\n"); //gestion d'erreur a faire
@@ -73,7 +73,7 @@ void	get_path(t_data *data)
 		if (ft_strncmp(tmp->content, "PATH=", ft_strlen("PATH=")) == 0)
 		{
 			set_var(data, tmp->content);
-			all_paths = ft_substr(tmp->content, ft_strlen("PATH="), ft_strlen(tmp->content));
+			all_paths = ft_substr(tmp->content, 5, ft_strlen(tmp->content));
 			paths = ft_split(all_paths, ':');
 			free(all_paths);
 			set_path(data, paths);
@@ -83,8 +83,8 @@ void	get_path(t_data *data)
 		else
 			tmp = tmp->next;
 	}
-	set_var(data, DEFAULT_PATH_VALUE);
-	all_paths = ft_substr(DEFAULT_PATH_VALUE, ft_strlen("PATH="), ft_strlen(DEFAULT_PATH_VALUE));
+	set_var(data, DEF);
+	all_paths = ft_substr(DEF, ft_strlen("PATH="), ft_strlen(DEF));
 	paths = ft_split(all_paths, ':');
 	free(all_paths);
 	set_path(data, paths);
