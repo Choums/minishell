@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/21 18:49:01 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/22 09:04:04 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	exec_builtin(t_command *cmd, t_data *data)
 {
 	if (cmd->tab_redir)
 	{
-		printf("in simple redir\n");
 		redir(data, cmd->tab_redir);
 	}
 	run_builtin(data, cmd);
@@ -284,7 +283,7 @@ int	is_builtin(t_command *cmd)
 
 void	run_builtin(t_data *data, t_command *cmd)
 {
-	// printf("builin run\n");
+	printf("builin run\n");
 	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
 		echo(cmd->tab_cmd);
 	else if (ft_strcmp(cmd->tab_cmd[0], "cd") == 0)

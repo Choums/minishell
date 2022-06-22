@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/21 18:49:05 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/22 11:32:56 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	pwd(void);
 void	unset(t_data *data, char **var);
 void	export(t_data *data, char **var);
 int		check_var(char *var);
+void	check_existing(t_data *data, char *var, size_t len);
 void	cat_var(t_data *data, char *var);
 void	add_var(t_data *data, char *var);
 size_t	name_len(char *var);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/19 15:37:36 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/22 10:09:14 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,8 @@ int		main(int ac, char **av, char **envp)
 		add_history(line);
 	while (is_exit(&data, line) && line)
 	{
-		// if (ft_strcmp(line, "test") == 0)
-		// 	echo(&data, t);
-		// free_double_tab(t);
+		if (ft_strcmp(line, "var") == 0)
+			print_vars(data.h_var);
 		main_two(&data, line);
 		free(line);
 		line = readline("minishell: ");

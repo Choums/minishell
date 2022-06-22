@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exporter.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:14:47 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/06 19:44:51 by root             ###   ########.fr       */
+/*   Updated: 2022/06/22 11:35:30 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,32 +44,30 @@ void	export(t_data *data, char **var)
 
 	i = 1;
 	alloc = 0;
-	// printf("%s\n", var);
-	while (var[i])
+	printf("var: %s\n", var[i]);
+	if (var[i] == NULL) // += simple est considéré n'est pas donné par le parser
 	{
-		if (var == NULL)
-		{
-			display_env(data);
-			return ;
-		}
-		if (ft_strchr(var, '$'))
-		{
-			var = which_dollar(data, var);
-			alloc = 1;
-		}
-		if (check_var(var))
-		{
-			if (var[name_len(var)] == '=' && var[name_len(var) - 1] == '+')
-				cat_var(data, var);
-			else
-				add_var(data, var);
-		}
-		else
-			export_err(var, alloc);
-		if (alloc)
-			free(var);		
-		i++;
+		display_env(data);
+		return ;
 	}
+	if (ft_strchr(var[i], '$'))
+	{
+		var[i] = which_dollar(data, var[i]);
+		alloc = 1;
+	}
+	if (check_var(var[i]))
+	{
+		printf("check valid\n");
+		if (var[i][name_len(var[i])] == '=' && var[i][name_len(var[i]) - 1] == '+')
+			cat_var(data, var[i]);
+		else
+			add_var(data, var[i]);
+	}
+	else
+		export_err(var[i], alloc);
+	if (alloc)
+		free(var[i]);
+	i++;
 }
 
 int	check_var(char *var)
@@ -96,15 +94,16 @@ int	check_var(char *var)
 
 /*
  *	Concatene la valeur donnée avec la valeur précédente
+ *	-------------------------------------
  *	name+=value_to_add
+ *	var=value+value_to_add
  *	recup la var via son nom
  *	ajoute la value a la precedente
  *	-------------------------------------
  *	taille var et len sont egaux	-> Pas de value => si la var n'existe pas
  														elle est init avec value NULL
 														 (diff d'une var sans value)
- *	export test+=	=>	test=
- *	export ss		=>	ss
+ *	export test+=	=>	test=""
  *	-------------------------------------
  *	test=salut
  *	export test+=_hola	=>	test=salut_hola
@@ -114,18 +113,42 @@ void	cat_var(t_data *data, char *var)
 {
 	t_list	*tmp;
 	size_t	len;
+	char	*value;
+	char	*new_var;
 
 	len = name_len(var);
-	printf("%c\n", var[len]);
-	if (var[len] == '=' && ft_strlen(var) - 1 == len)
+	check_existing(data, var, len);
+	value = ft_substr(var, len + 1, ft_strlen(var) - len);
+	if (!value || !value[0])
+		return (free(value));
+	tmp = *(data->h_env);
+	while (tmp)
 	{
-		printf("in\n");
-		add_var(data, NULL);
+		if (ft_strncmp(tmp->content, var, len - 1) == 0)
+		{
+			new_var = ft_strjoin(tmp->content, value);
+			update_elem(data, new_var);
+			free(new_var);
+			free(value);
+			return ;
+		}
+		tmp = tmp->next;
 	}
-	else if (ft_strlen(var) - 1 > len)
-	{
-		
-	}
+}
+
+/*
+ *	Check si la var existe ou non
+ *	si elle n'existe pas, elle est crée sinon rien ne se passe
+*/
+void	check_existing(t_data *data, char *var, size_t len)
+{
+	char *new_var;
+
+	new_var = ft_substr(var, 0, len - 1);
+	new_var = ft_join(new_var, "=");
+	if (!get_elem(data->h_env, new_var) || !get_elem(data->h_var, new_var))
+		add_var(data, new_var);
+	free(new_var);
 }
 
 /*
@@ -164,8 +187,7 @@ void	add_var(t_data *data, char *var)
 				ft_lstadd_back(&data->env, ft_lstnew(tmp->content));
 				return ;
 			}
-			else
-				tmp = tmp->next;
+			tmp = tmp->next;
 		}	
 	}
 	else // non existing var (declaration)
@@ -185,6 +207,8 @@ size_t	name_len(char *var)
 {
 	size_t	len;
 
+	if (!var)
+		return (0);
 	len = 0;
 	while (var[len] != '=' && var[len])
 		len++;
