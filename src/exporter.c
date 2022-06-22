@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:14:47 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/22 11:35:30 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/22 13:35:21 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	export(t_data *data, char **var)
 
 	i = 1;
 	alloc = 0;
-	printf("var: %s\n", var[i]);
+	// printf("var: %s\n", var[i]);
 	if (var[i] == NULL) // += simple est considéré n'est pas donné par le parser
 	{
 		display_env(data);
@@ -57,7 +57,7 @@ void	export(t_data *data, char **var)
 	}
 	if (check_var(var[i]))
 	{
-		printf("check valid\n");
+		// printf("check valid\n");
 		if (var[i][name_len(var[i])] == '=' && var[i][name_len(var[i]) - 1] == '+')
 			cat_var(data, var[i]);
 		else
