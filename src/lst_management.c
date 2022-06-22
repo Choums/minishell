@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_management.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/06/22 10:49:47 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/22 18:20:53 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	supp_elem(t_list **head, char *var)
 {
 	t_list	*tmp;
 	t_list	*lst;
-	
+
 	tmp = (*head);
 	while (tmp)
 	{
@@ -50,7 +50,7 @@ void	supp_elem(t_list **head, char *var)
 			else if (tmp->previous && tmp->next)
 			{
 				tmp->previous->next = tmp->next;
-				tmp->next->previous = tmp->previous;	
+				tmp->next->previous = tmp->previous;
 				ft_lstdelone(tmp, del);
 				return ;
 			}
@@ -193,13 +193,13 @@ char	*which_dollar(t_data *data, char *command)
 	size_t	pos;
 	char	*new;
 
-	if (ft_strchr(command, '$'))
+	if (ft_strchr(command, '$') && ft_strlen(command) != 1)
 	{
 		pos = get_dollar_pos(command);
 		if (command[pos + 1] == '?')
 			return (0); //Signaux a faire
 		var = ft_substr(command, pos + 1, ft_strlen(command) - pos + 1);
-		// printf("var: %s\n", var);
+		printf("var: %s\n", var);
 		if (get_elem(data->h_env, var) || get_elem(data->h_var, var))
 			value = get_var(data, var);
 		else
@@ -207,11 +207,11 @@ char	*which_dollar(t_data *data, char *command)
 			free(var);
 			return (NULL);
 		}
-		// printf("get_var: %s\n", value);
+		printf("get_var: %s\n", value);
 		free(var);
 		new = dollar_substitute(command, value, pos);
 		free(value);
-		// printf("new: %s\n", new);
+		printf("new: %s\n", new);
 		return (new);
 	}
 	return (NULL);
@@ -250,7 +250,7 @@ size_t	get_dollar_pos(char *str)
 
 /*
  *	DEBUG
- *	PRINT LA LST DONNEES 
+ *	PRINT LA LST DONNEES
 */
 void	print_vars(t_list **head)
 {
