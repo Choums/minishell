@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -6,7 +7,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/06/22 18:20:53 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/06/23 12:50:23 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +218,6 @@ char	*which_dollar(t_data *data, char *command)
 	return (NULL);
 }
 
-
 /*
  *	Substitue $var par sa valeur
 */
@@ -245,8 +245,6 @@ size_t	get_dollar_pos(char *str)
 		i++;
 	return (i);
 }
-
-
 
 /*
  *	DEBUG

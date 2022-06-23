@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/22 11:32:56 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/23 12:38:57 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,5 +212,10 @@ VERIF_LINE_C--------------------------------------------------------------------
 */
 int		verif_quote(char *line);
 int		verif_line(char *line);
+
+/*
+VERIF_LINE_C---------------------------------------------------------------------
+*/
+void	go_expand(t_data *data, t_command *(*table_pipe));
 
 #endif

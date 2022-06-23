@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/22 18:13:29 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/06/23 17:58:42 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,71 @@
  *	Ajouter la pos au prompt
 */
 
-void	go_expand(t_data *data, t_command *(*table_pipe))
+char	*parse_str_quote(char *str)
 {
-	char	*test;
-	test = which_dollar(data, table_pipe[0]->tab_cmd[0]);
-	printf("table_pipe[0]->tab_cmd[0] : %s\n",table_pipe[0]->tab_cmd[0]);
-	printf("test : %s\n", test);
-	free(table_pipe[0]->tab_cmd[0]);
-	table_pipe[0]->tab_cmd[0] = test;
-	printf("table_pipe[0]->tab_cmd[0] : %s\n",table_pipe[0]->tab_cmd[0]);
+	char	*tmp;
+	char	c;
+	int		i;
+
+	i = 0;
+	tmp = NULL;
+	while (str[i])
+	{
+		if (str[i] == '"' || str[i] == '\'')
+		{
+			c = str[i];
+			while (str[++i] != c)
+				tmp = ft_straddc(tmp, str[i]);
+		}
+		else
+			tmp = ft_straddc(tmp, str[i]);
+		i++;
+	}
+	return (tmp);
+}
+void parse_quote(t_command *(*table_pipe))
+{
+	char	*dest;
+	int		i;
+	int		j;
+
+	i = -1;
+	while (table_pipe[++i])
+	{
+		j = -1;
+		while (table_pipe[i]->tab_cmd[++j])
+		{
+			if (ft_strchr(table_pipe[i]->tab_cmd[j], '\'')
+				|| ft_strchr(table_pipe[i]->tab_cmd[j], '"'))
+			{
+				dest = parse_str_quote(table_pipe[i]->tab_cmd[j]);
+				free(table_pipe[i]->tab_cmd[j]);
+				table_pipe[i]->tab_cmd[j] = dest;
+			}
+		}
+		j = -1;
+		while (table_pipe[i]->tab_redir && table_pipe[i]->tab_redir->in[++j])
+		{
+			if (ft_strchr(table_pipe[i]->tab_redir->in[j], '\'')
+				|| ft_strchr(table_pipe[i]->tab_redir->in[j], '"'))
+			{
+				dest = parse_str_quote(table_pipe[i]->tab_redir->in[j]);
+				free(table_pipe[i]->tab_redir->in[j]);
+				table_pipe[i]->tab_redir->in[j] = dest;
+			}
+		}
+		j = -1;
+		while (table_pipe[i]->tab_redir && table_pipe[i]->tab_redir->out[++j])
+		{
+			if (ft_strchr(table_pipe[i]->tab_redir->out[j], '\'')
+				|| ft_strchr(table_pipe[i]->tab_redir->out[j], '"'))
+			{
+				dest = parse_str_quote(table_pipe[i]->tab_redir->out[j]);
+				free(table_pipe[i]->tab_redir->out[j]);
+				table_pipe[i]->tab_redir->out[j] = dest;
+			}
+		}
+	}
 }
 
 void	main_two(t_data *data, char *line)
@@ -53,9 +109,11 @@ void	main_two(t_data *data, char *line)
 	if (verif_line(line))
 	{
 		table_pipe = ft_parsing(data, line, table_pipe);
-		// ft_affiche_t_command(table_pipe);
+		parse_quote(table_pipe);
+		ft_affiche_t_command(table_pipe);
 		go_expand(data, table_pipe);
-		mother_board(data, table_pipe);
+		if (table_pipe[0]->tab_cmd[0])
+			mother_board(data, table_pipe);
 		free_struc(table_pipe);
 	}
 }
