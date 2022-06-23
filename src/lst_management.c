@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/06/22 10:49:47 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/23 15:01:48 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	supp_elem(t_list **head, char *var)
 {
 	t_list	*tmp;
 	t_list	*lst;
-	
+
 	tmp = (*head);
 	while (tmp)
 	{
@@ -50,7 +50,7 @@ void	supp_elem(t_list **head, char *var)
 			else if (tmp->previous && tmp->next)
 			{
 				tmp->previous->next = tmp->next;
-				tmp->next->previous = tmp->previous;	
+				tmp->next->previous = tmp->previous;
 				ft_lstdelone(tmp, del);
 				return ;
 			}

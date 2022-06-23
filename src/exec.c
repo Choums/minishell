@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/23 13:59:49 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/23 15:21:27 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,12 @@ void	process(t_data *data, t_command *cmd, int *pipefd, int pos)
 		close_unused_pipes(pipefd, pos, cmd->len_pipe);
 	if (is_builtin(cmd))
 	{
-		// printf("in builtin\n");
 		exec_builtin(cmd, data);
 		exit(EXIT_SUCCESS);
 	}
 	path = find_bin(data->path, cmd->tab_cmd[0]);
 	if (execve(path, cmd->tab_cmd, env) < 0)
-		return ; // error
+		exit(0);
 }
 
 void	exec_builtin(t_command *cmd, t_data *data)

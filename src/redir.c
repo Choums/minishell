@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/22 13:09:23 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/23 16:34:16 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,21 +167,21 @@ void	in_redir(t_data *data, t_redirection *tab, char *file)
 		free(var);
 }
 
-// /*
-//  *	Definis si file est un fichier ou un directory et recup son fd
-//  *	Return	=>	0 directory
-//  *				1 file
-//  *	-------------------------------------
-//  *	Appel de stat()
-//  *
-// */
-// int	opening_mode(char *pathname)
-// {
-// 	struct stat	path_stat;
+/*
+ *	Definis si file est un fichier ou un directory et recup son fd
+ *	Return	=>	0 directory
+ *				1 file
+ *	-------------------------------------
+ *	Appel de stat()
+ *
+*/
+int	opening_mode(char *pathname)
+{
+	struct stat	path_stat;
 
-// 	stat(pathname, &path_stat);
-// 	return (S_ISREG(path_stat.st_mode));
-// }
+	stat(pathname, &path_stat);
+	return ();
+}
 
 /*
  *	Redirige l'entrée et sortie du process vers le/les pipes

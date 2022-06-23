@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:41:51 by root              #+#    #+#             */
-/*   Updated: 2022/06/23 13:57:30 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/23 16:29:32 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@
  *	~	=> var HOME	| goto_home
  *	-	=> var OLDPWD | goto_oldpwd
  *	Cas => cwd supp. a prendre en compte
- *
+ *	-------------------------------------
+ *	Cas de dir precedent supp
+ *		=>	Doit pouvoir se rendre au HOME
 */
 void	change_dir(t_data *data, char *path)
 {
@@ -58,9 +60,10 @@ void	check_dir(t_data *data, char **args)
 	}
 	if (!check_path(data, args[1]))
 		return ;
+	printf("path: %s\n", args[1]);
 	if (!args[1] || ft_strncmp(args[1], "~", 1) == 0)
 	{
-		goto_home(data);	
+		goto_home(data);
 		return ;
 	}
 	if (ft_strncmp(args[1], "-", 1) == 0)
@@ -78,25 +81,8 @@ void	check_dir(t_data *data, char **args)
 int	check_path(t_data *data, char *path)
 {
 	char	*tmp;
-	if (ft_strncmp(path, "-", 1) == 0)
-	{
-		printf("in me\n");
-		if (!get_elem(data->h_env, "OLDPWD"))
-		{
-			ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
-			return (0);
-		}
-		tmp = get_var(data, "OLDPWD=");
-		if (access(tmp, R_OK | X_OK) < 0)
-		{
-			free(tmp);
-			perror("");
-			return (0);
-		}
-		else
-			free(tmp);
-	}
-	else if (ft_strncmp(path, "~", 1) == 0)
+
+	if (!path || ft_strncmp(path, "~", 1) == 0)
 	{
 		if (!get_elem(data->h_env, "HOME"))
 		{
@@ -104,24 +90,41 @@ int	check_path(t_data *data, char *path)
 			return (0);
 		}
 		tmp = get_var(data, "HOME=");
-		if (access(tmp, R_OK | X_OK) < 0)
+		if (access(tmp, F_OK) < 0)
 		{
+			printf("home err\n");
 			free(tmp);
 			return (0);
 		}
 		else
 			free(tmp);
 	}
-	else
-		if (access(path, R_OK | X_OK) < 0)
+	else if (ft_strncmp(path, "-", 1) == 0)
+	{
+		if (!get_elem(data->h_env, "OLDPWD"))
 		{
-			ft_putstr_fd("cd: ", STDERR_FILENO);
-			perror(path);
+			ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
 			return (0);
 		}
+		tmp = get_var(data, "OLDPWD=");
+		if (stat(path, ) < 0)
+		{
+			free(tmp);
+			perror("");
+			return (0);
+		}
+		else
+			free(tmp);
+
+	}
+	else if (access(path, R_OK | X_OK) < 0)
+	{
+		ft_putstr_fd("cd: ", STDERR_FILENO);
+		perror(path);
+		return (0);
+	}
 	return (1);
 }
-
 
 void	goto_home(t_data *data)
 {
