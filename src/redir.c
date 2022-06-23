@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/23 16:34:16 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/23 17:42:06 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,13 +175,13 @@ void	in_redir(t_data *data, t_redirection *tab, char *file)
  *	Appel de stat()
  *
 */
-int	opening_mode(char *pathname)
-{
-	struct stat	path_stat;
+// int	opening_mode(char *pathname)
+// {
+// 	struct stat	path_stat;
 
-	stat(pathname, &path_stat);
-	return ();
-}
+// 	stat(pathname, &path_stat);
+// 	return ();
+// }
 
 /*
  *	Redirige l'entrée et sortie du process vers le/les pipes

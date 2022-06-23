@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:41:51 by root              #+#    #+#             */
-/*   Updated: 2022/06/23 16:29:32 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/23 17:54:43 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ int	check_path(t_data *data, char *path)
 		tmp = get_var(data, "HOME=");
 		if (access(tmp, F_OK) < 0)
 		{
-			printf("home err\n");
 			free(tmp);
 			return (0);
 		}
@@ -107,7 +106,7 @@ int	check_path(t_data *data, char *path)
 			return (0);
 		}
 		tmp = get_var(data, "OLDPWD=");
-		if (stat(path, ) < 0)
+		if (access(tmp, F_OK) < 0)
 		{
 			free(tmp);
 			perror("");
@@ -117,13 +116,34 @@ int	check_path(t_data *data, char *path)
 			free(tmp);
 
 	}
-	else if (access(path, R_OK | X_OK) < 0)
+	else if (check_access(data, path) < 0)
 	{
 		ft_putstr_fd("cd: ", STDERR_FILENO);
 		perror(path);
 		return (0);
 	}
 	return (1);
+}
+
+/*
+ *	Check les droits du dir
+*/
+int	check_access(t_data *data, char *pathname)
+{
+	struct stat	path_stat;
+
+	stat(pathname, &path_stat);
+	if ((path_stat.st_mode && __S_IFMT) == __S_IFCHR)
+	{
+		printf("dir\n");
+		return (1);
+	}
+	else if ((path_stat.st_mode && __S_IFMT) == __S_IFREG)
+	{
+		printf("file\n");
+		return (1);
+	}
+	return (0);
 }
 
 void	goto_home(t_data *data)
