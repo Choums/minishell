@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:54:45 by aptive            #+#    #+#             */
-/*   Updated: 2022/06/22 15:22:05 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/22 17:54:06 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,73 @@ char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd, char c)
 	return (tmp_cmd);
 }
 
+// void	count_cmd(t_command	*(*table_pipe), int nb_pp, char *cut_cmd)
+// {
+// 	int	i;
+// 	int	count_arg;
+// 	int	len_cut_cmd;
+
+// 	i = 0;
+// 	count_arg = 0;
+// 	len_cut_cmd = ft_strlen(cut_cmd);
+// 	while (i < len_cut_cmd)
+// 	{
+// 		if (ft_isalnum(cut_cmd[i]) || cut_cmd[i] == '-' || cut_cmd[i] == '.')
+// 		{
+// 			count_arg++;
+// 			while (cut_cmd[i] != ' ' && cut_cmd[i])
+// 				i++;
+// 		}
+// 		else if (cut_cmd[i] == 39 || cut_cmd[i] == 34)
+// 		{
+// 			count_arg++;
+// 			while (cut_cmd[i] && (cut_cmd[i] != 39 || cut_cmd[i] != 34))
+// 				i++;
+// 		}
+// 		else
+// 			i++;
+// 	}
+// 	table_pipe[nb_pp]->tab_cmd = ft_calloc(count_arg + 1, sizeof(char *));
+// }
+
+// void	copy_cmd(t_command	*(*table_pipe), int nb_pp, char *cmd)
+// {
+// 	int		i;
+// 	int		count_arg;
+// 	int		cut;
+
+// 	i = 0;
+// 	count_arg = -1;
+// 	while (i < (int)ft_strlen(cmd))
+// 	{
+// 		cut = 0;
+// 		if (ft_isalnum(cmd[i]) || cmd[i] == '-' || cmd[i] == '.')
+// 		{
+// 			while (cmd[i + cut] != ' ' && cmd[i + cut])
+// 				cut++;
+// 			table_pipe[nb_pp]->tab_cmd[++count_arg] = ft_substr(cmd, i, cut);
+// 		}
+// 		else if (cmd[i] == 39 || cmd[i] == 34)
+// 		{
+// 			while (cmd[i + cut] && (cmd[i + cut] != 39 || cmd[i + cut] != 34))
+// 				cut++;
+// 			table_pipe[nb_pp]->tab_cmd[++count_arg] = ft_substr(cmd, i, cut);
+// 		}
+// 		else
+// 			cut++;
+// 		i += cut;
+// 	}
+// }
+int	pass_quote(char *cmd, int i, int cut)
+{
+	char	c;
+
+	c = cmd[i + cut++];
+	while (cmd[i + cut] != c)
+		cut++;
+	return (cut);
+}
+
 void	count_cmd(t_command	*(*table_pipe), int nb_pp, char *cut_cmd)
 {
 	int	i;
@@ -52,16 +119,12 @@ void	count_cmd(t_command	*(*table_pipe), int nb_pp, char *cut_cmd)
 	len_cut_cmd = ft_strlen(cut_cmd);
 	while (i < len_cut_cmd)
 	{
-		if (ft_isalnum(cut_cmd[i]) || cut_cmd[i] == '-' || cut_cmd[i] == '.')
+		if (cut_cmd[i] != ' ')
 		{
 			count_arg++;
+			if (cut_cmd[i] == '\'' || cut_cmd[i] == '"')
+				i += pass_quote(cut_cmd, i, 0);
 			while (cut_cmd[i] != ' ' && cut_cmd[i])
-				i++;
-		}
-		else if (cut_cmd[i] == 39 || cut_cmd[i] == 34)
-		{
-			count_arg++;
-			while (cut_cmd[i] && (cut_cmd[i] != 39 || cut_cmd[i] != 34))
 				i++;
 		}
 		else
@@ -69,6 +132,7 @@ void	count_cmd(t_command	*(*table_pipe), int nb_pp, char *cut_cmd)
 	}
 	table_pipe[nb_pp]->tab_cmd = ft_calloc(count_arg + 1, sizeof(char *));
 }
+
 
 void	copy_cmd(t_command	*(*table_pipe), int nb_pp, char *cmd)
 {
@@ -81,16 +145,14 @@ void	copy_cmd(t_command	*(*table_pipe), int nb_pp, char *cmd)
 	while (i < (int)ft_strlen(cmd))
 	{
 		cut = 0;
-		if (ft_isalnum(cmd[i]) || cmd[i] == '-' || cmd[i] == '.')
+		if (cmd[i] != ' ')
 		{
 			while (cmd[i + cut] != ' ' && cmd[i + cut])
+			{
+				if (cmd[i + cut] == '\'' || cmd[i + cut] == '"')
+					cut = pass_quote(cmd, i, cut);
 				cut++;
-			table_pipe[nb_pp]->tab_cmd[++count_arg] = ft_substr(cmd, i, cut);
-		}
-		else if (cmd[i] == 39 || cmd[i] == 34)
-		{
-			while (cmd[i + cut] && (cmd[i + cut] != 39 || cmd[i + cut] != 34))
-				cut++;
+			}
 			table_pipe[nb_pp]->tab_cmd[++count_arg] = ft_substr(cmd, i, cut);
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/23 13:58:17 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/23 13:59:49 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	process(t_data *data, t_command *cmd, int *pipefd, int pos)
 		// printf("in simple redir\n");
 		redir(data, cmd->tab_redir);
 	}
-	if (pos != -1 && cmd->len_pipe > 0)
+	if (pos != -1 && cmd->len_pipe > 0 && !cmd->tab_redir)
 		redir_pipe(pipefd, pos, cmd->len_pipe);
 	if (cmd->len_pipe > 0)
 		close_unused_pipes(pipefd, pos, cmd->len_pipe);
