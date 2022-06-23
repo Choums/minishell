@@ -6,12 +6,11 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:41:51 by root              #+#    #+#             */
-/*   Updated: 2022/06/22 17:51:27 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/23 13:57:30 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 /*
  *	cd
@@ -31,16 +30,16 @@ void	change_dir(t_data *data, char *path)
 
 	current = getcwd(NULL, 0);
 	if (!current)
-		perror(""); //Gestion d'erreur
-	var = ft_strjoin("OLDPWD=", current);	
+		perror("");
+	var = ft_strjoin("OLDPWD=", current);
 	free(current);
 	update_elem(data, var);
 	free(var);
 	if (chdir(path) < 0)
-		perror(""); //Gestion d'erreur
+		perror("");
 	current = getcwd(NULL, 0);
 	if (!current)
-		perror(""); //Gestion d'erreur
+		perror("");
 	var = ft_strjoin("PWD=", current);
 	free(current);
 	update_elem(data, var);
@@ -73,7 +72,8 @@ void	check_dir(t_data *data, char **args)
 }
 
 /*
- *	check via access si le path donnee existe ainsi que ses droits, gere le '-' et '~'
+ *	check via access si le path donnee existe ainsi que ses droits
+ *	gere le '-' et '~'
 */
 int	check_path(t_data *data, char *path)
 {

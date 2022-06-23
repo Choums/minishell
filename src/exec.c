@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/22 14:11:36 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/23 13:58:17 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,7 +283,6 @@ int	is_builtin(t_command *cmd)
 
 void	run_builtin(t_data *data, t_command *cmd)
 {
-	printf("builin run\n");
 	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
 		echo(cmd->tab_cmd);
 	else if (ft_strcmp(cmd->tab_cmd[0], "cd") == 0)
