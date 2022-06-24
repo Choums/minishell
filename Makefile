@@ -3,10 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+         #
+#    By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 20:18:17 by tdelauna          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2022/06/22 12:54:19 by chaidel          ###   ########.fr        #
+=======
+#    Updated: 2022/06/24 17:31:54 by tdelauna         ###   ########.fr        #
+>>>>>>> expand
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +42,8 @@ SRC			=	main.c\
 				signal.c\
 				split_pipe.c\
 				verif_line.c\
+				expand.c\
+				parse_quote.c\
 
 
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))

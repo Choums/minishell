@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/22 17:33:43 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/06/24 15:35:25 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
  *	Ajouter la pos au prompt
 */
 
+
 void	main_two(t_data *data, char *line)
 {
 	t_command	*(*table_pipe);
@@ -42,8 +43,11 @@ void	main_two(t_data *data, char *line)
 	if (verif_line(line))
 	{
 		table_pipe = ft_parsing(data, line, table_pipe);
+		parse_quote(table_pipe);
 		ft_affiche_t_command(table_pipe);
-		mother_board(data, table_pipe);
+		go_expand(data, table_pipe);
+		if (table_pipe[0]->tab_cmd[0])
+			mother_board(data, table_pipe);
 		free_struc(table_pipe);
 	}
 }
