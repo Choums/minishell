@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/23 14:46:05 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/24 17:59:56 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	main_two(t_data *data, char *line)
 	if (verif_line(line))
 	{
 		table_pipe = ft_parsing(data, line, table_pipe);
-		ft_affiche_t_command(table_pipe);
+		// ft_affiche_t_command(table_pipe);
 		mother_board(data, table_pipe);
 		free_struc(table_pipe);
 	}
