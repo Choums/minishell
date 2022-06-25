@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/06/25 14:49:57 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/25 15:02:57 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ char	*which_dollar(t_data *data, char *command)
 		if (command[pos + 1] == '?')
 			return (0); //Signaux a faire
 		var = ft_substr(command, pos + 1, ft_strlen(command) - pos + 1);
-		printf("var: %s\n", var);
+		// printf("var: %s\n", var);
 		if (get_elem(data->h_env, var) || get_elem(data->h_var, var))
 			value = get_var(data, var);
 		else
@@ -207,11 +207,11 @@ char	*which_dollar(t_data *data, char *command)
 			free(var);
 			return (NULL);
 		}
-		printf("get_var: %s\n", value);
+		// printf("get_var: %s\n", value);
 		free(var);
 		new = dollar_substitute(command, value, pos);
 		free(value);
-		printf("new: %s\n", new);
+		// printf("new: %s\n", new);
 		return (new);
 	}
 	return (NULL);
@@ -227,7 +227,9 @@ char	*dollar_substitute(char *command, char *value, size_t pos)
 
 	if (pos == 0)
 		return (ft_strdup(value));
-	str = ft_substr(command, 0, ft_strlen(command) - pos + 2);
+	// printf("base: %s\n", command);
+	str = ft_substr(command, 0, pos);
+	// printf("clean: %s\n", str);
 	join = ft_join(str, value);
 	return (join);
 }

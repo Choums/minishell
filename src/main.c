@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/25 14:42:42 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/25 14:52:42 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	main_two(t_data *data, char *line)
 	{
 		table_pipe = ft_parsing(data, line, table_pipe);
 		parse_quote(table_pipe);
-		ft_affiche_t_command(table_pipe);
+		// ft_affiche_t_command(table_pipe);
 		go_expand(data, table_pipe);
 		if (table_pipe[0]->tab_cmd[0])
 			mother_board(data, table_pipe);
