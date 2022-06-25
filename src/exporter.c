@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exporter.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:14:47 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/22 13:35:21 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/24 18:16:57 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	check_var(char *var)
 		first_alpha = 1;
 	while (var[i] && var[i] != '=')
 	{
-		if (var[i] == '+' && var[i + 1] == '=')
+		if (first_alpha && var[i] == '+' && var[i + 1] == '=')
 			return (1);
 		if (!first_alpha || !ft_isalnum(var[i]) || !(var[i] != '_'))
 			return (0);
