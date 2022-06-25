@@ -7,10 +7,14 @@
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 20:18:17 by tdelauna          #+#    #+#              #
 <<<<<<< HEAD
+<<<<<<< HEAD
 #    Updated: 2022/06/22 12:54:19 by chaidel          ###   ########.fr        #
 =======
 #    Updated: 2022/06/24 17:31:54 by tdelauna         ###   ########.fr        #
 >>>>>>> expand
+=======
+#    Updated: 2022/06/23 15:57:20 by chaidel          ###   ########.fr        #
+>>>>>>> changedir
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +53,7 @@ SRC			=	main.c\
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
 CC			=	gcc
-CFLAGS		=	-g -Wall -Wextra #-fsanitize=address #-static-libasan
+CFLAGS		=	-g -Wall -Wextra -fsanitize=address #-static-libasan
 
 FT			=	./libft/
 FT_LIB		=	$(addprefix $(FT),libft.a)

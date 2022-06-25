@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 05:48:30 by root              #+#    #+#             */
-/*   Updated: 2022/06/17 20:26:51 by root             ###   ########.fr       */
+/*   Updated: 2022/06/23 17:32:33 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,6 @@ void	pwd(void)
 	char	*path;
 
 	path = getcwd(NULL, 0);
-	if (!path)
-		perror(""); //Gestion d'erreur
 	ft_putendl_fd(path, STDIN_FILENO);
 	free(path);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/24 17:45:49 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/06/25 14:42:01 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,20 +166,20 @@ void	in_redir(t_data *data, t_redirection *tab, char *file)
 		free(var);
 }
 
-// /*
-//  *	Definis si file est un fichier ou un directory et recup son fd
-//  *	Return	=>	0 directory
-//  *				1 file
-//  *	-------------------------------------
-//  *	Appel de stat()
-//  *
-// */
+/*
+ *	Definis si file est un fichier ou un directory et recup son fd
+ *	Return	=>	0 directory
+ *				1 file
+ *	-------------------------------------
+ *	Appel de stat()
+ *
+*/
 // int	opening_mode(char *pathname)
 // {
 // 	struct stat	path_stat;
 
 // 	stat(pathname, &path_stat);
-// 	return (S_ISREG(path_stat.st_mode));
+// 	return ();
 // }
 
 /*

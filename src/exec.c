@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/24 17:45:44 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/06/25 14:41:08 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	process(t_data *data, t_command *cmd, int *pipefd, int pos)
 		close_unused_pipes(pipefd, pos, cmd->len_pipe);
 	if (is_builtin(cmd))
 	{
-		// printf("in builtin\n");
 		exec_builtin(cmd, data);
 		exit(EXIT_SUCCESS);
 	}
@@ -283,7 +282,6 @@ int	is_builtin(t_command *cmd)
 
 void	run_builtin(t_data *data, t_command *cmd)
 {
-	// printf("builin run\n");
 	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
 		echo(cmd->tab_cmd);
 	else if (ft_strcmp(cmd->tab_cmd[0], "cd") == 0)
