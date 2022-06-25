@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/06/25 15:02:57 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/25 15:58:33 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,34 +92,32 @@ void	update_elem(t_data *data, char *var)
 	t_list	*tmp;
 	size_t	len;
 
-	len = 0;
-	while (var[len] != '=' && var[len])
+	len = name_len(var);
+	if (!var[len])
 		len++;
 	tmp = (*data->h_env);
 	while (tmp)
 	{
-			// printf("up env\n");
-		if (ft_strncmp(tmp->content, var, len - 1) == 0)
+		if (ft_strncmp(tmp->content, var, len) == 0)
 		{
 			del(tmp->content);
 			tmp->content = ft_strdup(var);
 			break ;
 		}
 		else
-			tmp	= tmp->next;
+			tmp = tmp->next;
 	}
 	tmp = (*data->h_var);
 	while (tmp)
 	{
-		// printf("up var\n");
-		if (ft_strncmp(tmp->content, var, len - 1) == 0)
+		if (ft_strncmp(tmp->content, var, len) == 0)
 		{
 			del(tmp->content);
 			tmp->content = ft_strdup(var);
 			break ;
 		}
 		else
-			tmp	= tmp->next;
+			tmp = tmp->next;
 	}
 }
 

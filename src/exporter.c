@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exporter.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:14:47 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/24 18:16:57 by root             ###   ########.fr       */
+/*   Updated: 2022/06/25 16:06:28 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	export(t_data *data, char **var)
 	}
 	if (check_var(var[i]))
 	{
-		// printf("check valid\n");
+		printf("check valid\n");
 		if (var[i][name_len(var[i])] == '=' && var[i][name_len(var[i]) - 1] == '+')
 			cat_var(data, var[i]);
 		else
@@ -116,17 +116,21 @@ void	cat_var(t_data *data, char *var)
 	char	*value;
 	char	*new_var;
 
+	new_var = NULL;
 	len = name_len(var);
 	check_existing(data, var, len);
 	value = ft_substr(var, len + 1, ft_strlen(var) - len);
-	if (!value || !value[0])
-		return (free(value));
 	tmp = *(data->h_env);
 	while (tmp)
 	{
 		if (ft_strncmp(tmp->content, var, len - 1) == 0)
 		{
-			new_var = ft_strjoin(tmp->content, value);
+			new_var = ft_join(new_var, tmp->content);
+			printf("var: %s\n", new_var);
+			if (!ft_strchr(new_var, '='))
+				new_var = ft_join(new_var, "=");
+			new_var = ft_join(new_var, value);
+			printf("update: %s\n", new_var);
 			update_elem(data, new_var);
 			free(new_var);
 			free(value);
@@ -142,7 +146,7 @@ void	cat_var(t_data *data, char *var)
 */
 void	check_existing(t_data *data, char *var, size_t len)
 {
-	char *new_var;
+	char	*new_var;
 
 	new_var = ft_substr(var, 0, len - 1);
 	new_var = ft_join(new_var, "=");
@@ -168,31 +172,25 @@ void	add_var(t_data *data, char *var)
 	size_t	len;
 
 	len = name_len(var);
-	// printf("%s | %p\n", var, get_elem(data->h_env, var));
-	if (var[len] == '=' && (get_elem(data->h_env, var) || get_elem(data->h_var, var))) //mod
+	if (var[len] == '=' && (get_elem(data->h_env, var)
+			|| get_elem(data->h_var, var)))
 	{
-		// printf("in up\n");
 		if (get_elem(data->h_env, var) == NULL)
 			ft_lstadd_back(&data->env, ft_lstnew(var));
 		update_elem(data, var);
 	}
-	else if (get_elem(data->h_env, var) == NULL && get_elem(data->h_var, var)) //add existing
+	else if (get_elem(data->h_env, var) == NULL && get_elem(data->h_var, var))
 	{
 		tmp = (*data->h_var);
 		while (tmp)
 		{
 			if (ft_strncmp(tmp->content, var, ft_strlen(var)) == 0)
-			{
-				// printf("ex var %s\n", var);
-				ft_lstadd_back(&data->env, ft_lstnew(tmp->content));
-				return ;
-			}
+				return (ft_lstadd_back(&data->env, ft_lstnew(tmp->content)));
 			tmp = tmp->next;
-		}	
+		}
 	}
-	else // non existing var (declaration)
+	else
 	{
-		// printf("add\n");
 		ft_lstadd_back(&data->env, ft_lstnew(var));
 		ft_lstadd_back(&data->var, ft_lstnew(var));
 	}
@@ -210,7 +208,7 @@ size_t	name_len(char *var)
 	if (!var)
 		return (0);
 	len = 0;
-	while (var[len] != '=' && var[len])
+	while (var[len] && var[len] != '=')
 		len++;
 	return (len);
 }
