@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 05:48:30 by root              #+#    #+#             */
-/*   Updated: 2022/06/23 17:32:33 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/25 17:51:28 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,54 @@ int	check_atr_n(char **args)
  *		=> Milieu	| redirection previous et next de tmp, free(tmp)
  *		=> Fin		| lst = tmp, tmp->previous->next NULL, free(lst)
 */
-void	unset(t_data *data, char **var)
+int	unset(t_data *data, char **var)
 {
 	size_t	i;
 
-	i = 0;
+	i = 1;
+	if (!var[i])
+	{
+		ft_putendl_fd("unset: not enough arguments", STDERR_FILENO);
+		return (1);
+	}
 	while (var[i])
 	{
-		supp_elem(data->h_env, var[i]);
-		supp_elem(data->h_var, var[i]);
+		if (get_elem(data->h_env, var[i]) || get_elem(data->h_var, var[i])
+			|| is_valid_id(var[i]))
+		{
+			supp_elem(data->h_env, var[i]);
+			supp_elem(data->h_var, var[i]);
+		}
+		else
+		{
+			ft_putstr_fd("unset: '", STDERR_FILENO);
+			ft_putstr_fd(var[i], STDERR_FILENO);
+			ft_putendl_fd("' not a valid identifier", STDERR_FILENO);
+			//status = 1;
+		}
 		i++;
 	}
+	return (0);
+}
+
+int	is_valid_id(char *var)
+{
+	size_t	i;
+	int		first_alpha;
+
+	first_alpha = 0;
+	i = 0;
+	if (!var || !var[i])
+		return (0);
+	while (var[i])
+	{
+		if (ft_isalpha(var[i]) || var[i] == '_')
+			first_alpha = 1;
+		else if (!first_alpha | !ft_isalnum(var[i]) | !(var[i] != '_'))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 void	pwd(void)
