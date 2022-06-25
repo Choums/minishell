@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/24 17:59:13 by root             ###   ########.fr       */
+/*   Updated: 2022/06/25 14:37:12 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,12 @@ void	display_env(t_data *data);
 void	sort_env(char **env);
 void	print_export(char **env);
 void	pwd(void);
-
 void	check_dir(t_data *data, char **args);
-// int		check_path(t_data *data, char *path);
-int		change_err(char *pathname);
-void	change_dir(t_data *data, char *path);
+int		change_err(char *pathname, int alloc);
+void	change_dir(t_data *data, char *path, int alloc);
 int		goto_home(t_data *data);
-void	goto_oldpwd(t_data *data);
+int		goto_homepath(t_data *data, char *path);
+int		goto_oldpwd(t_data *data);
 int		is_oldpwd(t_list **h_env);
 void	create_oldpwd(t_data *data);
 
