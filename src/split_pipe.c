@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:08:09 by aptive            #+#    #+#             */
-/*   Updated: 2022/06/16 18:21:08 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/26 16:27:53 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,11 @@ static int	count_pipe(char *line)
 		if (line[i] == '\'' || line[i] == '"')
 		{
 			while (line[i + j] && line[i + j] != line[i])
+			{
+				if (line[i + j] == '\\')
+					j += 2;
 				j++;
+			}
 			j++;
 		}
 		else if (line[i] == '|')
@@ -81,7 +85,10 @@ static	void	ft_get_to_next_pipe(char **str, int *len)
 			(*len)++;
 			while ((*str)[*len] != (*str)[i])
 			{
-				(*len)++;
+				if((*str)[*len] == '\\')
+					(*len) += 2;
+				else
+					(*len)++;
 			}
 		}
 		(*len)++;

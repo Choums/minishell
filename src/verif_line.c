@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verif_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 16:33:32 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/06/13 17:22:20 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/06/26 16:23:00 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	verif_quote(char *line)
 			nb_quote++;
 			while (line[i + j] && line[i + j] != line[i])
 				j++;
+			if(line[i + j++] == '\\')
+				j += 2;
 			if (line[i + j++] == line[i])
 				nb_quote++;
 		}

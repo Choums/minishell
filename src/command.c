@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:54:45 by aptive            #+#    #+#             */
-/*   Updated: 2022/06/22 17:54:06 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/26 16:30:26 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,12 @@ int	pass_quote(char *cmd, int i, int cut)
 
 	c = cmd[i + cut++];
 	while (cmd[i + cut] != c)
-		cut++;
+	{
+		if (cmd[i + cut] == '\\')
+			cut += 2;
+		else
+			cut++;
+	}
 	return (cut);
 }
 
