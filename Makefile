@@ -6,7 +6,11 @@
 #    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 20:18:17 by tdelauna          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2022/06/26 14:47:37 by root             ###   ########.fr        #
+=======
+#    Updated: 2022/06/25 14:50:42 by chaidel          ###   ########.fr        #
+>>>>>>> 64aed402d8e7b69e376fe285f4149022718512ac
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +42,12 @@ SRC			=	main.c\
 				signal.c\
 				split_pipe.c\
 				verif_line.c\
+<<<<<<< HEAD
 				exiting.c\
+=======
+				expand.c\
+				parse_quote.c\
+>>>>>>> 64aed402d8e7b69e376fe285f4149022718512ac
 
 
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))

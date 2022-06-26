@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:41:51 by root              #+#    #+#             */
-/*   Updated: 2022/06/23 17:54:43 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/25 14:34:00 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,37 @@
  *	Cas de dir precedent supp
  *		=>	Doit pouvoir se rendre au HOME
 */
-void	change_dir(t_data *data, char *path)
+void	change_dir(t_data *data, char *path, int alloc)
 {
 	char	*current;
 	char	*var;
 
 	current = getcwd(NULL, 0);
-	if (!current)
-		perror("");
-	var = ft_strjoin("OLDPWD=", current);
+	if (!chdir(path))
+	{
+		if (current)
+		{
+			if (!is_oldpwd(data->h_env))
+				create_oldpwd(data);
+			var = ft_strjoin("OLDPWD=", current);
+			free(current);
+			update_elem(data, var);
+			free(var);
+		}
+		current = getcwd(NULL, 0);
+		if (current)
+		{
+			var = ft_strjoin("PWD=", current);
+			free(current);
+			update_elem(data, var);
+			free(var);
+		}
+		if (alloc)
+			free(path);
+		return ;
+	}
 	free(current);
-	update_elem(data, var);
-	free(var);
-	if (chdir(path) < 0)
-		perror("");
-	current = getcwd(NULL, 0);
-	if (!current)
-		perror("");
-	var = ft_strjoin("PWD=", current);
-	free(current);
-	update_elem(data, var);
-	free(var);
+	change_err(path, alloc);
 }
 
 /*
@@ -58,11 +68,14 @@ void	check_dir(t_data *data, char **args)
 		ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);
 		return ;
 	}
-	if (!check_path(data, args[1]))
-		return ;
-	printf("path: %s\n", args[1]);
-	if (!args[1] || ft_strncmp(args[1], "~", 1) == 0)
+	if (!args[1] || (ft_strncmp(args[1], "~", 1) == 0)
+		|| ft_strncmp(args[1], "--", 2) == 0)
 	{
+		if (args[1] && ft_strncmp(args[1], "~/", 2) == 0)
+		{
+			goto_homepath(data, args[1]);
+			return ;
+		}
 		goto_home(data);
 		return ;
 	}
@@ -71,82 +84,56 @@ void	check_dir(t_data *data, char **args)
 		goto_oldpwd(data);
 		return ;
 	}
-	change_dir(data, args[1]);
+	change_dir(data, args[1], 0);
 }
 
-/*
- *	check via access si le path donnee existe ainsi que ses droits
- *	gere le '-' et '~'
-*/
-int	check_path(t_data *data, char *path)
+int	goto_homepath(t_data *data, char *path)
 {
+	char	*home_path;
 	char	*tmp;
+	char	*clean_path;
 
-	if (!path || ft_strncmp(path, "~", 1) == 0)
+	home_path = get_elem(data->h_env, "HOME");
+	if (home_path)
 	{
-		if (!get_elem(data->h_env, "HOME"))
-		{
-			ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
-			return (0);
-		}
-		tmp = get_var(data, "HOME=");
-		if (access(tmp, F_OK) < 0)
-		{
-			free(tmp);
-			return (0);
-		}
-		else
-			free(tmp);
+		tmp = ft_substr(home_path, ft_strlen("HOME="), ft_strlen(home_path));
+		clean_path = ft_substr(path, 1, ft_strlen(path));
+		home_path = ft_join(tmp, clean_path);
+		free(clean_path);
+		change_dir(data, home_path, 1);
+		return (1);
 	}
-	else if (ft_strncmp(path, "-", 1) == 0)
-	{
-		if (!get_elem(data->h_env, "OLDPWD"))
-		{
-			ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
-			return (0);
-		}
-		tmp = get_var(data, "OLDPWD=");
-		if (access(tmp, F_OK) < 0)
-		{
-			free(tmp);
-			perror("");
-			return (0);
-		}
-		else
-			free(tmp);
-
-	}
-	else if (check_access(data, path) < 0)
-	{
-		ft_putstr_fd("cd: ", STDERR_FILENO);
-		perror(path);
-		return (0);
-	}
-	return (1);
+	ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
+	return (0);
 }
 
 /*
  *	Check les droits du dir
 */
-int	check_access(t_data *data, char *pathname)
+int	change_err(char *pathname, int alloc)
 {
 	struct stat	path_stat;
 
-	stat(pathname, &path_stat);
-	if ((path_stat.st_mode && __S_IFMT) == __S_IFCHR)
+	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+	ft_putstr_fd(pathname, STDERR_FILENO);
+	if (stat(pathname, &path_stat) < 0)
 	{
-		printf("dir\n");
-		return (1);
+		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 	}
-	else if ((path_stat.st_mode && __S_IFMT) == __S_IFREG)
+	else if ((path_stat.st_mode & __S_IFREG))
 	{
-		printf("file\n");
-		return (1);
+		ft_putendl_fd(": Not a directory", STDERR_FILENO);
 	}
-	return (0);
+	else if ((path_stat.st_mode & S_IXUSR) == 0)
+	{
+		ft_putendl_fd(": Permission denied", STDERR_FILENO);
+	}
+	if (alloc)
+		free(pathname);
+	return (1);
 }
 
-void	goto_home(t_data *data)
+int	goto_home(t_data *data)
 {
 	char	*path;
 	t_list	*tmp;
@@ -156,16 +143,19 @@ void	goto_home(t_data *data)
 	{
 		if (ft_strncmp(tmp->content, "HOME=", ft_strlen("HOME=")) == 0)
 		{
-			path = ft_substr(tmp->content, ft_strlen("HOME="), ft_strlen(tmp->content));
-			change_dir(data, path);
+			path = ft_substr(tmp->content,
+					ft_strlen("HOME="), ft_strlen(tmp->content));
+			change_dir(data, path, 0);
 			free(path);
-			return ;
+			return (1);
 		}
 		tmp = tmp->next;
 	}
+	ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
+	return (0);
 }
 
-void	goto_oldpwd(t_data *data)
+int	goto_oldpwd(t_data *data)
 {
 	char	*path;
 	t_list	*tmp;
@@ -175,15 +165,18 @@ void	goto_oldpwd(t_data *data)
 	{
 		if (ft_strncmp(tmp->content, "OLDPWD=", ft_strlen("OLDPWD=")) == 0)
 		{
-			path = ft_substr(tmp->content, ft_strlen("OLDPWD="), ft_strlen(tmp->content));
-			change_dir(data, path);
+			path = ft_substr(tmp->content,
+					ft_strlen("OLDPWD="), ft_strlen(tmp->content));
+			change_dir(data, path, 0);
 			ft_putendl_fd(path, STDOUT_FILENO);
 			free(path);
-			return ;
+			return (1);
 		}
 		else
 			tmp = tmp->next;
 	}
+	ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
+	return (0);
 }
 
 void	create_oldpwd(t_data *data)

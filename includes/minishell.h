@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/22 19:41:34 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/25 17:47:05 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ int		is_exit(t_data *data, char *line);
 void	echo(char **arg);
 int		check_atr_n(char **args);
 void	pwd(void);
-void	unset(t_data *data, char **var);
+int		unset(t_data *data, char **var);
+int		is_valid_id(char *var);
 void	export(t_data *data, char **var);
 int		check_var(char *var);
 void	check_existing(t_data *data, char *var, size_t len);
@@ -98,14 +99,14 @@ void	display_env(t_data *data);
 void	sort_env(char **env);
 void	print_export(char **env);
 void	pwd(void);
-
 void	check_dir(t_data *data, char **args);
-int		check_path(t_data *data, char *path);
-void	change_dir(t_data *data, char *path);
-void	goto_home(t_data *data);
+int		change_err(char *pathname, int alloc);
+void	change_dir(t_data *data, char *path, int alloc);
+int		goto_home(t_data *data);
+int		goto_homepath(t_data *data, char *path);
+int		goto_oldpwd(t_data *data);
 int		is_oldpwd(t_list **h_env);
 void	create_oldpwd(t_data *data);
-void	goto_oldpwd(t_data *data);
 
 /*	Exec */
 char	*find_bin(t_list *lst_path, char *bin);
@@ -213,5 +214,17 @@ VERIF_LINE_C--------------------------------------------------------------------
 */
 int		verif_quote(char *line);
 int		verif_line(char *line);
+
+/*
+VERIF_LINE_C---------------------------------------------------------------------
+*/
+void	go_expand(t_data *data, t_command *(*table_pipe));
+
+/*
+PARSE_QUOTE_C--------------------------------------------------------------------
+*/
+char	*parse_str_quote(char *str);
+void	parse_quote_redir(char **tab);
+void	parse_quote(t_command *(*table_pipe));
 
 #endif

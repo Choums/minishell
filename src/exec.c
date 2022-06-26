@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/23 15:21:27 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/25 14:41:08 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	process(t_data *data, t_command *cmd, int *pipefd, int pos)
 	}
 	path = find_bin(data->path, cmd->tab_cmd[0]);
 	if (execve(path, cmd->tab_cmd, env) < 0)
-		exit(0);
+		exit(1);
 }
 
 void	exec_builtin(t_command *cmd, t_data *data)

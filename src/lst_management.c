@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/06/23 15:01:48 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/25 15:58:33 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,34 +92,32 @@ void	update_elem(t_data *data, char *var)
 	t_list	*tmp;
 	size_t	len;
 
-	len = 0;
-	while (var[len] != '=' && var[len])
+	len = name_len(var);
+	if (!var[len])
 		len++;
 	tmp = (*data->h_env);
 	while (tmp)
 	{
-			// printf("up env\n");
-		if (ft_strncmp(tmp->content, var, len - 1) == 0)
+		if (ft_strncmp(tmp->content, var, len) == 0)
 		{
 			del(tmp->content);
 			tmp->content = ft_strdup(var);
 			break ;
 		}
 		else
-			tmp	= tmp->next;
+			tmp = tmp->next;
 	}
 	tmp = (*data->h_var);
 	while (tmp)
 	{
-		// printf("up var\n");
-		if (ft_strncmp(tmp->content, var, len - 1) == 0)
+		if (ft_strncmp(tmp->content, var, len) == 0)
 		{
 			del(tmp->content);
 			tmp->content = ft_strdup(var);
 			break ;
 		}
 		else
-			tmp	= tmp->next;
+			tmp = tmp->next;
 	}
 }
 
@@ -193,7 +191,7 @@ char	*which_dollar(t_data *data, char *command)
 	size_t	pos;
 	char	*new;
 
-	if (ft_strchr(command, '$'))
+	if (ft_strchr(command, '$') && ft_strlen(command) != 1)
 	{
 		pos = get_dollar_pos(command);
 		if (command[pos + 1] == '?')
@@ -217,7 +215,6 @@ char	*which_dollar(t_data *data, char *command)
 	return (NULL);
 }
 
-
 /*
  *	Substitue $var par sa valeur
 */
@@ -228,7 +225,9 @@ char	*dollar_substitute(char *command, char *value, size_t pos)
 
 	if (pos == 0)
 		return (ft_strdup(value));
-	str = ft_substr(command, 0, ft_strlen(command) - pos + 2);
+	// printf("base: %s\n", command);
+	str = ft_substr(command, 0, pos);
+	// printf("clean: %s\n", str);
 	join = ft_join(str, value);
 	return (join);
 }
@@ -246,11 +245,9 @@ size_t	get_dollar_pos(char *str)
 	return (i);
 }
 
-
-
 /*
  *	DEBUG
- *	PRINT LA LST DONNEES 
+ *	PRINT LA LST DONNEES
 */
 void	print_vars(t_list **head)
 {
