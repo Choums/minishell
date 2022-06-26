@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/24 18:18:03 by root             ###   ########.fr       */
+/*   Updated: 2022/06/26 14:58:01 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	main_two(t_data *data, char *line)
 		table_pipe = ft_parsing(data, line, table_pipe);
 		ft_affiche_t_command(table_pipe);
 		mother_board(data, table_pipe);
-		free_struc(table_pipe);
 	}
 }
 
