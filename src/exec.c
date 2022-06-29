@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/25 14:41:08 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/29 19:27:34 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,58 @@
  *	Permet de retrouver le fichier bin de la commande donnee et verifie
  *		ses droits.
  *	Ajoute "/[filename]" a chaque path de la lst
+ *	-------------------------------------
+ *	
 */
-char	*find_bin(t_list *lst_path, char *bin)
+char	*find_bin(t_data *data, char *bin)
 {
 	char	*dir;
 	char	*path;
+	t_list	*tmp;
 
-	while (lst_path)
+	if (!get_elem(data->h_env, "PATH") && !get_elem(data->h_var, "PATH"))
+		return (NULL);
+	tmp = data->path;
+	while (tmp)
 	{
-		dir = ft_strjoin(lst_path->content, "/");
+		dir = ft_strjoin(tmp->content, "/");
 		path = ft_strjoin(dir, bin);
 		free(dir);
 		if (access(path, F_OK) == 0)
 			return (path);
 		free(path);
-		lst_path = lst_path->next;
+		tmp = tmp->next;
 	}
 	return (NULL);
+}
+
+int	check_perm(char *path)
+{
+	struct stat	path_stat;
+
+	if (stat(path, &path_stat) < 0)
+	{
+		return (0);
+	}
+	else if ((path_stat.st_mode & __S_IFREG))
+	{
+		if (path_stat.st_mode & S_IXUSR)
+			return (1);
+		else
+		{
+			ft_putstr_fd("minishell: cd ", STDERR_FILENO);
+			ft_putstr_fd(path, STDERR_FILENO);
+			ft_putendl_fd("Permission denied", STDERR_FILENO);
+		}
+	}
+	else
+	{
+		ft_putstr_fd("minishell: cd ", STDERR_FILENO);
+		ft_putstr_fd(path, STDERR_FILENO);
+		ft_putendl_fd("Is a directory", STDERR_FILENO);
+		// status = 1;
+		return (0);
+	}
 }
 
 /*
@@ -52,21 +87,22 @@ void	process(t_data *data, t_command *cmd, int *pipefd, int pos)
 
 	// printf("cmd: %s\n", cmd->tab_cmd[0]);
 	env = lst_dup(data->h_env);
+	if (pos != -1 && cmd->len_pipe > 0 && !cmd->tab_redir)
+		redir_pipe(pipefd, pos, cmd->len_pipe);
+	if (cmd->len_pipe > 0)
+		close_unused_pipes(pipefd, pos, cmd->len_pipe);
 	if (cmd->tab_redir)
 	{
 		// printf("in simple redir\n");
 		redir(data, cmd->tab_redir);
 	}
-	if (pos != -1 && cmd->len_pipe > 0 && !cmd->tab_redir)
-		redir_pipe(pipefd, pos, cmd->len_pipe);
-	if (cmd->len_pipe > 0)
-		close_unused_pipes(pipefd, pos, cmd->len_pipe);
 	if (is_builtin(cmd))
 	{
 		exec_builtin(cmd, data);
 		exit(EXIT_SUCCESS);
 	}
-	path = find_bin(data->path, cmd->tab_cmd[0]);
+	path = find_bin(data, cmd->tab_cmd[0]);
+	check_cmd(path);
 	if (execve(path, cmd->tab_cmd, env) < 0)
 		exit(1);
 }
@@ -82,6 +118,36 @@ void	exec_builtin(t_command *cmd, t_data *data)
 	{
 		// fprintf(stderr, "restore\n");
 		restore_redir(cmd->tab_redir);
+	}
+}
+
+int	check_cmd(char *path)
+{
+	struct stat	path_stat;
+
+	if ((stat(path, &path_stat)) < 0) //stat ko
+	{
+		if (path[0] == '/' || !ft_strncmp(path, "./", 2))
+		{
+			ft_putstr_fd("minishell: ", STDERR_FILENO);
+			ft_putstr_fd(path, STDERR_FILENO);
+			ft_putendl_fd("no such file or directory", STDERR_FILENO);
+			// status = 127;
+		}
+		else
+		{
+			ft_putstr_fd("minishell: ", STDERR_FILENO);
+			ft_putstr_fd(path, STDERR_FILENO);
+			ft_putendl_fd("command not found", STDERR_FILENO);
+			// status = 127;
+		}
+	}
+	else //stat ok
+	{
+		if ((path_stat.st_mode & __S_IFDIR))
+		{
+			
+		}
 	}
 }
 
