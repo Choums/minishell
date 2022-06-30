@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/30 15:06:34 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/30 19:10:15 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*find_bin(t_data *data, char *bin)
 		dir = ft_strjoin(tmp->content, "/");
 		path = ft_strjoin(dir, bin);
 		free(dir);
-		if (access(path, F_OK) == 0)
+		if (check_perm(path))
 			return (path);
 		free(path);
 		tmp = tmp->next;
@@ -46,9 +46,7 @@ int	check_perm(char *path)
 	struct stat	path_stat;
 
 	if (stat(path, &path_stat) < 0)
-	{
 		return (0);
-	}
 	else if ((path_stat.st_mode & __S_IFREG))
 	{
 		if (path_stat.st_mode & S_IXUSR)
@@ -68,7 +66,7 @@ int	check_perm(char *path)
 		// status = 1;
 		return (0);
 	}
-	return (1);
+	return (0);
 }
 
 /*
@@ -102,7 +100,6 @@ void	process(t_data *data, t_command *cmd, int *pipefd, int pos)
 		exec_builtin(cmd, data);
 		exit(EXIT_SUCCESS);
 	}
-	path = find_bin(data, cmd->tab_cmd[0]);
 	if (execve(path, cmd->tab_cmd, env) < 0)
 		exit(1);
 }
@@ -130,33 +127,32 @@ int	check_cmd(char *cmd)
 {
 	struct stat	path_stat;
 
+	printf("%s\n", cmd);
 	if (stat(cmd, &path_stat) == 0)
 	{
-		if (((path_stat.st_mode & __S_IFMT) == __S_IFDIR))
-		{
-			if (ft_strncmp(cmd, "./", 2) == 0
-				|| cmd[ft_strlen(cmd) - 1] == '/')
-				return (msg_err(cmd, ": Is a directory", 126));
-		}
+		printf("%d\n", (path_stat.st_mode & __S_IFMT));
+		if (((path_stat.st_mode & __S_IFMT) == __S_IFDIR)
+			&& (ft_strncmp(cmd, "./", 2) == 0
+				|| cmd[ft_strlen(cmd) - 1] == '/'))
+			return (msg_err(cmd, ": Is a directory", 126));
 		else if (((path_stat.st_mode & __S_IFMT) != __S_IFDIR)
 			&& (cmd[ft_strlen(cmd) - 1] == '/'))
 			return (msg_err(cmd, ": Not a directory", 126));
 		else
 		{
-			if (path_stat.st_mode & S_IXUSR)
-			{
-				printf("good\n");
+			if ((path_stat.st_mode & S_IXUSR) && (ft_strncmp(cmd, "./", 2) == 0
+					|| cmd[0] == '/'))
 				return (1);
-			}
 			else if ((!(path_stat.st_mode & S_IXUSR))
 				&& ft_strncmp(cmd, "./", 2) == 0)
 				return (msg_err(cmd, ": Permission denied", 126));
-			else
-				return (msg_err(cmd, ": Command not found", 127));
 		}
 	}
+	else if (((path_stat.st_mode & __S_IFMT) != __S_IFDIR)
+		&& (cmd[ft_strlen(cmd) - 1] == '/'))
+		return (msg_err(cmd, ": Not a directory", 126));
 	else if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0
-		|| cmd[ft_strlen(cmd) - 1])
+		|| cmd[ft_strlen(cmd) - 1] == '/')
 		return (msg_err(cmd, ": No such file or directory", 127));
 	return (msg_err(cmd, ": Command not found", 127));
 }
@@ -189,18 +185,17 @@ int	check_cmd(char *cmd)
 void	mother_board(t_data *data, t_command **cmd)
 {
 	pid_t	child;
+	char	*cmd;
 
 	if (get_cmd_num(cmd) == 1 && is_builtin(cmd[0]))
 		exec_builtin(cmd[0], data);
 	else if (get_cmd_num(cmd) == 1 && !is_builtin(cmd[0]))
 	{
+		cmd = get_cmd(data, cmd[0]->tab_cmd[0]);
 		// printf("one child w/o builtin\n");
 		child = fork();
 		if (child == 0)
-		{
-			if (find_bin(data, cmd[0]->tab_cmd[0]) || check_cmd(cmd[0]->tab_cmd[0]))
-				process(data, cmd[0], NULL, -1);
-		}
+			process(data, cmd[0], NULL, -1, cmd);
 		waitpid(child, NULL, 0);
 	}
 	else
@@ -210,15 +205,37 @@ void	mother_board(t_data *data, t_command **cmd)
 	}
 }
 
+/*
+ *	Définie la nature de la commande et retourne la valeur correspondente
+ *	1	=> binaire
+ *	0	=> non binaire
+*/
+int	define_exec()
+{
+
+}
+
+char *get_cmd(t_data *data, char *cmd)
+{
+	char *path;
+
+	path = find_bin(data, cmd);
+	if (!path)
+	{
+		
+	}
+	else
+		return (path);
+}
+
 void	pipex(t_data *data, t_command **cmd)
 {
-	int		*pipefd;
 	int		num;
 	int		i;
 	pid_t	child;
 
 	num = cmd[0]->len_pipe;
-	pipefd = create_pipes(cmd[0]->len_pipe);
+	data->pipefd = create_pipes(cmd[0]->len_pipe);
 	i = 0;
 	while (num >= 0)
 	{
@@ -228,14 +245,14 @@ void	pipex(t_data *data, t_command **cmd)
 		{
 			// printf("cmd %d: %s\n", i, cmd[i]->tab_cmd[0]);
 			if (check_cmd(cmd[i]->tab_cmd[0]))
-				process(data, cmd[i], pipefd, i);
+				process(data, cmd[i], data->pipefd, i);
 		}
 		else if (child < 0)
 			printf("error\n");
 		i++;
 		num--;
 	}
-	close_pipes(pipefd, cmd[0]->len_pipe);
+	close_pipes(data->pipefd, cmd[0]->len_pipe);
 	while (wait(NULL) > 0);
 	// int ret;
 	// for (int p = 0; (ret = wait(NULL) > 0); p++)

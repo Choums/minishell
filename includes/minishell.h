@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/30 14:12:20 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/30 19:11:10 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_data
 	t_list	*var;
 	t_list	**h_var;
 	t_list	*path;
+	int		*pipefd;
 }	t_data;
 
 typedef struct s_redirection
@@ -131,8 +132,7 @@ void	pipex(t_data *data, t_command **cmd);
 int		*create_pipes(int num);
 void	close_pipes(int *pipefd, int n_pipe);
 void	close_unused_pipes(int *pipefd, int pos, int n_pipe);
-
-int		check_cmd(char *path);
+int		check_perm(char *path);
 
 /*	List */
 void	set_var(t_data *data, char *content);
