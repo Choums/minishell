@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/29 19:12:34 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/30 12:36:56 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,8 @@ void	pipex(t_data *data, t_command **cmd);
 int		*create_pipes(int num);
 void	close_pipes(int *pipefd, int n_pipe);
 void	close_unused_pipes(int *pipefd, int pos, int n_pipe);
+
+int		check_cmd(char *path);
 
 /*	List */
 void	set_var(t_data *data, char *content);

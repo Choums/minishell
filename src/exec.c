@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/29 19:27:34 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/30 12:47:25 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	check_perm(char *path)
 		// status = 1;
 		return (0);
 	}
+	return (1);
 }
 
 /*
@@ -131,24 +132,50 @@ int	check_cmd(char *path)
 		{
 			ft_putstr_fd("minishell: ", STDERR_FILENO);
 			ft_putstr_fd(path, STDERR_FILENO);
-			ft_putendl_fd("no such file or directory", STDERR_FILENO);
+			ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 			// status = 127;
+			return(0);
 		}
 		else
 		{
 			ft_putstr_fd("minishell: ", STDERR_FILENO);
 			ft_putstr_fd(path, STDERR_FILENO);
-			ft_putendl_fd("command not found", STDERR_FILENO);
+			ft_putendl_fd(": Command not found", STDERR_FILENO);
 			// status = 127;
+			return(0);
 		}
 	}
-	else //stat ok
+	else
 	{
 		if ((path_stat.st_mode & __S_IFDIR))
 		{
-			
+			if (path[0] == '/' || ft_strncmp(path, "./", 2) == 0)
+			{
+				ft_putstr_fd("minishell: ", STDERR_FILENO);
+				ft_putstr_fd(path, STDERR_FILENO);
+				ft_putendl_fd(": Is a directory", STDERR_FILENO);
+				// status = 126;
+				return(0);
+			}
+		}
+		else
+		{
+			if (path_stat.st_mode & S_IXUSR)
+			{
+				//process
+				return(1);
+			}
+			else
+			{
+				ft_putstr_fd("minishell: ", STDERR_FILENO);
+				ft_putstr_fd(path, STDERR_FILENO);
+				ft_putendl_fd(": Permission denied", STDERR_FILENO);
+				// status = 126;
+				return(0);
+			}
 		}
 	}
+	return (1);
 }
 
 /*
@@ -187,7 +214,10 @@ void	mother_board(t_data *data, t_command **cmd)
 		// printf("one child w/o builtin\n");
 		child = fork();
 		if (child == 0)
-			process(data, cmd[0], NULL, -1);
+		{
+			if (find_bin(data, cmd[0]->tab_cmd[0]) || check_cmd(cmd[0]->tab_cmd[0]))
+				process(data, cmd[0], NULL, -1);
+		}
 		waitpid(child, NULL, 0);
 	}
 	else
@@ -214,7 +244,8 @@ void	pipex(t_data *data, t_command **cmd)
 		if (child == 0)
 		{
 			// printf("cmd %d: %s\n", i, cmd[i]->tab_cmd[0]);
-			process(data, cmd[i], pipefd, i);
+			if (check_cmd(cmd[i]->tab_cmd[0]))
+				process(data, cmd[i], pipefd, i);
 		}
 		else if (child < 0)
 			printf("error\n");
