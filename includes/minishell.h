@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/25 17:47:05 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/30 16:59:21 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ void	ft_affiche_t_command(t_command	*(*table_pipe));
 /*
 COMMAND_C------------------------------------------------------------------------
 */
-char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd, char c);
+char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd, char c, int i);
 void	copy_cmd(t_command *(*table_pipe), int	nb_pp, char *cmd);
 t_command	**ft_parse_cmd(t_command *(*table_pipe), int number_pipe);
 /*
@@ -189,6 +189,11 @@ int		struc_len(t_command **table_pipe);
 void	tokenizer_cmd(t_command **table_pipe, int nb_pp, t_data *data);
 void	tokenizer_redir_in(t_command **table_pipe, int np);
 void	tokenizer_redir_out(t_command **table_pipe, int np);
+
+/*
+TOKENIZER_2_C--------------------------------------------------------------------
+*/
+char	token_quote(t_command **t_p, int nb_pp, int i);
 
 /*
 FREE-----------------------------------------------------------------------------
@@ -226,5 +231,13 @@ PARSE_QUOTE_C-------------------------------------------------------------------
 char	*parse_str_quote(char *str);
 void	parse_quote_redir(char **tab);
 void	parse_quote(t_command *(*table_pipe));
+
+/*
+PARSE_BACK_C---------------------------------------------------------------------
+*/
+char	*parse_str_back_slash(char *str);
+void	parse_back_redir(char **tab);
+void	parse_back_slash(t_command *(*table_pipe));
+
 
 #endif

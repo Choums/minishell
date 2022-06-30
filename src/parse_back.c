@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_quote.c                                      :+:      :+:    :+:   */
+/*   parse_back.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/24 15:34:59 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/06/28 18:30:35 by aptive           ###   ########.fr       */
+/*   Created: 2022/06/30 15:14:44 by aptive            #+#    #+#             */
+/*   Updated: 2022/06/30 15:27:36 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*parse_str_quote(char *str)
+char	*parse_str_back_slash(char *str)
 {
 	char	*tmp;
 	char	c;
@@ -22,29 +22,19 @@ char	*parse_str_quote(char *str)
 	tmp = NULL;
 	while (str[i])
 	{
+				// printf("OK\n");
 		if (str[i] == '\\')
 		{
+			i++;
 			tmp = ft_straddc(tmp, str[i++]);
-			tmp = ft_straddc(tmp, str[i]);
-		}
-		else if (str[i] == '"' || str[i] == '\'')
-		{
-			c = str[i];
-			while (str[++i] != c)
-			{
-				if (str[i] == '\\')
-					tmp = ft_straddc(tmp, str[i++]);
-				tmp = ft_straddc(tmp, str[i]);
-			}
 		}
 		else
-			tmp = ft_straddc(tmp, str[i]);
-		i++;
+			tmp = ft_straddc(tmp, str[i++]);
 	}
 	return (tmp);
 }
 
-void	parse_quote_redir(char **tab)
+void	parse_back_redir(char **tab)
 {
 	char	*dest;
 	int		j;
@@ -52,17 +42,16 @@ void	parse_quote_redir(char **tab)
 	j = -1;
 	while (tab[++j])
 	{
-		if (ft_strchr(tab[j], '\'')
-			|| ft_strchr(tab[j], '"'))
+		if (ft_strchr(tab[j], '\\'))
 		{
-			dest = parse_str_quote(tab[j]);
+			dest = parse_str_back_slash(tab[j]);
 			free(tab[j]);
 			tab[j] = dest;
 		}
 	}
 }
 
-void	parse_quote(t_command *(*table_pipe))
+void	parse_back_slash(t_command *(*table_pipe))
 {
 	int		i;
 
@@ -70,10 +59,10 @@ void	parse_quote(t_command *(*table_pipe))
 	while (table_pipe[++i])
 	{
 		if (table_pipe[i]->tab_cmd)
-			parse_quote_redir(table_pipe[i]->tab_cmd);
+			parse_back_redir(table_pipe[i]->tab_cmd);
 		if (table_pipe[i]->tab_redir && table_pipe[i]->tab_redir->in)
-			parse_quote_redir(table_pipe[i]->tab_redir->in);
+			parse_back_redir(table_pipe[i]->tab_redir->in);
 		if (table_pipe[i]->tab_redir && table_pipe[i]->tab_redir->out)
-			parse_quote_redir(table_pipe[i]->tab_redir->out);
+			parse_back_redir(table_pipe[i]->tab_redir->out);
 	}
 }

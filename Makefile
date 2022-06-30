@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+         #
+#    By: aptive <aptive@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 20:18:17 by tdelauna          #+#    #+#              #
-#    Updated: 2022/06/25 14:50:42 by chaidel          ###   ########.fr        #
+#    Updated: 2022/06/30 16:59:37 by aptive           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,12 +34,14 @@ SRC			=	main.c\
 				errors.c\
 				redir.c\
 				tokenizer.c\
+				tokinizer_2.c\
 				free.c\
 				signal.c\
 				split_pipe.c\
 				verif_line.c\
 				expand.c\
 				parse_quote.c\
+				parse_back.c\
 
 
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))

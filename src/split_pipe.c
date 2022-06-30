@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:08:09 by aptive            #+#    #+#             */
-/*   Updated: 2022/06/26 16:27:53 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/28 18:13:14 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,15 @@ static	void	ft_get_to_next_pipe(char **str, int *len)
 	*len = 0;
 	while ((*str)[*len] != '|' && (*str)[*len])
 	{
-		if ((*str)[*len] == '\'' || (*str)[*len] == '"')
+		if ((*str)[*len] == '\\')
+			(*len)++;
+		else if ((*str)[*len] == '\'' || (*str)[*len] == '"')
 		{
 			i = *len;
 			(*len)++;
 			while ((*str)[*len] != (*str)[i])
 			{
-				if((*str)[*len] == '\\')
+				if ((*str)[*len] == '\\')
 					(*len) += 2;
 				else
 					(*len)++;

@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 19:46:05 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/05/31 18:47:36 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/30 16:58:53 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	tokenizer_cmd(t_command **t_p, int nb_pp, t_data	*data)
 		else if (check_builtin(t_p[nb_pp]->tab_cmd[i]) && struc_len(t_p) == 1)
 			t_p[nb_pp]->tab_token[i][0] = '1';
 		else
-			t_p[nb_pp]->tab_token[i][0] = '3';
+			t_p[nb_pp]->tab_token[i][0] = token_quote(t_p, nb_pp, i);
 	}
 }
 

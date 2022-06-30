@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:08:18 by aptive            #+#    #+#             */
-/*   Updated: 2022/06/21 14:41:38 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/30 17:12:12 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ void	ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c)
 		tmp = ft_strchr(tmp, c);
 		while (tmp[dex] == c || tmp[dex] == ' ')
 			dex++;
-		while (tmp[dex + cut] != ' ' && tmp[dex + cut] != c && tmp[dex + cut])
+		while (tmp[dex + cut] != ' ' && tmp[dex + cut] != c
+			&& tmp[dex + cut] != '>' && tmp[dex + cut])
 			cut++;
 		table_pp[nb_pp]->tab_redir->in[i] = ft_substr(tmp, dex, cut);
 		tmp = tmp + dex;
@@ -129,6 +130,7 @@ void	ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c)
 
 	i = 0;
 	nb_redirect = ft_count_redirection(table_pp[nb_pp]->all_pipe, c);
+	printf("Nb_redirec : %i\n", nb_redirect);
 	tmp = table_pp[nb_pp]->all_pipe;
 	while (nb_redirect)
 	{
@@ -137,7 +139,7 @@ void	ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c)
 		tmp = ft_search_redir(tmp, c);
 		while (tmp[dex] == c || tmp[dex] == ' ')
 			dex++;
-		while ((tmp[dex + cut] != ' ' && tmp[dex + cut] != c) && tmp[dex + cut])
+		while ((tmp[dex + cut] != ' ' && tmp[dex + cut] != '<' && tmp[dex + cut] != '>') && tmp[dex + cut])
 			cut++;
 		table_pp[nb_pp]->tab_redir->out[i] = ft_substr(tmp, dex, cut);
 		tmp = tmp + dex;

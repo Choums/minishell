@@ -6,34 +6,37 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:54:45 by aptive            #+#    #+#             */
-/*   Updated: 2022/06/26 16:30:26 by aptive           ###   ########.fr       */
+/*   Updated: 2022/06/30 15:40:00 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd, char c)
+char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd, char c, int i)
 {
-	int		i;
-
-	i = 0;
 	while (i < (int)ft_strlen(tmp))
 	{
 		if (tmp[i] == '<' || tmp[i] == '>')
 		{
 			while (tmp[i] && (tmp[i] == '<' || tmp[i] == ' ' || tmp[i] == '>'))
 				i++;
-			while (tmp[i] && tmp[i] != ' ' )
+			while (tmp[i] && tmp[i] != ' ')
 				i++;
 		}
 		else
 		{
-			if (tmp[i] == '\'' || tmp[i] == '"')
+			if (tmp[i] == '\\')
+				tmp_cmd = ft_straddc(tmp_cmd, tmp[i++]);
+			else if (tmp[i] == '\'' || tmp[i] == '"')
 			{
 				c = tmp[i];
 				tmp_cmd = ft_straddc(tmp_cmd, tmp[i++]);
 				while (tmp[i] && tmp[i] != c)
+				{
+					if (tmp[i] == '\\')
+						tmp_cmd = ft_straddc(tmp_cmd, tmp[i++]);
 					tmp_cmd = ft_straddc(tmp_cmd, tmp[i++]);
+				}
 			}
 			tmp_cmd = ft_straddc(tmp_cmd, tmp[i++]);
 		}
@@ -103,7 +106,9 @@ int	pass_quote(char *cmd, int i, int cut)
 	char	c;
 
 	c = cmd[i + cut++];
-	while (cmd[i + cut] != c)
+	if (cmd[i + cut] == '\\')
+		cut += 2;
+	while (cmd[i + cut] && cmd[i + cut] != c)
 	{
 		if (cmd[i + cut] == '\\')
 			cut += 2;
@@ -138,7 +143,6 @@ void	count_cmd(t_command	*(*table_pipe), int nb_pp, char *cut_cmd)
 	table_pipe[nb_pp]->tab_cmd = ft_calloc(count_arg + 1, sizeof(char *));
 }
 
-
 void	copy_cmd(t_command	*(*table_pipe), int nb_pp, char *cmd)
 {
 	int		i;
@@ -152,9 +156,11 @@ void	copy_cmd(t_command	*(*table_pipe), int nb_pp, char *cmd)
 		cut = 0;
 		if (cmd[i] != ' ')
 		{
-			while (cmd[i + cut] != ' ' && cmd[i + cut])
+			while (cmd[i + cut] && cmd[i + cut] != ' ')
 			{
-				if (cmd[i + cut] == '\'' || cmd[i + cut] == '"')
+				if (cmd[i + cut] == '\\')
+					cut++;
+				else if (cmd[i + cut] == '\'' || cmd[i + cut] == '"')
 					cut = pass_quote(cmd, i, cut);
 				cut++;
 			}
@@ -171,7 +177,9 @@ t_command	**ft_parse_cmd(t_command *(*table_pipe), int number_pipe)
 	char	*cut_cmd;
 
 	cut_cmd = NULL;
-	cut_cmd = ft_cup_all_cmd(table_pipe[number_pipe]->all_pipe, cut_cmd, 'c');
+	printf("all pipe : %s\n", table_pipe[0]->all_pipe);
+	cut_cmd = ft_cup_all_cmd(table_pipe[number_pipe]->all_pipe, cut_cmd, 'c', 0);
+	printf("cut cmd : %s\n", cut_cmd);
 	count_cmd(table_pipe, number_pipe, cut_cmd);
 	copy_cmd(table_pipe, number_pipe, cut_cmd);
 	free(cut_cmd);
