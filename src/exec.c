@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/30 12:47:25 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/30 15:06:34 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ void	process(t_data *data, t_command *cmd, int *pipefd, int pos)
 		exit(EXIT_SUCCESS);
 	}
 	path = find_bin(data, cmd->tab_cmd[0]);
-	check_cmd(path);
 	if (execve(path, cmd->tab_cmd, env) < 0)
 		exit(1);
 }
@@ -122,60 +121,44 @@ void	exec_builtin(t_command *cmd, t_data *data)
 	}
 }
 
-int	check_cmd(char *path)
+		// if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0
+		// 	|| cmd[ft_strlen(cmd) - 1] == '/')
+		// 	return (msg_err(cmd, ": No such file or directory", 127));
+		// else
+		// 	return (msg_err(cmd, ": Command not found", 127));
+int	check_cmd(char *cmd)
 {
 	struct stat	path_stat;
 
-	if ((stat(path, &path_stat)) < 0) //stat ko
+	if (stat(cmd, &path_stat) == 0)
 	{
-		if (path[0] == '/' || !ft_strncmp(path, "./", 2))
+		if (((path_stat.st_mode & __S_IFMT) == __S_IFDIR))
 		{
-			ft_putstr_fd("minishell: ", STDERR_FILENO);
-			ft_putstr_fd(path, STDERR_FILENO);
-			ft_putendl_fd(": No such file or directory", STDERR_FILENO);
-			// status = 127;
-			return(0);
+			if (ft_strncmp(cmd, "./", 2) == 0
+				|| cmd[ft_strlen(cmd) - 1] == '/')
+				return (msg_err(cmd, ": Is a directory", 126));
 		}
-		else
-		{
-			ft_putstr_fd("minishell: ", STDERR_FILENO);
-			ft_putstr_fd(path, STDERR_FILENO);
-			ft_putendl_fd(": Command not found", STDERR_FILENO);
-			// status = 127;
-			return(0);
-		}
-	}
-	else
-	{
-		if ((path_stat.st_mode & __S_IFDIR))
-		{
-			if (path[0] == '/' || ft_strncmp(path, "./", 2) == 0)
-			{
-				ft_putstr_fd("minishell: ", STDERR_FILENO);
-				ft_putstr_fd(path, STDERR_FILENO);
-				ft_putendl_fd(": Is a directory", STDERR_FILENO);
-				// status = 126;
-				return(0);
-			}
-		}
+		else if (((path_stat.st_mode & __S_IFMT) != __S_IFDIR)
+			&& (cmd[ft_strlen(cmd) - 1] == '/'))
+			return (msg_err(cmd, ": Not a directory", 126));
 		else
 		{
 			if (path_stat.st_mode & S_IXUSR)
 			{
-				//process
-				return(1);
+				printf("good\n");
+				return (1);
 			}
+			else if ((!(path_stat.st_mode & S_IXUSR))
+				&& ft_strncmp(cmd, "./", 2) == 0)
+				return (msg_err(cmd, ": Permission denied", 126));
 			else
-			{
-				ft_putstr_fd("minishell: ", STDERR_FILENO);
-				ft_putstr_fd(path, STDERR_FILENO);
-				ft_putendl_fd(": Permission denied", STDERR_FILENO);
-				// status = 126;
-				return(0);
-			}
+				return (msg_err(cmd, ": Command not found", 127));
 		}
 	}
-	return (1);
+	else if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0
+		|| cmd[ft_strlen(cmd) - 1])
+		return (msg_err(cmd, ": No such file or directory", 127));
+	return (msg_err(cmd, ": Command not found", 127));
 }
 
 /*

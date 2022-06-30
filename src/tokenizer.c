@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 19:46:05 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/06/29 18:55:00 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/06/30 13:34:31 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	struc_len(t_command **table_pipe)
 	return (i);
 }
 
-void	tokenizer_cmd(t_command **t_p, int nb_pp, t_data	*data)
+void	tokenizer_cmd(t_command **t_p, int nb_pp, t_data *data)
 {
 	int		i;
 	char	*path;
