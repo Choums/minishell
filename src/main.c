@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/30 16:34:54 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/01 20:45:51 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int		main(int ac, char **av, char **envp)
 	(void)av;
 	data.var = NULL;
 	data.path = NULL;
-
+	data.pipefd = NULL;
 	s_sigaction.sa_sigaction = ft_signal;
 	s_sigaction.sa_flags = SA_SIGINFO;
 	sigaction(SIGINT, &s_sigaction, 0);

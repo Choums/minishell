@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/25 14:41:08 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/01 21:27:57 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,47 @@
  *	Permet de retrouver le fichier bin de la commande donnee et verifie
  *		ses droits.
  *	Ajoute "/[filename]" a chaque path de la lst
+ *	-------------------------------------
+ *	
 */
-char	*find_bin(t_list *lst_path, char *bin)
+char	*find_bin(t_data *data, char *bin)
 {
 	char	*dir;
 	char	*path;
+	t_list	*tmp;
 
-	while (lst_path)
+	if (!get_elem(data->h_env, "PATH") && !get_elem(data->h_var, "PATH"))
+		return (NULL);
+	tmp = data->path;
+	while (tmp)
 	{
-		dir = ft_strjoin(lst_path->content, "/");
+		dir = ft_strjoin(tmp->content, "/");
 		path = ft_strjoin(dir, bin);
 		free(dir);
-		if (access(path, F_OK) == 0)
+		if (check_perm(path))
 			return (path);
 		free(path);
-		lst_path = lst_path->next;
+		tmp = tmp->next;
 	}
 	return (NULL);
+}
+
+int	check_perm(char *path)
+{
+	struct stat	path_stat;
+
+	if (stat(path, &path_stat) < 0)
+		return (0);
+	else if ((path_stat.st_mode & __S_IFREG))
+	{
+		if (path_stat.st_mode & S_IXUSR)
+			return (1);
+		else
+			msg_err(path, "Permission denied", 126);
+	}
+	else
+		msg_err(path, "Is a directory", 126);
+	return (0);
 }
 
 /*
@@ -45,30 +69,31 @@ char	*find_bin(t_list *lst_path, char *bin)
  *	ls | < infile wc
  *	wc ne lit que le infile
 */
-void	process(t_data *data, t_command *cmd, int *pipefd, int pos)
+void	process(t_data *data, t_command *cmd, int pos)
 {
-	char	*path;
 	char	**env;
-
+	char 	*path;
 	// printf("cmd: %s\n", cmd->tab_cmd[0]);
 	env = lst_dup(data->h_env);
+	if (pos != -1 && cmd->len_pipe > 0 && !cmd->tab_redir)
+		redir_pipe(data->pipefd, pos, cmd->len_pipe);
+	if (cmd->len_pipe > 0)
+		close_unused_pipes(data->pipefd, pos, cmd->len_pipe);
 	if (cmd->tab_redir)
 	{
 		// printf("in simple redir\n");
 		redir(data, cmd->tab_redir);
 	}
-	if (pos != -1 && cmd->len_pipe > 0 && !cmd->tab_redir)
-		redir_pipe(pipefd, pos, cmd->len_pipe);
-	if (cmd->len_pipe > 0)
-		close_unused_pipes(pipefd, pos, cmd->len_pipe);
 	if (is_builtin(cmd))
 	{
 		exec_builtin(cmd, data);
 		exit(EXIT_SUCCESS);
 	}
-	path = find_bin(data->path, cmd->tab_cmd[0]);
+	path = get_cmd(data, cmd->tab_cmd[0]);
+	if (!path)
+		return ;
 	if (execve(path, cmd->tab_cmd, env) < 0)
-		exit(1);
+		exit(EXIT_FAILURE);
 }
 
 void	exec_builtin(t_command *cmd, t_data *data)
@@ -83,6 +108,43 @@ void	exec_builtin(t_command *cmd, t_data *data)
 		// fprintf(stderr, "restore\n");
 		restore_redir(cmd->tab_redir);
 	}
+}
+
+		// if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0
+		// 	|| cmd[ft_strlen(cmd) - 1] == '/')
+		// 	return (msg_err(cmd, ": No such file or directory", 127));
+		// else
+		// 	return (msg_err(cmd, ": Command not found", 127));
+int	check_cmd(char *cmd)
+{
+	struct stat	path_stat;
+
+	if (stat(cmd, &path_stat) == 0)
+	{
+		if (((path_stat.st_mode & __S_IFMT) == __S_IFDIR)
+			&& (ft_strncmp(cmd, "./", 2) == 0
+				|| cmd[ft_strlen(cmd) - 1] == '/'))
+			return (msg_err(cmd, ": Is a directory", 126));
+		else if (((path_stat.st_mode & __S_IFMT) != __S_IFDIR)
+			&& (cmd[ft_strlen(cmd) - 1] == '/'))
+			return (msg_err(cmd, ": Not a directory", 126));
+		else
+		{
+			if ((path_stat.st_mode & S_IXUSR) && (ft_strncmp(cmd, "./", 2) == 0
+					|| cmd[0] == '/'))
+				return (1);
+			else if ((!(path_stat.st_mode & S_IXUSR))
+				&& ft_strncmp(cmd, "./", 2) == 0)
+				return (msg_err(cmd, ": Permission denied", 126));
+		}
+	}
+	else if (((path_stat.st_mode & __S_IFMT) != __S_IFDIR)
+		&& (cmd[ft_strlen(cmd) - 1] == '/'))
+		return (msg_err(cmd, ": Not a directory", 126));
+	else if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0
+		|| cmd[ft_strlen(cmd) - 1] == '/')
+		return (msg_err(cmd, ": No such file or directory", 127));
+	return (msg_err(cmd, ": Command not found", 127));
 }
 
 /*
@@ -121,7 +183,7 @@ void	mother_board(t_data *data, t_command **cmd)
 		// printf("one child w/o builtin\n");
 		child = fork();
 		if (child == 0)
-			process(data, cmd[0], NULL, -1);
+			process(data, cmd[0], -1);
 		waitpid(child, NULL, 0);
 	}
 	else
@@ -131,15 +193,30 @@ void	mother_board(t_data *data, t_command **cmd)
 	}
 }
 
+char *get_cmd(t_data *data, char *cmd)
+{
+	char *path;
+
+	path = find_bin(data, cmd);
+	if (!path)
+	{
+		if (check_cmd(cmd))
+			return (cmd);
+		else
+			return (NULL);
+	}
+	else
+		return (path);
+}
+
 void	pipex(t_data *data, t_command **cmd)
 {
-	int		*pipefd;
 	int		num;
 	int		i;
 	pid_t	child;
 
 	num = cmd[0]->len_pipe;
-	pipefd = create_pipes(cmd[0]->len_pipe);
+	data->pipefd = create_pipes(cmd[0]->len_pipe);
 	i = 0;
 	while (num >= 0)
 	{
@@ -148,14 +225,14 @@ void	pipex(t_data *data, t_command **cmd)
 		if (child == 0)
 		{
 			// printf("cmd %d: %s\n", i, cmd[i]->tab_cmd[0]);
-			process(data, cmd[i], pipefd, i);
+			process(data, cmd[i], i);
 		}
 		else if (child < 0)
 			printf("error\n");
 		i++;
 		num--;
 	}
-	close_pipes(pipefd, cmd[0]->len_pipe);
+	close_pipes(data->pipefd, cmd[0]->len_pipe);
 	while (wait(NULL) > 0);
 	// int ret;
 	// for (int p = 0; (ret = wait(NULL) > 0); p++)

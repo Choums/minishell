@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/30 16:59:21 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/01 21:22:53 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_data
 	t_list	*var;
 	t_list	**h_var;
 	t_list	*path;
+	int		*pipefd;
 }	t_data;
 
 typedef struct s_redirection
@@ -109,12 +110,13 @@ int		is_oldpwd(t_list **h_env);
 void	create_oldpwd(t_data *data);
 
 /*	Exec */
-char	*find_bin(t_list *lst_path, char *bin);
+char	*find_bin(t_data *data, char *bin);
+int		check_cmd(char *cmd);
 void	mother_board(t_data *data, t_command **cmd);
 int		is_builtin(t_command *cmd);
 void	exec_builtin(t_command *cmd, t_data *data);
 void	run_builtin(t_data *data, t_command *cmd);
-void	process(t_data *data, t_command *cmd, int *pipefd, int pos);
+void	process(t_data *data, t_command *cmd, int pos);
 void	redir_pipe(int *pipefd, int pos, int n_pipe);
 void	display_here(void);
 char	*get_lim(t_redirection *args);
@@ -130,6 +132,8 @@ void	pipex(t_data *data, t_command **cmd);
 int		*create_pipes(int num);
 void	close_pipes(int *pipefd, int n_pipe);
 void	close_unused_pipes(int *pipefd, int pos, int n_pipe);
+int		check_perm(char *path);
+char *get_cmd(t_data *data, char *cmd);
 
 /*	List */
 void	set_var(t_data *data, char *content);
@@ -153,6 +157,7 @@ void	pipe_err(int *pipefd, int i);
 /*	Errors */
 void	ft_err(char *err);
 void	export_err(char *command, int alloc);
+int	msg_err(char *cmd, char *msg, int status);
 
 /*
 AFFICHAGE_C----------------------------------------------------------------------
