@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/01 21:22:53 by root             ###   ########.fr       */
+/*   Updated: 2022/07/03 14:25:56 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	get_path(t_data *data);
 void	set_path(t_data *data, char **path);
 void	print_env(t_list **h_env);
 void	print_vars(t_list **head); // DEBUG, à supp.
-int		is_exit(t_data *data, char *line);
+int		is_exit(t_data *data, t_command **tab);
 void	echo(char **arg);
 int		check_atr_n(char **args);
 void	pwd(void);
@@ -133,7 +133,7 @@ int		*create_pipes(int num);
 void	close_pipes(int *pipefd, int n_pipe);
 void	close_unused_pipes(int *pipefd, int pos, int n_pipe);
 int		check_perm(char *path);
-char *get_cmd(t_data *data, char *cmd);
+char 	*get_cmd(t_data *data, char *cmd);
 
 /*	List */
 void	set_var(t_data *data, char *content);

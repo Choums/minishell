@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/03 14:15:50 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/03 14:28:01 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	main_two(t_data *data, char *line)
 		parse_quote(table_pipe);
 		parse_back_slash(table_pipe);
 		go_expand(data, table_pipe);
-		ft_affiche_t_command(table_pipe);
+		// ft_affiche_t_command(table_pipe);
 		if (table_pipe[0]->tab_cmd[0])
 			mother_board(data, table_pipe);
 		free_struc(table_pipe);
@@ -76,7 +76,7 @@ int		main(int ac, char **av, char **envp)
 	line = readline("minishell: ");
 	if (line && *line)
 		add_history(line);
-	while (is_exit(&data, line) && line)
+	while (1)
 	{
 		if (ft_strcmp(line, "var") == 0)
 			print_vars(data.h_var);

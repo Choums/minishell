@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:40:50 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/15 12:00:52 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/03 15:34:57 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,19 @@ void	get_env(t_data *data, char **env)
 			ft_lstadd_back(&data->env, ft_lstnew(env[n++]));
 		data->h_env = &data->env;
 		get_path(data);
+		check_prim(data);
 	}
 	else
 		set_env(data);
+}
+
+/*
+ *	verifie que les var primordiales soit transféré
+ *	sinon elles sont creés
+*/
+void	check_prim(t_data *data)
+{
+
 }
 
 void	set_env(t_data *data)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/01 21:27:57 by root             ###   ########.fr       */
+/*   Updated: 2022/07/03 14:33:33 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	process(t_data *data, t_command *cmd, int pos)
 {
 	char	**env;
 	char 	*path;
+
 	// printf("cmd: %s\n", cmd->tab_cmd[0]);
 	env = lst_dup(data->h_env);
 	if (pos != -1 && cmd->len_pipe > 0 && !cmd->tab_redir)
@@ -91,7 +92,13 @@ void	process(t_data *data, t_command *cmd, int pos)
 	}
 	path = get_cmd(data, cmd->tab_cmd[0]);
 	if (!path)
-		return ;
+	{
+		ft_lstclear(&data->env, del);
+		ft_lstclear(&data->var, del);
+		ft_lstclear(&data->path, del);
+		free_double_tab(env);
+		exit(EXIT_FAILURE);
+	}
 	if (execve(path, cmd->tab_cmd, env) < 0)
 		exit(EXIT_FAILURE);
 }
