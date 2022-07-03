@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 19:46:05 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/06/30 16:58:53 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/01 20:19:29 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	struc_len(t_command **table_pipe)
 	return (i);
 }
 
-void	tokenizer_cmd(t_command **t_p, int nb_pp, t_data	*data)
+void	tokenizer_cmd(t_command **t_p, int nb_pp, t_data *data)
 {
 	int		i;
 	char	*path;
@@ -45,7 +45,7 @@ void	tokenizer_cmd(t_command **t_p, int nb_pp, t_data	*data)
 	while (++i < ft_doubletab_len(t_p[nb_pp]->tab_cmd))
 	{
 		t_p[nb_pp]->tab_token[i] = ft_calloc(2, sizeof(char));
-		path = find_bin(data->path, t_p[nb_pp]->tab_cmd[i]);
+		path = find_bin(data, t_p[nb_pp]->tab_cmd[i]);
 		if (path)
 		{
 			t_p[nb_pp]->tab_token[i][0] = '2';

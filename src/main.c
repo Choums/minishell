@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/03 14:14:28 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/03 14:15:50 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int		main(int ac, char **av, char **envp)
 	(void)av;
 	data.var = NULL;
 	data.path = NULL;
-
+	data.pipefd = NULL;
 	s_sigaction.sa_sigaction = ft_signal;
 	s_sigaction.sa_flags = SA_SIGINFO;
 	sigaction(SIGINT, &s_sigaction, 0);
