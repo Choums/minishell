@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/01 20:45:51 by root             ###   ########.fr       */
+/*   Updated: 2022/07/04 20:06:43 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	main_two(t_data *data, char *line)
 		parse_quote(table_pipe);
 		parse_back_slash(table_pipe);
 		go_expand(data, table_pipe);
-		ft_affiche_t_command(table_pipe);
+		// ft_affiche_t_command(table_pipe);
 		if (table_pipe[0]->tab_cmd[0])
 			mother_board(data, table_pipe);
 		free_struc(table_pipe);
@@ -78,6 +78,8 @@ int		main(int ac, char **av, char **envp)
 		add_history(line);
 	while (is_exit(&data, line) && line)
 	{
+		g_signal.nt_status = 0;
+		// printf("g_signal.status : %i\n", g_signal.pid);
 		if (ft_strcmp(line, "var") == 0)
 			print_vars(data.h_var);
 		main_two(&data, line);

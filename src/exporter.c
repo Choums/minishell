@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exporter.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:14:47 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/25 17:43:10 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/04 19:33:37 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  *	them to be in the environment of subsequently executed com‐
  *	mands. If the name of a variable is followed by =word, then
  *	the value of that variable shall be set to word.
- *	
+ *
 */
 
 /*
@@ -37,7 +37,7 @@
  *	Le '+' n'est tolerer qu'avant le =.
  *	"+=" concatene la précedente value avec la nouvelle.
 */
-void	export(t_data *data, char **var)
+int	export(t_data *data, char **var)
 {
 	int		alloc;
 	size_t	i;
@@ -47,7 +47,7 @@ void	export(t_data *data, char **var)
 	if (var[i] == NULL)
 	{
 		display_env(data);
-		return ;
+		return (0);
 	}
 	if (ft_strchr(var[i], '$'))
 	{
@@ -68,6 +68,7 @@ void	export(t_data *data, char **var)
 	if (alloc)
 		free(var[i]);
 	i++;
+	return (0);
 }
 
 int	check_var(char *var)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 21:35:36 by root              #+#    #+#             */
-/*   Updated: 2022/06/30 14:39:34 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/04 20:06:12 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ void	export_err(char *command, int alloc)
 */
 int	msg_err(char *cmd, char *msg, int status)
 {
+	g_signal.status = status;
+	g_signal.nt_status = 1;
+	// printf("numero err : %i\n", g_signal.status);
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(cmd, STDERR_FILENO);
 	ft_putendl_fd(msg, STDERR_FILENO);

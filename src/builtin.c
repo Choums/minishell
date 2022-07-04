@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 05:48:30 by root              #+#    #+#             */
-/*   Updated: 2022/06/25 17:51:28 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/04 19:28:22 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	echo(char **args)
+int	echo(char **args)
 {
 	size_t	i;
 
 	if (ft_doubletab_len(args) == 1)
 	{
 		ft_putchar_fd('\n', STDOUT_FILENO);
-		return ;
+		return (0);
 	}
 	i = check_atr_n(args);
 	if (i > 1)
@@ -39,6 +39,7 @@ void	echo(char **args)
 		}
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	}
+	return (0);
 }
 
 int	check_atr_n(char **args)
@@ -125,13 +126,14 @@ int	is_valid_id(char *var)
 	return (1);
 }
 
-void	pwd(void)
+int	pwd(void)
 {
 	char	*path;
 
 	path = getcwd(NULL, 0);
 	ft_putendl_fd(path, STDIN_FILENO);
 	free(path);
+	return (0);
 }
 
 int	is_exit(t_data *data, char *line)
@@ -146,7 +148,7 @@ int	is_exit(t_data *data, char *line)
 			ft_lstclear(&data->var, del);
 			ft_lstclear(&data->path, del);
 			exit(EXIT_SUCCESS);
-		}	
+		}
 	}
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:40:50 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/15 12:00:52 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/04 19:29:26 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	set_path(t_data *data, char **path)
 		ft_lstadd_back(&data->path, ft_lstnew(path[i++]));
 }
 
-void	print_env(t_list **h_env)
+int	print_env(t_list **h_env)
 {
 	t_list	*tmp;
 
@@ -116,4 +116,5 @@ void	print_env(t_list **h_env)
 			ft_putendl_fd(tmp->content, STDOUT_FILENO);
 		tmp = tmp->next;
 	}
+	return (1);
 }

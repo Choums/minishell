@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:27:54 by aptive            #+#    #+#             */
-/*   Updated: 2022/06/22 15:50:27 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/04 19:51:55 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	ft_signal(int sig, siginfo_t *info, void *context)
 
 void	sig_quit(int sig, siginfo_t *info, void *context)
 {
-	
 	ft_putstr_fd("\b\b  \b\b", STDERR);
 }
 
@@ -52,5 +51,6 @@ void	signal_init(void)
 {
 	// g_signal.quit = 0;
 	// g_signal.sigint = 0;
-	// g_signal.exit_status = 0;
+	g_signal.nt_status = 0;
+	g_signal.status = 0;
 }

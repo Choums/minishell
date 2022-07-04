@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_dir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:41:51 by root              #+#    #+#             */
-/*   Updated: 2022/06/25 14:34:00 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/04 19:55:31 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ void	change_dir(t_data *data, char *path, int alloc)
 /*
  *	Vérifie le chemin et définis le changement
 */
-void	check_dir(t_data *data, char **args)
+int	check_dir(t_data *data, char **args)
 {
 	if (ft_doubletab_len(args) > 2)
 	{
 		ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);
-		return ;
+		return (1);
 	}
 	if (!args[1] || (ft_strncmp(args[1], "~", 1) == 0)
 		|| ft_strncmp(args[1], "--", 2) == 0)
@@ -74,17 +74,18 @@ void	check_dir(t_data *data, char **args)
 		if (args[1] && ft_strncmp(args[1], "~/", 2) == 0)
 		{
 			goto_homepath(data, args[1]);
-			return ;
+			return (0);
 		}
 		goto_home(data);
-		return ;
+		return (0);
 	}
 	if (ft_strncmp(args[1], "-", 1) == 0)
 	{
 		goto_oldpwd(data);
-		return ;
+		return (0);
 	}
 	change_dir(data, args[1], 0);
+	return (0);
 }
 
 int	goto_homepath(t_data *data, char *path)

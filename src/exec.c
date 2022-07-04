@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/01 21:27:57 by root             ###   ########.fr       */
+/*   Updated: 2022/07/04 20:06:00 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  *		ses droits.
  *	Ajoute "/[filename]" a chaque path de la lst
  *	-------------------------------------
- *	
+ *
 */
 char	*find_bin(t_data *data, char *bin)
 {
@@ -185,12 +185,37 @@ void	mother_board(t_data *data, t_command **cmd)
 		if (child == 0)
 			process(data, cmd[0], -1);
 		waitpid(child, NULL, 0);
+	// printf("OKKKKKKKKKKKK\n");
+
+		// printf("wexitstatus : %i\n",WEXITSTATUS(child));
+		if (g_signal.nt_status == 0)
+			status_child(child);
 	}
+
 	else
 	{
 		// printf("multiple cmd\n");
 		pipex(data, cmd);
 	}
+}
+
+void		status_child(int pid)
+{
+	g_signal.status = 0;
+	if (WIFEXITED(pid))
+	{
+		g_signal.status = WEXITSTATUS(pid);
+		// printf("WIFEXITED : %i\n", WEXITSTATUS(pid));
+	}
+	if (WIFSIGNALED(pid))
+	{
+		g_signal.status = WTERMSIG(pid);
+		// if (g_signal.status != 131)
+		// 	g_signal.status += 128;
+		// printf("WIFSIGNALED : %i\n", WTERMSIG(pid));
+	}
+	// printf("g_signal.status : %i\n", g_signal.status);
+
 }
 
 char *get_cmd(t_data *data, char *cmd)
@@ -234,6 +259,7 @@ void	pipex(t_data *data, t_command **cmd)
 	}
 	close_pipes(data->pipefd, cmd[0]->len_pipe);
 	while (wait(NULL) > 0);
+	// status_child(child);
 	// int ret;
 	// for (int p = 0; (ret = wait(NULL) > 0); p++)
 	// 	printf("---\nchild %d %s done (%d)\n---\n", p, cmd[p]->tab_cmd[0], ret);
@@ -360,17 +386,17 @@ int	is_builtin(t_command *cmd)
 void	run_builtin(t_data *data, t_command *cmd)
 {
 	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
-		echo(cmd->tab_cmd);
+		g_signal.status = echo(cmd->tab_cmd);
 	else if (ft_strcmp(cmd->tab_cmd[0], "cd") == 0)
-		check_dir(data, cmd->tab_cmd);
+		g_signal.status = check_dir(data, cmd->tab_cmd);
 	else if (ft_strcmp(cmd->tab_cmd[0], "pwd") == 0)
-		pwd();
+		g_signal.status = pwd();
 	else if (ft_strcmp(cmd->tab_cmd[0], "export") == 0)
-		export(data, cmd->tab_cmd);
+		g_signal.status = export(data, cmd->tab_cmd);
 	else if (ft_strcmp(cmd->tab_cmd[0], "unset") == 0)
-		unset(data, cmd->tab_cmd);
+		g_signal.status = unset(data, cmd->tab_cmd);
 	else if (ft_strcmp(cmd->tab_cmd[0], "env") == 0)
-		print_env(data->h_env);
+		g_signal.status = print_env(data->h_env);
 	else if (ft_strcmp(cmd->tab_cmd[0], "exit") == 0)
-		is_exit(data, cmd->tab_cmd[0]);
+		g_signal.status = is_exit(data, cmd->tab_cmd[0]);
 }

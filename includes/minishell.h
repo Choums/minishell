@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/01 21:22:53 by root             ###   ########.fr       */
+/*   Updated: 2022/07/04 19:52:31 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@
 # include "get_next_line.h"
 # include <sys/types.h>
 # include <signal.h>
+
+// int WEXITSTATUS(int status);
+
 # define STDIN 0
 # define STDOUT 1
 # define STDERR 2
@@ -72,25 +75,26 @@ typedef struct s_signal
 	int	quit;
 	int	sigint;
 	int	pid;
-	int	exit_status;
+	int	nt_status;
+	int	status;
 }	t_signal;
 
-extern t_signal	g_signal;
+t_signal	g_signal;
 
 /*	Builtin */
 void	get_env(t_data *data, char **envp);
 void	set_env(t_data *data);
 void	get_path(t_data *data);
 void	set_path(t_data *data, char **path);
-void	print_env(t_list **h_env);
+int		print_env(t_list **h_env);
 void	print_vars(t_list **head); // DEBUG, à supp.
 int		is_exit(t_data *data, char *line);
-void	echo(char **arg);
+int		echo(char **arg);
 int		check_atr_n(char **args);
-void	pwd(void);
+int		pwd(void);
 int		unset(t_data *data, char **var);
 int		is_valid_id(char *var);
-void	export(t_data *data, char **var);
+int		export(t_data *data, char **var);
 int		check_var(char *var);
 void	check_existing(t_data *data, char *var, size_t len);
 void	cat_var(t_data *data, char *var);
@@ -99,8 +103,7 @@ size_t	name_len(char *var);
 void	display_env(t_data *data);
 void	sort_env(char **env);
 void	print_export(char **env);
-void	pwd(void);
-void	check_dir(t_data *data, char **args);
+int		check_dir(t_data *data, char **args);
 int		change_err(char *pathname, int alloc);
 void	change_dir(t_data *data, char *path, int alloc);
 int		goto_home(t_data *data);
@@ -244,5 +247,5 @@ char	*parse_str_back_slash(char *str);
 void	parse_back_redir(char **tab);
 void	parse_back_slash(t_command *(*table_pipe));
 
-
+void		status_child(int pid);
 #endif
