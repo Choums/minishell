@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:08:18 by aptive            #+#    #+#             */
-/*   Updated: 2022/06/30 17:12:12 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/05 01:46:23 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ t_command	**ft_redirection_init(t_command	*(*table_pipe), int number_pipe)
 
 	nb_pipe_in = ft_count_redirection(table_pipe[number_pipe]->all_pipe, '<');
 	nb_pipe_out = ft_count_redirection(table_pipe[number_pipe]->all_pipe, '>');
+	printf("nb pipe out : %i\n", nb_pipe_out);
 	table_pipe[number_pipe]->tab_redir = malloc(sizeof(t_redirection));
 	if (!nb_pipe_in && !nb_pipe_out)
 	{
@@ -130,7 +131,7 @@ void	ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c)
 
 	i = 0;
 	nb_redirect = ft_count_redirection(table_pp[nb_pp]->all_pipe, c);
-	printf("Nb_redirec : %i\n", nb_redirect);
+	// printf("Nb_redirec : %i\n", nb_redirect);
 	tmp = table_pp[nb_pp]->all_pipe;
 	while (nb_redirect)
 	{

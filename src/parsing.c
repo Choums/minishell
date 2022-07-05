@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/20 17:12:27 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/05 01:51:43 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,10 @@ t_command	**ft_parsing(t_data *data, char *line, t_command	*(*table_pipe))
 	i = -1;
 	while (table_pipe[++i])
 	{
-		if (ft_strchr(table_pipe[i]->all_pipe, '<')
-			|| ft_strchr(table_pipe[i]->all_pipe, '>'))
+		// if (ft_strchr(table_pipe[i]->all_pipe, '<')
+		// 	|| ft_strchr(table_pipe[i]->all_pipe, '>'))
+		if(ft_count_redirection(table_pipe[i]->all_pipe, '<')
+		|| ft_count_redirection(table_pipe[i]->all_pipe, '>'))
 		{
 			ft_parse_redir_in(table_pipe, i, '<');
 			ft_parse_redir_out(table_pipe, i, '>');

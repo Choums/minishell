@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_management.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/06/25 15:58:33 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/05 04:31:44 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,8 @@ char	*which_dollar(t_data *data, char *command)
 		// printf("new: %s\n", new);
 		return (new);
 	}
+	else if (ft_strchr(command, '$') && ft_strlen(command) == 1)
+		return(ft_straddc(new, '$'));
 	return (NULL);
 }
 

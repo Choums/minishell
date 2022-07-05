@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:14:47 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/04 19:33:37 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/04 20:24:39 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	export(t_data *data, char **var)
 	}
 	if (check_var(var[i]))
 	{
-		printf("check valid\n");
+		// printf("check valid\n");
 		if (var[i][name_len(var[i])] == '='
 			&& var[i][name_len(var[i]) - 1] == '+')
 			cat_var(data, var[i]);

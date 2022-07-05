@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 21:35:36 by root              #+#    #+#             */
-/*   Updated: 2022/07/04 20:06:12 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/05 04:40:55 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ void	export_err(char *command, int alloc)
 {
 	ft_putstr_fd("minishell: export: '", STDERR_FILENO);
 	ft_putstr_fd(command, STDERR_FILENO);
-	ft_putendl_fd("': not a valid identfier", STDERR_FILENO);
+	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+	g_signal.nt_status = 1;
+	g_signal.status = 1;
 	if (alloc)
 		free(command);
 }

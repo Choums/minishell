@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 05:48:30 by root              #+#    #+#             */
-/*   Updated: 2022/07/04 19:28:22 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/05 01:30:32 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,26 @@ int	echo(char **args)
 	{
 		while (args[i])
 		{
-			ft_putstr_fd(args[i++], STDOUT_FILENO);
-			ft_putchar_fd(' ', STDOUT_FILENO);
+			if (args[i + 1])
+			{
+				ft_putstr_fd(args[i++], STDOUT_FILENO);
+				ft_putchar_fd(' ', STDOUT_FILENO);
+			}
+			else
+				ft_putstr_fd(args[i++], STDOUT_FILENO);
 		}
 	}
 	else
 	{
 		while (args[i])
 		{
-			ft_putstr_fd(args[i++], STDOUT_FILENO);
-			ft_putchar_fd(' ', STDOUT_FILENO);
+			if (args[i + 1])
+			{
+				ft_putstr_fd(args[i++], STDOUT_FILENO);
+				ft_putchar_fd(' ', STDOUT_FILENO);
+			}
+			else
+				ft_putstr_fd(args[i++], STDOUT_FILENO);
 		}
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	}

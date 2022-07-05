@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/06/25 14:42:01 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/04 20:25:10 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ void	restore_redir(t_redirection *tab)
 {
 	if (*(tab->in))
 	{
-		fprintf(stderr, "in\n");
+		// fprintf(stderr, "in\n");
 		dup2(tab->cpy_in, 0);
 		close(tab->cpy_in);
 	}
 	if (*(tab->out))
 	{
-		fprintf(stderr, "out\n");
+		// fprintf(stderr, "out\n");
 		dup2(tab->cpy_out, 1);
 		close(tab->cpy_out);
 	}
