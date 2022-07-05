@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 12:38:11 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/05 04:38:57 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/05 16:48:48 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,64 @@
 // 	}
 // }
 
+// echo "exit_code ->$? user ->$USER home -> $HOME"
+
+
+char	*expand_str(t_data *data, char *str)
+{
+	char *dest;
+	int	i;
+
+	i = 0;
+	dest = NULL;
+	while(str[i])
+	{
+		if (str[i] != '$')
+			dest = ft_straddc(dest, str[i]);
+		else if (str[i] != '$' && (ft_strlen(str) == 1))
+			dest = ft_straddc(dest, str[i]);
+		else if (str[i] == '$')
+			dest = which_dollar(data, str);
+		i++;
+	}
+	printf("dest 1: %s\n", dest);
+	free(str);
+	return (dest);
+}
+
+
+char	*expand_quote(t_data *data, char *str)
+{
+	char	**tmp_tab;
+	char	*dest;
+
+	dest = NULL;
+	printf("str : %s\n", str);
+	tmp_tab = ft_split(str, ' ');
+
+	for (int i = 0; tmp_tab[i]; i++)
+		printf("tab[%i]: %s\n", i, tmp_tab[i]);
+
+
+
+
+	int i;
+
+	i = -1;
+	while (tmp_tab[++i])
+	{
+		tmp_tab[i] = expand_str(data, tmp_tab[i]);
+		dest = ft_join(dest, tmp_tab[i]);
+		if (tmp_tab[i + 1])
+			dest = ft_straddc(dest, ' ');
+		free(tmp_tab[i]);
+	}
+	free(tmp_tab);
+	printf("dest : %s\n", dest);
+	return (dest);
+}
+
+
 void	go_expand(t_data *data, t_command *(*table_pipe))
 {
 	char	*expand;
@@ -93,6 +151,14 @@ void	go_expand(t_data *data, t_command *(*table_pipe))
 		while (table_pipe[i]->tab_cmd[j])
 		{
 			k = 0;
+			// if (ft_strchr(table_pipe[i]->tab_cmd[j], '$')
+			// 	&& ft_strchr(table_pipe[i]->tab_token[j], '5'))
+			// {
+			// 	expand = expand_quote(data, table_pipe[i]->tab_cmd[j]);
+			// 	free(table_pipe[i]->tab_cmd[j]);
+			// 	table_pipe[i]->tab_cmd[j] = expand;
+			// }
+			// else
 			if (ft_strchr(table_pipe[i]->tab_cmd[j], '$')
 				&& !ft_strchr(table_pipe[i]->tab_token[j], '4'))
 			{

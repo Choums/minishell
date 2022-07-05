@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:14:47 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/04 20:24:39 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/05 16:52:26 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,12 @@ int	export(t_data *data, char **var)
 			add_var(data, var[i]);
 	}
 	else
+	{
 		export_err(var[i], alloc);
+		if (alloc)
+			free(var[i]);
+		return (1);
+	}
 	if (alloc)
 		free(var[i]);
 	i++;

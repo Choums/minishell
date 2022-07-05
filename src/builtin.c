@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 05:48:30 by root              #+#    #+#             */
-/*   Updated: 2022/07/05 01:30:32 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/05 16:54:04 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,11 @@ int	unset(t_data *data, char **var)
 	size_t	i;
 
 	i = 1;
-	if (!var[i])
-	{
-		ft_putendl_fd("unset: not enough arguments", STDERR_FILENO);
-		return (1);
-	}
+	// if (!var[i])
+	// {
+	// 	ft_putendl_fd("unset: not enough arguments", STDERR_FILENO);
+	// 	return (1);
+	// }
 	while (var[i])
 	{
 		if (get_elem(data->h_env, var[i]) || get_elem(data->h_var, var[i])
