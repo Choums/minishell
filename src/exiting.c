@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 14:47:01 by root              #+#    #+#             */
-/*   Updated: 2022/07/05 19:35:47 by root             ###   ########.fr       */
+/*   Updated: 2022/07/05 20:14:07 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	exiter(t_data *data, t_command **tab, char **args)
 
 	n_char = 0;
 	if (!args[1])
-		is_exit(data, tab);
+		is_exit(data, tab, 0);
 	if (!check_exit_args(args[1]))
 		exit_err(data, tab, args[1]);
 	i = ft_doubletab_len(args);
@@ -42,7 +42,7 @@ void	exiter(t_data *data, t_command **tab, char **args)
 	{
 		ft_putstr_fd("exit\nminishell: exit", STDERR_FILENO);
 		ft_putendl_fd(": too many arguments", STDERR_FILENO);
-		// status = 127;
+		g_signal.status = 127;
 		return ;
 	}
 	else
@@ -50,9 +50,9 @@ void	exiter(t_data *data, t_command **tab, char **args)
 		code = atoi_exit(args[1], &n_char);
 		if (n_char == 1)
 			exit_err(data, tab, args[1]);
-		// status = code % 256;
+		g_signal.status = code % 256;
 	}
-	is_exit(data, tab);
+	is_exit(data, tab, code);
 }
 
 int	ft_isspace(int c)
@@ -109,7 +109,7 @@ int	check_exit_args(char *arg)
 	return (1);
 }
 
-int	is_exit(t_data *data, t_command **tab)
+int	is_exit(t_data *data, t_command **tab, int status)
 {
 
 	rl_clear_history();
@@ -117,5 +117,5 @@ int	is_exit(t_data *data, t_command **tab)
 	ft_lstclear(&data->var, del);
 	ft_lstclear(&data->path, del);
 	free_struc(tab);
-	exit(EXIT_SUCCESS); //LE STATUS EST A METTRE ICI
+	exit(status);
 }

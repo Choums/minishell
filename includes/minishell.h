@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/05 19:27:33 by root             ###   ########.fr       */
+/*   Updated: 2022/07/05 20:11:55 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int		goto_oldpwd(t_data *data);
 int		is_oldpwd(t_list **h_env);
 void	create_oldpwd(t_data *data);
 
-int		is_exit(t_data *data, t_command **tab);
+int		is_exit(t_data *data, t_command **tab, int status);
 void	exiter(t_data *data, t_command **tab, char **args);
 int		ft_isspace(int c);
 long long	atoi_exit(char *str, int *n_char);

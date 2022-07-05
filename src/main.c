@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/05 19:39:25 by root             ###   ########.fr       */
+/*   Updated: 2022/07/05 19:56:35 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int		main(int ac, char **av, char **envp)
 	line = readline("minishell: ");
 	if (line && *line)
 		add_history(line);
-	while (1)
+	while (1 && line)
 	{
 		g_signal.nt_status = 0;
 		if (ft_strcmp(line, "var") == 0)
