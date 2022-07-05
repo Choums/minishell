@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 05:48:30 by root              #+#    #+#             */
-/*   Updated: 2022/07/05 19:27:04 by root             ###   ########.fr       */
+/*   Updated: 2022/07/05 19:39:23 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,6 @@ int	pwd(void)
 	char	*path;
 
 	path = getcwd(NULL, 0);
-	ft_putendl_fd(path, STDIN_FILENO);
+	ft_putendl_fd(path, 1);
 	free(path);
 }
