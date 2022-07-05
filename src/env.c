@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:40:50 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/04 19:29:26 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/05 19:24:24 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,20 @@ void	get_env(t_data *data, char **env)
 			ft_lstadd_back(&data->env, ft_lstnew(env[n++]));
 		data->h_env = &data->env;
 		get_path(data);
+		// check_prim(data);
 	}
 	else
 		set_env(data);
 }
+
+/*
+ *	verifie que les var primordiales soit transféré
+ *	sinon elles sont creés
+*/
+// void	check_prim(t_data *data)
+// {
+
+// }
 
 void	set_env(t_data *data)
 {

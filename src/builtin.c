@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 05:48:30 by root              #+#    #+#             */
-/*   Updated: 2022/07/05 16:54:04 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/05 19:27:04 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,22 +143,4 @@ int	pwd(void)
 	path = getcwd(NULL, 0);
 	ft_putendl_fd(path, STDIN_FILENO);
 	free(path);
-	return (0);
-}
-
-int	is_exit(t_data *data, char *line)
-{
-	if (line)
-	{
-		if (!ft_strcmp(line, "exit"))
-		{
-			free(line);
-			rl_clear_history();
-			ft_lstclear(&data->env, del);
-			ft_lstclear(&data->var, del);
-			ft_lstclear(&data->path, del);
-			exit(EXIT_SUCCESS);
-		}
-	}
-	return (1);
 }

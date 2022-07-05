@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aptive <aptive@student.42.fr>              +#+  +:+       +#+         #
+#    By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 20:18:17 by tdelauna          #+#    #+#              #
-#    Updated: 2022/06/30 16:59:37 by aptive           ###   ########.fr        #
+#    Updated: 2022/07/03 14:14:58 by chaidel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC			=	main.c\
 				signal.c\
 				split_pipe.c\
 				verif_line.c\
+				exiting.c\
 				expand.c\
 				parse_quote.c\
 				parse_back.c\

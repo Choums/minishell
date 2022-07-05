@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/04 19:52:31 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/05 19:27:33 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	get_path(t_data *data);
 void	set_path(t_data *data, char **path);
 int		print_env(t_list **h_env);
 void	print_vars(t_list **head); // DEBUG, à supp.
-int		is_exit(t_data *data, char *line);
 int		echo(char **arg);
 int		check_atr_n(char **args);
 int		pwd(void);
@@ -111,6 +110,12 @@ int		goto_homepath(t_data *data, char *path);
 int		goto_oldpwd(t_data *data);
 int		is_oldpwd(t_list **h_env);
 void	create_oldpwd(t_data *data);
+
+int		is_exit(t_data *data, t_command **tab);
+void	exiter(t_data *data, t_command **tab, char **args);
+int		ft_isspace(int c);
+long long	atoi_exit(char *str, int *n_char);
+int		check_exit_args(char *arg);
 
 /*	Exec */
 char	*find_bin(t_data *data, char *bin);
@@ -136,7 +141,7 @@ int		*create_pipes(int num);
 void	close_pipes(int *pipefd, int n_pipe);
 void	close_unused_pipes(int *pipefd, int pos, int n_pipe);
 int		check_perm(char *path);
-char *get_cmd(t_data *data, char *cmd);
+char 	*get_cmd(t_data *data, char *cmd);
 
 /*	List */
 void	set_var(t_data *data, char *content);
@@ -160,7 +165,10 @@ void	pipe_err(int *pipefd, int i);
 /*	Errors */
 void	ft_err(char *err);
 void	export_err(char *command, int alloc);
-int	msg_err(char *cmd, char *msg, int status);
+void	exit_err(t_data *data, t_command **tab, char *arg);
+int		msg_err(char *cmd, char *msg, int status);
+
+int arg_msg_err(char *cmd, char *arg, char *msg, int status);
 
 /*
 AFFICHAGE_C----------------------------------------------------------------------

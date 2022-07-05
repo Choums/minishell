@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/05 16:11:44 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/05 19:25:45 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int		main(int ac, char **av, char **envp)
 	line = readline("minishell: ");
 	if (line && *line)
 		add_history(line);
-	while (is_exit(&data, line) && line)
+	while (1)
 	{
 		g_signal.nt_status = 0;
 		if (ft_strcmp(line, "var") == 0)
