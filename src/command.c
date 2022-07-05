@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:54:45 by aptive            #+#    #+#             */
-/*   Updated: 2022/06/30 15:40:00 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/05 17:14:58 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,9 +177,9 @@ t_command	**ft_parse_cmd(t_command *(*table_pipe), int number_pipe)
 	char	*cut_cmd;
 
 	cut_cmd = NULL;
-	printf("all pipe : %s\n", table_pipe[0]->all_pipe);
+	// printf("all pipe : %s\n", table_pipe[0]->all_pipe);
 	cut_cmd = ft_cup_all_cmd(table_pipe[number_pipe]->all_pipe, cut_cmd, 'c', 0);
-	printf("cut cmd : %s\n", cut_cmd);
+	// printf("cut cmd : %s\n", cut_cmd);
 	count_cmd(table_pipe, number_pipe, cut_cmd);
 	copy_cmd(table_pipe, number_pipe, cut_cmd);
 	free(cut_cmd);

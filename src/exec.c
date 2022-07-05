@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/03 14:33:33 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/05 17:52:54 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,20 @@ void	process(t_data *data, t_command *cmd, int pos)
 	char 	*path;
 
 	// printf("cmd: %s\n", cmd->tab_cmd[0]);
-	env = lst_dup(data->h_env);
 	if (pos != -1 && cmd->len_pipe > 0 && !cmd->tab_redir)
 		redir_pipe(data->pipefd, pos, cmd->len_pipe);
 	if (cmd->len_pipe > 0)
 		close_unused_pipes(data->pipefd, pos, cmd->len_pipe);
 	if (cmd->tab_redir)
-	{
-		// printf("in simple redir\n");
 		redir(data, cmd->tab_redir);
-	}
+	if (!ft_strcmp(cmd->tab_cmd[0], "exit"))
+		return ;
 	if (is_builtin(cmd))
 	{
 		exec_builtin(cmd, data);
 		exit(EXIT_SUCCESS);
 	}
+	env = lst_dup(data->h_env);
 	path = get_cmd(data, cmd->tab_cmd[0]);
 	if (!path)
 	{
@@ -183,14 +182,20 @@ void	mother_board(t_data *data, t_command **cmd)
 {
 	pid_t	child;
 
-	if (get_cmd_num(cmd) == 1 && is_builtin(cmd[0]))
+	if (get_cmd_num(cmd) == 1 && ft_strcmp(cmd[0]->tab_cmd[0], "exit") == 0)
+	{
+		exiter(data, cmd, cmd[0]->tab_cmd);
+	}
+	else if (get_cmd_num(cmd) == 1 && is_builtin(cmd[0]))
 		exec_builtin(cmd[0], data);
 	else if (get_cmd_num(cmd) == 1 && !is_builtin(cmd[0]))
 	{
 		// printf("one child w/o builtin\n");
 		child = fork();
 		if (child == 0)
+		{
 			process(data, cmd[0], -1);
+		}
 		waitpid(child, NULL, 0);
 	}
 	else
@@ -233,6 +238,7 @@ void	pipex(t_data *data, t_command **cmd)
 		{
 			// printf("cmd %d: %s\n", i, cmd[i]->tab_cmd[0]);
 			process(data, cmd[i], i);
+			exiter(data, cmd, cmd[i]->tab_cmd);
 		}
 		else if (child < 0)
 			printf("error\n");
@@ -358,8 +364,6 @@ int	is_builtin(t_command *cmd)
 		return (1);
 	else if (ft_strcmp(cmd->tab_cmd[0], "env") == 0)
 		return (1);
-	else if (ft_strcmp(cmd->tab_cmd[0], "exit") == 0)
-		return (1);
 	else
 		return (0);
 }
@@ -378,6 +382,4 @@ void	run_builtin(t_data *data, t_command *cmd)
 		unset(data, cmd->tab_cmd);
 	else if (ft_strcmp(cmd->tab_cmd[0], "env") == 0)
 		print_env(data->h_env);
-	else if (ft_strcmp(cmd->tab_cmd[0], "exit") == 0)
-		is_exit(data, cmd->tab_cmd[0]);
 }
