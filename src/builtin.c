@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 05:48:30 by root              #+#    #+#             */
-/*   Updated: 2022/07/05 16:54:04 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/05 19:13:58 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ int	pwd(void)
 	char	*path;
 
 	path = getcwd(NULL, 0);
-	ft_putendl_fd(path, STDIN_FILENO);
+	ft_putendl_fd(path, 1);
 	free(path);
 	return (0);
 }
