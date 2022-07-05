@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exiting.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 14:47:01 by root              #+#    #+#             */
-/*   Updated: 2022/07/05 19:35:47 by root             ###   ########.fr       */
+/*   Updated: 2022/07/05 20:14:02 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
  *	args non digit (un + ou un - sont autorisé)
  *	args supp a 2 dont le 1er est non digit
  *	-------------------------------------
- *	
+ *
 */
 void	exiter(t_data *data, t_command **tab, char **args)
 {
