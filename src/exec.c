@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/05 19:25:34 by root             ###   ########.fr       */
+/*   Updated: 2022/07/05 20:22:48 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ int	check_perm(char *path)
 		if (path_stat.st_mode & S_IXUSR)
 			return (1);
 		else
-			msg_err(path, "Permission denied", 126);
+			msg_err(path, "permission denied", 126);
 	}
 	else
-		msg_err(path, "Is a directory", 126);
+		msg_err(path, "is a directory", 126);
 	return (0);
 }
 
@@ -130,10 +130,10 @@ int	check_cmd(char *cmd)
 		if (((path_stat.st_mode & __S_IFMT) == __S_IFDIR)
 			&& (ft_strncmp(cmd, "./", 2) == 0
 				|| cmd[ft_strlen(cmd) - 1] == '/'))
-			return (msg_err(cmd, ": Is a directory", 126));
+			return (msg_err(cmd, ": is a directory", 126));
 		else if (((path_stat.st_mode & __S_IFMT) != __S_IFDIR)
 			&& (cmd[ft_strlen(cmd) - 1] == '/'))
-			return (msg_err(cmd, ": Not a directory", 126));
+			return (msg_err(cmd, ": not a directory", 126));
 		else
 		{
 			if ((path_stat.st_mode & S_IXUSR) && (ft_strncmp(cmd, "./", 2) == 0
@@ -141,16 +141,16 @@ int	check_cmd(char *cmd)
 				return (1);
 			else if ((!(path_stat.st_mode & S_IXUSR))
 				&& ft_strncmp(cmd, "./", 2) == 0)
-				return (msg_err(cmd, ": Permission denied", 126));
+				return (msg_err(cmd, ": permission denied", 126));
 		}
 	}
 	else if (((path_stat.st_mode & __S_IFMT) != __S_IFDIR)
 		&& (cmd[ft_strlen(cmd) - 1] == '/'))
-		return (msg_err(cmd, ": Not a directory", 126));
+		return (msg_err(cmd, ": not a directory", 126));
 	else if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0
 		|| cmd[ft_strlen(cmd) - 1] == '/')
-		return (msg_err(cmd, ": No such file or directory", 127));
-	return (msg_err(cmd, ": Command not found", 127));
+		return (msg_err(cmd, ": no such file or directory", 127));
+	return (msg_err(cmd, ": command not found", 127));
 }
 
 /*
