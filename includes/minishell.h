@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/05 19:27:33 by root             ###   ########.fr       */
+/*   Updated: 2022/07/06 19:29:51 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int		goto_oldpwd(t_data *data);
 int		is_oldpwd(t_list **h_env);
 void	create_oldpwd(t_data *data);
 
-int		is_exit(t_data *data, t_command **tab);
+int		is_exit(t_data *data, t_command **tab, int status);
 void	exiter(t_data *data, t_command **tab, char **args);
 int		ft_isspace(int c);
 long long	atoi_exit(char *str, int *n_char);
@@ -252,7 +252,7 @@ void	parse_quote(t_command *(*table_pipe));
 PARSE_BACK_C---------------------------------------------------------------------
 */
 char	*parse_str_back_slash(char *str);
-void	parse_back_redir(char **tab);
+void	parse_back_redir(char **tab, char **tab_token);
 void	parse_back_slash(t_command *(*table_pipe));
 
 void		status_child(int pid);

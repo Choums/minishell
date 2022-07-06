@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 21:35:36 by root              #+#    #+#             */
-/*   Updated: 2022/07/05 19:24:34 by root             ###   ########.fr       */
+/*   Updated: 2022/07/05 20:15:10 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	exit_err(t_data *data, t_command **tab, char *arg)
 	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 	ft_putstr_fd(arg, STDERR_FILENO);
 	ft_putendl_fd(": numeric argument required", STDERR_FILENO);
-	//status = 2;
-	is_exit(data, tab);
+	is_exit(data, tab, 2);
 }
+
 /*
  *	Affiche le message d'erreur basique de bash et retourne 0
 */

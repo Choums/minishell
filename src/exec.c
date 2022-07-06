@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/05 19:25:34 by root             ###   ########.fr       */
+/*   Updated: 2022/07/05 20:21:27 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ int	check_cmd(char *cmd)
 	else if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0
 		|| cmd[ft_strlen(cmd) - 1] == '/')
 		return (msg_err(cmd, ": No such file or directory", 127));
-	return (msg_err(cmd, ": Command not found", 127));
+	return (msg_err(cmd, ": command not found", 127));
 }
 
 /*
