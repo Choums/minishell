@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/05 20:11:55 by root             ###   ########.fr       */
+/*   Updated: 2022/07/06 18:07:07 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,12 @@ t_signal	g_signal;
 void	get_env(t_data *data, char **envp);
 void	set_env(t_data *data);
 void	get_path(t_data *data);
+void	set_def_path(t_data *data);
 void	set_path(t_data *data, char **path);
 int		print_env(t_list **h_env);
 void	print_vars(t_list **head); // DEBUG, à supp.
 int		echo(char **arg);
+int		display_n(char **args, size_t i, size_t j);
 int		check_atr_n(char **args);
 int		pwd(void);
 int		unset(t_data *data, char **var);

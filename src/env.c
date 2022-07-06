@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:40:50 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/05 19:24:24 by root             ###   ########.fr       */
+/*   Updated: 2022/07/06 18:06:39 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,20 @@ void	get_path(t_data *data)
 		else
 			tmp = tmp->next;
 	}
+	set_def_path(data);
+}
+
+void	set_def_path(t_data *data)
+{
+	char	**paths;
+	char	*all_paths;
+
 	set_var(data, DEF);
 	all_paths = ft_substr(DEF, ft_strlen("PATH="), ft_strlen(DEF));
 	paths = ft_split(all_paths, ':');
 	free(all_paths);
 	set_path(data, paths);
 	free_double_tab(paths);
-	return ;
 }
 
 /*
