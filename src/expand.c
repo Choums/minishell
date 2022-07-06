@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 12:38:11 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/06 21:43:37 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/06 22:05:57 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,8 @@ int	count_var(char *str)
 
 	i = 0;
 	i++;
-	while (str[i] && (str[i] != ' ' && str[i] != '"'))
+	while (str[i] && (str[i] != ' ' && str[i] != '"' && str[i] != '$'))
 		i++;
-	if (str[i] == '$')
-		i--;
 	return (i);
 }
 
