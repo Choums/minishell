@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 14:47:01 by root              #+#    #+#             */
-/*   Updated: 2022/07/05 20:18:00 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/06 21:45:09 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  *	Verfie les arguments et definie la facon d'exit
  *	-------------------------------------
  *	errors
- * 	too many arguments | status 2 | no quit
+ * 	too many arguments | status 1 | no quit
  *	args digit supp a 2
  *	1er args digit si supp a 2
  *	-----
@@ -24,7 +24,6 @@
  *	args non digit (un + ou un - sont autorisé)
  *	args supp a 2 dont le 1er est non digit
  *	-------------------------------------
- *
 */
 void	exiter(t_data *data, t_command **tab, char **args)
 {
@@ -40,9 +39,9 @@ void	exiter(t_data *data, t_command **tab, char **args)
 	i = ft_doubletab_len(args);
 	if (i > 2)
 	{
-		ft_putstr_fd("exit\nminishell: exit", STDERR_FILENO);
+		ft_putstr_fd("minishell: exit", STDERR_FILENO);
 		ft_putendl_fd(": too many arguments", STDERR_FILENO);
-		g_signal.status = 127;
+		g_signal.status = 1;
 		return ;
 	}
 	else

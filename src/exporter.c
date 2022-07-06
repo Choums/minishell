@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exporter.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:14:47 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/05 16:52:26 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/05 20:44:35 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,6 @@ int	export(t_data *data, char **var)
 		display_env(data);
 		return (0);
 	}
-	if (ft_strchr(var[i], '$'))
-	{
-		var[i] = which_dollar(data, var[i]);
-		alloc = 1;
-	}
 	if (check_var(var[i]))
 	{
 		// printf("check valid\n");
@@ -95,6 +90,8 @@ int	check_var(char *var)
 			return (0);
 		i++;
 	}
+	if (var[0] == '=')
+		return (0);
 	return (1);
 }
 
