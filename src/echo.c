@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 18:01:38 by root              #+#    #+#             */
-/*   Updated: 2022/07/06 18:02:01 by root             ###   ########.fr       */
+/*   Updated: 2022/07/06 22:23:14 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	echo(char **args)
 	size_t	i;
 	size_t	j;
 
+	if (!args[1])
+		return (0);
 	j = ft_doubletab_len(args);
 	if (j == 1)
 	{

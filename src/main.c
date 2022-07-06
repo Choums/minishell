@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/06 17:55:05 by root             ###   ########.fr       */
+/*   Updated: 2022/07/06 22:23:49 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	main_two(t_data *data, char *line)
 		table_pipe = ft_parsing(data, line, table_pipe);
 		parse_quote(table_pipe);
 		parse_back_slash(table_pipe);
-		// go_expand(data, table_pipe);
+		go_expand(data, table_pipe);
 		// ft_affiche_t_command(table_pipe);
 		if (table_pipe[0]->tab_cmd[0])
 			mother_board(data, table_pipe);
