@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:40:50 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/05 19:24:24 by root             ###   ########.fr       */
+/*   Updated: 2022/07/07 18:34:28 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,72 @@ void	get_env(t_data *data, char **env)
 		while (n < i)
 			ft_lstadd_back(&data->env, ft_lstnew(env[n++]));
 		data->h_env = &data->env;
+		check_prim(data);
 		get_path(data);
-		// check_prim(data);
 	}
 	else
 		set_env(data);
 }
 
 /*
- *	verifie que les var primordiales soit transféré
+ *	verifie que les var primordiales soient transférées
  *	sinon elles sont creés
+ *	-------------------------------------
+ *	prim var
+ *	SHLVL
+ *	OLDPWD PWD
+ *	'_'
 */
-// void	check_prim(t_data *data)
-// {
+void	check_prim(t_data *data)
+{
+	char	*path;
+	char	*var;
 
-// }
+	if (!get_elem(data->h_env, "PWD"))
+	{
+		path = getcwd(NULL, 0);
+		var = ft_strjoin("PWD=", path);
+		free(path);
+		ft_lstadd_back(&data->env, ft_lstnew(var));
+		free(var);
+	}
+	if (!get_elem(data->h_env, "OLDPWD"))
+		data->env = ft_lstnew("OLDPWD");
+	inception(data);
+}
+
+/*
+ *	Verifie si la var SHLVL existe sinon l'a cree
+ *	Si elle existe, sa valeur est incr
+ *	Sinon elle est mise a 0
+*/
+void	inception(t_data *data)
+{
+	char	*value;
+	char	*var;
+	int		sub;
+
+	if (get_elem(data->h_env, "SHLVL"))
+	{
+		printf("found\n");
+		value = get_var(data, "SHLVL");
+		sub = ft_atoi(value);
+		free(value);
+		if (sub == 1)
+		{
+			sub++;
+		}
+		else
+			sub++;
+		value = ft_itoa(sub);
+		var = ft_strjoin("SHLVL=", value);
+		free(value);
+		update_elem(data, var);
+		free(var);
+	}
+	else
+		ft_lstadd_back(data->h_env, ft_lstnew("SHLVL=0"));
+}
 
 void	set_env(t_data *data)
 {
@@ -54,8 +105,6 @@ void	set_env(t_data *data)
 	char	*var;
 
 	path = getcwd(NULL, 0);
-	if (path == NULL)
-		perror("failed to get current directory\n"); //gestion d'erreur a faire
 	var = ft_strjoin("PWD=", path);
 	free(path);
 	data->env = ft_lstnew("OLDPWD");
@@ -93,13 +142,20 @@ void	get_path(t_data *data)
 		else
 			tmp = tmp->next;
 	}
+	set_def_path(data);
+}
+
+void	set_def_path(t_data *data)
+{
+	char	**paths;
+	char	*all_paths;
+
 	set_var(data, DEF);
 	all_paths = ft_substr(DEF, ft_strlen("PATH="), ft_strlen(DEF));
 	paths = ft_split(all_paths, ':');
 	free(all_paths);
 	set_path(data, paths);
 	free_double_tab(paths);
-	return ;
 }
 
 /*

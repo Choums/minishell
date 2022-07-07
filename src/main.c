@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/06 21:11:35 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/07 21:21:29 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int		main(int ac, char **av, char **envp)
 	{
 		g_signal.nt_status = 0;
 		if (ft_strcmp(line, "var") == 0)
-			print_vars(data.h_var);
+			print_vars(data.h_env);
 		main_two(&data, line);
 		free(line);
 		line = readline("minishell: ");

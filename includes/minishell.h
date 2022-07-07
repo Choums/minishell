@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/06 19:29:51 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/07 21:21:08 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,12 @@ t_signal	g_signal;
 void	get_env(t_data *data, char **envp);
 void	set_env(t_data *data);
 void	get_path(t_data *data);
+void	set_def_path(t_data *data);
 void	set_path(t_data *data, char **path);
 int		print_env(t_list **h_env);
 void	print_vars(t_list **head); // DEBUG, à supp.
 int		echo(char **arg);
+int		display_n(char **args, size_t i, size_t j);
 int		check_atr_n(char **args);
 int		pwd(void);
 int		unset(t_data *data, char **var);
@@ -110,6 +112,8 @@ int		goto_homepath(t_data *data, char *path);
 int		goto_oldpwd(t_data *data);
 int		is_oldpwd(t_list **h_env);
 void	create_oldpwd(t_data *data);
+void	check_prim(t_data *data);
+void	inception(t_data *data);
 
 int		is_exit(t_data *data, t_command **tab, int status);
 void	exiter(t_data *data, t_command **tab, char **args);
