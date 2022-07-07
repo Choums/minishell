@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/07 09:00:47 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/08 00:05:29 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	process(t_data *data, t_command *cmd, int pos)
 	if (cmd->tab_redir)
 		redir(data, cmd->tab_redir);
 	if (!ft_strcmp(cmd->tab_cmd[0], "exit"))
-		return ;
+		return (0);
 	if (is_builtin(cmd))
 	{
 		exec_builtin(cmd, data);
@@ -426,7 +426,7 @@ void	run_builtin(t_data *data, t_command *cmd)
 	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
 		g_signal.status = echo(cmd->tab_cmd);
 	else if (ft_strcmp(cmd->tab_cmd[0], "cd") == 0)
-		g_signal.status = check_dir(data, cmd->tab_cmd);
+		/*g_signal.status = */check_dir(data, cmd->tab_cmd);
 	else if (ft_strcmp(cmd->tab_cmd[0], "pwd") == 0)
 		g_signal.status = pwd();
 	else if (ft_strcmp(cmd->tab_cmd[0], "export") == 0)

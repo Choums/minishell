@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   atoi.c                                             :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 10:30:39 by chaidel           #+#    #+#             */
-/*   Updated: 2021/11/26 16:49:13 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/08 01:43:58 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,34 @@ int	ft_atoi(const char *str)
 	if (nbr > 2147483648 && sign == -1)
 		return (0);
 	return ((int)((long)nbr * sign));
+}
+
+unsigned long long	ft_atoi_unsigned_long_long(const char *str)
+{
+	int	sign;
+	unsigned long long	nbr;
+	unsigned long long limit;
+
+	limit = 9223372036854775807;
+
+	nbr = 0;
+	sign = 1;
+	while ((*str >= 9 && *str <= 13) || *str == 32)
+		str++;
+	if (*str == '-' || *str == '+')
+	{
+		if (*str == '-')
+			sign *= -1;
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		nbr = nbr * 10 + ((long long)*str - 48);
+		str++;
+	}
+	if (nbr > 9223372036854775807 && sign == 1)
+		return (-1);
+	if (nbr > (unsigned long long)limit + 1 && sign == -1)
+		return (0);
+	return ((nbr * (unsigned long long)sign));
 }

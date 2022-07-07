@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/07 08:47:11 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/08 01:37:44 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define STDIN 0
 # define STDOUT 1
 # define STDERR 2
+# define LIMIT 9223372036854775808
 
 typedef struct s_data
 {
@@ -85,10 +86,12 @@ t_signal	g_signal;
 void	get_env(t_data *data, char **envp);
 void	set_env(t_data *data);
 void	get_path(t_data *data);
+void	set_def_path(t_data *data);
 void	set_path(t_data *data, char **path);
 int		print_env(t_list **h_env);
 void	print_vars(t_list **head); // DEBUG, à supp.
 int		echo(char **arg);
+int		display_n(char **args, size_t i, size_t j);
 int		check_atr_n(char **args);
 int		pwd(void);
 int		unset(t_data *data, char **var);
@@ -110,6 +113,8 @@ int		goto_homepath(t_data *data, char *path);
 int		goto_oldpwd(t_data *data);
 int		is_oldpwd(t_list **h_env);
 void	create_oldpwd(t_data *data);
+void	check_prim(t_data *data);
+void	inception(t_data *data);
 
 int		is_exit(t_data *data, t_command **tab, int status);
 void	exiter(t_data *data, t_command **tab, char **args);

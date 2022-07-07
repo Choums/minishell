@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:41:51 by root              #+#    #+#             */
-/*   Updated: 2022/07/04 19:55:31 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/08 00:09:45 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	check_dir(t_data *data, char **args)
 {
 	if (ft_doubletab_len(args) > 2)
 	{
+		g_signal.status = 1;
 		ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);
 		return (1);
 	}
@@ -119,18 +120,23 @@ int	change_err(char *pathname, int alloc)
 	ft_putstr_fd(pathname, STDERR_FILENO);
 	if (stat(pathname, &path_stat) < 0)
 	{
+		// printf("TESST\n");
 		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+		g_signal.status = 1;
 	}
 	else if ((path_stat.st_mode & __S_IFREG))
 	{
 		ft_putendl_fd(": Not a directory", STDERR_FILENO);
+		g_signal.status = 1;
 	}
 	else if ((path_stat.st_mode & S_IXUSR) == 0)
 	{
 		ft_putendl_fd(": Permission denied", STDERR_FILENO);
+		g_signal.status = 1;
 	}
 	if (alloc)
 		free(pathname);
+	// printf("g_signal %i\n", g_signal.status);
 	return (1);
 }
 

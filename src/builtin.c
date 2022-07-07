@@ -6,75 +6,11 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 05:48:30 by root              #+#    #+#             */
-/*   Updated: 2022/07/05 19:39:23 by root             ###   ########.fr       */
+/*   Updated: 2022/07/06 18:02:07 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	echo(char **args)
-{
-	size_t	i;
-
-	if (ft_doubletab_len(args) == 1)
-	{
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		return (0);
-	}
-	i = check_atr_n(args);
-	if (i > 1)
-	{
-		while (args[i])
-		{
-			if (args[i + 1])
-			{
-				ft_putstr_fd(args[i++], STDOUT_FILENO);
-				ft_putchar_fd(' ', STDOUT_FILENO);
-			}
-			else
-				ft_putstr_fd(args[i++], STDOUT_FILENO);
-		}
-	}
-	else
-	{
-		while (args[i])
-		{
-			if (args[i + 1])
-			{
-				ft_putstr_fd(args[i++], STDOUT_FILENO);
-				ft_putchar_fd(' ', STDOUT_FILENO);
-			}
-			else
-				ft_putstr_fd(args[i++], STDOUT_FILENO);
-		}
-		ft_putchar_fd('\n', STDOUT_FILENO);
-	}
-	return (0);
-}
-
-int	check_atr_n(char **args)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 1;
-	while (args[i])
-	{
-		j = 0;
-		if (args[i][j] && args[i][j] == '-' && args[i][j + 1] == 'n')
-		{
-			j++;
-			while (args[i][j] == 'n')
-				j++;
-			if (args[i][j] && args[i][j] != 'n')
-				return (1);
-		}
-		else
-			return (i);
-		i++;
-	}
-	return (i);
-}
 
 /*
  *	unset [var]
@@ -91,11 +27,6 @@ int	unset(t_data *data, char **var)
 	size_t	i;
 
 	i = 1;
-	// if (!var[i])
-	// {
-	// 	ft_putendl_fd("unset: not enough arguments", STDERR_FILENO);
-	// 	return (1);
-	// }
 	while (var[i])
 	{
 		if (get_elem(data->h_env, var[i]) || get_elem(data->h_var, var[i])
@@ -143,4 +74,5 @@ int	pwd(void)
 	path = getcwd(NULL, 0);
 	ft_putendl_fd(path, 1);
 	free(path);
+	return (0);
 }

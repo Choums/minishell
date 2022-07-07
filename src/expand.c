@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 12:38:11 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/07 17:07:13 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/07 23:40:44 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,12 +126,14 @@ void	go_expand(t_data *data, t_command *(*tab_pi))
 			if (tab_pi[i]->tab_redir->out[j][0] != '\'')
 				tab_pi[i]->tab_redir->out[j]
 					= str_to_expand(data, tab_pi[i]->tab_redir->out[j]);
-		tab_pi[i]->tab_redir->out = control_linear_tab(tab_pi[i]->tab_redir->out, j);
+		if(tab_pi[i]->tab_redir && tab_pi[i]->tab_redir->out)
+			tab_pi[i]->tab_redir->out = control_linear_tab(tab_pi[i]->tab_redir->out, j);
 		j = -1;
 		while (tab_pi[i]->tab_redir && tab_pi[i]->tab_redir->in[++j])
 			if (tab_pi[i]->tab_redir->in[j][0] != '\'')
 				tab_pi[i]->tab_redir->in[j]
 					= str_to_expand(data, tab_pi[i]->tab_redir->in[j]);
-		tab_pi[i]->tab_redir->in = control_linear_tab(tab_pi[i]->tab_redir->in, j);
+		if(tab_pi[i]->tab_redir && tab_pi[i]->tab_redir->out)
+			tab_pi[i]->tab_redir->in = control_linear_tab(tab_pi[i]->tab_redir->in, j);
 	}
 }
