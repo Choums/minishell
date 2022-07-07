@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:40:50 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/07 18:34:28 by root             ###   ########.fr       */
+/*   Updated: 2022/07/07 21:23:19 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	inception(t_data *data)
 
 	if (get_elem(data->h_env, "SHLVL"))
 	{
-		printf("found\n");
+		// printf("found\n");
 		value = get_var(data, "SHLVL");
 		sub = ft_atoi(value);
 		free(value);
