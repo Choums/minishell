@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 12:38:11 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/06 22:05:57 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/07 17:07:13 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,44 @@ char	*str_to_expand(t_data *data, char *str)
 	}
 	return (free(str), expand);
 }
+//  $EMPTY echo hi
+char **control_linear_tab(char **tab, int len_tab)
+{
+	int i;
+	int j;
+	int	count;
+	char **tmp_str;
+
+	i = 0;
+	j = 0;
+	count = 0;
+	while(i < len_tab)
+	{
+		if (!tab[i])
+			count++;
+		i++;
+	}
+	i = 0;
+	if (count)
+	{
+		tmp_str = malloc(sizeof(char *) * (len_tab - count + 1));
+		if (!tmp_str)
+			return (NULL);
+		tmp_str[len_tab - count] = NULL;
+		while (i < len_tab)
+		{
+			if (!tab[i])
+				i++;
+			else
+			{
+				tmp_str[j++] = tab[i++];
+			}
+		}
+		free(tab);
+		return (tmp_str);
+	}
+	return (tab);
+}
 
 void	go_expand(t_data *data, t_command *(*tab_pi))
 {
@@ -78,21 +116,22 @@ void	go_expand(t_data *data, t_command *(*tab_pi))
 	{
 		j = -1;
 		while (tab_pi[i]->tab_cmd[++j])
-		{
 			if (ft_strchr(tab_pi[i]->tab_cmd[j], '$')
 				&& tab_pi[i]->tab_token[j][0] != '4')
 				tab_pi[i]->tab_cmd[j]
 					= str_to_expand(data, tab_pi[i]->tab_cmd[j]);
-		}
+		tab_pi[i]->tab_cmd = control_linear_tab(tab_pi[i]->tab_cmd, j);
 		j = -1;
 		while (tab_pi[i]->tab_redir && tab_pi[i]->tab_redir->out[++j])
 			if (tab_pi[i]->tab_redir->out[j][0] != '\'')
 				tab_pi[i]->tab_redir->out[j]
 					= str_to_expand(data, tab_pi[i]->tab_redir->out[j]);
+		tab_pi[i]->tab_redir->out = control_linear_tab(tab_pi[i]->tab_redir->out, j);
 		j = -1;
 		while (tab_pi[i]->tab_redir && tab_pi[i]->tab_redir->in[++j])
 			if (tab_pi[i]->tab_redir->in[j][0] != '\'')
 				tab_pi[i]->tab_redir->in[j]
 					= str_to_expand(data, tab_pi[i]->tab_redir->in[j]);
+		tab_pi[i]->tab_redir->in = control_linear_tab(tab_pi[i]->tab_redir->in, j);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/06 19:29:51 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/07 08:47:11 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	mother_board(t_data *data, t_command **cmd);
 int		is_builtin(t_command *cmd);
 void	exec_builtin(t_command *cmd, t_data *data);
 void	run_builtin(t_data *data, t_command *cmd);
-void	process(t_data *data, t_command *cmd, int pos);
+int	process(t_data *data, t_command *cmd, int pos);
 void	redir_pipe(int *pipefd, int pos, int n_pipe);
 void	display_here(void);
 char	*get_lim(t_redirection *args);

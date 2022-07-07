@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/06 21:56:40 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/07 09:00:47 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,12 @@ int	check_perm(char *path)
  *	ls | < infile wc
  *	wc ne lit que le infile
 */
-void	process(t_data *data, t_command *cmd, int pos)
+int	process(t_data *data, t_command *cmd, int pos)
 {
 	char	**env;
 	char 	*path;
 
+	// printf("trucxxxxxxxxxx\n");
 	// printf("cmd: %s\n", cmd->tab_cmd[0]);
 	if (pos != -1 && cmd->len_pipe > 0 && !cmd->tab_redir)
 		redir_pipe(data->pipefd, pos, cmd->len_pipe);
@@ -90,16 +91,21 @@ void	process(t_data *data, t_command *cmd, int pos)
 	}
 	env = lst_dup(data->h_env);
 	path = get_cmd(data, cmd->tab_cmd[0]);
+	// printf("g_signal.status process: %i\n",g_signal.status);
+
 	if (!path)
 	{
 		ft_lstclear(&data->env, del);
 		ft_lstclear(&data->var, del);
 		ft_lstclear(&data->path, del);
 		free_double_tab(env);
-		exit(EXIT_FAILURE);
+		// printf("g_signal.status process2: %i\n",g_signal.status);
+		// return(g_signal.status);
+		exit(g_signal.status);
 	}
 	if (execve(path, cmd->tab_cmd, env) < 0)
 		exit(EXIT_FAILURE);
+
 }
 
 void	exec_builtin(t_command *cmd, t_data *data)
@@ -149,7 +155,7 @@ int	check_cmd(char *cmd)
 		return (msg_err(cmd, ": Not a directory", 126));
 	else if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0
 		|| cmd[ft_strlen(cmd) - 1] == '/')
-		return (msg_err(cmd, ": no such file or directory", 127));
+		return (msg_err(cmd, ": No such file or directory", 127));
 	return (msg_err(cmd, ": command not found", 127));
 }
 
@@ -187,46 +193,60 @@ void	mother_board(t_data *data, t_command **cmd)
 		exiter(data, cmd, cmd[0]->tab_cmd);
 	}
 	else if (get_cmd_num(cmd) == 1 && is_builtin(cmd[0]))
+	{
 		exec_builtin(cmd[0], data);
+	}
 	else if (get_cmd_num(cmd) == 1 && !is_builtin(cmd[0]))
 	{
+		// printf("g_signal.status mother 2 : %i\n", g_signal.status);
 		// printf("one child w/o builtin\n");
+		int	test = 0;
 		child = fork();
 		if (child == 0)
 		{
-			process(data, cmd[0], -1);
+			test = process(data, cmd[0], -1);
 		}
-		waitpid(child, NULL, 0);
-	// printf("OKKKKKKKKKKKK\n");
+
+		int status;
+		if ((0 < waitpid (child, &status, 0)) && (WIFEXITED (status)))
+			g_signal.status = WEXITSTATUS (status);
+
+		// waitpid(child, NULL, 0);
+		// printf("test : %i\n", test);
+
+		// status_child(child);
 
 		// printf("wexitstatus : %i\n",WEXITSTATUS(child));
 		// if (g_signal.nt_status == 0)
 		// 	status_child(child);
 	}
-
 	else
 	{
-		// printf("multiple cmd\n");
 		pipex(data, cmd);
 	}
+	get_cmd_num(cmd);
+
 }
 
 void		status_child(int pid)
 {
-	g_signal.status = 0;
+	// printf("ICII\n");
+	// g_signal.status = 0;
 	if (WIFEXITED(pid))
 	{
-		g_signal.status = WEXITSTATUS(pid);
+		printf("WIFEXITED\n");
+		// g_signal.status = WEXITSTATUS(pid);
 		// printf("WIFEXITED : %i\n", WEXITSTATUS(pid));
 	}
 	if (WIFSIGNALED(pid))
 	{
+		printf("WIFSIGNALED\n");
 		g_signal.status = WTERMSIG(pid);
-		// if (g_signal.status != 131)
-		// 	g_signal.status += 128;
+		if (g_signal.status != 131)
+			g_signal.status += 128;
 		// printf("WIFSIGNALED : %i\n", WTERMSIG(pid));
 	}
-	// printf("g_signal.status : %i\n", g_signal.status);
+	// printf("g_signal.status child: %i\n", g_signal.status);
 
 }
 
@@ -238,9 +258,15 @@ char *get_cmd(t_data *data, char *cmd)
 	if (!path)
 	{
 		if (check_cmd(cmd))
+		{
+			// printf("HERRRRRRRRRRRRRRRRRRR\n");
 			return (cmd);
+		}
 		else
+		{
+			// printf("g_signal.status get_cmd  : %i\n", g_signal.status);
 			return (NULL);
+		}
 	}
 	else
 		return (path);
@@ -378,6 +404,7 @@ void	close_unused_pipes(int *pipefd, int pos, int n_pipe)
 
 int	is_builtin(t_command *cmd)
 {
+	// printf("g_signal.status is_builtin  : %i\n", g_signal.status);
 	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
 		return (1);
 	else if (ft_strcmp(cmd->tab_cmd[0], "cd") == 0)
