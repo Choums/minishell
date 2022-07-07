@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_management.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:17:19 by root              #+#    #+#             */
-/*   Updated: 2022/07/05 04:31:44 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/07 18:32:39 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ void	update_elem(t_data *data, char *var)
 		else
 			tmp = tmp->next;
 	}
+	if (&(*data->var) == NULL)
+		return ;
 	tmp = (*data->h_var);
 	while (tmp)
 	{
@@ -134,6 +136,8 @@ char	*get_elem(t_list **head, char *var)
 	tmp = (*head);
 	while (tmp)
 	{
+		if (ft_strcmp(var, "SHLVL") == 0)
+			printf("var: %s | env: %s | len: %zu, %c | ft: %d\n", var, tmp->content, len, var[len - 1], ft_strncmp(tmp->content, var, len));
 		if (ft_strncmp(tmp->content, var, len) == 0)
 			return (tmp->content);
 		tmp = tmp->next;

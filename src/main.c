@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/06 22:23:49 by root             ###   ########.fr       */
+/*   Updated: 2022/07/07 18:57:12 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int		main(int ac, char **av, char **envp)
 	{
 		g_signal.nt_status = 0;
 		if (ft_strcmp(line, "var") == 0)
-			print_vars(data.h_var);
+			print_vars(data.h_env);
 		main_two(&data, line);
 		free(line);
 		line = readline("minishell: ");

@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/06 18:07:07 by root             ###   ########.fr       */
+/*   Updated: 2022/07/07 17:38:08 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ int		goto_homepath(t_data *data, char *path);
 int		goto_oldpwd(t_data *data);
 int		is_oldpwd(t_list **h_env);
 void	create_oldpwd(t_data *data);
+void	check_prim(t_data *data);
+void	inception(t_data *data);
 
 int		is_exit(t_data *data, t_command **tab, int status);
 void	exiter(t_data *data, t_command **tab, char **args);
