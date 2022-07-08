@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/08 18:44:34 by root             ###   ########.fr       */
+/*   Updated: 2022/07/08 18:48:22 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,6 @@ int	check_cmd(char *cmd)
 
 	if (stat(cmd, &path_stat) == 0)
 	{
-		printf("here\n");
 		if (((path_stat.st_mode & __S_IFMT) == __S_IFDIR)
 			&& (ft_strncmp(cmd, "./", 2) == 0
 				|| cmd[0] == '/'))
