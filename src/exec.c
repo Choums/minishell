@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/08 02:05:58 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/08 18:44:34 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	*find_bin(t_data *data, char *bin)
 	char	*dir;
 	char	*path;
 	t_list	*tmp;
+	int		perm;
 
 	if (!get_elem(data->h_env, "PATH") && !get_elem(data->h_var, "PATH"))
 		return (NULL);
@@ -33,9 +34,11 @@ char	*find_bin(t_data *data, char *bin)
 		dir = ft_strjoin(tmp->content, "/");
 		path = ft_strjoin(dir, bin);
 		free(dir);
-		if (check_perm(path))
+		perm = check_perm(path);
+		if (perm == 1)
 			return (path);
-		free(path);
+		else
+			free(path);
 		tmp = tmp->next;
 	}
 	return (NULL);
@@ -46,16 +49,16 @@ int	check_perm(char *path)
 	struct stat	path_stat;
 
 	if (stat(path, &path_stat) < 0)
-		return (0);
+		return (-1);
 	else if ((path_stat.st_mode & __S_IFREG))
 	{
 		if (path_stat.st_mode & S_IXUSR)
 			return (1);
 		else
-			msg_err(path, "permission denied", 126);
+			return (msg_err(path, "permission denied", 126));
 	}
-	else
-		msg_err(path, "is a directory", 126);
+	// else
+	// 	return (msg_err(path, "is a directory", 126));
 	return (0);
 }
 
@@ -105,8 +108,9 @@ int	process(t_data *data, t_command *cmd, int pos)
 	}
 	if (execve(path, cmd->tab_cmd, env) < 0)
 		exit(EXIT_FAILURE);
-
+	return (1);
 }
+
 
 void	exec_builtin(t_command *cmd, t_data *data)
 {
@@ -133,9 +137,10 @@ int	check_cmd(char *cmd)
 
 	if (stat(cmd, &path_stat) == 0)
 	{
+		printf("here\n");
 		if (((path_stat.st_mode & __S_IFMT) == __S_IFDIR)
 			&& (ft_strncmp(cmd, "./", 2) == 0
-				|| cmd[ft_strlen(cmd) - 1] == '/'))
+				|| cmd[0] == '/'))
 			return (msg_err(cmd, ": Is a directory", 126));
 		else if (((path_stat.st_mode & __S_IFMT) != __S_IFDIR)
 			&& (cmd[ft_strlen(cmd) - 1] == '/'))
@@ -301,7 +306,7 @@ void	pipex(t_data *data, t_command **cmd)
 			exiter(data, cmd, cmd[i]->tab_cmd);
 		}
 		else if (child < 0)
-			printf("error\n");
+			msg_err("execve", "failed to create sub-processus", 127); // A verif
 		i++;
 		num--;
 	}
