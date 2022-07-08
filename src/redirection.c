@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:08:18 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/05 17:37:28 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/08 02:28:00 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,18 +79,18 @@ void	ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c)
 	int		nb_redirect;
 
 	i = 0;
-	table_pp = ft_redirection_init(table_pp, nb_pp);
+	// table_pp = ft_redirection_init(table_pp, nb_pp);
 	nb_redirect = ft_count_redirection(table_pp[nb_pp]->all_pipe, c);
 	tmp = table_pp[nb_pp]->all_pipe;
 	while (nb_redirect)
 	{
 		cut = 0;
 		dex = 0;
-		tmp = ft_strchr(tmp, c);
+		tmp = ft_search_redir(tmp, c);
 		while (tmp[dex] == c || tmp[dex] == ' ')
 			dex++;
-		while (tmp[dex + cut] != ' ' && tmp[dex + cut] != c
-			&& tmp[dex + cut] != '>' && tmp[dex + cut])
+		while ((tmp[dex + cut] != ' '&& tmp[dex + cut] != '<'
+			&& tmp[dex + cut] != '>') && tmp[dex + cut])
 			cut++;
 		table_pp[nb_pp]->tab_redir->in[i] = ft_substr(tmp, dex, cut);
 		tmp = tmp + dex;
@@ -98,6 +98,37 @@ void	ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c)
 		i++;
 	}
 }
+// grep hi "<infile" <         ./test_files/infile
+
+// void	ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c)
+// {
+// 	char	*tmp;
+// 	int		cut;
+// 	int		dex;
+// 	int		i;
+// 	int		nb_redirect;
+
+// 	i = 0;
+// 	table_pp = ft_redirection_init(table_pp, nb_pp);
+// 	nb_redirect = ft_count_redirection(table_pp[nb_pp]->all_pipe, c);
+// 	// printf("Nb_redirec : %i\n", nb_redirect);
+// 	tmp = table_pp[nb_pp]->all_pipe;
+// 	while (nb_redirect)
+// 	{
+// 		cut = 0;
+// 		dex = 0;
+// 		tmp = ft_search_redir(tmp, c);
+// 		while (tmp[dex] == c || tmp[dex] == ' ')
+// 			dex++;
+// 		while ((tmp[dex + cut] != ' '&& tmp[dex + cut] != '>'
+// 			&& tmp[dex + cut] != '>') && tmp[dex + cut])
+// 			cut++;
+// 		table_pp[nb_pp]->tab_redir->out[i] = ft_substr(tmp, dex, cut);
+// 		tmp = tmp + dex;
+// 		nb_redirect--;
+// 		i++;
+// 	}
+// }
 
 char	*ft_search_redir(char *str, char c)
 {
@@ -140,7 +171,8 @@ void	ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c)
 		tmp = ft_search_redir(tmp, c);
 		while (tmp[dex] == c || tmp[dex] == ' ')
 			dex++;
-		while ((tmp[dex + cut] != ' ' && tmp[dex + cut] != '<' && tmp[dex + cut] != '>') && tmp[dex + cut])
+		while ((tmp[dex + cut] != ' '&& tmp[dex + cut] != '<'
+			&& tmp[dex + cut] != '>') && tmp[dex + cut])
 			cut++;
 		table_pp[nb_pp]->tab_redir->out[i] = ft_substr(tmp, dex, cut);
 		tmp = tmp + dex;

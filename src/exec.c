@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/08 00:05:29 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/08 02:05:58 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,12 @@ int	check_cmd(char *cmd)
 		return (msg_err(cmd, ": No such file or directory", 127));
 	return (msg_err(cmd, ": command not found", 127));
 }
+void	status_child(int child)
+{
+	int	status;
+	if ((0 < waitpid (child, &status, 0)) && (WIFEXITED (status)))
+		g_signal.status = WEXITSTATUS (status);
+}
 
 /*
  *	Cree des processus enfant pour chaque commandes ainsi que les pipes
@@ -206,10 +212,10 @@ void	mother_board(t_data *data, t_command **cmd)
 		{
 			test = process(data, cmd[0], -1);
 		}
-
-		int status;
-		if ((0 < waitpid (child, &status, 0)) && (WIFEXITED (status)))
-			g_signal.status = WEXITSTATUS (status);
+		status_child(child);
+		// int status;
+		// if ((0 < waitpid (child, &status, 0)) && (WIFEXITED (status)))
+		// 	g_signal.status = WEXITSTATUS (status);
 
 		// waitpid(child, NULL, 0);
 		// printf("test : %i\n", test);
@@ -222,33 +228,35 @@ void	mother_board(t_data *data, t_command **cmd)
 	}
 	else
 	{
+		// printf("g_signal.status mother  : %i\n", g_signal.status);
 		pipex(data, cmd);
+		// printf("g_signal.status mother  : %i\n", g_signal.status);
 	}
 	get_cmd_num(cmd);
 
 }
 
-void		status_child(int pid)
-{
-	// printf("ICII\n");
-	// g_signal.status = 0;
-	if (WIFEXITED(pid))
-	{
-		printf("WIFEXITED\n");
-		// g_signal.status = WEXITSTATUS(pid);
-		// printf("WIFEXITED : %i\n", WEXITSTATUS(pid));
-	}
-	if (WIFSIGNALED(pid))
-	{
-		printf("WIFSIGNALED\n");
-		g_signal.status = WTERMSIG(pid);
-		if (g_signal.status != 131)
-			g_signal.status += 128;
-		// printf("WIFSIGNALED : %i\n", WTERMSIG(pid));
-	}
-	// printf("g_signal.status child: %i\n", g_signal.status);
+// void		status_child(int pid)
+// {
+// 	// printf("ICII\n");
+// 	// g_signal.status = 0;
+// 	if (WIFEXITED(pid))
+// 	{
+// 		printf("WIFEXITED\n");
+// 		// g_signal.status = WEXITSTATUS(pid);
+// 		// printf("WIFEXITED : %i\n", WEXITSTATUS(pid));
+// 	}
+// 	if (WIFSIGNALED(pid))
+// 	{
+// 		printf("WIFSIGNALED\n");
+// 		g_signal.status = WTERMSIG(pid);
+// 		if (g_signal.status != 131)
+// 			g_signal.status += 128;
+// 		// printf("WIFSIGNALED : %i\n", WTERMSIG(pid));
+// 	}
+// 	// printf("g_signal.status child: %i\n", g_signal.status);
 
-}
+// }
 
 char *get_cmd(t_data *data, char *cmd)
 {
@@ -260,11 +268,11 @@ char *get_cmd(t_data *data, char *cmd)
 		if (check_cmd(cmd))
 		{
 			// printf("HERRRRRRRRRRRRRRRRRRR\n");
+			// printf("g_signal.status get_cmd  : %i\n", g_signal.status);
 			return (cmd);
 		}
 		else
 		{
-			// printf("g_signal.status get_cmd  : %i\n", g_signal.status);
 			return (NULL);
 		}
 	}
@@ -289,6 +297,7 @@ void	pipex(t_data *data, t_command **cmd)
 		{
 			// printf("cmd %d: %s\n", i, cmd[i]->tab_cmd[0]);
 			process(data, cmd[i], i);
+			status_child(child);
 			exiter(data, cmd, cmd[i]->tab_cmd);
 		}
 		else if (child < 0)
@@ -297,7 +306,9 @@ void	pipex(t_data *data, t_command **cmd)
 		num--;
 	}
 	close_pipes(data->pipefd, cmd[0]->len_pipe);
-	while (wait(NULL) > 0);
+	// while (wait(NULL) > 0);
+
+	status_child(child);
 	// status_child(child);
 	// int ret;
 	// for (int p = 0; (ret = wait(NULL) > 0); p++)
