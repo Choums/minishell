@@ -297,13 +297,14 @@ char	**lst_dup(t_list **head)
 	i = 0;
 	tmp = (*head);
 	len = get_lst_len(head) - 1;
+	if (get_elem(head, "_="))
+		len++;
 	dup = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!dup)
 		return (NULL);
 	while (i < len)
 	{
-		if (ft_strncmp(tmp->content, "_=", ft_strlen("_=")))
-			dup[i++] = ft_strdup(tmp->content);
+		dup[i++] = ft_strdup(tmp->content);
 		tmp = tmp->next;
 	}
 	dup[len] = NULL;

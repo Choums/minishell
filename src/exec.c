@@ -93,6 +93,10 @@ int	process(t_data *data, t_command *cmd, int pos)
 		exit(EXIT_SUCCESS);
 	}
 	env = lst_dup(data->h_env);
+	// print_env(data->h_env);
+	// printf("------------------------------------------------------------\n");
+	// for (int i = 0; env[i]; i++)
+	// 	printf("%s\n", env[i]);
 	path = get_cmd(data, cmd->tab_cmd[0]);
 	// printf("g_signal.status process: %i\n",g_signal.status);
 
