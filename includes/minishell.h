@@ -107,7 +107,7 @@ void	sort_env(char **env);
 void	print_export(char **env);
 int		check_dir(t_data *data, char **args);
 int		change_err(char *pathname, int alloc);
-void	change_dir(t_data *data, char *path, int alloc);
+int		change_dir(t_data *data, char *path, int alloc);
 int		goto_home(t_data *data);
 int		goto_homepath(t_data *data, char *path);
 int		goto_oldpwd(t_data *data);

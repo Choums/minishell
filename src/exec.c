@@ -166,6 +166,7 @@ int	check_cmd(char *cmd)
 		return (msg_err(cmd, ": No such file or directory", 127));
 	return (msg_err(cmd, ": command not found", 127));
 }
+
 void	status_child(int child)
 {
 	int	status;
@@ -203,23 +204,16 @@ void	mother_board(t_data *data, t_command **cmd)
 	pid_t	child;
 
 	if (get_cmd_num(cmd) == 1 && ft_strcmp(cmd[0]->tab_cmd[0], "exit") == 0)
-	{
 		exiter(data, cmd, cmd[0]->tab_cmd);
-	}
 	else if (get_cmd_num(cmd) == 1 && is_builtin(cmd[0]))
-	{
 		exec_builtin(cmd[0], data);
-	}
 	else if (get_cmd_num(cmd) == 1 && !is_builtin(cmd[0]))
 	{
 		// printf("g_signal.status mother 2 : %i\n", g_signal.status);
 		// printf("one child w/o builtin\n");
-		int	test = 0;
 		child = fork();
 		if (child == 0)
-		{
-			test = process(data, cmd[0], -1);
-		}
+			process(data, cmd[0], -1);
 		status_child(child);
 		// int status;
 		// if ((0 < waitpid (child, &status, 0)) && (WIFEXITED (status)))
@@ -445,7 +439,7 @@ void	run_builtin(t_data *data, t_command *cmd)
 	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
 		g_signal.status = echo(cmd->tab_cmd);
 	else if (ft_strcmp(cmd->tab_cmd[0], "cd") == 0)
-		/*g_signal.status = */check_dir(data, cmd->tab_cmd);
+		g_signal.status = check_dir(data, cmd->tab_cmd);
 	else if (ft_strcmp(cmd->tab_cmd[0], "pwd") == 0)
 		g_signal.status = pwd();
 	else if (ft_strcmp(cmd->tab_cmd[0], "export") == 0)
