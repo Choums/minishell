@@ -31,6 +31,7 @@
 # include "get_next_line.h"
 # include <sys/types.h>
 # include <signal.h>
+# include <errno.h>
 
 // int WEXITSTATUS(int status);
 
@@ -129,7 +130,7 @@ void	mother_board(t_data *data, t_command **cmd);
 int		is_builtin(t_command *cmd);
 void	exec_builtin(t_command *cmd, t_data *data);
 void	run_builtin(t_data *data, t_command *cmd);
-int	process(t_data *data, t_command *cmd, int pos);
+int		process(t_data *data, t_command *cmd, int pos);
 void	redir_pipe(int *pipefd, int pos, int n_pipe);
 void	display_here(void);
 char	*get_lim(t_redirection *args);
@@ -137,7 +138,7 @@ void	redir(t_data *data, t_redirection *tab);
 void	redirect(t_redirection *tab);
 void	restore_redir(t_redirection *tab);
 void	out_redir(t_data *data, t_redirection *tab, char *file);
-void	in_redir(t_data *data, t_redirection *tab, char *file);
+int		in_redir(t_data *data, t_redirection *tab, char *file);
 void	append_mode(t_data *data, t_redirection *tab, char *file);
 void	heredoc(t_data *data, t_redirection *args);
 int		opening_mode(char *pathname);

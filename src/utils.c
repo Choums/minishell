@@ -50,12 +50,6 @@ void	print_double_tab(char **tab)
 		ft_putendl_fd(tab[i++], STDERR_FILENO);
 }
 
-void	ft_err(char *err)
-{
-	perror(err);
-	exit(EXIT_FAILURE);
-}
-
 /*
  *	Ferme les fds precedement ouvert et free le tableau
 */

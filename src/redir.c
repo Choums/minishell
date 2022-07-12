@@ -32,7 +32,7 @@ void	append_mode(t_data *data, t_redirection *tab, char *file)
 		if (var == NULL)
 		{
 			free(var);
-			ft_err("ambiguous redirect");
+			// ft_err("ambiguous redirect");
 		}
 	}
 	tab->out_fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
@@ -88,7 +88,10 @@ void	redir(t_data *data, t_redirection *tab)
 	while (tab->in[i])
 	{
 		if (tab->token_in[i][i] == '1')
-			in_redir(data, tab, tab->in[i]);
+		{
+			if (!in_redir(data, tab, tab->in[i]))
+				return ;
+		}
 		else
 			heredoc(data, tab);
 		i++;
@@ -131,18 +134,23 @@ void	out_redir(t_data *data, t_redirection *tab, char *file)
 		if (var == NULL)
 		{
 			free(var);
-			ft_err("ambiguous redirect");
+			// ft_err("ambiguous redirect");
 		}
 	}
 	tab->out_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (tab->out_fd < 0)
-		perror("Open");
+	{
+		ft_putstr_fd("minishell: ", STDERR);
+		perror(file);
+		g_signal.status = 1;
+		return ;
+	}
 	redirect(tab);
 	if (alloc)
 		free(var);
 }
 
-void	in_redir(t_data *data, t_redirection *tab, char *file)
+int	in_redir(t_data *data, t_redirection *tab, char *file)
 {
 	int		alloc;
 	char	*var;
@@ -155,15 +163,23 @@ void	in_redir(t_data *data, t_redirection *tab, char *file)
 		if (var == NULL)
 		{
 			free(var);
-			ft_err("ambiguous redirect");
+			// ft_err("ambiguous redirect");
 		}
 	}
 	tab->in_fd = open(file, O_RDONLY);
 	if (tab->in_fd < 0)
-		ft_err(file);
+	{
+		ft_putstr_fd("minishell: ", STDERR);
+		ft_putstr_fd(file, STDERR);
+		ft_putstr_fd(": ", STDERR);
+		ft_putendl_fd(strerror(errno), STDERR);
+		g_signal.status = 1;
+		return (0);
+	}
 	redirect(tab);
 	if (alloc)
 		free(var);
+	return (1);
 }
 
 /*
