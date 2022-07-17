@@ -140,10 +140,7 @@ void	out_redir(t_data *data, t_redirection *tab, char *file)
 	tab->out_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (tab->out_fd < 0)
 	{
-		ft_putstr_fd("minishell: ", STDERR);
-		perror(file);
-		g_signal.status = 1;
-		return ;
+
 	}
 	redirect(tab);
 	if (alloc)
@@ -156,16 +153,16 @@ int	in_redir(t_data *data, t_redirection *tab, char *file)
 	char	*var;
 
 	alloc = 0;
-	if (ft_strchr(file, '$'))
-	{
-		var = which_dollar(data, file);
-		alloc = 1;
-		if (var == NULL)
-		{
-			free(var);
-			// ft_err("ambiguous redirect");
-		}
-	}
+	// if (ft_strchr(file, '$'))
+	// {
+	// 	var = which_dollar(data, file);
+	// 	alloc = 1;
+	// 	if (var == NULL)
+	// 	{
+	// 		free(var);
+	// 		// ft_err("ambiguous redirect");
+	// 	}
+	// }
 	tab->in_fd = open(file, O_RDONLY);
 	if (tab->in_fd < 0)
 	{
