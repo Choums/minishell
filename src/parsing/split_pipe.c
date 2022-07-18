@@ -6,11 +6,11 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:08:09 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/18 17:50:25 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/18 19:47:37 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 // int	verif_quote(char *line)
 // {

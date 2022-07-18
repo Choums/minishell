@@ -6,11 +6,11 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 15:14:44 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/18 18:00:11 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/18 19:47:06 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char	*parse_str_back_slash(char *str)
 {

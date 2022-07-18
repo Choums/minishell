@@ -79,16 +79,10 @@ void	inception(t_data *data)
 
 	if (get_elem(data->h_env, "SHLVL"))
 	{
-		// printf("found\n");
 		value = get_var(data, "SHLVL");
 		sub = ft_atoi(value);
 		free(value);
-		if (sub == 1)
-		{
-			sub++;
-		}
-		else
-			sub++;
+		sub++;
 		value = ft_itoa(sub);
 		var = ft_strjoin("SHLVL=", value);
 		free(value);

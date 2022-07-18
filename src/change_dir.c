@@ -25,7 +25,7 @@
  *	Cas de dir precedent supp
  *		=>	Doit pouvoir se rendre au HOME
 */
-void	change_dir(t_data *data, char *path, int alloc)
+int	change_dir(t_data *data, char *path, int alloc)
 {
 	char	*current;
 	char	*var;
@@ -52,10 +52,10 @@ void	change_dir(t_data *data, char *path, int alloc)
 		}
 		if (alloc)
 			free(path);
-		return ;
+		return (0);
 	}
 	free(current);
-	change_err(path, alloc);
+	return (change_err(path, alloc));
 }
 
 /*
@@ -73,20 +73,12 @@ int	check_dir(t_data *data, char **args)
 		|| ft_strncmp(args[1], "--", 2) == 0)
 	{
 		if (args[1] && ft_strncmp(args[1], "~/", 2) == 0)
-		{
-			goto_homepath(data, args[1]);
-			return (0);
-		}
-		goto_home(data);
-		return (0);
+			return (goto_homepath(data, args[1]));
+		return (goto_home(data));
 	}
 	if (ft_strncmp(args[1], "-", 1) == 0)
-	{
-		goto_oldpwd(data);
-		return (0);
-	}
-	change_dir(data, args[1], 0);
-	return (0);
+		return (goto_oldpwd(data));
+	return (change_dir(data, args[1], 0));
 }
 
 int	goto_homepath(t_data *data, char *path)
@@ -102,11 +94,10 @@ int	goto_homepath(t_data *data, char *path)
 		clean_path = ft_substr(path, 1, ft_strlen(path));
 		home_path = ft_join(tmp, clean_path);
 		free(clean_path);
-		change_dir(data, home_path, 1);
-		return (1);
+		return (change_dir(data, home_path, 1));
 	}
 	ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
-	return (0);
+	return (1);
 }
 
 /*
@@ -152,14 +143,12 @@ int	goto_home(t_data *data)
 		{
 			path = ft_substr(tmp->content,
 					ft_strlen("HOME="), ft_strlen(tmp->content));
-			change_dir(data, path, 0);
-			free(path);
-			return (1);
+			return (change_dir(data, path, 1));
 		}
 		tmp = tmp->next;
 	}
 	ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
-	return (0);
+	return (1);
 }
 
 int	goto_oldpwd(t_data *data)
@@ -174,8 +163,12 @@ int	goto_oldpwd(t_data *data)
 		{
 			path = ft_substr(tmp->content,
 					ft_strlen("OLDPWD="), ft_strlen(tmp->content));
-			change_dir(data, path, 0);
-			ft_putendl_fd(path, STDOUT_FILENO);
+			if (!change_dir(data, path, 0))
+			{
+				ft_putendl_fd(path, STDOUT_FILENO);
+				free(path);
+				return (0);
+			}
 			free(path);
 			return (1);
 		}
@@ -183,7 +176,7 @@ int	goto_oldpwd(t_data *data)
 			tmp = tmp->next;
 	}
 	ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
-	return (0);
+	return (1);
 }
 
 void	create_oldpwd(t_data *data)

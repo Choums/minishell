@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/18 17:53:57 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/18 19:39:33 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	*find_bin(t_data *data, char *bin)
 	char	*dir;
 	char	*path;
 	t_list	*tmp;
+	int		perm;
 
 	if (!get_elem(data->h_env, "PATH") && !get_elem(data->h_var, "PATH"))
 		return (NULL);
@@ -33,9 +34,11 @@ char	*find_bin(t_data *data, char *bin)
 		dir = ft_strjoin(tmp->content, "/");
 		path = ft_strjoin(dir, bin);
 		free(dir);
-		if (check_perm(path))
+		perm = check_perm(path);
+		if (perm == 1)
 			return (path);
-		free(path);
+		else
+			free(path);
 		tmp = tmp->next;
 	}
 	return (NULL);
@@ -46,16 +49,16 @@ int	check_perm(char *path)
 	struct stat	path_stat;
 
 	if (stat(path, &path_stat) < 0)
-		return (0);
+		return (-1);
 	else if ((path_stat.st_mode & __S_IFREG))
 	{
 		if (path_stat.st_mode & S_IXUSR)
 			return (1);
 		else
-			msg_err(path, "permission denied", 126);
+			return (msg_err(path, "permission denied", 126));
 	}
-	else
-		msg_err(path, "is a directory", 126);
+	// else
+	// 	return (msg_err(path, "is a directory", 126));
 	return (0);
 }
 
@@ -88,6 +91,10 @@ int	process(t_data *data, t_command *cmd, int pos)
 		exit(EXIT_SUCCESS);
 	}
 	env = lst_dup(data->h_env);
+	// print_env(data->h_env);
+	// printf("------------------------------------------------------------\n");
+	// for (int i = 0; env[i]; i++)
+	// 	printf("%s\n", env[i]);
 	path = get_cmd(data, cmd->tab_cmd[0]);
 	if (!path)
 	{
@@ -101,6 +108,7 @@ int	process(t_data *data, t_command *cmd, int pos)
 		exit(EXIT_FAILURE);
 	return (1);
 }
+
 
 void	exec_builtin(t_command *cmd, t_data *data)
 {
@@ -129,7 +137,7 @@ int	check_cmd(char *cmd)
 	{
 		if (((path_stat.st_mode & __S_IFMT) == __S_IFDIR)
 			&& (ft_strncmp(cmd, "./", 2) == 0
-				|| cmd[ft_strlen(cmd) - 1] == '/'))
+				|| cmd[0] == '/'))
 			return (msg_err(cmd, ": Is a directory", 126));
 		else if (((path_stat.st_mode & __S_IFMT) != __S_IFDIR)
 			&& (cmd[ft_strlen(cmd) - 1] == '/'))
@@ -152,6 +160,7 @@ int	check_cmd(char *cmd)
 		return (msg_err(cmd, ": No such file or directory", 127));
 	return (msg_err(cmd, ": command not found", 127));
 }
+
 void	status_child(int child)
 {
 	int	status;
@@ -189,22 +198,16 @@ void	mother_board(t_data *data, t_command **cmd)
 	pid_t	child;
 
 	if (get_cmd_num(cmd) == 1 && ft_strcmp(cmd[0]->tab_cmd[0], "exit") == 0)
-	{
 		exiter(data, cmd, cmd[0]->tab_cmd);
-	}
 	else if (get_cmd_num(cmd) == 1 && is_builtin(cmd[0]))
-	{
 		exec_builtin(cmd[0], data);
-	}
 	else if (get_cmd_num(cmd) == 1 && !is_builtin(cmd[0]))
 	{
 		// printf("g_signal.status mother 2 : %i\n", g_signal.status);
 		// printf("one child w/o builtin\n");
 		child = fork();
 		if (child == 0)
-		{
 			process(data, cmd[0], -1);
-		}
 		status_child(child);
 		// int status;
 		// if ((0 < waitpid (child, &status, 0)) && (WIFEXITED (status)))
@@ -294,7 +297,7 @@ void	pipex(t_data *data, t_command **cmd)
 			exiter(data, cmd, cmd[i]->tab_cmd);
 		}
 		else if (child < 0)
-			printf("error\n");
+			msg_err("execve", "failed to create sub-processus", 127); // A verif
 		i++;
 		num--;
 	}
@@ -430,7 +433,7 @@ void	run_builtin(t_data *data, t_command *cmd)
 	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
 		g_signal.status = echo(cmd->tab_cmd);
 	else if (ft_strcmp(cmd->tab_cmd[0], "cd") == 0)
-		/*g_signal.status = */check_dir(data, cmd->tab_cmd);
+		g_signal.status = check_dir(data, cmd->tab_cmd);
 	else if (ft_strcmp(cmd->tab_cmd[0], "pwd") == 0)
 		g_signal.status = pwd();
 	else if (ft_strcmp(cmd->tab_cmd[0], "export") == 0)

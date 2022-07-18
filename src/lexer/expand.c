@@ -6,11 +6,11 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 12:38:11 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/18 18:36:44 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/18 19:53:58 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char	*put_dollar(t_data *data, char *expand, char *str, int *i)
 {
@@ -29,7 +29,7 @@ char	*put_dollar(t_data *data, char *expand, char *str, int *i)
 	return (expand);
 }
 
-char	*str_to_expand(t_data *data, char *str)
+char	*sexp(t_data *data, char *str)
 {
 	int		i;
 	char	*expand;
@@ -57,7 +57,7 @@ char	*str_to_expand(t_data *data, char *str)
 	return (free(str), expand);
 }
 
-char	**control_linear_tab(char **tab, int len_tab)
+char	**check_linear_tab(char **tab, int len_tab)
 {
 	int		i;
 	int		j;
@@ -85,34 +85,31 @@ char	**control_linear_tab(char **tab, int len_tab)
 	return (tab);
 }
 
-void	go_expand(t_data *data, t_command *(*tab_pi))
+void	go_expand(t_data *data, t_command *(*tp))
 {
 	int	i;
 	int	j;
 
 	i = -1;
-	while (tab_pi[++i])
+	while (tp[++i])
 	{
 		j = -1;
-		while (tab_pi[i]->tab_cmd[++j])
-			if (ft_strchr(tab_pi[i]->tab_cmd[j], '$')
-				&& tab_pi[i]->tab_token[j][0] != '4')
-				tab_pi[i]->tab_cmd[j]
-					= str_to_expand(data, tab_pi[i]->tab_cmd[j]);
-		tab_pi[i]->tab_cmd = control_linear_tab(tab_pi[i]->tab_cmd, j);
+		while (tp[i]->tab_cmd[++j])
+			if (ft_strchr(tp[i]->tab_cmd[j], '$')
+				&& tp[i]->tab_token[j][0] != '4')
+				tp[i]->tab_cmd[j] = sexp(data, tp[i]->tab_cmd[j]);
+		tp[i]->tab_cmd = check_linear_tab(tp[i]->tab_cmd, j);
 		j = -1;
-		while (tab_pi[i]->tab_redir && tab_pi[i]->tab_redir->out[++j])
-			if (tab_pi[i]->tab_redir->out[j][0] != '\'')
-				tab_pi[i]->tab_redir->out[j]
-					= str_to_expand(data, tab_pi[i]->tab_redir->out[j]);
-		if(tab_pi[i]->tab_redir && tab_pi[i]->tab_redir->out)
-			tab_pi[i]->tab_redir->out = control_linear_tab(tab_pi[i]->tab_redir->out, j);
+		while (tp[i]->tab_redir && tp[i]->tab_redir->out[++j])
+			if (tp[i]->tab_redir->out[j][0] != '\'')
+				tp[i]->tab_redir->out[j] = sexp(data, tp[i]->tab_redir->out[j]);
+		if (tp[i]->tab_redir && tp[i]->tab_redir->out)
+			tp[i]->tab_redir->out = check_linear_tab(tp[i]->tab_redir->out, j);
 		j = -1;
-		while (tab_pi[i]->tab_redir && tab_pi[i]->tab_redir->in[++j])
-			if (tab_pi[i]->tab_redir->in[j][0] != '\'')
-				tab_pi[i]->tab_redir->in[j]
-					= str_to_expand(data, tab_pi[i]->tab_redir->in[j]);
-		if(tab_pi[i]->tab_redir && tab_pi[i]->tab_redir->out)
-			tab_pi[i]->tab_redir->in = control_linear_tab(tab_pi[i]->tab_redir->in, j);
+		while (tp[i]->tab_redir && tp[i]->tab_redir->in[++j])
+			if (tp[i]->tab_redir->in[j][0] != '\'')
+				tp[i]->tab_redir->in[j] = sexp(data, tp[i]->tab_redir->in[j]);
+		if (tp[i]->tab_redir && tp[i]->tab_redir->out)
+			tp[i]->tab_redir->in = check_linear_tab(tp[i]->tab_redir->in, j);
 	}
 }

@@ -1,23 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokinizer_2.c                                      :+:      :+:    :+:   */
+/*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/30 16:58:15 by aptive            #+#    #+#             */
-/*   Updated: 2022/06/30 16:58:55 by aptive           ###   ########.fr       */
+/*   Created: 2022/07/18 18:31:34 by aptive            #+#    #+#             */
+/*   Updated: 2022/07/18 19:46:52 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-char	token_quote(t_command **t_p, int nb_pp, int i)
+int	count_var(char *str)
 {
-	if (ft_strchr(t_p[nb_pp]->tab_cmd[i], '\''))
-		return ('4');
-	else if (ft_strchr(t_p[nb_pp]->tab_cmd[i], '"'))
-		return ('5');
-	else
-		return ('3');
+	int	i;
+
+	i = 0;
+	i++;
+	while (str[i] && (str[i] != ' ' && str[i] != '"' && str[i] != '$'))
+		i++;
+	return (i);
+}
+
+int	linear_check_tab(char **tab, int len_tab)
+{
+	int	i;
+	int	count;
+
+	count = 0;
+	i = -1;
+	while (++i < len_tab)
+		if (!tab[i])
+			count++;
+	return (count);
 }

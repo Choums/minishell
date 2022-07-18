@@ -6,7 +6,7 @@
 #    By: aptive <aptive@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 20:18:17 by tdelauna          #+#    #+#              #
-#    Updated: 2022/07/18 19:30:46 by aptive           ###   ########.fr        #
+#    Updated: 2022/07/18 19:43:40 by aptive           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,17 +15,14 @@ NAME    	=	minishell
 SRCDIR		=	./src
 INCDIR		=	./includes
 OBJDIR		=	obj
-EXPANDDIR	=	obj/expand
+LEXERDIR	=	obj/lexer
 PARSEDIR	=	obj/parsing
+GNLDIR		=	obj/gnl
+OTHERDIR	=	obj/other
 
 SRC			=	main.c\
-				get_next_line.c\
-				get_next_line_utils.c\
 				env.c\
-				redirection.c\
 				affichage.c\
-				command.c\
-				parsing.c\
 				builtin.c\
 				echo.c\
 				lst_management.c\
@@ -36,18 +33,22 @@ SRC			=	main.c\
 				exporter.c\
 				errors.c\
 				redir.c\
-				tokenizer.c\
-				tokinizer_2.c\
-				free.c\
-				signal.c\
-				split_pipe.c\
-				verif_line.c\
 				exiting.c\
-				parse_quote.c\
-				parse_back.c\
-				expand/expand.c\
-				expand/expand_utils.c\
-
+				other/free.c\
+				other/signal.c\
+				gnl/get_next_line.c\
+				gnl/get_next_line_utils.c\
+				lexer/parse_quote.c\
+				lexer/parse_back.c\
+				lexer/expand.c\
+				lexer/expand_utils.c\
+				lexer/verif_line.c\
+				parsing/command.c\
+				parsing/parsing.c\
+				parsing/redirection.c\
+				parsing/split_pipe.c\
+				parsing/tokenizer.c\
+				parsing/tokinizer_2.c\
 
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
@@ -62,8 +63,10 @@ all:			obj $(FT_LIB) $(NAME)
 
 obj:
 				mkdir -p $(OBJDIR)
-				mkdir -p $(EXPANDDIR)
+				mkdir -p $(LEXERDIR)
 				mkdir -p $(PARSEDIR)
+				mkdir -p $(GNLDIR)
+				mkdir -p $(OTHERDIR)
 
 $(OBJDIR)/%.o:	$(SRCDIR)/%.c includes/minishell.h
 				$(CC) $(CFLAGS) $(FT_INC) -I $(INCDIR) -o $@ -c $< -lreadline

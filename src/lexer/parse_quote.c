@@ -6,21 +6,35 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:34:59 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/06/28 18:30:35 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/18 20:03:32 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
+
+char	*parse_str_quote_utils(char *str, int *i, char *tmp)
+{
+	char	c;
+
+	c = str[*i];
+	while (str[++*i] != c)
+	{
+		if (str[*i] == '\\')
+			tmp = ft_straddc(tmp, str[*i++]);
+		tmp = ft_straddc(tmp, str[*i]);
+	}
+
+	return (tmp);
+}
 
 char	*parse_str_quote(char *str)
 {
 	char	*tmp;
-	char	c;
 	int		i;
 
-	i = 0;
+	i = -1;
 	tmp = NULL;
-	while (str[i])
+	while (str[++i])
 	{
 		if (str[i] == '\\')
 		{
@@ -28,18 +42,9 @@ char	*parse_str_quote(char *str)
 			tmp = ft_straddc(tmp, str[i]);
 		}
 		else if (str[i] == '"' || str[i] == '\'')
-		{
-			c = str[i];
-			while (str[++i] != c)
-			{
-				if (str[i] == '\\')
-					tmp = ft_straddc(tmp, str[i++]);
-				tmp = ft_straddc(tmp, str[i]);
-			}
-		}
+			tmp = parse_str_quote_utils(str, &i, tmp);
 		else
 			tmp = ft_straddc(tmp, str[i]);
-		i++;
 	}
 	return (tmp);
 }
