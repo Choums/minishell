@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/08 02:28:08 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/18 18:08:47 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_count_pipe(char *line)
 
 	i = 0;
 	count = 1;
-	while (i < ft_strlen(line))
+	while (i < (int)ft_strlen(line))
 	{
 		j = 1;
 		if (line[i] == '\'' || line[i] == '"')
@@ -77,7 +77,7 @@ t_command	**ft_parse_pipe(t_command	*(*table_pipe), char *line)
 	table_pipe[ft_count_pipe(line)] = NULL;
 	tmp = split_pipe(line);
 	i = -1;
-	while (tmp[++i] /*&& table_pipe[i]->all_pipe*/)
+	while (tmp[++i])
 		table_pipe[i]->all_pipe = tmp[i];
 	free(tmp);
 	return (table_pipe);
@@ -109,10 +109,8 @@ t_command	**ft_parsing(t_data *data, char *line, t_command	*(*table_pipe))
 	i = -1;
 	while (table_pipe[++i])
 	{
-		// if (ft_strchr(table_pipe[i]->all_pipe, '<')
-		// 	|| ft_strchr(table_pipe[i]->all_pipe, '>'))
-		if(ft_count_redirection(table_pipe[i]->all_pipe, '<')
-		|| ft_count_redirection(table_pipe[i]->all_pipe, '>'))
+		if (ft_count_redirection(table_pipe[i]->all_pipe, '<')
+			|| ft_count_redirection(table_pipe[i]->all_pipe, '>'))
 		{
 			table_pipe = ft_redirection_init(table_pipe, i);
 			ft_parse_redir_in(table_pipe, i, '<');

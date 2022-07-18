@@ -6,22 +6,11 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 12:38:11 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/07 23:40:44 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/18 18:36:44 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	count_var(char *str)
-{
-	int	i;
-
-	i = 0;
-	i++;
-	while (str[i] && (str[i] != ' ' && str[i] != '"' && str[i] != '$'))
-		i++;
-	return (i);
-}
 
 char	*put_dollar(t_data *data, char *expand, char *str, int *i)
 {
@@ -48,7 +37,7 @@ char	*str_to_expand(t_data *data, char *str)
 
 	expand = NULL;
 	i = 0;
-	while (i < ft_strlen(str))
+	while (i < (int)ft_strlen(str))
 	{
 		if (str[i] == '$' && str[i + 1] == '?')
 		{
@@ -67,23 +56,16 @@ char	*str_to_expand(t_data *data, char *str)
 	}
 	return (free(str), expand);
 }
-//  $EMPTY echo hi
-char **control_linear_tab(char **tab, int len_tab)
-{
-	int i;
-	int j;
-	int	count;
-	char **tmp_str;
 
-	i = 0;
+char	**control_linear_tab(char **tab, int len_tab)
+{
+	int		i;
+	int		j;
+	int		count;
+	char	**tmp_str;
+
+	count = linear_check_tab(tab, len_tab);
 	j = 0;
-	count = 0;
-	while(i < len_tab)
-	{
-		if (!tab[i])
-			count++;
-		i++;
-	}
 	i = 0;
 	if (count)
 	{
@@ -96,12 +78,9 @@ char **control_linear_tab(char **tab, int len_tab)
 			if (!tab[i])
 				i++;
 			else
-			{
 				tmp_str[j++] = tab[i++];
-			}
 		}
-		free(tab);
-		return (tmp_str);
+		return (free(tab), tmp_str);
 	}
 	return (tab);
 }

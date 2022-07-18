@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 16:33:32 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/08 02:40:00 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/18 18:01:48 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@
 
 int	error_msg(char	*line)
 {
+	(void)line;
 	ft_putstr_fd("Error : unclosed quotation mark\n", STDERR);
 	return (0);
 }
@@ -63,7 +64,7 @@ int	verif_quote(char *line)
 
 	i = 0;
 	nb_quote = 0;
-	while (i < ft_strlen(line))
+	while (i < (int)ft_strlen(line))
 	{
 		j = 1;
 		if (line[i] == '\\')
@@ -86,14 +87,15 @@ int	verif_quote(char *line)
 
 int	verif_redir_syntax(char *line)
 {
-	int	i;
+	int		i;
+	char	c;
 
 	i = 0;
-	while(line[i])
+	while (line[i])
 	{
 		if (line[i] == '"' || line[i] == '\'')
 		{
-			char c = line[i];
+			c = line[i];
 			i++;
 			while (line[i] && line[i] != c)
 				i++;
@@ -118,12 +120,6 @@ int	verif_redir_syntax(char *line)
 			i++;
 			while (line [i] && line[i] == ' ')
 				i++;
-			// if (!line[i])
-			// {
-			// 	ft_putendl_fd(" syntax error near unexpected token `newline'", 2);
-			// 	return (0);
-			// }
-			// else
 			if (line[i] == '|')
 			{
 				ft_putendl_fd(" syntax error near unexpected token `|'", 2);
@@ -135,7 +131,12 @@ int	verif_redir_syntax(char *line)
 				if (line [i] && line[i + 1] == '>')
 					ft_putendl_fd(" syntax error near unexpected token `>>'", 2);
 				else
-					ft_putendl_fd(" syntax error near unexpected token `newline'", 2);
+				{
+					if (line[i + 1])
+						return (1);
+					else
+						ft_putendl_fd(" syntax error near unexpected token `newline3'", 2);
+				}
 				return (0);
 			}
 		}
@@ -147,14 +148,14 @@ int	verif_redir_syntax(char *line)
 
 int	verif_line(char *line)
 {
-	if(line && line[0] == '|')
+	if (line && line[0] == '|')
 	{
 		g_signal.nt_status = 1;
 		g_signal.status = 2;
 		ft_putendl_fd(" syntax error near unexpected token `|'", 2);
 		return (0);
 	}
-	else if(line && (line[0] == '>' || line[0] == '<'))
+	else if (line && (line[0] == '>' || line[0] == '<'))
 	{
 		if (ft_strlen(line) < 2)
 			ft_putendl_fd(" syntax error near unexpected token `newline'", 2);
@@ -170,7 +171,6 @@ int	verif_line(char *line)
 	}
 	else if (!verif_redir_syntax(line))
 	{
-		// printf("OKKKK\n");
 		g_signal.nt_status = 1;
 		g_signal.status = 2;
 		return (0);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
+#    By: aptive <aptive@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 20:18:17 by tdelauna          #+#    #+#              #
-#    Updated: 2022/07/06 18:02:19 by root             ###   ########.fr        #
+#    Updated: 2022/07/18 19:30:46 by aptive           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,8 @@ NAME    	=	minishell
 SRCDIR		=	./src
 INCDIR		=	./includes
 OBJDIR		=	obj
+EXPANDDIR	=	obj/expand
+PARSEDIR	=	obj/parsing
 
 SRC			=	main.c\
 				get_next_line.c\
@@ -41,9 +43,10 @@ SRC			=	main.c\
 				split_pipe.c\
 				verif_line.c\
 				exiting.c\
-				expand.c\
 				parse_quote.c\
 				parse_back.c\
+				expand/expand.c\
+				expand/expand_utils.c\
 
 
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
@@ -59,6 +62,8 @@ all:			obj $(FT_LIB) $(NAME)
 
 obj:
 				mkdir -p $(OBJDIR)
+				mkdir -p $(EXPANDDIR)
+				mkdir -p $(PARSEDIR)
 
 $(OBJDIR)/%.o:	$(SRCDIR)/%.c includes/minishell.h
 				$(CC) $(CFLAGS) $(FT_INC) -I $(INCDIR) -o $@ -c $< -lreadline

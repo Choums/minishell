@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/08 02:29:01 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/18 17:56:54 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ void	main_two(t_data *data, char *line)
 		// free_data(data);
 		free_struc(table_pipe);
 	}
-
 }
 
 void exit_signal(t_data *data, char *line)
@@ -128,6 +127,8 @@ int		main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
+	(void)pid_server;
+	(void)block_mask;
 	data.var = NULL;
 	data.path = NULL;
 	data.pipefd = NULL;

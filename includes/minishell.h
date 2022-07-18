@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/08 01:37:44 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/18 18:36:40 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int		*create_pipes(int num);
 void	close_pipes(int *pipefd, int n_pipe);
 void	close_unused_pipes(int *pipefd, int pos, int n_pipe);
 int		check_perm(char *path);
-char 	*get_cmd(t_data *data, char *cmd);
+char	*get_cmd(t_data *data, char *cmd);
 
 /*	List */
 void	set_var(t_data *data, char *content);
@@ -173,13 +173,20 @@ void	export_err(char *command, int alloc);
 void	exit_err(t_data *data, t_command **tab, char *arg);
 int		msg_err(char *cmd, char *msg, int status);
 
-int arg_msg_err(char *cmd, char *arg, char *msg, int status);
+int	arg_msg_err(char *cmd, char *arg, char *msg, int status);
 
 /*
 AFFICHAGE_C----------------------------------------------------------------------
 */
 void	ft_affiche_t_command(t_command	*(*table_pipe));
-
+/*
+EXPAND_C-------------------------------------------------------------------------
+*/
+/*
+EXPAND_UTILS_C-------------------------------------------------------------------
+*/
+int	count_var(char *str);
+int	linear_check_tab(char **tab, int len_tab);
 /*
 COMMAND_C------------------------------------------------------------------------
 */

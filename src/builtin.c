@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 05:48:30 by root              #+#    #+#             */
-/*   Updated: 2022/07/06 18:02:07 by root             ###   ########.fr       */
+/*   Updated: 2022/07/18 18:09:40 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	unset(t_data *data, char **var)
 			ft_putstr_fd("unset: '", STDERR_FILENO);
 			ft_putstr_fd(var[i], STDERR_FILENO);
 			ft_putendl_fd("' not a valid identifier", STDERR_FILENO);
-			//status = 1;
+			g_signal.status = 1;
 		}
 		i++;
 	}

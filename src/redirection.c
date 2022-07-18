@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:08:18 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/08 02:28:00 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/18 18:06:44 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,14 @@ int	ft_count_redirection(char *str, char c_redirect)
 	return (count);
 }
 
+void	init_redir_zero(t_command	*(*table_pipe), int number_pipe)
+{
+	table_pipe[number_pipe]->tab_redir->cpy_in = 0;
+	table_pipe[number_pipe]->tab_redir->cpy_out = 0;
+	table_pipe[number_pipe]->tab_redir->in_fd = 0;
+	table_pipe[number_pipe]->tab_redir->out_fd = 0;
+}
+
 t_command	**ft_redirection_init(t_command	*(*table_pipe), int number_pipe)
 {
 	int	nb_pipe_in;
@@ -46,17 +54,13 @@ t_command	**ft_redirection_init(t_command	*(*table_pipe), int number_pipe)
 
 	nb_pipe_in = ft_count_redirection(table_pipe[number_pipe]->all_pipe, '<');
 	nb_pipe_out = ft_count_redirection(table_pipe[number_pipe]->all_pipe, '>');
-	// printf("nb pipe out : %i\n", nb_pipe_out);
 	table_pipe[number_pipe]->tab_redir = malloc(sizeof(t_redirection));
 	if (!nb_pipe_in && !nb_pipe_out)
 	{
 		table_pipe[number_pipe]->tab_redir = NULL;
 		return (table_pipe);
 	}
-	table_pipe[number_pipe]->tab_redir->cpy_in = 0;
-	table_pipe[number_pipe]->tab_redir->cpy_out = 0;
-	table_pipe[number_pipe]->tab_redir->in_fd = 0;
-	table_pipe[number_pipe]->tab_redir->out_fd = 0;
+	init_redir_zero(table_pipe, number_pipe);
 	table_pipe[number_pipe]->tab_redir->in
 		= malloc(sizeof(char **) * (nb_pipe_in + 1));
 	if (!table_pipe[number_pipe]->tab_redir->in)
@@ -79,7 +83,6 @@ void	ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c)
 	int		nb_redirect;
 
 	i = 0;
-	// table_pp = ft_redirection_init(table_pp, nb_pp);
 	nb_redirect = ft_count_redirection(table_pp[nb_pp]->all_pipe, c);
 	tmp = table_pp[nb_pp]->all_pipe;
 	while (nb_redirect)
@@ -89,8 +92,8 @@ void	ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c)
 		tmp = ft_search_redir(tmp, c);
 		while (tmp[dex] == c || tmp[dex] == ' ')
 			dex++;
-		while ((tmp[dex + cut] != ' '&& tmp[dex + cut] != '<'
-			&& tmp[dex + cut] != '>') && tmp[dex + cut])
+		while ((tmp[dex + cut] != ' ' && tmp[dex + cut] != '<'
+				&& tmp[dex + cut] != '>') && tmp[dex + cut])
 			cut++;
 		table_pp[nb_pp]->tab_redir->in[i] = ft_substr(tmp, dex, cut);
 		tmp = tmp + dex;
@@ -162,7 +165,6 @@ void	ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c)
 
 	i = 0;
 	nb_redirect = ft_count_redirection(table_pp[nb_pp]->all_pipe, c);
-	// printf("Nb_redirec : %i\n", nb_redirect);
 	tmp = table_pp[nb_pp]->all_pipe;
 	while (nb_redirect)
 	{
@@ -171,8 +173,8 @@ void	ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c)
 		tmp = ft_search_redir(tmp, c);
 		while (tmp[dex] == c || tmp[dex] == ' ')
 			dex++;
-		while ((tmp[dex + cut] != ' '&& tmp[dex + cut] != '<'
-			&& tmp[dex + cut] != '>') && tmp[dex + cut])
+		while ((tmp[dex + cut] != ' ' && tmp[dex + cut] != '<'
+				&& tmp[dex + cut] != '>') && tmp[dex + cut])
 			cut++;
 		table_pp[nb_pp]->tab_redir->out[i] = ft_substr(tmp, dex, cut);
 		tmp = tmp + dex;

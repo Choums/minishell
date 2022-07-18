@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/08 02:05:58 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/18 17:53:57 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,8 @@ int	check_perm(char *path)
 int	process(t_data *data, t_command *cmd, int pos)
 {
 	char	**env;
-	char 	*path;
+	char	*path;
 
-	// printf("trucxxxxxxxxxx\n");
-	// printf("cmd: %s\n", cmd->tab_cmd[0]);
 	if (pos != -1 && cmd->len_pipe > 0 && !cmd->tab_redir)
 		redir_pipe(data->pipefd, pos, cmd->len_pipe);
 	if (cmd->len_pipe > 0)
@@ -91,21 +89,17 @@ int	process(t_data *data, t_command *cmd, int pos)
 	}
 	env = lst_dup(data->h_env);
 	path = get_cmd(data, cmd->tab_cmd[0]);
-	// printf("g_signal.status process: %i\n",g_signal.status);
-
 	if (!path)
 	{
 		ft_lstclear(&data->env, del);
 		ft_lstclear(&data->var, del);
 		ft_lstclear(&data->path, del);
 		free_double_tab(env);
-		// printf("g_signal.status process2: %i\n",g_signal.status);
-		// return(g_signal.status);
 		exit(g_signal.status);
 	}
 	if (execve(path, cmd->tab_cmd, env) < 0)
 		exit(EXIT_FAILURE);
-
+	return (1);
 }
 
 void	exec_builtin(t_command *cmd, t_data *data)
@@ -206,11 +200,10 @@ void	mother_board(t_data *data, t_command **cmd)
 	{
 		// printf("g_signal.status mother 2 : %i\n", g_signal.status);
 		// printf("one child w/o builtin\n");
-		int	test = 0;
 		child = fork();
 		if (child == 0)
 		{
-			test = process(data, cmd[0], -1);
+			process(data, cmd[0], -1);
 		}
 		status_child(child);
 		// int status;

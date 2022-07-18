@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:08:09 by aptive            #+#    #+#             */
-/*   Updated: 2022/06/28 18:13:14 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/18 17:50:25 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	count_pipe(char *line)
 
 	i = 0;
 	count = 1;
-	while (i < ft_strlen(line))
+	while (i < (int)ft_strlen(line))
 	{
 		j = 1;
 		if (line[i] == '\'' || line[i] == '"')
@@ -115,7 +115,7 @@ char	**split_pipe(char *s)
 	if (!split)
 		return (NULL);
 	split[num] = NULL;
-	while (i < num)
+	while (i < (int)num)
 	{
 		ft_get_to_next_pipe(&tmp_s, &word_len);
 		split[i] = (char *)malloc(sizeof(char) * (word_len + 1));
