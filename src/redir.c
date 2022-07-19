@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/04 20:25:10 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/19 17:03:01 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ void	append_mode(t_data *data, t_redirection *tab, char *file)
 	}
 	tab->out_fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (tab->out_fd < 0)
+	{
 		perror("Open");
+		g_signal.status = 1;
+	}
 	redirect(tab);
 	close(tab->out_fd);
 	if (alloc)
@@ -98,7 +101,7 @@ void	redir(t_data *data, t_redirection *tab)
 	{
 		// printf("file n%zu: %s\t| ", i, tab->out[i]);
 		// printf("token: %s\n", tab->token_out[i]);
-		if (tab->token_out[i][i] == '1')
+		if (tab->token_out[i][0] == '1')
 		{
 			// printf("inout\n");
 			out_redir(data, tab, tab->out[i]);

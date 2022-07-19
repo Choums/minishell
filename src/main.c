@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/19 02:38:08 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/19 16:49:20 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ void	main_two(t_data *data, char *line)
 		table_pipe = ft_parsing(data, line, table_pipe);
 		parse_back_slash(table_pipe);
 		go_expand(data, table_pipe);
-		// ft_affiche_t_command(table_pipe);
 		parse_quote(table_pipe);
+		// ft_affiche_t_command(table_pipe);
 		if (table_pipe[0]->tab_cmd[0])
 			mother_board(data, table_pipe);
 		// printf("g_signal.status : %i\n",g_signal.status);
@@ -100,7 +100,7 @@ void	main_two(t_data *data, char *line)
 		free_struc(table_pipe);
 	}
 }
-
+// ls >./outfiles/outfile01 >>./outfiles/outfile01 >./outfiles/outfile02
 void exit_signal(t_data *data, char *line)
 {
 	free(line);

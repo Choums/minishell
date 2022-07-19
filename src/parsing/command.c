@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:54:45 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/19 00:47:36 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/19 15:50:02 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd, char c, int i)
 			}
 			tmp_cmd = ft_straddc(tmp_cmd, tmp[i++]);
 		}
+		// printf("tmp_cmd : %s\n", tmp_cmd);
 	}
 	return (tmp_cmd);
 }
@@ -98,8 +99,10 @@ t_command	**ft_parse_cmd(t_command *(*table_pipe), int number_pipe)
 	char	*cut_cmd;
 
 	cut_cmd = NULL;
+	// printf("table_pipe[number_pipe]->all_pipe : %s\n", table_pipe[number_pipe]->all_pipe);
 	cut_cmd = ft_cup_all_cmd(table_pipe[number_pipe]->all_pipe,
 			cut_cmd, 'c', 0);
+	// printf("cut_cmd : %s\n", cut_cmd);
 	count_cmd(table_pipe, number_pipe, cut_cmd);
 	copy_cmd(table_pipe, number_pipe, cut_cmd);
 	free(cut_cmd);

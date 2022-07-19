@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 00:39:55 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/19 00:47:43 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/19 15:39:33 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ int	pass_redir(char *tmp, int i)
 	while (tmp[i] && (tmp[i] == '<' || tmp[i] == ' ' || tmp[i] == '>'))
 		i++;
 	while (tmp[i] && tmp[i] != ' ')
+	{
+		if (tmp[i] == '"' || tmp[i] == '\'')
+			i = pass_quote_verif_line(tmp, i);
 		i++;
+	}
 	return (i++);
 }
 

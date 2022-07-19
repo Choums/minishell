@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 02:26:06 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/19 02:31:34 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/19 16:19:04 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	error_msg_signal(char *msg)
 	g_signal.status = 2;
 	ft_putstr_fd(" syntax error near unexpected token `", STDERR);
 	ft_putstr_fd(msg, STDERR);
-	ft_putstr_fd("'", STDERR);
+	ft_putstr_fd("'\n", STDERR);
 	return (0);
 }
 
