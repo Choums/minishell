@@ -6,7 +6,7 @@
 #    By: aptive <aptive@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 20:18:17 by tdelauna          #+#    #+#              #
-#    Updated: 2022/07/18 19:43:40 by aptive           ###   ########.fr        #
+#    Updated: 2022/07/19 02:27:30 by aptive           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,8 +43,11 @@ SRC			=	main.c\
 				lexer/expand.c\
 				lexer/expand_utils.c\
 				lexer/verif_line.c\
+				lexer/verif_line_utils.c\
+				parsing/command_utils.c\
 				parsing/command.c\
 				parsing/parsing.c\
+				parsing/redirection_utils.c\
 				parsing/redirection.c\
 				parsing/split_pipe.c\
 				parsing/tokenizer.c\

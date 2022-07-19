@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/18 17:56:54 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/19 02:38:08 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	print_list(t_list *list)
 	int	i;
 
 	i = 0;
-	while(list)
+	while (list)
 	{
 		printf("List %i : %p / %s\n", i, list, list->content);
 		list = list->next;
@@ -65,25 +65,21 @@ void	print_list(t_list *list)
 }
 
 
-void	free_data(t_data *data)
-{
-	print_list(data->env);
-	// free_list(data->h_env);
-	free_list(data->var);
-	// free_list(data->h_var);
-	free_list(data->path);
+// void	free_data(t_data *data)
+// {
+// 	print_list(data->env);
+// 	// free_list(data->h_env);
+// 	free_list(data->var);
+// 	// free_list(data->h_var);
+// 	free_list(data->path);
+// 	// printf("data env : %p\n", data->env);
+// 	// printf("data h_env : %p\n", data->h_env);
+// 	// printf("data var : %p\n", data->var);
+// 	// printf("data h_var : %p\n", data->h_var);
+// 	// printf("data path : %p\n", data->path);
+// 	// printf("data pipefd : %p\n", data->pipefd);
 
-
-
-
-	// printf("data env : %p\n", data->env);
-	// printf("data h_env : %p\n", data->h_env);
-	// printf("data var : %p\n", data->var);
-	// printf("data h_var : %p\n", data->h_var);
-	// printf("data path : %p\n", data->path);
-	// printf("data pipefd : %p\n", data->pipefd);
-
-}
+// }
 
 void	main_two(t_data *data, char *line)
 {

@@ -6,20 +6,11 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:54:45 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/18 19:47:26 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/19 00:47:36 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	pass_redir(char *tmp, int i)
-{
-	while (tmp[i] && (tmp[i] == '<' || tmp[i] == ' ' || tmp[i] == '>'))
-		i++;
-	while (tmp[i] && tmp[i] != ' ')
-		i++;
-	return (i++);
-}
 
 char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd, char c, int i)
 {
@@ -46,23 +37,6 @@ char	*ft_cup_all_cmd(char *tmp, char *tmp_cmd, char c, int i)
 		}
 	}
 	return (tmp_cmd);
-}
-
-int	pass_quote(char *cmd, int i, int cut)
-{
-	char	c;
-
-	c = cmd[i + cut++];
-	if (cmd[i + cut] == '\\')
-		cut += 2;
-	while (cmd[i + cut] && cmd[i + cut] != c)
-	{
-		if (cmd[i + cut] == '\\')
-			cut += 2;
-		else
-			cut++;
-	}
-	return (cut);
 }
 
 void	count_cmd(t_command	*(*table_pipe), int nb_pp, char *cut_cmd)

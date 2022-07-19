@@ -6,46 +6,11 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:08:18 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/18 19:47:32 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/19 00:52:27 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	ft_count_redirection(char *str, char c_redirect)
-{
-	int	i;
-	int	count;
-	int	j;
-
-	i = 0;
-	count = 0;
-	while (i < (int)ft_strlen(str))
-	{
-		j = 1;
-		if (str[i] == '\'' || str[i] == '"')
-		{
-			while (str[i + j] && str[i + j] != str[i])
-				j++;
-			j++;
-		}
-		else if (str[i] == c_redirect)
-		{
-			count++;
-			j++;
-		}
-		i += j;
-	}
-	return (count);
-}
-
-void	init_redir_zero(t_command	*(*table_pipe), int number_pipe)
-{
-	table_pipe[number_pipe]->tab_redir->cpy_in = 0;
-	table_pipe[number_pipe]->tab_redir->cpy_out = 0;
-	table_pipe[number_pipe]->tab_redir->in_fd = 0;
-	table_pipe[number_pipe]->tab_redir->out_fd = 0;
-}
 
 t_command	**ft_redirection_init(t_command	*(*table_pipe), int number_pipe)
 {
@@ -101,37 +66,6 @@ void	ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c)
 		i++;
 	}
 }
-// grep hi "<infile" <         ./test_files/infile
-
-// void	ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c)
-// {
-// 	char	*tmp;
-// 	int		cut;
-// 	int		dex;
-// 	int		i;
-// 	int		nb_redirect;
-
-// 	i = 0;
-// 	table_pp = ft_redirection_init(table_pp, nb_pp);
-// 	nb_redirect = ft_count_redirection(table_pp[nb_pp]->all_pipe, c);
-// 	// printf("Nb_redirec : %i\n", nb_redirect);
-// 	tmp = table_pp[nb_pp]->all_pipe;
-// 	while (nb_redirect)
-// 	{
-// 		cut = 0;
-// 		dex = 0;
-// 		tmp = ft_search_redir(tmp, c);
-// 		while (tmp[dex] == c || tmp[dex] == ' ')
-// 			dex++;
-// 		while ((tmp[dex + cut] != ' '&& tmp[dex + cut] != '>'
-// 			&& tmp[dex + cut] != '>') && tmp[dex + cut])
-// 			cut++;
-// 		table_pp[nb_pp]->tab_redir->out[i] = ft_substr(tmp, dex, cut);
-// 		tmp = tmp + dex;
-// 		nb_redirect--;
-// 		i++;
-// 	}
-// }
 
 char	*ft_search_redir(char *str, char c)
 {

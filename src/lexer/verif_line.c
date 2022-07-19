@@ -6,55 +6,11 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 16:33:32 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/18 19:47:15 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/19 02:31:41 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// int	verif_quote(char *line)
-// {
-// 	int	i;
-// 	int	nb_quote;
-
-// 	i = 0;
-// 	nb_quote = 0;
-// 	while (i < ft_strlen(line))
-// 	{
-// 		if (line[i] == '\'')
-// 		{
-// 			nb_quote++;
-// 			i++;
-// 			while (line[i] && line[i] != '\'')
-// 				i++;
-// 			if (line[i] == '\'')
-// 				nb_quote++;
-// 		}
-// 		if (line[i] == '"')
-// 		{
-// 			nb_quote++;
-// 			i++;
-// 			while (line[i] && line[i] != '"')
-// 				i++;
-// 			if (line[i] == '"')
-// 				nb_quote++;
-// 		}
-// 		i++;
-// 	}
-// 	if (nb_quote % 2)
-// 	{
-// 		ft_putstr_fd("Error : unclosed quotation mark\n", STDERR);
-// 		return (0);
-// 	}
-// 	return (1);
-// }
-
-int	error_msg(char	*line)
-{
-	(void)line;
-	ft_putstr_fd("Error : unclosed quotation mark\n", STDERR);
-	return (0);
-}
 
 int	verif_quote(char *line)
 {
@@ -85,60 +41,45 @@ int	verif_quote(char *line)
 	return (1);
 }
 
+int	verif_pipe(char *line, int *i)
+{
+	++*i;
+	while (line [*i] && line[*i] == ' ')
+		++*i;
+	if (line[*i] == '|')
+		return (error_msg_signal("|"));
+	else if (line[*i] == '>')
+	{
+		if (line [++*i] && line[*i + 1] == '>')
+			return (error_msg_signal(">>"));
+		else
+			return (error_msg_signal("newline"));
+	}
+	return (1);
+}
+
 int	verif_redir_syntax(char *line)
 {
 	int		i;
-	char	c;
 
 	i = 0;
 	while (line[i])
 	{
 		if (line[i] == '"' || line[i] == '\'')
-		{
-			c = line[i];
-			i++;
-			while (line[i] && line[i] != c)
-				i++;
-		}
+			i = pass_quote_verif_line(line, i);
 		else if (line[i] == '<')
 		{
 			while (line [i] && (line[i] == '<' || line[i] == ' '))
 				i++;
 			if (!line[i])
-			{
-				ft_putendl_fd(" syntax error near unexpected token `newline'", 2);
-				return (0);
-			}
+				return (error_msg_signal("newline"));
 			else if (line[i] == '|')
-			{
-				ft_putendl_fd(" syntax error near unexpected token `|'", 2);
-				return (0);
-			}
+				return (error_msg_signal("|"));
 		}
 		else if (line[i] == '|')
 		{
-			i++;
-			while (line [i] && line[i] == ' ')
-				i++;
-			if (line[i] == '|')
-			{
-				ft_putendl_fd(" syntax error near unexpected token `|'", 2);
+			if (!verif_pipe(line, &i))
 				return (0);
-			}
-			else if (line[i] == '>')
-			{
-				i++;
-				if (line [i] && line[i + 1] == '>')
-					ft_putendl_fd(" syntax error near unexpected token `>>'", 2);
-				else
-				{
-					if (line[i + 1])
-						return (1);
-					else
-						ft_putendl_fd(" syntax error near unexpected token `newline3'", 2);
-				}
-				return (0);
-			}
 		}
 		else
 			i++;
@@ -149,34 +90,24 @@ int	verif_redir_syntax(char *line)
 int	verif_line(char *line)
 {
 	if (line && line[0] == '|')
-	{
-		g_signal.nt_status = 1;
-		g_signal.status = 2;
-		ft_putendl_fd(" syntax error near unexpected token `|'", 2);
-		return (0);
-	}
+		return (error_msg_signal("|"));
 	else if (line && (line[0] == '>' || line[0] == '<'))
 	{
 		if (ft_strlen(line) < 2)
-			ft_putendl_fd(" syntax error near unexpected token `newline'", 2);
+			return (error_msg_signal("newline"));
 		else if (line[2] == '>')
-			ft_putendl_fd(" syntax error near unexpected token `>'", 2);
+			return (error_msg_signal(">"));
 		else if (line[2] == '<')
-			ft_putendl_fd(" syntax error near unexpected token `<'", 2);
+			return (error_msg_signal("<"));
 		else
-			ft_putendl_fd(" syntax error near unexpected token `newline'", 2);
-		g_signal.nt_status = 1;
-		g_signal.status = 2;
-		return (0);
+			return (error_msg_signal("newline"));
 	}
 	else if (!verif_redir_syntax(line))
 	{
-		g_signal.nt_status = 1;
 		g_signal.status = 2;
 		return (0);
 	}
 	else if (line && ft_strlen(line) && verif_quote(line))
 		return (1);
-	else
-		return (0);
+	return (0);
 }

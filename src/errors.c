@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 21:35:36 by root              #+#    #+#             */
-/*   Updated: 2022/07/08 02:00:35 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/19 02:35:15 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,25 +37,19 @@ void	exit_err(t_data *data, t_command **tab, char *arg)
 */
 int	msg_err(char *cmd, char *msg, int status)
 {
-	// printf("HERRRE\n");
 	g_signal.status = status;
-	// printf("g_signal.status msg_err: %i\n",g_signal.status);
 	g_signal.nt_status = 1;
-	// printf("numero err : %i\n", g_signal.status);
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(cmd, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putendl_fd(msg, STDERR_FILENO);
-	// printf("g_signal.status msg_err2: %i\n",g_signal.status);
 	return (0);
 }
 
-int arg_msg_err(char *cmd, char *arg, char *msg, int status)
+int	arg_msg_err(char *cmd, char *arg, char *msg, int status)
 {
 	g_signal.status = status;
 	g_signal.nt_status = 1;
-
-	// printf("g_signal.status arg_msg_err: %i\n",g_signal.status);
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(cmd, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);

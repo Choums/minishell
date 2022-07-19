@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 14:47:01 by root              #+#    #+#             */
-/*   Updated: 2022/07/08 01:43:34 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/19 02:35:56 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,6 @@ long long	atoi_exit(char *str, int *n_char)
 	return (nbr * sign);
 }
 
-
-
-
 int	check_exit_args(char *arg)
 {
 	int	i;
@@ -108,17 +105,17 @@ int	check_exit_args(char *arg)
 			return (0);
 		i++;
 	}
-	// printf("arg : %lld\n", ft_atoi_unsigned_long_long(arg));
-	if (ft_atoi_unsigned_long_long(arg) == (unsigned long long)-1 && ft_strlen(arg) > 1)
+	if (ft_atoi_unsigned_long_long(arg)
+		== (unsigned long long)-1 && ft_strlen(arg) > 1)
 		return (0);
-	if (ft_atoi_unsigned_long_long(arg) == (unsigned long long)0 && ft_strlen(arg) > 1)
+	if (ft_atoi_unsigned_long_long(arg)
+		== (unsigned long long)0 && ft_strlen(arg) > 1)
 		return (0);
 	return (1);
 }
 
 int	is_exit(t_data *data, t_command **tab, int status)
 {
-
 	rl_clear_history();
 	ft_lstclear(&data->env, del);
 	ft_lstclear(&data->var, del);

@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:41:51 by root              #+#    #+#             */
-/*   Updated: 2022/07/08 00:09:45 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/19 02:34:09 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ int	change_err(char *pathname, int alloc)
 	ft_putstr_fd(pathname, STDERR_FILENO);
 	if (stat(pathname, &path_stat) < 0)
 	{
-		// printf("TESST\n");
 		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 		g_signal.status = 1;
 	}
@@ -127,7 +126,6 @@ int	change_err(char *pathname, int alloc)
 	}
 	if (alloc)
 		free(pathname);
-	// printf("g_signal %i\n", g_signal.status);
 	return (1);
 }
 

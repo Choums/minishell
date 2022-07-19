@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 10:49:04 by root              #+#    #+#             */
-/*   Updated: 2022/06/17 20:24:31 by root             ###   ########.fr       */
+/*   Updated: 2022/07/19 02:38:43 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	ft_err(char *err)
 void	pipe_err(int *pipefd, int i)
 {
 	if (i == 0)
-		i+= 2;
+		i += 2;
 	while (i)
 	{
 		close(pipefd[i]);

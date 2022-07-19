@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exporter.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:14:47 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/05 20:44:35 by root             ###   ########.fr       */
+/*   Updated: 2022/07/19 02:36:29 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,7 @@ void	display_env(t_data *data)
 
 void	sort_env(char **env)
 {
-	char 	*swap;
+	char	*swap;
 	size_t	i;
 	size_t	j;
 
@@ -261,6 +261,7 @@ void	print_export(char **env)
 	size_t	i;
 	size_t	j;
 	size_t	egal;
+
 	i = 0;
 	while (env[i])
 	{
