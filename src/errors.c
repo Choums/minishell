@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 21:35:36 by root              #+#    #+#             */
-/*   Updated: 2022/07/19 02:35:15 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/20 13:55:44 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,23 @@ void	export_err(char *command, int alloc)
 	g_signal.status = 1;
 	if (alloc)
 		free(command);
+}
+
+/*
+ *	Ferme les fds precedement ouvert et free le tableau
+*/
+void	pipe_err(int *pipefd, int i)
+{
+	if (i == 0)
+		i += 2;
+	while (i)
+	{
+		close(pipefd[i]);
+		i--;
+	}
+	free(pipefd);
+	perror("failed to create pipes");
+	exit(EXIT_FAILURE);
 }
 
 void	exit_err(t_data *data, t_command **tab, char *arg)
