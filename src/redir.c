@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/20 16:54:10 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/20 17:43:09 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ int	append_mode(t_redirection *tab, char *file)
 */
 void	restore_redir(t_redirection *tab)
 {
-	if (*(tab->in))
+	if (tab->cpy_in)
 	{
 		dup2(tab->cpy_in, 0);
 		close(tab->cpy_in);
 	}
-	if (*(tab->out))
+	if (tab->cpy_out)
 	{
 		dup2(tab->cpy_out, 1);
 		close(tab->cpy_out);

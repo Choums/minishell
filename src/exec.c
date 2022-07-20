@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/20 16:38:54 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/20 17:58:26 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,17 @@ int	process(t_data *data, t_command *cmd, int pos)
 	char	**env;
 	char	*path;
 
-	if (pos != -1 && cmd->len_pipe > 0 && !cmd->tab_redir)
+	if (pos != -1 && cmd->len_pipe > 0)
 		redir_pipe(data->pipefd, pos, cmd->len_pipe);
 	if (cmd->len_pipe > 0)
 		close_unused_pipes(data->pipefd, pos, cmd->len_pipe);
 	if (cmd->tab_redir)
 	{
 		if (!redir(data, cmd->tab_redir))
-			return (0);
+		{
+			restore_redir(cmd->tab_redir);
+			exit (EXIT_FAILURE);
+		}
 		close_cpy(cmd->tab_redir);
 	}
 	if (!ft_strcmp(cmd->tab_cmd[0], "exit"))
@@ -113,8 +116,13 @@ int	process(t_data *data, t_command *cmd, int pos)
 void	exec_builtin(t_command *cmd, t_data *data)
 {
 	if (cmd->tab_redir)
+	{
 		if (!redir(data, cmd->tab_redir))
+		{
+			restore_redir(cmd->tab_redir);
 			return ;
+		}
+	}
 	run_builtin(data, cmd);
 	if (cmd->tab_redir)
 		restore_redir(cmd->tab_redir);
@@ -168,27 +176,6 @@ void	status_child(int child)
 /*
  *	Cree des processus enfant pour chaque commandes ainsi que les pipes
  *	Les process s'executent en meme temps
- *	-------------------------------------
- *	Ordre des process
- *	2 a la fois
- *	echo salut > outfile | wc -l >> outfile | cat | ls
- *	echo et wc on ecrit dans le outfile
- *	PAR CONTRE ls devance le cat et affiche les fichers
- *		dont outfile avec les ecritures
- *	-------------------------------------
- *	double redir
- *	echo salut > infile > outfile
- *	les 2 fichiers sont crees
- *	salut n'est ecrit que dans outfile
- *	ouverture et redir de gauche a droite
- *	-------------------------------------
- *	builtin
- *	cd ~ | ls (dans un dossier autre que le HOME)
- *	le 1er process se rend au HOME mais ls affiche le dossier actuel
- *	echo salut
- *	la commande est executé via sa fontion dans le process parent
- *	echo salut | wc
- *	les 2 cmd sont fork, en cas de pipe les builtins ont leur propre process
 */
 void	mother_board(t_data *data, t_command **cmd)
 {
@@ -225,8 +212,6 @@ void	mother_board(t_data *data, t_command **cmd)
 		pipex(data, cmd);
 		// printf("g_signal.status mother  : %i\n", g_signal.status);
 	}
-	get_cmd_num(cmd);
-
 }
 
 // void		status_child(int pid)
