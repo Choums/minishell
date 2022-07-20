@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/20 16:04:28 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/20 16:38:54 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,11 @@ int	process(t_data *data, t_command *cmd, int pos)
 	if (cmd->len_pipe > 0)
 		close_unused_pipes(data->pipefd, pos, cmd->len_pipe);
 	if (cmd->tab_redir)
+	{
 		if (!redir(data, cmd->tab_redir))
 			return (0);
-	// close_cpy(cmd->tab_redir);
+		close_cpy(cmd->tab_redir);
+	}
 	if (!ft_strcmp(cmd->tab_cmd[0], "exit"))
 		return (0);
 	if (is_builtin(cmd))

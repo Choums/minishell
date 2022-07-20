@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/20 16:12:03 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/20 16:54:10 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ int	append_mode(t_redirection *tab, char *file)
 	tab->out_fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (tab->out_fd < 0)
 		return (redir_err(file));
-	redirect(tab);
+	tab->cpy_out = dup(1);
+	close(1);
+	dup2(tab->out_fd, 1);
 	close(tab->out_fd);
 	return (1);
 }
@@ -56,22 +58,6 @@ int	close_cpy(t_redirection *tab)
 	return (1);
 }
 
-void	redirect(t_redirection *tab)
-{
-	if (*(tab->in))
-	{
-		tab->cpy_in = dup(STDIN_FILENO);
-		dup2(tab->in_fd, STDIN_FILENO);
-		close(tab->in_fd);
-	}
-	if (*(tab->out))
-	{
-		tab->cpy_out = dup(STDOUT_FILENO);
-		dup2(tab->out_fd, STDOUT_FILENO);
-		close(tab->out_fd);
-	}
-}
-
 int	redir(t_data *data, t_redirection *tab)
 {
 	size_t	i;
@@ -79,7 +65,7 @@ int	redir(t_data *data, t_redirection *tab)
 	i = 0;
 	while (tab->in[i])
 	{
-		if (tab->token_in[i][i] == '1')
+		if (tab->token_in[i][0] == '1')
 		{
 			if (!in_redir(tab, tab->in[i]))
 				return (0);
@@ -117,7 +103,10 @@ int	out_redir(t_redirection *tab, char *file)
 	tab->out_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (tab->out_fd < 0)
 		return (redir_err(file));
-	redirect(tab);
+	tab->cpy_out = dup(1);
+	close(1);
+	dup2(tab->out_fd, 1);
+	close(tab->out_fd);
 	return (1);
 }
 
@@ -127,7 +116,10 @@ int	in_redir(t_redirection *tab, char *file)
 	tab->in_fd = open(file, O_RDONLY);
 	if (tab->in_fd < 0)
 		return (redir_err(file));
-	redirect(tab);
+	tab->cpy_in = dup(0);
+	close(0);
+	dup2(tab->in_fd, 0);
+	close(tab->in_fd);
 	return (1);
 }
 
