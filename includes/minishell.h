@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/20 17:32:30 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/20 18:01:08 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@
 # include <sys/types.h>
 # include <signal.h>
 # include <errno.h>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 36ef9181c4312f6edc3a2fe99336ffb7a06e41b8
 // int WEXITSTATUS(int status);
 
 # define STDIN 0
