@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/19 17:08:05 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/19 18:28:28 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ int	process(t_data *data, t_command *cmd, int pos)
 	}
 	if (execve(path, cmd->tab_cmd, env) < 0)
 		exit(EXIT_FAILURE);
+				printf("Status 2: %i\n", g_signal.status);
+
 	return (1);
 }
 
@@ -228,6 +230,7 @@ void	mother_board(t_data *data, t_command **cmd)
 		pipex(data, cmd);
 		// printf("g_signal.status mother  : %i\n", g_signal.status);
 	}
+
 	get_cmd_num(cmd);
 
 }

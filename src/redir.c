@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/19 17:03:01 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/19 18:26:33 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ void	append_mode(t_data *data, t_redirection *tab, char *file)
 	tab->out_fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (tab->out_fd < 0)
 	{
-		perror("Open");
 		g_signal.status = 1;
+		// printf("Status 1: %i\n", g_signal.status);
+		perror("Open");
 	}
 	redirect(tab);
 	close(tab->out_fd);
@@ -90,14 +91,14 @@ void	redir(t_data *data, t_redirection *tab)
 	i = 0;
 	while (tab->in[i])
 	{
-		if (tab->token_in[i][i] == '1')
+		if (tab->token_in[i][0] == '1')
 			in_redir(data, tab, tab->in[i]);
 		else
 			heredoc(data, tab);
 		i++;
 	}
 	i = 0;
-	while (tab->out[i])
+	while (tab->out[i] && g_signal.status == 0)
 	{
 		// printf("file n%zu: %s\t| ", i, tab->out[i]);
 		// printf("token: %s\n", tab->token_out[i]);
@@ -108,7 +109,11 @@ void	redir(t_data *data, t_redirection *tab)
 			// printf("out\n");
 		}
 		else
+		{
 			append_mode(data, tab, tab->out[i]);
+			printf("Status : %i\n", g_signal.status);
+
+		}
 		i++;
 	}
 }

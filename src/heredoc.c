@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 14:03:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/19 02:36:43 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/19 17:57:26 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	heredoc(t_data *data, t_redirection *args)
 	int		file;
 
 	file = open(".here", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (file < 0)
+		return;
 	new_line = ft_calloc(1, 1);
 	end = args->in[0];
 	end = ft_strjoin(end, "\n");
@@ -42,6 +44,12 @@ void	heredoc(t_data *data, t_redirection *args)
 	{
 		display_here();
 		line = get_next_line(STDIN_FILENO);
+		// printf("line : %s\n", line);
+		if(!line)
+		{
+			free(end);
+			break;
+		}
 		if (ft_strcmp(line, end) == 0)
 		{
 			free(end);
