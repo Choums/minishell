@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/20 14:14:28 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/20 15:27:26 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # include "get_next_line.h"
 # include <sys/types.h>
 # include <signal.h>
-
+# include <errno.h>
 // int WEXITSTATUS(int status);
 
 # define STDIN 0
@@ -133,12 +133,13 @@ int			process(t_data *data, t_command *cmd, int pos);
 void		redir_pipe(int *pipefd, int pos, int n_pipe);
 void		display_here(void);
 char		*get_lim(t_redirection *args);
-void		redir(t_data *data, t_redirection *tab);
+int			redir(t_data *data, t_redirection *tab);
 void		redirect(t_redirection *tab);
 void		restore_redir(t_redirection *tab);
-void		out_redir(t_data *data, t_redirection *tab, char *file);
-void		in_redir(t_data *data, t_redirection *tab, char *file);
-void		append_mode(t_data *data, t_redirection *tab, char *file);
+int			close_cpy(t_redirection *tab);
+int			out_redir(t_redirection *tab, char *file);
+int			in_redir(t_redirection *tab, char *file);
+int			append_mode(t_redirection *tab, char *file);
 void		heredoc(t_data *data, t_redirection *args);
 int			opening_mode(char *pathname);
 void		pipex(t_data *data, t_command **cmd);
@@ -172,9 +173,7 @@ void		ft_err(char *err);
 void		export_err(char *command, int alloc);
 void		exit_err(t_data *data, t_command **tab, char *arg);
 int			msg_err(char *cmd, char *msg, int status);
-
-int			arg_msg_err(char *cmd, char *arg, char *msg, int status);
-
+int			redir_err(char *file);
 /*
 AFFICHAGE_C----------------------------------------------------------------------
 */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/19 17:08:05 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/20 16:04:28 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,9 @@ int	process(t_data *data, t_command *cmd, int pos)
 	if (cmd->len_pipe > 0)
 		close_unused_pipes(data->pipefd, pos, cmd->len_pipe);
 	if (cmd->tab_redir)
-		redir(data, cmd->tab_redir);
+		if (!redir(data, cmd->tab_redir))
+			return (0);
+	// close_cpy(cmd->tab_redir);
 	if (!ft_strcmp(cmd->tab_cmd[0], "exit"))
 		return (0);
 	if (is_builtin(cmd))
@@ -91,10 +93,6 @@ int	process(t_data *data, t_command *cmd, int pos)
 		exit(EXIT_SUCCESS);
 	}
 	env = lst_dup(data->h_env);
-	// print_env(data->h_env);
-	// printf("------------------------------------------------------------\n");
-	// for (int i = 0; env[i]; i++)
-	// 	printf("%s\n", env[i]);
 	path = get_cmd(data, cmd->tab_cmd[0]);
 	if (!path)
 	{
@@ -113,15 +111,11 @@ int	process(t_data *data, t_command *cmd, int pos)
 void	exec_builtin(t_command *cmd, t_data *data)
 {
 	if (cmd->tab_redir)
-	{
-		redir(data, cmd->tab_redir);
-	}
+		if (!redir(data, cmd->tab_redir))
+			return ;
 	run_builtin(data, cmd);
 	if (cmd->tab_redir)
-	{
-		// fprintf(stderr, "restore\n");
 		restore_redir(cmd->tab_redir);
-	}
 }
 
 		// if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0
@@ -164,6 +158,7 @@ int	check_cmd(char *cmd)
 void	status_child(int child)
 {
 	int	status;
+
 	if ((0 < waitpid (child, &status, 0)) && (WIFEXITED (status)))
 		g_signal.status = WEXITSTATUS (status);
 }

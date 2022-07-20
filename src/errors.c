@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 21:35:36 by root              #+#    #+#             */
-/*   Updated: 2022/07/20 13:55:44 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/20 14:32:48 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,12 @@ int	msg_err(char *cmd, char *msg, int status)
 	return (0);
 }
 
-int	arg_msg_err(char *cmd, char *arg, char *msg, int status)
+int	redir_err(char *file)
 {
-	g_signal.status = status;
-	g_signal.nt_status = 1;
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(cmd, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(arg, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putendl_fd(msg, STDERR_FILENO);
+	ft_putstr_fd("minishell: ", STDERR);
+	ft_putstr_fd(file, STDERR);
+	ft_putstr_fd(": ", STDERR);
+	ft_putendl_fd(strerror(errno), STDERR);
+	g_signal.status = 1;
 	return (0);
 }

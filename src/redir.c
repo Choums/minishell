@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/19 17:03:01 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/20 16:12:03 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,32 +19,14 @@
  *	args[n]		-> ">>"
  *	args[n+1]	-> fichier
 */
-void	append_mode(t_data *data, t_redirection *tab, char *file)
+int	append_mode(t_redirection *tab, char *file)
 {
-	int		alloc;
-	char	*var;
-
-	alloc = 0;
-	if (ft_strchr(file, '$'))
-	{
-		var = which_dollar(data, file);
-		alloc = 1;
-		if (var == NULL)
-		{
-			free(var);
-			ft_err("ambiguous redirect");
-		}
-	}
 	tab->out_fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (tab->out_fd < 0)
-	{
-		perror("Open");
-		g_signal.status = 1;
-	}
+		return (redir_err(file));
 	redirect(tab);
 	close(tab->out_fd);
-	if (alloc)
-		free(var);
+	return (1);
 }
 
 /*
@@ -55,16 +37,23 @@ void	restore_redir(t_redirection *tab)
 {
 	if (*(tab->in))
 	{
-		// fprintf(stderr, "in\n");
 		dup2(tab->cpy_in, 0);
 		close(tab->cpy_in);
 	}
 	if (*(tab->out))
 	{
-		// fprintf(stderr, "out\n");
 		dup2(tab->cpy_out, 1);
 		close(tab->cpy_out);
 	}
+}
+
+int	close_cpy(t_redirection *tab)
+{
+	if (tab->cpy_in)
+		close(tab->cpy_in);
+	if (tab->cpy_out)
+		close(tab->cpy_out);
+	return (1);
 }
 
 void	redirect(t_redirection *tab)
@@ -83,7 +72,7 @@ void	redirect(t_redirection *tab)
 	}
 }
 
-void	redir(t_data *data, t_redirection *tab)
+int	redir(t_data *data, t_redirection *tab)
 {
 	size_t	i;
 
@@ -91,7 +80,10 @@ void	redir(t_data *data, t_redirection *tab)
 	while (tab->in[i])
 	{
 		if (tab->token_in[i][i] == '1')
-			in_redir(data, tab, tab->in[i]);
+		{
+			if (!in_redir(tab, tab->in[i]))
+				return (0);
+		}
 		else
 			heredoc(data, tab);
 		i++;
@@ -99,18 +91,17 @@ void	redir(t_data *data, t_redirection *tab)
 	i = 0;
 	while (tab->out[i])
 	{
-		// printf("file n%zu: %s\t| ", i, tab->out[i]);
-		// printf("token: %s\n", tab->token_out[i]);
 		if (tab->token_out[i][0] == '1')
 		{
-			// printf("inout\n");
-			out_redir(data, tab, tab->out[i]);
-			// printf("out\n");
+			if (!out_redir(tab, tab->out[i]))
+				return (0);
 		}
 		else
-			append_mode(data, tab, tab->out[i]);
+			if (!append_mode(tab, tab->out[i]))
+				return (0);
 		i++;
 	}
+	return (1);
 }
 
 /*
@@ -121,52 +112,23 @@ void	redir(t_data *data, t_redirection *tab)
  *	args[n]		-> '>'
  *	args[n+1]	-> fichier
 */
-void	out_redir(t_data *data, t_redirection *tab, char *file)
+int	out_redir(t_redirection *tab, char *file)
 {
-	int		alloc;
-	char	*var;
-
-	alloc = 0;
-	if (ft_strchr(file, '$'))
-	{
-		var = which_dollar(data, file);
-		alloc = 1;
-		if (var == NULL)
-		{
-			free(var);
-			ft_err("ambiguous redirect");
-		}
-	}
 	tab->out_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (tab->out_fd < 0)
-		perror("Open");
+		return (redir_err(file));
 	redirect(tab);
-	if (alloc)
-		free(var);
+	return (1);
 }
 
-void	in_redir(t_data *data, t_redirection *tab, char *file)
+int	in_redir(t_redirection *tab, char *file)
 {
-	int		alloc;
-	char	*var;
 
-	alloc = 0;
-	if (ft_strchr(file, '$'))
-	{
-		var = which_dollar(data, file);
-		alloc = 1;
-		if (var == NULL)
-		{
-			free(var);
-			ft_err("ambiguous redirect");
-		}
-	}
 	tab->in_fd = open(file, O_RDONLY);
 	if (tab->in_fd < 0)
-		ft_err(file);
+		return (redir_err(file));
 	redirect(tab);
-	if (alloc)
-		free(var);
+	return (1);
 }
 
 /*
