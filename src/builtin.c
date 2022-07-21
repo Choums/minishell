@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 05:48:30 by root              #+#    #+#             */
-/*   Updated: 2022/07/18 18:09:40 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/21 15:48:29 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,14 @@ int	pwd(void)
 	char	*path;
 
 	path = getcwd(NULL, 0);
-	ft_putendl_fd(path, 1);
+	if (!path)
+	{
+		ft_putstr_fd("minishell: pwd: ", STDERR);
+		ft_putstr_fd("error retrieving current directory", STDERR);
+		free(path);
+		g_signal.status = 1;
+	}
+	ft_putendl_fd(path, STDOUT);
 	free(path);
 	return (0);
 }

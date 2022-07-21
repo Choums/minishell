@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 14:03:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/19 02:36:43 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/21 19:20:35 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,22 @@
  *	takes multiple lines of input until the limiter is identified.
  *	The function generates a pipe from which she passes all inputs
  *	to the current process.
- *	args:	1	 => cmd
- *			n	 => cmd arg
- *			last => Limiter
- *	(Display the pipes)
  *	-------------------------
  *	Créer et ouvrir un fichier .temp
- *	Écrire dedans les inputs
- *	Récup les lignes via gnl avec le fd du .temp
+ *	Récup les inputs via gnl
+ *	Écrire dans le .temp
  *	Fermer le .temp et le supp.
 */
-void	heredoc(t_data *data, t_redirection *args)
+int	heredoc(t_data *data, t_redirection *tab, char *lim)
 {
 	char	*line;
 	char	*new_line;
 	char	*end;
 	int		file;
 
-	file = open(".here", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	file = open(".here", O_CREAT | O_RDWR | O_TRUNC, 0644);
 	new_line = ft_calloc(1, 1);
-	end = args->in[0];
+	end = lim;
 	end = ft_strjoin(end, "\n");
 	while (1)
 	{
@@ -48,20 +44,17 @@ void	heredoc(t_data *data, t_redirection *args)
 			free(line);
 			break ;
 		}
-		if (ft_strchr(line, '$'))
-		{
-			line = which_dollar(data, line);
-			line = ft_join(line, "\n");
-		}
+		check_expand(data, line);
 		new_line = ft_join(new_line, line);
 		free(line);
 	}
 	ft_putstr_fd(new_line, file);
 	free(new_line);
-	// if (dup2(file, STDIN_FILENO) < 0)
-	// 	ft_err("Dup2");
-	// unlink(".here");
+	tab->cpy_in = dup(STDIN);
+	close(STDIN);
+	dup2(file, STDIN);
 	close(file);
+	return (1);
 }
 
 void	display_here(void)
@@ -70,4 +63,14 @@ void	display_here(void)
 
 	msg = "> ";
 	ft_putstr_fd(msg, STDIN_FILENO);
+}
+
+void	check_expand(t_data *data, char *line)
+{
+	if (ft_strchr(line, '$'))
+	{
+		line = which_dollar(data, line);
+		line = ft_join(line, "\n");
+	}
+	return (line);
 }

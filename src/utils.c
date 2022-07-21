@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 10:49:04 by root              #+#    #+#             */
-/*   Updated: 2022/07/20 18:01:53 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/21 16:36:13 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,3 @@ void	print_double_tab(char **tab)
 	while (i < len)
 		ft_putendl_fd(tab[i++], STDERR_FILENO);
 }
-
-void	ft_err(char *err)
-{
-	perror(err);
-	exit(EXIT_FAILURE);
-}
-

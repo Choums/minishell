@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exporter.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:14:47 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/19 02:36:29 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/21 16:30:16 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,35 +39,28 @@
 */
 int	export(t_data *data, char **var)
 {
-	int		alloc;
 	size_t	i;
 
 	i = 1;
-	alloc = 0;
 	if (var[i] == NULL)
+		return (display_env(data));
+	while (var[i])
 	{
-		display_env(data);
-		return (0);
-	}
-	if (check_var(var[i]))
-	{
-		// printf("check valid\n");
-		if (var[i][name_len(var[i])] == '='
-			&& var[i][name_len(var[i]) - 1] == '+')
-			cat_var(data, var[i]);
+		if (check_var(var[i]))
+		{
+			if (var[i][name_len(var[i])] == '='
+				&& var[i][name_len(var[i]) - 1] == '+')
+				cat_var(data, var[i]);
+			else
+				add_var(data, var[i]);
+		}
 		else
-			add_var(data, var[i]);
+		{
+			export_err(var[i]);
+			return (1);
+		}
+		i++;
 	}
-	else
-	{
-		export_err(var[i], alloc);
-		if (alloc)
-			free(var[i]);
-		return (1);
-	}
-	if (alloc)
-		free(var[i]);
-	i++;
 	return (0);
 }
 
@@ -129,11 +122,9 @@ void	cat_var(t_data *data, char *var)
 		if (ft_strncmp(tmp->content, var, len - 1) == 0)
 		{
 			new_var = ft_join(new_var, tmp->content);
-			printf("var: %s\n", new_var);
 			if (!ft_strchr(new_var, '='))
 				new_var = ft_join(new_var, "=");
 			new_var = ft_join(new_var, value);
-			printf("update: %s\n", new_var);
 			update_elem(data, new_var);
 			free(new_var);
 			free(value);
@@ -161,9 +152,12 @@ void	check_existing(t_data *data, char *var, size_t len)
 /*
  *	Ajoute une var a l'env
  *	----------------------
- *	Si la var existe dans l'env et elle a une value	=>	La value de la var est mise a jour. (dans la lst des var aussi)
- *	Si la var existe dans l'env mais n'a pas de value	=>	La value est ajouté la var.
- *	Si la var n'est pas dans l'env => La var est ajouté a l'env. (avec ou sans value)
+ *	Si la var existe dans l'env et elle a une value
+ *		=>	La value de la var est mise a jour. (dans la lst des var aussi)
+ *	Si la var existe dans l'env mais n'a pas de value
+ *		=>	La value est ajouté la var.
+ *	Si la var n'est pas dans l'env
+ *		=> La var est ajouté a l'env. (avec ou sans value)
  *	----------------------
  *	Recup le nom de la var
  *	Check si elle existe :	mise a jour
@@ -172,10 +166,8 @@ void	check_existing(t_data *data, char *var, size_t len)
 void	add_var(t_data *data, char *var)
 {
 	t_list	*tmp;
-	size_t	len;
 
-	len = name_len(var);
-	if (var[len] == '=' && (get_elem(data->h_env, var)
+	if (var[name_len(var)] == '=' && (get_elem(data->h_env, var)
 			|| get_elem(data->h_var, var)))
 	{
 		if (get_elem(data->h_env, var) == NULL)
@@ -197,132 +189,4 @@ void	add_var(t_data *data, char *var)
 		ft_lstadd_back(&data->env, ft_lstnew(var));
 		ft_lstadd_back(&data->var, ft_lstnew(var));
 	}
-}
-
-/*
- *	Renvoi la taille du nom de la var
- *	len est soit:	l'index du '='
- *					la fin du nom
-*/
-size_t	name_len(char *var)
-{
-	size_t	len;
-
-	if (!var)
-		return (0);
-	len = 0;
-	while (var[len] && var[len] != '=')
-		len++;
-	return (len);
-}
-
-/*	When no arguments are given, the results  are  unspecified.
- *	Affiche les var dans l'ordre ASCII
- *	La valeur des var est encadrée par des " "
- *	Affiche les var sans value
- *	-------------------------
-*/
-void	display_env(t_data *data)
-{
-	char	**env;
-
-	env = lst_dup(data->h_env);
-	sort_env(env);
-	print_export(env);
-	free_double_tab(env);
-}
-
-void	sort_env(char **env)
-{
-	char	*swap;
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	while (env[i])
-	{
-		j = i + 1;
-		while (env[j])
-		{
-			if (ft_strcmp(env[i], env[j]) > 0)
-			{
-				swap = env[i];
-				env[i] = env[j];
-				env[j] = swap;
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-void	print_export(char **env)
-{
-	size_t	i;
-	size_t	j;
-	size_t	egal;
-
-	i = 0;
-	while (env[i])
-	{
-		j = 0;
-		egal = 1;
-		ft_putstr_fd("declare -x ", STDIN_FILENO);
-		while (env[i][j])
-		{
-			ft_putchar_fd(env[i][j], STDIN_FILENO);
-			if (env[i][j] == '=' && egal--)
-				ft_putchar_fd('"', STDIN_FILENO);
-			j++;
-		}
-		if (!egal)
-			ft_putchar_fd('"', STDIN_FILENO);
-		ft_putchar_fd('\n', STDERR_FILENO);
-		i++;
-	}
-}
-
-/*
- *	Dupplique la lst donnée et retourne un double tab.
- *	1- Prendre la taille de la lst.
- *	2- Init le tab.
- *	3- Boucle sur la taille, dupplique chaque maillon.
-*/
-char	**lst_dup(t_list **head)
-{
-	size_t	len;
-	size_t	i;
-	char	**dup;
-	t_list	*tmp;
-
-	i = 0;
-	tmp = (*head);
-	len = get_lst_len(head) - 1;
-	if (get_elem(head, "_="))
-		len++;
-	dup = (char **)malloc(sizeof(char *) * (len + 1));
-	if (!dup)
-		return (NULL);
-	while (i < len)
-	{
-		dup[i++] = ft_strdup(tmp->content);
-		tmp = tmp->next;
-	}
-	dup[len] = NULL;
-	return (dup);
-}
-
-size_t	get_lst_len(t_list **head)
-{
-	t_list	*tmp;
-	size_t	len;
-
-	tmp = (*head);
-	len = 0;
-	while (tmp)
-	{
-		len++;
-		tmp = tmp->next;
-	}
-	return (len);
 }

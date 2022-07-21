@@ -6,7 +6,7 @@
 #    By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 20:18:17 by tdelauna          #+#    #+#              #
-#    Updated: 2022/07/20 15:03:32 by chaidel          ###   ########.fr        #
+#    Updated: 2022/07/21 16:36:48 by chaidel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,18 +22,27 @@ OTHERDIR	=	obj/other
 
 SRC			=	main.c\
 				env.c\
+				path.c\
 				affichage.c\
 				builtin.c\
 				echo.c\
 				lst_management.c\
+				var_management.c\
 				change_dir.c\
+				goto_cd.c\
 				utils.c\
+				pipes.c\
 				exec.c\
+				check_exec.c\
+				check_proc.c\
 				heredoc.c\
 				exporter.c\
+				print_export.c\
 				errors.c\
 				redir.c\
+				redir_file.c\
 				exiting.c\
+				dollars.c\
 				other/free.c\
 				other/signal.c\
 				gnl/get_next_line.c\
