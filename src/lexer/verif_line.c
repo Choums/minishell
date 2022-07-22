@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verif_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 16:33:32 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/19 16:27:49 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/22 16:34:07 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	verif_line(char *line)
 			return (error_msg_signal(">"));
 		else if (line[2] == '<')
 			return (error_msg_signal("<"));
-		else
+		else if ((line[1] == '<' || line[1] == '>' ) && ft_strlen(line) >= 2)
 			return (error_msg_signal("newline"));
 	}
 	else if (!verif_redir_syntax(line))
