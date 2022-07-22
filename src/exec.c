@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/21 19:07:31 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/22 20:09:36 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,14 @@ void	mother_board(t_data *data, t_command **cmd)
 	pid_t	child;
 
 	if (get_cmd_num(cmd) == 1 && ft_strcmp(cmd[0]->tab_cmd[0], "exit") == 0)
+	{
+		if (cmd[0]->tab_redir)
+		{
+			if (!redir(data, cmd[0]->tab_redir))
+				return (restore_redir(cmd[0]->tab_redir));
+		}
 		exiter(data, cmd, cmd[0]->tab_cmd);
+	}
 	else if (get_cmd_num(cmd) == 1 && is_builtin(cmd[0]))
 		exec_builtin(cmd[0], data);
 	else if (get_cmd_num(cmd) == 1 && !is_builtin(cmd[0]))
@@ -85,4 +92,5 @@ void	mother_board(t_data *data, t_command **cmd)
 	}
 	else
 		pipex(data, cmd);
+	unlink(".here");
 }
