@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/22 18:41:59 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/22 19:11:52 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ int		main(int ac, char **av, char **envp)
 	sigset_t			block_mask;
 
 	signal_init();
-
 	(void)ac;
 	(void)av;
 	(void)pid_server;
@@ -126,7 +125,6 @@ int		main(int ac, char **av, char **envp)
 	s_sigaction.sa_flags = SA_SIGINFO;
 	sigaction(SIGINT, &s_sigaction, 0);
 	sigaction(SIGQUIT, &s_sigaction, 0);
-
 	get_env(&data, envp);
 	line = readline("minishell: ");
 	if (line && *line)

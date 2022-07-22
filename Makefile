@@ -6,7 +6,7 @@
 #    By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 20:18:17 by tdelauna          #+#    #+#              #
-#    Updated: 2022/07/22 18:41:43 by chaidel          ###   ########.fr        #
+#    Updated: 2022/07/22 19:24:44 by chaidel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ SRC			=	main.c\
 				var_management.c\
 				change_dir.c\
 				goto_cd.c\
-				utils.c\
+				other/utils.c\
 				pipes.c\
 				exec.c\
 				check_exec.c\
@@ -38,7 +38,7 @@ SRC			=	main.c\
 				heredoc.c\
 				exporter.c\
 				print_export.c\
-				errors.c\
+				other/errors.c\
 				redir.c\
 				redir_file.c\
 				exiting.c\

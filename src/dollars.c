@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 14:51:32 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/22 14:58:03 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/22 19:09:46 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	*which_dollar(t_data *data, char *command)
 	size_t	pos;
 	char	*new;
 
+	new = NULL;
 	if (ft_strchr(command, '$') && ft_strlen(command) != 1)
 	{
 		pos = get_dollar_pos(command);

@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/22 18:41:48 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/22 19:41:47 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ int			in_redir(t_redirection *tab, char *file);
 int			append_mode(t_redirection *tab, char *file);
 int			heredoc(t_data *data, t_redirection *tab, char *lim);
 int			here_linker(t_redirection *tab, int file, char *new_line);
+int			end_sig(char *line, char *lim, char *end, int count);
 char		*check_expand(t_data *data, char *line);
 int			opening_mode(char *pathname);
 int			pipex(t_data *data, t_command **cmd);
