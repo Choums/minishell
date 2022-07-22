@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/22 18:35:31 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/22 18:41:48 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@
 # include <readline/chardefs.h>
 # include "../libft/libft.h"
 # include "get_next_line.h"
-# include <sys/types.h>
-# include <signal.h>
 # include <errno.h>
+
 // int WEXITSTATUS(int status);
 
 # define STDIN 0
@@ -199,7 +198,7 @@ COMMAND_C-----------------------------------------------------------------------
 */
 char		*ft_cup_all_cmd(char *tmp, char *tmp_cmd, char c, int i);
 void		count_cmd(t_command	*(*table_pipe), int nb_pp, char *cut_cmd);
-void		copy_cmd(t_command *(*table_pipe), int	nb_pp, char *cmd);
+void		copy_cmd(t_command *(*table_pipe), int nb_pp, char *cmd);
 t_command	**ft_parse_cmd(t_command *(*table_pipe), int number_pipe);
 /*
 COMMAND_UTILS_C------------------------------------------------------------------
@@ -209,6 +208,7 @@ int			pass_quote(char *cmd, int i, int cut);
 /*
 REDIRECTION_UTILS_C--------------------------------------------------------------
 */
+void		ft_place_redirection(char *str);
 int			ft_count_redirection(char *str, char c_redirect);
 void		init_redir_zero(t_command	*(*table_pipe), int number_pipe);
 
@@ -216,8 +216,8 @@ void		init_redir_zero(t_command	*(*table_pipe), int number_pipe);
 REDIRECTION_C--------------------------------------------------------------------
 */
 t_command	**ft_redirection_init(t_command	*(*table_pipe), int number_pipe);
-void		ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c);
-void		ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c);
+void		ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c, int i);
+void		ft_parse_redir_ou(t_command *(*table_pp), int nb_pp, char c, int i);
 char		*ft_search_redir(char *str, char c);
 /*
 PARSING_UTILS_C------------------------------------------------------------------
