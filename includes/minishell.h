@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/22 14:37:31 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/22 18:35:31 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void		set_def_path(t_data *data);
 void		set_path(t_data *data, char **path);
 int			print_env(t_list **h_env);
 int			echo(char **arg);
+int			no_arg(void);
 int			display_n(char **args, size_t i, size_t j);
 int			check_atr_n(char **args);
 int			pwd(void);
@@ -143,6 +144,7 @@ int			out_redir(t_redirection *tab, char *file);
 int			in_redir(t_redirection *tab, char *file);
 int			append_mode(t_redirection *tab, char *file);
 int			heredoc(t_data *data, t_redirection *tab, char *lim);
+int			here_linker(t_redirection *tab, int file, char *new_line);
 char		*check_expand(t_data *data, char *line);
 int			opening_mode(char *pathname);
 int			pipex(t_data *data, t_command **cmd);

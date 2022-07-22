@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/22 15:14:43 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/22 16:19:32 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	main_two(t_data *data, char *line)
 		parse_back_slash(table_pipe);
 		go_expand(data, table_pipe);
 		parse_quote(table_pipe);
-		ft_affiche_t_command(table_pipe);
+		// ft_affiche_t_command(table_pipe);
 		if (table_pipe[0]->tab_cmd[0])
 			mother_board(data, table_pipe);
 		// printf("g_signal.status : %i\n",g_signal.status);
@@ -122,7 +122,7 @@ int		main(int ac, char **av, char **envp)
 	data.var = NULL;
 	data.path = NULL;
 	data.pipefd = NULL;
-	// s_sigaction.sa_sigaction = ft_signal;
+	// s_sigaction.sa_sigaction = ft_signal();
 	s_sigaction.sa_flags = SA_SIGINFO;
 	sigaction(SIGINT, &s_sigaction, 0);
 	sigaction(SIGQUIT, &s_sigaction, 0);

@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 14:17:59 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/22 15:14:36 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/22 16:53:22 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 int	redir(t_data *data, t_redirection *tab)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (tab->in[i])
 	{
-		if (tab->token_in[i][i] == '1')
+		if (tab->token_in[i][0] == '1')
 		{
 			if (!in_redir(tab, tab->in[i]))
 				return (0);
 		}
 		else
 		{
+			restore_redir(tab);
 			if (!heredoc(data, tab, tab->in[i]))
 				return (0);
 		}
-		// printf("file: %s\n", tab->in[i]);
 		i++;
 	}
 	return (redir_out(tab));

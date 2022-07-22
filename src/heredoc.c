@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 14:03:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/22 14:57:42 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/22 18:32:27 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	heredoc(t_data *data, t_redirection *tab, char *lim)
 	char	*end;
 	int		file;
 
-	file = open(".here", O_CREAT | O_RDWR | O_TRUNC, 0644);
+	file = open(".here", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	new_line = ft_calloc(1, 1);
 	end = lim;
 	end = ft_strjoin(end, "\n");
@@ -49,8 +49,15 @@ int	heredoc(t_data *data, t_redirection *tab, char *lim)
 		new_line = ft_join(new_line, line);
 		free(line);
 	}
+	return (here_linker(tab, file, new_line));
+}
+
+int	here_linker(t_redirection *tab, int file, char *new_line)
+{
 	ft_putstr_fd(new_line, file);
 	free(new_line);
+	close(file);
+	file = open(".here", O_RDONLY);
 	tab->cpy_in = dup(STDIN);
 	close(STDIN);
 	dup2(file, STDIN);

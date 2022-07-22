@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/21 17:20:08 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/22 18:24:22 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	restore_redir(t_redirection *tab)
 		dup2(tab->cpy_out, 1);
 		close(tab->cpy_out);
 	}
+	unlink(".here");
 }
 
 int	close_cpy(t_redirection *tab)
