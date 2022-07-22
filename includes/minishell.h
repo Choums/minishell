@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/21 19:17:00 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/22 16:47:06 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,7 @@ COMMAND_C-----------------------------------------------------------------------
 */
 char		*ft_cup_all_cmd(char *tmp, char *tmp_cmd, char c, int i);
 void		count_cmd(t_command	*(*table_pipe), int nb_pp, char *cut_cmd);
-void		copy_cmd(t_command *(*table_pipe), int	nb_pp, char *cmd);
+void		copy_cmd(t_command *(*table_pipe), int nb_pp, char *cmd);
 t_command	**ft_parse_cmd(t_command *(*table_pipe), int number_pipe);
 /*
 COMMAND_UTILS_C------------------------------------------------------------------
@@ -214,8 +214,8 @@ void		init_redir_zero(t_command	*(*table_pipe), int number_pipe);
 REDIRECTION_C--------------------------------------------------------------------
 */
 t_command	**ft_redirection_init(t_command	*(*table_pipe), int number_pipe);
-void		ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c);
-void		ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c);
+void		ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c, int i);
+void		ft_parse_redir_ou(t_command *(*table_pp), int nb_pp, char c, int i);
 char		*ft_search_redir(char *str, char c);
 /*
 PARSING_UTILS_C------------------------------------------------------------------

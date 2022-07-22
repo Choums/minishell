@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 16:33:32 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/22 16:34:07 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/22 16:40:06 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,11 @@ int	verif_pipe(char *line, int *i)
 		if (line [++*i] && line[*i + 1] == '>')
 			return (error_msg_signal(">>"));
 		else if (ft_strlen(line + *i) == 0)
-		{
-			// printf("len : %i\n", (int)ft_strlen(line + *i));
 			return (error_msg_signal("newline"));
-		}
 	}
 	return (1);
 }
-// echo hi | >./outfiles/outfile01 echo bye >./test_files/invalid_permission
-// echo hi | >
+
 int	verif_redir_syntax(char *line)
 {
 	int		i;
