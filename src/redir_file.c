@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 14:17:59 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/21 18:47:25 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/22 16:53:22 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	redir(t_data *data, t_redirection *tab)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (tab->in[i])
@@ -26,6 +26,7 @@ int	redir(t_data *data, t_redirection *tab)
 		}
 		else
 		{
+			restore_redir(tab);
 			if (!heredoc(data, tab, tab->in[i]))
 				return (0);
 		}
@@ -64,7 +65,7 @@ int	redir_out(t_redirection *tab)
 */
 int	out_redir(t_redirection *tab, char *file)
 {
-	if (!file)
+	if (file == NULL)
 	{
 		ft_putendl_fd("minishell: ambiguous redirect", STDERR);
 		return (0);

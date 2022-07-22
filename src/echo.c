@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 18:01:38 by root              #+#    #+#             */
-/*   Updated: 2022/07/18 18:22:14 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/22 18:35:19 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	echo(char **args)
 	size_t	j;
 
 	if (!args[1])
-		return (0);
+		return (no_arg());
 	j = ft_doubletab_len(args);
 	if (j == 1)
 	{
@@ -38,6 +38,12 @@ int	echo(char **args)
 		}
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	}
+	return (0);
+}
+
+int	no_arg(void)
+{
+	ft_putchar_fd('\n', STDOUT);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 14:03:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/21 19:20:35 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/22 18:32:27 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
  *	-------------------------
  *	Créer et ouvrir un fichier .temp
  *	Récup les inputs via gnl
- *	Écrire dans le .temp
+ *	Écrit les saisies dans le .temp
+ *	Redirige le .temp vers l'entrée
  *	Fermer le .temp et le supp.
 */
 int	heredoc(t_data *data, t_redirection *tab, char *lim)
@@ -30,7 +31,7 @@ int	heredoc(t_data *data, t_redirection *tab, char *lim)
 	char	*end;
 	int		file;
 
-	file = open(".here", O_CREAT | O_RDWR | O_TRUNC, 0644);
+	file = open(".here", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	new_line = ft_calloc(1, 1);
 	end = lim;
 	end = ft_strjoin(end, "\n");
@@ -44,12 +45,19 @@ int	heredoc(t_data *data, t_redirection *tab, char *lim)
 			free(line);
 			break ;
 		}
-		check_expand(data, line);
+		line = check_expand(data, line);
 		new_line = ft_join(new_line, line);
 		free(line);
 	}
+	return (here_linker(tab, file, new_line));
+}
+
+int	here_linker(t_redirection *tab, int file, char *new_line)
+{
 	ft_putstr_fd(new_line, file);
 	free(new_line);
+	close(file);
+	file = open(".here", O_RDONLY);
 	tab->cpy_in = dup(STDIN);
 	close(STDIN);
 	dup2(file, STDIN);
@@ -65,10 +73,11 @@ void	display_here(void)
 	ft_putstr_fd(msg, STDIN_FILENO);
 }
 
-void	check_expand(t_data *data, char *line)
+char	*check_expand(t_data *data, char *line)
 {
 	if (ft_strchr(line, '$'))
 	{
+		line = ft_strtrim(line, "\n");
 		line = which_dollar(data, line);
 		line = ft_join(line, "\n");
 	}

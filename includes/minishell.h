@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/22 17:25:05 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/22 20:26:29 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ typedef struct s_redirection
 	char	**token_in;
 	char	**out;
 	char	**token_out;
+	char	**tab_fusion;
+	char	**tab_fusion_token;
 }	t_redirection;
 
 typedef struct s_command
@@ -67,6 +69,7 @@ typedef struct s_command
 	char			**tab_token;
 	t_redirection	*tab_redir;
 	int				len_pipe;
+	char			*redir_place;
 
 }	t_command;
 
@@ -89,6 +92,7 @@ void		set_def_path(t_data *data);
 void		set_path(t_data *data, char **path);
 int			print_env(t_list **h_env);
 int			echo(char **arg);
+int			no_arg(void);
 int			display_n(char **args, size_t i, size_t j);
 int			check_atr_n(char **args);
 int			pwd(void);
@@ -142,7 +146,8 @@ int			out_redir(t_redirection *tab, char *file);
 int			in_redir(t_redirection *tab, char *file);
 int			append_mode(t_redirection *tab, char *file);
 int			heredoc(t_data *data, t_redirection *tab, char *lim);
-void		check_expand(t_data *data, char *line);
+int			here_linker(t_redirection *tab, int file, char *new_line);
+char		*check_expand(t_data *data, char *line);
 int			opening_mode(char *pathname);
 int			pipex(t_data *data, t_command **cmd);
 int			*create_pipes(int num);
@@ -206,7 +211,7 @@ int			pass_quote(char *cmd, int i, int cut);
 /*
 REDIRECTION_UTILS_C--------------------------------------------------------------
 */
-void		ft_place_redirection(char *str);
+char		*ft_place_redir(char *str);
 int			ft_count_redirection(char *str, char c_redirect);
 void		init_redir_zero(t_command	*(*table_pipe), int number_pipe);
 
@@ -217,6 +222,11 @@ t_command	**ft_redirection_init(t_command	*(*table_pipe), int number_pipe);
 void		ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c, int i);
 void		ft_parse_redir_ou(t_command *(*table_pp), int nb_pp, char c, int i);
 char		*ft_search_redir(char *str, char c);
+/*
+FUSION_TAB_REDIR_C---------------------------------------------------------------
+*/
+void		fusion_tab_redir(t_command	*(*table_pipe));
+
 /*
 PARSING_UTILS_C------------------------------------------------------------------
 */

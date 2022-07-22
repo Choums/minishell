@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 12:29:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/22 17:44:32 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/22 19:44:25 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ t_command	**ft_parsing(t_data *data, char *line, t_command	*(*table_pipe))
 		if (ft_count_redirection(table_pipe[i]->all_pipe, '<')
 			|| ft_count_redirection(table_pipe[i]->all_pipe, '>'))
 		{
-			// ft_place_redirection(table_pipe[i]->all_pipe);
+			table_pipe[i]->redir_place = ft_place_redir(table_pipe[i]->all_pipe);
 			table_pipe = ft_redirection_init(table_pipe, i);
 			ft_parse_redir_in(table_pipe, i, '<', 0);
 			ft_parse_redir_ou(table_pipe, i, '>', 0);

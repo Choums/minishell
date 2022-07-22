@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:28:08 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/08 01:46:12 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/22 18:39:14 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int					ft_strncmp(const char *s1, const char *s2, size_t len);
 int					ft_strcmp(const char *s1, const char *s2);
 void				*ft_memchr(const void *s, int c, size_t n);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
-// char				*ft_strnstr(const char *str, const char *to_find, size_t len);
+char				*ft_strnstr(const char *str,
+						const char *to_find, size_t len);
 int					ft_atoi(const char *str);
 unsigned long long	ft_atoi_unsigned_long_long(const char *str);
 char				*ft_strdup(const char *str);
@@ -76,5 +77,6 @@ void				del(char *content);
 void				ft_lstdelone(t_list *lst, void (*del)(char *));
 void				ft_lstclear(t_list **lst, void (*del)(char *));
 void				ft_lstiter(t_list *lst, void (*f)(char *));
-// t_list				*ft_lstmap(t_list *lst, char *(*f)(char *), void (*del)(char *));
+t_list				*ft_lstmap(t_list *lst,
+						char *(*f)(char *), void (*del)(char *));
 #endif

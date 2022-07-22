@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 10:30:39 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/08 01:43:58 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/22 18:40:43 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,11 @@ int	ft_atoi(const char *str)
 
 unsigned long long	ft_atoi_unsigned_long_long(const char *str)
 {
-	int	sign;
+	int					sign;
 	unsigned long long	nbr;
-	unsigned long long limit;
+	unsigned long long	limit;
 
 	limit = 9223372036854775807;
-
 	nbr = 0;
 	sign = 1;
 	while ((*str >= 9 && *str <= 13) || *str == 32)
