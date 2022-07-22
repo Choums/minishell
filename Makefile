@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+         #
+#    By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 20:18:17 by tdelauna          #+#    #+#              #
-#    Updated: 2022/07/21 16:36:48 by chaidel          ###   ########.fr        #
+#    Updated: 2022/07/22 17:52:11 by tdelauna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,7 @@ SRC			=	main.c\
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
 CC			=	gcc
-CFLAGS		=	-g -Wall -Wextra #-fsanitize=address #-static-libasan
+CFLAGS		=	-g -Wall -Wextra -fsanitize=address #-static-libasan
 
 FT			=	./libft/
 FT_LIB		=	$(addprefix $(FT),libft.a)

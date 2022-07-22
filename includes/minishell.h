@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/22 16:47:06 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/22 17:25:05 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@
 # include <readline/chardefs.h>
 # include "../libft/libft.h"
 # include "get_next_line.h"
-# include <sys/types.h>
-# include <signal.h>
 # include <errno.h>
+
 // int WEXITSTATUS(int status);
 
 # define STDIN 0
@@ -207,6 +206,7 @@ int			pass_quote(char *cmd, int i, int cut);
 /*
 REDIRECTION_UTILS_C--------------------------------------------------------------
 */
+void		ft_place_redirection(char *str);
 int			ft_count_redirection(char *str, char c_redirect);
 void		init_redir_zero(t_command	*(*table_pipe), int number_pipe);
 
