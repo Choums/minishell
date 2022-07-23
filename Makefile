@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+         #
+#    By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 20:18:17 by tdelauna          #+#    #+#              #
-#    Updated: 2022/07/20 15:03:32 by chaidel          ###   ########.fr        #
+#    Updated: 2022/07/22 20:48:00 by tdelauna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,19 +22,29 @@ OTHERDIR	=	obj/other
 
 SRC			=	main.c\
 				env.c\
+				path.c\
 				affichage.c\
 				builtin.c\
 				echo.c\
 				lst_management.c\
+				var_management.c\
 				change_dir.c\
-				utils.c\
+				goto_cd.c\
+				other/utils.c\
+				pipes.c\
 				exec.c\
+				check_exec.c\
+				check_proc.c\
 				heredoc.c\
 				exporter.c\
-				errors.c\
+				print_export.c\
+				other/errors.c\
 				redir.c\
+				redir_file.c\
 				exiting.c\
+				dollars.c\
 				other/free.c\
+				other/fusion_tab_redir.c\
 				other/signal.c\
 				gnl/get_next_line.c\
 				gnl/get_next_line_utils.c\
@@ -56,7 +66,7 @@ SRC			=	main.c\
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
 CC			=	gcc
-CFLAGS		=	-g -Wall -Wextra #-fsanitize=address #-static-libasan
+CFLAGS		=	-g -Wall -Wextra -fsanitize=address #-static-libasan
 
 FT			=	./libft/
 FT_LIB		=	$(addprefix $(FT),libft.a)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 01:36:29 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/18 19:47:18 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/22 20:33:48 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	free_struc(t_command **table_pipe)
 			free_double_tab(table_pipe[i]->tab_redir->token_in);
 			free_double_tab(table_pipe[i]->tab_redir->out);
 			free_double_tab(table_pipe[i]->tab_redir->token_out);
+			free(table_pipe[i]->tab_redir->tab_fusion);
+			free(table_pipe[i]->tab_redir->tab_fusion_token);
 			free(table_pipe[i]->tab_redir);
 		}
 		else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/20 18:03:03 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/23 15:02:48 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@
 # include <readline/chardefs.h>
 # include "../libft/libft.h"
 # include "get_next_line.h"
-# include <sys/types.h>
-# include <signal.h>
 # include <errno.h>
+
 // int WEXITSTATUS(int status);
 
 # define STDIN 0
@@ -59,6 +58,8 @@ typedef struct s_redirection
 	char	**token_in;
 	char	**out;
 	char	**token_out;
+	char	**tab_fusion;
+	char	**tab_fusion_token;
 }	t_redirection;
 
 typedef struct s_command
@@ -68,6 +69,7 @@ typedef struct s_command
 	char			**tab_token;
 	t_redirection	*tab_redir;
 	int				len_pipe;
+	char			*redir_place;
 
 }	t_command;
 
@@ -89,8 +91,8 @@ void		get_path(t_data *data);
 void		set_def_path(t_data *data);
 void		set_path(t_data *data, char **path);
 int			print_env(t_list **h_env);
-void		print_vars(t_list **head); // DEBUG, à supp.
 int			echo(char **arg);
+int			no_arg(void);
 int			display_n(char **args, size_t i, size_t j);
 int			check_atr_n(char **args);
 int			pwd(void);
@@ -102,12 +104,13 @@ void		check_existing(t_data *data, char *var, size_t len);
 void		cat_var(t_data *data, char *var);
 void		add_var(t_data *data, char *var);
 size_t		name_len(char *var);
-void		display_env(t_data *data);
+int			display_env(t_data *data);
 void		sort_env(char **env);
 void		print_export(char **env);
 int			check_dir(t_data *data, char **args);
 int			change_err(char *pathname, int alloc);
 int			change_dir(t_data *data, char *path, int alloc);
+void		update_pwd(t_data *data);
 int			goto_home(t_data *data);
 int			goto_homepath(t_data *data, char *path);
 int			goto_oldpwd(t_data *data);
@@ -115,7 +118,6 @@ int			is_oldpwd(t_list **h_env);
 void		create_oldpwd(t_data *data);
 void		check_prim(t_data *data);
 void		inception(t_data *data);
-
 int			is_exit(t_data *data, t_command **tab, int status);
 void		exiter(t_data *data, t_command **tab, char **args);
 int			ft_isspace(int c);
@@ -125,26 +127,32 @@ int			check_exit_args(char *arg);
 /*	Exec */
 char		*find_bin(t_data *data, char *bin);
 int			check_cmd(char *cmd);
+int			check_cmd_neg(char *cmd, struct stat path_stat);
 void		mother_board(t_data *data, t_command **cmd);
 int			is_builtin(t_command *cmd);
 void		exec_builtin(t_command *cmd, t_data *data);
 void		run_builtin(t_data *data, t_command *cmd);
 int			process(t_data *data, t_command *cmd, int pos);
+void		kill_kid(t_data *data, char **env);
 void		redir_pipe(int *pipefd, int pos, int n_pipe);
+void		proc_redir(t_data *data, t_command *cmd);
 void		display_here(void);
 char		*get_lim(t_redirection *args);
 int			redir(t_data *data, t_redirection *tab);
+int			redir_out(t_redirection *tab);
 void		restore_redir(t_redirection *tab);
 int			close_cpy(t_redirection *tab);
 int			out_redir(t_redirection *tab, char *file);
 int			in_redir(t_redirection *tab, char *file);
 int			append_mode(t_redirection *tab, char *file);
-void		heredoc(t_data *data, t_redirection *args);
+int			heredoc(t_data *data, t_redirection *tab, char *lim);
+int			here_linker(t_redirection *tab, int file, char *new_line);
+int			end_sig(char *line, char *lim, char *end, int count);
+char		*check_expand(t_data *data, char *line);
 int			opening_mode(char *pathname);
-void		pipex(t_data *data, t_command **cmd);
+int			pipex(t_data *data, t_command **cmd);
 int			*create_pipes(int num);
 void		close_pipes(int *pipefd, int n_pipe);
-void		close_unused_pipes(int *pipefd, int pos, int n_pipe);
 int			check_perm(char *path);
 char		*get_cmd(t_data *data, char *cmd);
 
@@ -153,8 +161,10 @@ void		set_var(t_data *data, char *content);
 void		supp_elem(t_list **head, char *var);
 void		supp_fst_elem(t_list **head, t_list *tmp);
 void		update_elem(t_data *data, char *var);
+void		update_elem_vars(t_data *data, char *var, size_t len);
 char		*get_elem(t_list **head, char *var);
 char		*get_var(t_data *data, char *var);
+char		*get_hvar(t_data *data, char *var);
 char		*which_dollar(t_data *data, char *command);
 size_t		get_dollar_pos(char *str);
 char		*dollar_substitute(char *command, char *value, size_t pos);
@@ -165,11 +175,10 @@ size_t		get_lst_len(t_list **head);
 void		free_double_tab(char **tab);
 void		print_double_tab(char **tab); //DEBUG
 size_t		get_cmd_num(t_command **cmd);
-void		pipe_err(int *pipefd, int i);
 
 /*	Errors */
-void		ft_err(char *err);
-void		export_err(char *command, int alloc);
+int			pipe_err(int *pipefd, int i);
+void		export_err(char *command);
 void		exit_err(t_data *data, t_command **tab, char *arg);
 int			msg_err(char *cmd, char *msg, int status);
 int			redir_err(char *file);
@@ -193,7 +202,7 @@ COMMAND_C-----------------------------------------------------------------------
 */
 char		*ft_cup_all_cmd(char *tmp, char *tmp_cmd, char c, int i);
 void		count_cmd(t_command	*(*table_pipe), int nb_pp, char *cut_cmd);
-void		copy_cmd(t_command *(*table_pipe), int	nb_pp, char *cmd);
+void		copy_cmd(t_command *(*table_pipe), int nb_pp, char *cmd);
 t_command	**ft_parse_cmd(t_command *(*table_pipe), int number_pipe);
 /*
 COMMAND_UTILS_C------------------------------------------------------------------
@@ -203,6 +212,7 @@ int			pass_quote(char *cmd, int i, int cut);
 /*
 REDIRECTION_UTILS_C--------------------------------------------------------------
 */
+char		*ft_place_redir(char *str);
 int			ft_count_redirection(char *str, char c_redirect);
 void		init_redir_zero(t_command	*(*table_pipe), int number_pipe);
 
@@ -210,9 +220,14 @@ void		init_redir_zero(t_command	*(*table_pipe), int number_pipe);
 REDIRECTION_C--------------------------------------------------------------------
 */
 t_command	**ft_redirection_init(t_command	*(*table_pipe), int number_pipe);
-void		ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c);
-void		ft_parse_redir_out(t_command *(*table_pp), int nb_pp, char c);
+void		ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c, int i);
+void		ft_parse_redir_ou(t_command *(*table_pp), int nb_pp, char c, int i);
 char		*ft_search_redir(char *str, char c);
+/*
+FUSION_TAB_REDIR_C---------------------------------------------------------------
+*/
+void		fusion_tab_redir(t_command	*(*table_pipe));
+
 /*
 PARSING_UTILS_C------------------------------------------------------------------
 */

@@ -6,25 +6,16 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/20 18:16:48 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/23 15:02:16 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-/*
- *	Creer les variables d'env.
- *	--------------------------
- *	getenv -> char *getenv(const char *varname)
- *	retourne une string avec la valeur de la var donner || renvoie la var PATH malgre qu'elle soit unset
- *	ex: getenv("PATH")
- *	cas env -i a gerer -> PWD, SHLVL, _
- *	var de base -> TERM, SHELL, USER, PATH, PWD, LANG, HOME,
- *	LANGUAGE, LOGNAME, _, SHLVL
-*/
 
 /*
  *	Prompt
- *	readline -> affiche un prompt et attend une saisie (le \n n'est pas pris en compte).
+ *	readline -> affiche un prompt et attend une saisie
+ *				(le \n n'est pas pris en compte).
  *	rl_clear_history ->	Supp. l'historique des saisies.
  *	rl_on_new_line -> Pour gérer le Ctrl + \ | 1
  *	rl_replace_line ->
@@ -93,6 +84,7 @@ void	main_two(t_data *data, char *line)
 		parse_back_slash(table_pipe);
 		go_expand(data, table_pipe);
 		parse_quote(table_pipe);
+		fusion_tab_redir(table_pipe);
 		// ft_affiche_t_command(table_pipe);
 		if (table_pipe[0]->tab_cmd[0])
 			mother_board(data, table_pipe);
@@ -123,7 +115,6 @@ int		main(int ac, char **av, char **envp)
 	sigset_t			block_mask;
 
 	signal_init();
-
 	(void)ac;
 	(void)av;
 	(void)pid_server;
@@ -131,11 +122,10 @@ int		main(int ac, char **av, char **envp)
 	data.var = NULL;
 	data.path = NULL;
 	data.pipefd = NULL;
-	// s_sigaction.sa_sigaction = ft_signal;
+	s_sigaction.sa_sigaction = ft_signal;
 	s_sigaction.sa_flags = SA_SIGINFO;
 	sigaction(SIGINT, &s_sigaction, 0);
 	sigaction(SIGQUIT, &s_sigaction, 0);
-
 	get_env(&data, envp);
 	line = readline("minishell: ");
 	if (line && *line)
@@ -143,8 +133,6 @@ int		main(int ac, char **av, char **envp)
 	while (1 && line)
 	{
 		g_signal.nt_status = 0;
-		if (ft_strcmp(line, "var") == 0)
-			print_vars(data.h_env);
 		main_two(&data, line);
 		free(line);
 		line = readline("minishell: ");

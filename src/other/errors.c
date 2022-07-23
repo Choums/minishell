@@ -6,27 +6,25 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 21:35:36 by root              #+#    #+#             */
-/*   Updated: 2022/07/20 14:32:48 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/22 19:25:59 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-void	export_err(char *command, int alloc)
+void	export_err(char *command)
 {
 	ft_putstr_fd("minishell: export: '", STDERR_FILENO);
 	ft_putstr_fd(command, STDERR_FILENO);
 	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 	g_signal.nt_status = 1;
 	g_signal.status = 1;
-	if (alloc)
-		free(command);
 }
 
 /*
  *	Ferme les fds precedement ouvert et free le tableau
 */
-void	pipe_err(int *pipefd, int i)
+int	pipe_err(int *pipefd, int i)
 {
 	if (i == 0)
 		i += 2;
@@ -36,8 +34,7 @@ void	pipe_err(int *pipefd, int i)
 		i--;
 	}
 	free(pipefd);
-	perror("failed to create pipes");
-	exit(EXIT_FAILURE);
+	return (msg_err("pipe", "failed to create pipes", 1));
 }
 
 void	exit_err(t_data *data, t_command **tab, char *arg)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verif_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 16:33:32 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/19 16:27:49 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/22 18:35:09 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,11 @@ int	verif_pipe(char *line, int *i)
 		if (line [++*i] && line[*i + 1] == '>')
 			return (error_msg_signal(">>"));
 		else if (ft_strlen(line + *i) == 0)
-		{
-			// printf("len : %i\n", (int)ft_strlen(line + *i));
 			return (error_msg_signal("newline"));
-		}
 	}
 	return (1);
 }
-// echo hi | >./outfiles/outfile01 echo bye >./test_files/invalid_permission
-// echo hi | >
+
 int	verif_redir_syntax(char *line)
 {
 	int		i;
@@ -91,9 +87,25 @@ int	verif_redir_syntax(char *line)
 	return (1);
 }
 
+int	ft_strlen_out_space(char *str)
+{
+	int	len;
+
+	if (str && ft_strlen(str) > 0)
+	{
+		len = (int)ft_strlen(str);
+		while (str[len - 1] && str[len - 1] == ' ')
+			len--;
+		return (len);
+	}
+	return (1);
+}
+
 int	verif_line(char *line)
 {
 	if (line && line[0] == '|')
+		return (error_msg_signal("|"));
+	if (line && line[ft_strlen_out_space(line) - 1] == '|')
 		return (error_msg_signal("|"));
 	else if (line && (line[0] == '>' || line[0] == '<'))
 	{
@@ -103,7 +115,7 @@ int	verif_line(char *line)
 			return (error_msg_signal(">"));
 		else if (line[2] == '<')
 			return (error_msg_signal("<"));
-		else
+		else if ((line[1] == '<' || line[1] == '>' ) && ft_strlen(line) >= 2)
 			return (error_msg_signal("newline"));
 	}
 	else if (!verif_redir_syntax(line))
