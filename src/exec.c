@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/19 18:28:28 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/20 18:17:27 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,19 @@ int	process(t_data *data, t_command *cmd, int pos)
 	char	**env;
 	char	*path;
 
-	if (pos != -1 && cmd->len_pipe > 0 && !cmd->tab_redir)
+	if (pos != -1 && cmd->len_pipe > 0)
 		redir_pipe(data->pipefd, pos, cmd->len_pipe);
 	if (cmd->len_pipe > 0)
 		close_unused_pipes(data->pipefd, pos, cmd->len_pipe);
 	if (cmd->tab_redir)
-		redir(data, cmd->tab_redir);
+	{
+		if (!redir(data, cmd->tab_redir))
+		{
+			restore_redir(cmd->tab_redir);
+			exit (EXIT_FAILURE);
+		}
+		close_cpy(cmd->tab_redir);
+	}
 	if (!ft_strcmp(cmd->tab_cmd[0], "exit"))
 		return (0);
 	if (is_builtin(cmd))
@@ -91,10 +98,6 @@ int	process(t_data *data, t_command *cmd, int pos)
 		exit(EXIT_SUCCESS);
 	}
 	env = lst_dup(data->h_env);
-	// print_env(data->h_env);
-	// printf("------------------------------------------------------------\n");
-	// for (int i = 0; env[i]; i++)
-	// 	printf("%s\n", env[i]);
 	path = get_cmd(data, cmd->tab_cmd[0]);
 	if (!path)
 	{
@@ -116,14 +119,15 @@ void	exec_builtin(t_command *cmd, t_data *data)
 {
 	if (cmd->tab_redir)
 	{
-		redir(data, cmd->tab_redir);
+		if (!redir(data, cmd->tab_redir))
+		{
+			restore_redir(cmd->tab_redir);
+			return ;
+		}
 	}
 	run_builtin(data, cmd);
 	if (cmd->tab_redir)
-	{
-		// fprintf(stderr, "restore\n");
 		restore_redir(cmd->tab_redir);
-	}
 }
 
 		// if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0
@@ -166,6 +170,7 @@ int	check_cmd(char *cmd)
 void	status_child(int child)
 {
 	int	status;
+
 	if ((0 < waitpid (child, &status, 0)) && (WIFEXITED (status)))
 		g_signal.status = WEXITSTATUS (status);
 }
@@ -173,27 +178,6 @@ void	status_child(int child)
 /*
  *	Cree des processus enfant pour chaque commandes ainsi que les pipes
  *	Les process s'executent en meme temps
- *	-------------------------------------
- *	Ordre des process
- *	2 a la fois
- *	echo salut > outfile | wc -l >> outfile | cat | ls
- *	echo et wc on ecrit dans le outfile
- *	PAR CONTRE ls devance le cat et affiche les fichers
- *		dont outfile avec les ecritures
- *	-------------------------------------
- *	double redir
- *	echo salut > infile > outfile
- *	les 2 fichiers sont crees
- *	salut n'est ecrit que dans outfile
- *	ouverture et redir de gauche a droite
- *	-------------------------------------
- *	builtin
- *	cd ~ | ls (dans un dossier autre que le HOME)
- *	le 1er process se rend au HOME mais ls affiche le dossier actuel
- *	echo salut
- *	la commande est executé via sa fontion dans le process parent
- *	echo salut | wc
- *	les 2 cmd sont fork, en cas de pipe les builtins ont leur propre process
 */
 void	mother_board(t_data *data, t_command **cmd)
 {
@@ -230,9 +214,6 @@ void	mother_board(t_data *data, t_command **cmd)
 		pipex(data, cmd);
 		// printf("g_signal.status mother  : %i\n", g_signal.status);
 	}
-
-	get_cmd_num(cmd);
-
 }
 
 // void		status_child(int pid)

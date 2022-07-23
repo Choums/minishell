@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/19 17:59:59 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/20 18:16:48 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
  *	-----------------
  *	Ajouter la pos au prompt
 */
+
 
 void	free_list(t_list *list)
 {
@@ -111,6 +112,8 @@ void exit_signal(t_data *data, char *line)
 	exit(EXIT_SUCCESS);
 }
 
+t_signal	g_signal;
+
 int		main(int ac, char **av, char **envp)
 {
 	char				*line;
@@ -128,7 +131,7 @@ int		main(int ac, char **av, char **envp)
 	data.var = NULL;
 	data.path = NULL;
 	data.pipefd = NULL;
-	s_sigaction.sa_sigaction = ft_signal;
+	// s_sigaction.sa_sigaction = ft_signal;
 	s_sigaction.sa_flags = SA_SIGINFO;
 	sigaction(SIGINT, &s_sigaction, 0);
 	sigaction(SIGQUIT, &s_sigaction, 0);
