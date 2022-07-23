@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fusion_tab_redir.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 19:16:21 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/22 20:39:29 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/23 15:20:37 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,20 @@ void	tab_fusion_init(t_redirection *tab_redir)
 
 	len_tab_in = ft_doubletab_len(tab_redir->in);
 	len_tab_out = ft_doubletab_len(tab_redir->out);
-	// printf("len_tab_in : %i\n", len_tab_in);
-	// printf("len_tab_out : %i\n", len_tab_out);
-	tab_redir->tab_fusion =
-		 malloc(sizeof(char *) * (len_tab_in + len_tab_out + 1));
+	tab_redir->tab_fusion
+		= malloc(sizeof(char *) * (len_tab_in + len_tab_out + 1));
 	if (!tab_redir->tab_fusion)
 		return ;
 	tab_redir->tab_fusion[len_tab_in + len_tab_out] = NULL;
-	tab_redir->tab_fusion_token =
-		 malloc(sizeof(char *) * (len_tab_in + len_tab_out + 1));
-	if (!tab_redir->tab_fusion_token)
+	tab_redir->tab_fusion_to
+		= malloc(sizeof(char *) * (len_tab_in + len_tab_out + 1));
+	if (!tab_redir->tab_fusion_to)
 		return ;
-	tab_redir->tab_fusion_token[len_tab_in + len_tab_out] = NULL;
+	tab_redir->tab_fusion_to[len_tab_in + len_tab_out] = NULL;
 
 }
 
-void	fusion(t_command *table_pipe)
+void	fusion(t_command *t_p)
 {
 	int	i;
 	int	j;
@@ -45,21 +43,17 @@ void	fusion(t_command *table_pipe)
 	j = 0;
 	k = 0;
 	m = 0;
-	while (table_pipe->redir_place[++i])
+	while (t_p->redir_place[++i])
 	{
-		if (table_pipe->redir_place[i] == '2')
+		if (t_p->redir_place[i] == '2')
 		{
-			table_pipe->tab_redir->tab_fusion[j] = table_pipe->tab_redir->in[k];
-			table_pipe->tab_redir->tab_fusion_token[j] = table_pipe->tab_redir->token_in[k];
-			j++;
-			k++;
+			t_p->tab_redir->tab_fusion[j] = t_p->tab_redir->in[k];
+			t_p->tab_redir->tab_fusion_to[j++] = t_p->tab_redir->token_in[k++];
 		}
-		else if (table_pipe->redir_place[i] == '1')
+		else if (t_p->redir_place[i] == '1')
 		{
-			table_pipe->tab_redir->tab_fusion[j] = table_pipe->tab_redir->out[m];
-			table_pipe->tab_redir->tab_fusion_token[j] = table_pipe->tab_redir->token_out[m];
-			j++;
-			m++;
+			t_p->tab_redir->tab_fusion[j] = t_p->tab_redir->out[m];
+			t_p->tab_redir->tab_fusion_to[j++] = t_p->tab_redir->token_out[m++];
 		}
 	}
 }

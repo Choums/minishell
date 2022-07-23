@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   affichage.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:06:35 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/22 20:34:28 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/23 15:21:13 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,9 @@ void	ft_affiche_t_command(t_command	*(*table_pipe))
 	{
 		if(table_pipe[j]->tab_redir)
 		{
-			printf("table_pipe[j]->tab_redir->tab_fusion_token : %p\n", table_pipe[j]->tab_redir->tab_fusion_token);
-			for (int i = 0; table_pipe[j]->tab_redir->tab_fusion_token[i]; i++)
-				printf("[\033[1;32mtable_pipe[%i]->tab_redir->tab_fusion_token[%i] : %s\033[0m\n",j, i, table_pipe[j]->tab_redir->tab_fusion_token[i]);
+			printf("table_pipe[j]->tab_redir->tab_fusion_to : %p\n", table_pipe[j]->tab_redir->tab_fusion_to);
+			for (int i = 0; table_pipe[j]->tab_redir->tab_fusion_to[i]; i++)
+				printf("[\033[1;32mtable_pipe[%i]->tab_redir->tab_fusion_to[%i] : %s\033[0m\n",j, i, table_pipe[j]->tab_redir->tab_fusion_to[i]);
 		}
 	}
 	printf("\033[31m***************** END ********************************************************\033[0m\n\n");

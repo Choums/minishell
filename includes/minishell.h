@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/23 15:02:48 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/23 15:20:05 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_redirection
 	char	**out;
 	char	**token_out;
 	char	**tab_fusion;
-	char	**tab_fusion_token;
+	char	**tab_fusion_to;
 }	t_redirection;
 
 typedef struct s_command
