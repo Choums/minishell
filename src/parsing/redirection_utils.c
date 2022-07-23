@@ -3,19 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 00:50:22 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/22 20:44:51 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/23 15:13:18 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	nb_place_redir(char c, int	*place, int	*j)
+void	nb_place_redir(char *str, int *place, int *j)
 {
-	*place = *place * 10 + 1;
-	if (str[i + 1] == c)
+	if (str[0] == '>')
+		*place = *place * 10 + 1;
+	else
+		*place = *place * 10 + 2;
+	if (str[1] == str[0])
 		*j = 2;
 }
 
@@ -36,14 +39,8 @@ char	*ft_place_redir(char *str)
 				j++;
 			j++;
 		}
-		else if (str[i] == '>')
-			nb_place_redir('>', &place, int	*j);
-		else if (str[i] == '<')
-		{
-			place = place * 10 + 2;
-			if (str[i + 1] == '<')
-				j = 2;
-		}
+		else if (str[i] == '>' || str[i] == '<')
+			nb_place_redir(str + i, &place, &j);
 		i += j;
 	}
 	return (ft_itoa(place));
