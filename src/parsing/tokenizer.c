@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 19:46:05 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/18 19:47:43 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/24 14:58:07 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,11 @@ void	tokenizer_redir_out(t_command **t_p, int np)
 				t_p[np]->tab_redir->token_out[i] = ft_calloc(2, sizeof(char));
 			if (t_p[np]->all_pipe[j] == '>' && t_p[np]->all_pipe[j + 1] == '>')
 			{
-				t_p[np]->tab_redir->token_out[i++][0] = '2';
+				t_p[np]->tab_redir->token_out[i++][0] = '4';
 				j++;
 			}
 			else if (t_p[np]->all_pipe[j] == '>')
-				t_p[np]->tab_redir->token_out[i++][0] = '1';
+				t_p[np]->tab_redir->token_out[i++][0] = '3';
 			j++;
 		}
 	}

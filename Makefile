@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+         #
+#    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 20:18:17 by tdelauna          #+#    #+#              #
-#    Updated: 2022/07/22 20:48:00 by tdelauna         ###   ########.fr        #
+#    Updated: 2022/07/24 15:01:17 by root             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,6 @@ SRC			=	main.c\
 				var_management.c\
 				change_dir.c\
 				goto_cd.c\
-				other/utils.c\
 				pipes.c\
 				exec.c\
 				check_exec.c\
@@ -38,14 +37,15 @@ SRC			=	main.c\
 				heredoc.c\
 				exporter.c\
 				print_export.c\
-				other/errors.c\
 				redir.c\
 				redir_file.c\
 				exiting.c\
 				dollars.c\
+				other/errors.c\
 				other/free.c\
-				other/fusion_tab_redir.c\
+				other/utils.c\
 				other/signal.c\
+				other/fusion_tab_redir.c\
 				gnl/get_next_line.c\
 				gnl/get_next_line_utils.c\
 				lexer/parse_quote.c\

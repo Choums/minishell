@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 14:17:59 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/22 20:13:33 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/24 15:38:11 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,42 +16,36 @@ int	redir(t_data *data, t_redirection *tab)
 {
 	int	i;
 
-	i = 0;
-	while (tab->in[i])
+	i = -1;
+	while (tab->tab_fusion[++i])
 	{
-		if (tab->token_in[i][0] == '1')
+		if (tab->tab_fusion_to[i][0] == '1')
 		{
-			if (!in_redir(tab, tab->in[i]))
+			if (!in_redir(tab, tab->tab_fusion[i]))
 				return (0);
 		}
-		else
+		else if (tab->tab_fusion_to[i][0] == '2')
 		{
 			restore_redir(tab);
-			if (!heredoc(data, tab, tab->in[i]))
+			if (!heredoc(data, tab, tab->tab_fusion[i]))
 				return (0);
 		}
-		i++;
+		else if (!redir_sc(tab, i))
+			return (0);
 	}
-	return (redir_out(tab));
+	return (1);
 }
 
-int	redir_out(t_redirection *tab)
+int	redir_sc(t_redirection *tab, int i)
 {
-	size_t	i;
-
-	i = 0;
-	while (tab->out[i])
+	if (tab->tab_fusion_to[i][0] == '3')
 	{
-		if (tab->token_out[i][0] == '1')
-		{
-			if (!out_redir(tab, tab->out[i]))
-				return (0);
-		}
-		else
-			if (!append_mode(tab, tab->out[i]))
-				return (0);
-		i++;
+		if (!out_redir(tab, tab->tab_fusion[i]))
+			return (0);
 	}
+	else
+		if (!append_mode(tab, tab->tab_fusion[i]))
+			return (0);
 	return (1);
 }
 

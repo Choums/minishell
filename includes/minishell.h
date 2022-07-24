@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/23 15:20:05 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/24 15:34:47 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void		proc_redir(t_data *data, t_command *cmd);
 void		display_here(void);
 char		*get_lim(t_redirection *args);
 int			redir(t_data *data, t_redirection *tab);
-int			redir_out(t_redirection *tab);
+int			redir_sc(t_redirection *tab, int i);
 void		restore_redir(t_redirection *tab);
 int			close_cpy(t_redirection *tab);
 int			out_redir(t_redirection *tab, char *file);

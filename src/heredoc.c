@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 14:03:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/23 15:01:57 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/24 15:02:28 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ int	heredoc(t_data *data, t_redirection *tab, char *lim)
 
 	count = 1;
 	file = open(".here", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (file < 0)
-		return;
 	new_line = ft_calloc(1, 1);
 	end = lim;
 	end = ft_strjoin(end, "\n");
