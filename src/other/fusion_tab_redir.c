@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 19:16:21 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/23 15:20:37 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/24 18:50:40 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	tab_fusion_init(t_redirection *tab_redir)
 	if (!tab_redir->tab_fusion_to)
 		return ;
 	tab_redir->tab_fusion_to[len_tab_in + len_tab_out] = NULL;
-
 }
 
 void	fusion(t_command *t_p)
@@ -63,7 +62,6 @@ void	fusion_tab_redir(t_command	*(*table_pipe))
 	int	i;
 
 	i = 0;
-
 	while (table_pipe[i])
 	{
 		if (table_pipe[i]->tab_redir)

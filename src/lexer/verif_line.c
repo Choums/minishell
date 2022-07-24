@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verif_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 16:33:32 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/22 18:35:09 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/23 15:38:57 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	verif_quote(char *line)
 	while (i < (int)ft_strlen(line))
 	{
 		j = 1;
-		if (line[i] == '\\')
+		if (line[i] && line[i] == '\\')
 			i += 2;
-		if (line[i] == '\'' || line[i] == '"')
+		if (i < (int)ft_strlen(line) && (line[i] == '\'' || line[i] == '"'))
 		{
 			nb_quote++;
 			while (line[i + j] && line[i + j] != line[i])
@@ -107,6 +107,8 @@ int	verif_line(char *line)
 		return (error_msg_signal("|"));
 	if (line && line[ft_strlen_out_space(line) - 1] == '|')
 		return (error_msg_signal("|"));
+	if (line && line[ft_strlen_out_space(line) - 1] == '\\')
+		return (error_msg_signal("\\"));
 	else if (line && (line[0] == '>' || line[0] == '<'))
 	{
 		if (ft_strlen(line) < 2)

@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 01:36:29 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/23 15:20:47 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/24 18:51:07 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	free_struc(t_command **table_pipe)
 	int	i;
 	int	len;
 
-	i = 0;
+	i = -1;
 	len = struc_len(table_pipe);
-	while (i < len)
+	while (++i < len)
 	{
 		free(table_pipe[i]->all_pipe);
 		free_double_tab(table_pipe[i]->tab_cmd);
@@ -50,7 +50,6 @@ void	free_struc(t_command **table_pipe)
 		else
 			free(table_pipe[i]->tab_redir);
 		free(table_pipe[i]);
-		i++;
 	}
 	free(table_pipe);
 }

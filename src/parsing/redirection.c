@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 19:08:18 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/22 16:47:15 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/24 18:51:29 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ft_parse_redir_in(t_command *(*table_pp), int nb_pp, char c, int i)
 			cut += pass_quote_verif_line(tmp, dex);
 		while ((tmp[dex + cut] != ' ' && tmp[dex + cut] != '<'
 				&& tmp[dex + cut] != '>') && tmp[dex + cut])
-				cut++;
+			cut++;
 		table_pp[nb_pp]->tab_redir->in[i] = ft_substr(tmp, dex, cut);
 		tmp = tmp + dex;
 		nb_redirect--;

@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/23 14:59:47 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/24 18:52:42 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ int	process(t_data *data, t_command *cmd, int pos)
 		kill_kid(data, env);
 	if (execve(path, cmd->tab_cmd, env) < 0)
 		exit(EXIT_FAILURE);
-				printf("Status 2: %i\n", g_signal.status);
-
+			// printf("Status 2: %i\n", g_signal.status);
 	return (1);
 }
 

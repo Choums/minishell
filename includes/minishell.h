@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/24 15:34:47 by root             ###   ########.fr       */
+/*   Updated: 2022/07/24 18:48:51 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ size_t		get_lst_len(t_list **head);
 void		free_double_tab(char **tab);
 void		print_double_tab(char **tab); //DEBUG
 size_t		get_cmd_num(t_command **cmd);
+void		data_init(t_data *data);
 
 /*	Errors */
 int			pipe_err(int *pipefd, int i);

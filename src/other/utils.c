@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 10:49:04 by root              #+#    #+#             */
-/*   Updated: 2022/07/22 19:25:55 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/24 18:48:38 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,11 @@ void	print_double_tab(char **tab)
 		len++;
 	while (i < len)
 		ft_putendl_fd(tab[i++], STDERR_FILENO);
+}
+
+void	data_init(t_data *data)
+{
+	data->var = NULL;
+	data->path = NULL;
+	data->pipefd = NULL;
 }

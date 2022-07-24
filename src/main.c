@@ -6,12 +6,13 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/23 15:21:52 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/24 18:50:12 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+t_signal	g_signal;
 /*
  *	Prompt
  *	readline -> affiche un prompt et attend une saisie
@@ -24,38 +25,34 @@
  *	-----------------
  *	Ajouter la pos au prompt
 */
+// void	free_list(t_list *list)
+// {
+// 	int	i;
+// 	// t_list *tmp_list
+// 	i = 0;
+// 	while(list)
+// 	{
+// 		// printf("List %i : %p / %s\n", i, list, list->content);
+// 		free(list->content);
+// 		if(list->previous)
+// 			free(list->previous);
+// 		list = list->next;
+// 		i++;
+// 	}
+// }
 
+// void	print_list(t_list *list)
+// {
+// 	int	i;
 
-void	free_list(t_list *list)
-{
-	int	i;
-	// t_list *tmp_list
-
-	i = 0;
-	while(list)
-	{
-		// printf("List %i : %p / %s\n", i, list, list->content);
-		free(list->content);
-		if(list->previous)
-			free(list->previous);
-		list = list->next;
-		i++;
-	}
-}
-
-void	print_list(t_list *list)
-{
-	int	i;
-
-	i = 0;
-	while (list)
-	{
-		printf("List %i : %p / %s\n", i, list, list->content);
-		list = list->next;
-		i++;
-	}
-}
-
+// 	i = 0;
+// 	while (list)
+// 	{
+// 		printf("List %i : %p / %s\n", i, list, list->content);
+// 		list = list->next;
+// 		i++;
+// 	}
+// }
 
 // void	free_data(t_data *data)
 // {
@@ -85,16 +82,13 @@ void	main_two(t_data *data, char *line)
 		go_expand(data, table_pipe);
 		parse_quote(table_pipe);
 		fusion_tab_redir(table_pipe);
-		// ft_affiche_t_command(table_pipe);
 		if (table_pipe[0]->tab_cmd[0])
 			mother_board(data, table_pipe);
-		// printf("g_signal.status : %i\n",g_signal.status);
-		// free_data(data);
 		free_struc(table_pipe);
 	}
 }
-// ls >./outfiles/outfile01 >>./outfiles/outfile01 >./outfiles/outfile02
-void exit_signal(t_data *data, char *line)
+
+void	exit_signal(t_data *data, char *line)
 {
 	free(line);
 	rl_clear_history();
@@ -104,40 +98,31 @@ void exit_signal(t_data *data, char *line)
 	exit(EXIT_SUCCESS);
 }
 
-t_signal	g_signal;
-
-int		main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
 	char				*line;
 	t_data				data;
 	struct sigaction	s_sigaction;
-	pid_t				pid_server;
-	sigset_t			block_mask;
 
-	signal_init();
 	(void)ac;
 	(void)av;
-	(void)pid_server;
-	(void)block_mask;
-	data.var = NULL;
-	data.path = NULL;
-	data.pipefd = NULL;
+	signal_init();
+	data_init(&data);
 	s_sigaction.sa_sigaction = ft_signal;
 	s_sigaction.sa_flags = SA_SIGINFO;
 	sigaction(SIGINT, &s_sigaction, 0);
 	sigaction(SIGQUIT, &s_sigaction, 0);
 	get_env(&data, envp);
-	line = readline("minishell: ");
-	if (line && *line)
-		add_history(line);
-	while (1 && line)
+	while (1)
 	{
+		line = readline("minishell: ");
+		if (!line)
+			break ;
+		if (line && *line)
+			add_history(line);
 		g_signal.nt_status = 0;
 		main_two(&data, line);
 		free(line);
-		line = readline("minishell: ");
-		if (line && *line)
-			add_history(line);
 	}
 	exit_signal(&data, line);
 }
