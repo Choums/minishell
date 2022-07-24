@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/24 18:48:51 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/24 18:56:41 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/chardefs.h>
+#include <readline/history.h>
 # include "../libft/libft.h"
 # include "get_next_line.h"
 # include <errno.h>
