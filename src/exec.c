@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/24 21:57:26 by root             ###   ########.fr       */
+/*   Updated: 2022/07/24 22:34:30 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	process(t_data *data, t_command *cmd, int pos)
 		close_pipes(data->pipefd, cmd->len_pipe);
 	if (cmd->tab_redir)
 		proc_redir(data, cmd);
-	if (!ft_strcmp(cmd->tab_cmd[0], "exit"))
+	if (cmd->tab_cmd[0] && !ft_strcmp(cmd->tab_cmd[0], "exit"))
 		return (0);
 	if (is_builtin(cmd))
 	{

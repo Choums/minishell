@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/24 18:50:12 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/24 22:38:49 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 t_signal	g_signal;
+
 /*
  *	Prompt
  *	readline -> affiche un prompt et attend une saisie
@@ -25,50 +26,6 @@ t_signal	g_signal;
  *	-----------------
  *	Ajouter la pos au prompt
 */
-// void	free_list(t_list *list)
-// {
-// 	int	i;
-// 	// t_list *tmp_list
-// 	i = 0;
-// 	while(list)
-// 	{
-// 		// printf("List %i : %p / %s\n", i, list, list->content);
-// 		free(list->content);
-// 		if(list->previous)
-// 			free(list->previous);
-// 		list = list->next;
-// 		i++;
-// 	}
-// }
-
-// void	print_list(t_list *list)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (list)
-// 	{
-// 		printf("List %i : %p / %s\n", i, list, list->content);
-// 		list = list->next;
-// 		i++;
-// 	}
-// }
-
-// void	free_data(t_data *data)
-// {
-// 	print_list(data->env);
-// 	// free_list(data->h_env);
-// 	free_list(data->var);
-// 	// free_list(data->h_var);
-// 	free_list(data->path);
-// 	// printf("data env : %p\n", data->env);
-// 	// printf("data h_env : %p\n", data->h_env);
-// 	// printf("data var : %p\n", data->var);
-// 	// printf("data h_var : %p\n", data->h_var);
-// 	// printf("data path : %p\n", data->path);
-// 	// printf("data pipefd : %p\n", data->pipefd);
-
-// }
 
 void	main_two(t_data *data, char *line)
 {
