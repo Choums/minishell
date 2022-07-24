@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 15:55:54 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/21 16:28:22 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/24 22:29:51 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	check_perm(char *path)
 {
 	struct stat	path_stat;
 
-	if (stat(path, &path_stat) < 0)
+	if (lstat(path, &path_stat) < 0)
 		return (-1);
 	else if ((path_stat.st_mode & __S_IFREG))
 	{
@@ -64,7 +64,7 @@ int	check_cmd(char *cmd)
 {
 	struct stat	path_stat;
 
-	if (stat(cmd, &path_stat) == 0)
+	if (lstat(cmd, &path_stat) == 0)
 	{
 		if (((path_stat.st_mode & __S_IFMT) == __S_IFDIR)
 			&& (ft_strncmp(cmd, "./", 2) == 0
