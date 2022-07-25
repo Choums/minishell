@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:27:54 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/18 19:47:20 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/25 22:05:23 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	sig_int(int sig, siginfo_t *info, void *context)
 	(void)sig;
 	(void)info;
 	(void)context;
+	g_signal.sigint = 1;
 	ft_putstr_fd("\b\b  \b\b", STDERR);
 	ft_putstr_fd("\n", STDERR);
 	ft_putstr_fd("minishell: ", STDERR);
@@ -46,4 +47,5 @@ void	signal_init(void)
 {
 	g_signal.nt_status = 0;
 	g_signal.status = 0;
+	g_signal.sigint = 0;
 }

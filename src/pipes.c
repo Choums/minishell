@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:34:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 20:40:44 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/25 21:16:39 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	pipex(t_data *data, t_command **cmd)
 			return (msg_err("execve", "failed to create child processus", 1));
 		i++;
 	}
-	printf("pipes pipex\n");
 	close_pipes(data->pipefd, cmd[0]->len_pipe);
 	status_child(child);
 	return (0);
@@ -70,7 +69,6 @@ void	close_pipes(int *pipefd, int n_pipe)
 	i = 0;
 	while (i < n_pipe * 2)
 	{
-		printf("closing fd[%d]: %d\n", i, pipefd[i]);
 		close(pipefd[i++]);
 	}
 	free(pipefd);

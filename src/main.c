@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 20:20:17 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/25 22:11:58 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,20 @@ void	exit_signal(t_data *data, char *line)
 	exit(EXIT_SUCCESS);
 }
 
+char	*which_readline(void)
+{
+	char	*line;
+
+	if (!g_signal.sigint)
+		line = readline("minishell: ");
+	else
+	{
+		line = readline("");
+		g_signal.sigint = 0;
+	}
+	return (line);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char				*line;
@@ -72,7 +86,7 @@ int	main(int ac, char **av, char **envp)
 	get_env(&data, envp);
 	while (1)
 	{
-		line = readline("minishell: ");
+		line = which_readline();
 		if (!line)
 			break ;
 		if (line && *line)

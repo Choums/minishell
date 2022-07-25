@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 20:43:36 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/25 21:17:18 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,10 @@ int	process(t_data *data, t_command *cmd, int pos)
 
 	if (pos != -1 && cmd->len_pipe > 0)
 	{
-		printf("%s\n", cmd->tab_cmd[0]);
 		redir_pipe(data->pipefd, pos, cmd->len_pipe);
 	}
 	if (cmd->len_pipe > 0)
 	{
-		printf("pipes %s\n", cmd->tab_cmd[0]);
 		close_pipes(data->pipefd, cmd->len_pipe);
 	}
 	if (cmd->tab_redir)
