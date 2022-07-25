@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:18:27 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 18:33:19 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/25 21:22:23 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	kill_kid(t_data *data, char **env)
 	exit(g_signal.status);
 }
 
-void	status_child(int child)
+void	status_child(pid_t child)
 {
 	int	status;
 

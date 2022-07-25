@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 20:20:17 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/25 21:36:27 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	main_two(t_data *data, char *line)
 		go_expand(data, table_pipe);
 		parse_quote(table_pipe);
 		fusion_tab_redir(table_pipe);
-		// ft_affiche_t_command(table_pipe);
 		mother_board(data, table_pipe);
 		free_struc(table_pipe);
 	}
