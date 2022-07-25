@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 21:27:52 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/25 22:10:36 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,5 +308,5 @@ char		*parse_str_back_slash(char *str);
 void		parse_back_redir(char **tab, char **tab_token);
 void		parse_back_slash(t_command *(*table_pipe));
 
-void		status_child(pid_t child);
+void		status_child(int child);
 #endif
