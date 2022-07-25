@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verif_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 16:33:32 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/25 01:30:40 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/25 19:04:16 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int	verif_line(char *line)
 		g_signal.status = 2;
 		return (0);
 	}
-	else if (line && ft_strlen(line) && verif_quote(line))
+	if (line && ft_strlen(line) && verif_quote(line))
 		return (1);
 	return (0);
 }

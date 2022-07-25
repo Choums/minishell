@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 14:22:28 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/21 14:54:51 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/25 20:28:59 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,25 @@ void	print_export(char **env)
 	size_t	i;
 	size_t	j;
 	size_t	egal;
+	size_t	count;
 
 	i = 0;
 	while (env[i])
 	{
 		j = 0;
+		count = 0;
 		egal = 1;
-		ft_putstr_fd("declare -x ", STDIN_FILENO);
+		ft_putstr_fd("declare -x ", STDOUT);
 		while (env[i][j])
 		{
-			ft_putchar_fd(env[i][j], STDIN_FILENO);
-			if (env[i][j] == '=' && egal--)
-				ft_putchar_fd('"', STDIN_FILENO);
+			ft_putchar_fd(env[i][j], STDOUT);
+			if (env[i][j] == '=' && !count++ && egal--)
+				ft_putchar_fd('"', STDOUT);
 			j++;
 		}
-		if (!egal)
-			ft_putchar_fd('"', STDIN_FILENO);
-		ft_putchar_fd('\n', STDERR_FILENO);
+		if (!egal && count)
+			ft_putchar_fd('"', STDOUT);
+		ft_putchar_fd('\n', STDOUT);
 		i++;
 	}
 }
