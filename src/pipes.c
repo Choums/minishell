@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:34:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 22:14:48 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/25 22:40:06 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	pipex(t_data *data, t_command **cmd)
 	int		num;
 	int		i;
 	pid_t	child;
+	int		status;
 
 	num = cmd[0]->len_pipe;
 	data->pipefd = create_pipes(cmd[0]->len_pipe);
@@ -36,7 +37,11 @@ int	pipex(t_data *data, t_command **cmd)
 		i++;
 	}
 	close_pipes(data->pipefd, cmd[0]->len_pipe);
-	status_child(child);
+	while (waitpid(child, &status, 0) > 0)
+	{
+		// printf("status: %d\n", status);
+		status_child(status);
+	}
 	return (0);
 }
 

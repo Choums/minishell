@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:18:27 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 22:15:11 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/25 22:38:46 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,16 @@ void	kill_kid(t_data *data, char **env)
 	exit(g_signal.status);
 }
 
-void	status_child(int child)
+void	status_child(int status)
 {
-	int	status;
-
-	if ((0 < waitpid (child, &status, 0)) && (WIFEXITED (status)))
+	if ((WIFEXITED (status)))
 		g_signal.status = WEXITSTATUS (status);
+	// if (WIFSIGNALED (status))
+	// {
+	// 	g_signal.status = WTERMSIG (status);
+	// 	if (g_signal.status != 131)
+	// 		g_signal.status += 128;
+	// }
 }
 
 void	proc_redir(t_data *data, t_command *cmd)

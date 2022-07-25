@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 21:21:03 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/25 22:42:08 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	exec_builtin(t_command *cmd, t_data *data)
 void	mother_board(t_data *data, t_command **cmd)
 {
 	pid_t	child;
+	int		status;
 
 	if (get_cmd_num(cmd) == 1 && ft_strcmp(cmd[0]->tab_cmd[0], "exit") == 0)
 	{
@@ -90,7 +91,8 @@ void	mother_board(t_data *data, t_command **cmd)
 			process(data, cmd[0], -1);
 		else if (child < 0)
 			msg_err("fork", strerror(errno), 1);
-		status_child(child);
+		waitpid(child, &status, 0);
+		status_child(status);
 	}
 	else
 		pipex(data, cmd);
