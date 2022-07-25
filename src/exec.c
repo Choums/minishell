@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 22:42:08 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/25 23:22:36 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,7 @@ void	mother_board(t_data *data, t_command **cmd)
 	int		status;
 
 	if (get_cmd_num(cmd) == 1 && ft_strcmp(cmd[0]->tab_cmd[0], "exit") == 0)
-	{
-		if (cmd[0]->tab_redir)
-		{
-			if (!redir(data, cmd[0]->tab_redir))
-				return (restore_redir(cmd[0]->tab_redir));
-		}
-		exiter(data, cmd, cmd[0]->tab_cmd);
-	}
+		one_exit(data, cmd);
 	else if (get_cmd_num(cmd) == 1 && is_builtin(cmd[0]))
 		exec_builtin(cmd[0], data);
 	else if (get_cmd_num(cmd) == 1 && !is_builtin(cmd[0]))
@@ -97,4 +90,14 @@ void	mother_board(t_data *data, t_command **cmd)
 	else
 		pipex(data, cmd);
 	unlink(".here");
+}
+
+void	one_exit(t_data *data, t_command **cmd)
+{
+	if (cmd[0]->tab_redir)
+	{
+		if (!redir(data, cmd[0]->tab_redir))
+			return (restore_redir(cmd[0]->tab_redir));
+	}
+	exiter(data, cmd, cmd[0]->tab_cmd);
 }

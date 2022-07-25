@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:34:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 22:40:06 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/25 23:22:57 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	pipex(t_data *data, t_command **cmd)
 	int		num;
 	int		i;
 	pid_t	child;
-	int		status;
 
 	num = cmd[0]->len_pipe;
 	data->pipefd = create_pipes(cmd[0]->len_pipe);
@@ -36,13 +35,17 @@ int	pipex(t_data *data, t_command **cmd)
 			return (msg_err("execve", "failed to create child processus", 1));
 		i++;
 	}
+	end_pipes(data, cmd, child);
+	return (0);
+}
+
+void	end_pipes(t_data *data, t_command **cmd, pid_t child)
+{
+	int	status;
+
 	close_pipes(data->pipefd, cmd[0]->len_pipe);
 	while (waitpid(child, &status, 0) > 0)
-	{
-		// printf("status: %d\n", status);
 		status_child(status);
-	}
-	return (0);
 }
 
 int	*create_pipes(int num)

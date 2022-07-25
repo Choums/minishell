@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 22:10:36 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/25 23:21:54 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ char		*find_bin(t_data *data, char *bin);
 int			check_cmd(char *cmd);
 int			check_cmd_neg(char *cmd, struct stat path_stat);
 void		mother_board(t_data *data, t_command **cmd);
+void		one_exit(t_data *data, t_command **cmd);
 int			is_builtin(t_command *cmd);
 void		exec_builtin(t_command *cmd, t_data *data);
 void		run_builtin(t_data *data, t_command *cmd);
@@ -152,6 +153,7 @@ int			end_sig(char *line, char *lim, char *end, int count);
 char		*check_expand(t_data *data, char *line);
 int			opening_mode(char *pathname);
 int			pipex(t_data *data, t_command **cmd);
+void		end_pipes(t_data *data, t_command **cmd, pid_t child);
 int			*create_pipes(int num);
 void		close_pipes(int *pipefd, int n_pipe);
 int			check_perm(char *path);
