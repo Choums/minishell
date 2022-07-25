@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 15:55:54 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 02:01:32 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/25 17:24:21 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,14 @@ char	*find_bin(t_data *data, char *bin)
 	t_list	*tmp;
 	int		perm;
 
-	if (!get_elem(data->h_env, "PATH") && !get_elem(data->h_var, "PATH"))
+	if (!bin || (!get_elem(data->h_env, "PATH")
+			&& !get_elem(data->h_var, "PATH")))
 		return (NULL);
 	tmp = data->path;
 	while (tmp)
 	{
 		dir = ft_strjoin(tmp->content, "/");
-		if (!bin)
-			return (free(dir), NULL);
 		path = ft_join(dir, bin);
-		// free(dir);
 		perm = check_perm(path);
 		if (perm == 1)
 			return (path);
@@ -96,7 +94,10 @@ int	check_cmd_neg(char *cmd, struct stat path_stat)
 	else if (cmd && ((cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0
 				|| cmd[ft_strlen(cmd) - 1] == '/')))
 		return (msg_err(cmd, ": No such file or directory", 127));
-	return (msg_err(cmd, ": command not found", 127));
+	if (cmd)
+		return (msg_err(cmd, ": command not found", 127));
+	else
+		return (1);
 }
 
 char	*get_cmd(t_data *data, char *cmd)

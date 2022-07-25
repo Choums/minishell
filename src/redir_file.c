@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 14:17:59 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/24 15:38:11 by root             ###   ########.fr       */
+/*   Updated: 2022/07/25 18:40:46 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ int	redir(t_data *data, t_redirection *tab)
 	i = -1;
 	while (tab->tab_fusion[++i])
 	{
+		printf("here1\n");
 		if (tab->tab_fusion_to[i][0] == '1')
 		{
+			printf("here2\n");
 			if (!in_redir(tab, tab->tab_fusion[i]))
 				return (0);
 		}

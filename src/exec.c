@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/24 22:34:30 by root             ###   ########.fr       */
+/*   Updated: 2022/07/25 18:48:54 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,12 @@ int	process(t_data *data, t_command *cmd, int pos)
 		redir_pipe(data->pipefd, pos, cmd->len_pipe);
 	if (cmd->len_pipe > 0)
 		close_pipes(data->pipefd, cmd->len_pipe);
+	printf("before\n");
 	if (cmd->tab_redir)
+	{
+		printf("me\n");
 		proc_redir(data, cmd);
+	}
 	if (cmd->tab_cmd[0] && !ft_strcmp(cmd->tab_cmd[0], "exit"))
 		return (0);
 	if (is_builtin(cmd))
@@ -45,7 +49,7 @@ int	process(t_data *data, t_command *cmd, int pos)
 	if (!path)
 		kill_kid(data, env);
 	if (execve(path, cmd->tab_cmd, env) < 0)
-		exit(EXIT_FAILURE);
+		return (msg_err("execve", strerror(errno), 1));
 	return (1);
 }
 
@@ -88,6 +92,8 @@ void	mother_board(t_data *data, t_command **cmd)
 		child = fork();
 		if (child == 0)
 			process(data, cmd[0], -1);
+		else if (child < 0)
+			msg_err("fork", strerror(errno), 1);
 		status_child(child);
 	}
 	else

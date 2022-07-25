@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_proc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:18:27 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/24 22:35:30 by root             ###   ########.fr       */
+/*   Updated: 2022/07/25 18:33:19 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	proc_redir(t_data *data, t_command *cmd)
 
 int	is_builtin(t_command *cmd)
 {
-	if (cmd->tab_cmd[0] && ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
+	if (ft_strcmp(cmd->tab_cmd[0], "echo") == 0)
 		return (1);
 	else if (cmd->tab_cmd[0] && ft_strcmp(cmd->tab_cmd[0], "cd") == 0)
 		return (1);

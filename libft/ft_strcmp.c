@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:34:29 by chaidel           #+#    #+#             */
-/*   Updated: 2022/02/01 14:34:32 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/25 17:15:54 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	ft_strcmp(const char *s1, const char *s2)
 	unsigned char	*tmp_s1;
 	unsigned char	*tmp_s2;
 
+	if (s1 == NULL || s2 == NULL)
+		return (-1);
 	tmp_s1 = (unsigned char *)s1;
 	tmp_s2 = (unsigned char *)s2;
 	i = 0;
