@@ -6,7 +6,7 @@
 /*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 16:33:32 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/23 15:38:57 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/25 01:30:40 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	ft_strlen_out_space(char *str)
 	if (str && ft_strlen(str) > 0)
 	{
 		len = (int)ft_strlen(str);
-		while (str[len - 1] && str[len - 1] == ' ')
+		while (len > 1 && str[len - 1] && str[len - 1] == ' ')
 			len--;
 		return (len);
 	}
