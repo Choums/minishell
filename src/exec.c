@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/26 19:05:36 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/26 19:26:37 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	process(t_data *data, t_command *cmd, int pos, t_command **t_p)
 		return (0);
 	if (is_builtin(cmd))
 	{
-		exec_builtin(cmd, data, t_p);
+		exec_builtin(cmd, data, t_p, 1);
 		exit(EXIT_SUCCESS);
 	}
 	env = lst_dup(data->h_env);
@@ -49,7 +49,7 @@ int	process(t_data *data, t_command *cmd, int pos, t_command **t_p)
 	return (1);
 }
 
-void	exec_builtin(t_command *cmd, t_data *data, t_command **t_p)
+void	exec_builtin(t_command *cmd, t_data *data, t_command **t_p, int proc)
 {
 	if (cmd->tab_redir)
 	{
@@ -65,7 +65,8 @@ void	exec_builtin(t_command *cmd, t_data *data, t_command **t_p)
 	ft_lstclear(&data->env, del);
 	ft_lstclear(&data->var, del);
 	ft_lstclear(&data->path, del);
-	free_struc(t_p);
+	if (proc)
+		free_struc(t_p);
 }
 
 /*
@@ -80,7 +81,7 @@ void	mother_board(t_data *data, t_command **cmd)
 	if (get_cmd_num(cmd) == 1 && ft_strcmp(cmd[0]->tab_cmd[0], "exit") == 0)
 		one_exit(data, cmd);
 	else if (get_cmd_num(cmd) == 1 && is_builtin(cmd[0]))
-		exec_builtin(cmd[0], data, cmd);
+		exec_builtin(cmd[0], data, cmd, 0);
 	else if (get_cmd_num(cmd) == 1 && !is_builtin(cmd[0]))
 	{
 		child = fork();

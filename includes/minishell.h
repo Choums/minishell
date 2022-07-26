@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/26 19:05:25 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/26 19:26:55 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include "../libft/libft.h"
 # include "get_next_line.h"
 # include <errno.h>
+# define _XOPEN_SOURCE 700
 
 // int WEXITSTATUS(int status);
 
@@ -132,7 +133,8 @@ int			check_cmd_neg(char *cmd, struct stat path_stat);
 void		mother_board(t_data *data, t_command **cmd);
 void		one_exit(t_data *data, t_command **cmd);
 int			is_builtin(t_command *cmd);
-void		exec_builtin(t_command *cmd, t_data *data, t_command **t_p);
+void		exec_builtin(t_command *cmd, t_data *data,
+				t_command **t_p, int proc);
 void		run_builtin(t_data *data, t_command *cmd);
 int			process(t_data *data, t_command *cmd, int pos, t_command **t_p);
 void		kill_kid(t_data *data, char **env, t_command **tab);
@@ -269,7 +271,7 @@ SIGNAL_C------------------------------------------------------------------------
 void		ft_signal(int sig, siginfo_t *info, void *context);
 void		sig_int(int sig, siginfo_t *info, void *context);
 void		sig_quit(int sig, siginfo_t *info, void *context);
-void		signal_init(void);
+void		signal_init(struct sigaction *s_sigaction, sigset_t *block_mask);
 
 /*
 SPLIT_PIPE_C---------------------------------------------------------------------

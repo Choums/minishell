@@ -6,7 +6,7 @@
 #    By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 20:18:17 by tdelauna          #+#    #+#              #
-#    Updated: 2022/07/25 20:35:31 by chaidel          ###   ########.fr        #
+#    Updated: 2022/07/26 19:21:39 by chaidel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,6 @@ OTHERDIR	=	obj/other
 SRC			=	main.c\
 				env.c\
 				path.c\
-				affichage.c\
 				builtin.c\
 				echo.c\
 				lst_management.c\

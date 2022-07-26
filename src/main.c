@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/26 16:53:38 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/26 19:19:05 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	main_two(t_data *data, char *line)
 		go_expand(data, table_pipe);
 		parse_quote(table_pipe);
 		fusion_tab_redir(table_pipe);
-		// ft_affiche_t_command(table_pipe);
 		mother_board(data, table_pipe);
-		free_struc(table_pipe);
+		if (table_pipe)
+			free_struc(table_pipe);
 	}
 }
 
@@ -74,15 +74,15 @@ int	main(int ac, char **av, char **envp)
 	char				*line;
 	t_data				data;
 	struct sigaction	s_sigaction;
+	sigset_t			block_mask;
 
 	(void)ac;
 	(void)av;
-	signal_init();
-	data_init(&data);
-	s_sigaction.sa_sigaction = ft_signal;
-	s_sigaction.sa_flags = SA_SIGINFO;
+	ft_memset(&s_sigaction, 0, sizeof(s_sigaction));
+	signal_init(&s_sigaction, &block_mask);
 	sigaction(SIGINT, &s_sigaction, 0);
 	sigaction(SIGQUIT, &s_sigaction, 0);
+	data_init(&data);
 	get_env(&data, envp);
 	while (1)
 	{
@@ -91,9 +91,9 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		if (line && *line)
 			add_history(line);
-		g_signal.nt_status = 0;
 		main_two(&data, line);
 		free(line);
+		g_signal.sigint = 0;
 	}
 	exit_signal(&data, line);
 }
