@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 23:21:54 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/26 17:41:48 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include "../libft/libft.h"
 # include "get_next_line.h"
 # include <errno.h>
+# define _XOPEN_SOURCE 700
 
 // int WEXITSTATUS(int status);
 
@@ -269,7 +270,7 @@ SIGNAL_C------------------------------------------------------------------------
 void		ft_signal(int sig, siginfo_t *info, void *context);
 void		sig_int(int sig, siginfo_t *info, void *context);
 void		sig_quit(int sig, siginfo_t *info, void *context);
-void		signal_init(void);
+void		signal_init(struct sigaction *s_sigaction, sigset_t *block_mask);
 
 /*
 SPLIT_PIPE_C---------------------------------------------------------------------

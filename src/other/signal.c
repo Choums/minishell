@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:27:54 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/25 22:05:23 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/26 17:54:35 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,15 @@ void	sig_int(int sig, siginfo_t *info, void *context)
 // Interruption (ctrl-C) == sigint == Terminaison int sig 2
 // Interruption forte (ctrl-\)	 == sigquit == Terminaison + core dump int sig 3
 
-void	signal_init(void)
+void	signal_init(struct sigaction *s_sigaction, sigset_t *block_mask)
 {
 	g_signal.nt_status = 0;
 	g_signal.status = 0;
 	g_signal.sigint = 0;
+	// ft_memset(&s_sigaction, 0, sizeof(struct sigaction));
+	// sigemptyset(&block_mask);
+	// // s_sigaction->sa_mask = NULL;
+	// s_sigaction->sa_handler = 0;
+	// s_sigaction->sa_flags = SA_SIGINFO;
+	// s_sigaction->sa_sigaction = ft_signal;
 }

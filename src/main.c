@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 23:24:40 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/26 17:55:22 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,21 @@ int	main(int ac, char **av, char **envp)
 	char				*line;
 	t_data				data;
 	struct sigaction	s_sigaction;
+	sigset_t			block_mask;
+
 
 	(void)ac;
 	(void)av;
-	signal_init();
-	data_init(&data);
-	s_sigaction.sa_sigaction = ft_signal;
+	ft_memset(&s_sigaction, 0, sizeof(s_sigaction));
+	sigemptyset(&block_mask);
+	s_sigaction.sa_handler = 0;
+	// s_sigaction.sa_mask = NULL;
 	s_sigaction.sa_flags = SA_SIGINFO;
+	signal_init(&s_sigaction, &block_mask);
+	s_sigaction.sa_sigaction = ft_signal;
 	sigaction(SIGINT, &s_sigaction, 0);
 	sigaction(SIGQUIT, &s_sigaction, 0);
+	data_init(&data);
 	get_env(&data, envp);
 	while (1)
 	{
@@ -93,6 +99,7 @@ int	main(int ac, char **av, char **envp)
 		g_signal.nt_status = 0;
 		main_two(&data, line);
 		free(line);
+		g_signal.sigint = 0;
 	}
 	exit_signal(&data, line);
 }
