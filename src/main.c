@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/26 17:56:59 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/26 18:36:07 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,10 @@ int	main(int ac, char **av, char **envp)
 	struct sigaction	s_sigaction;
 	sigset_t			block_mask;
 
-
 	(void)ac;
 	(void)av;
 	ft_memset(&s_sigaction, 0, sizeof(s_sigaction));
-	sigemptyset(&block_mask);
-	s_sigaction.sa_handler = 0;
-	// s_sigaction.sa_mask = NULL;
-	s_sigaction.sa_flags = SA_SIGINFO;
 	signal_init(&s_sigaction, &block_mask);
-	s_sigaction.sa_sigaction = ft_signal;
 	sigaction(SIGINT, &s_sigaction, 0);
 	sigaction(SIGQUIT, &s_sigaction, 0);
 	data_init(&data);
@@ -97,7 +91,6 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		if (line && *line)
 			add_history(line);
-		g_signal.nt_status = 0;
 		main_two(&data, line);
 		free(line);
 		g_signal.sigint = 0;
