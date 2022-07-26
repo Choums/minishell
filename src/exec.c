@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/26 17:47:27 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/26 19:05:36 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  *	ls | < infile wc
  *	wc ne lit que le infile
 */
-int	process(t_data *data, t_command *cmd, int pos)
+int	process(t_data *data, t_command *cmd, int pos, t_command **t_p)
 {
 	char	**env;
 	char	*path;
@@ -37,19 +37,19 @@ int	process(t_data *data, t_command *cmd, int pos)
 		return (0);
 	if (is_builtin(cmd))
 	{
-		exec_builtin(cmd, data);
+		exec_builtin(cmd, data, t_p);
 		exit(EXIT_SUCCESS);
 	}
 	env = lst_dup(data->h_env);
 	path = get_cmd(data, cmd->tab_cmd[0]);
 	if (!path)
-		kill_kid(data, env);
+		kill_kid(data, env, t_p);
 	if (execve(path, cmd->tab_cmd, env) < 0)
 		return (msg_err("execve", strerror(errno), 1));
 	return (1);
 }
 
-void	exec_builtin(t_command *cmd, t_data *data)
+void	exec_builtin(t_command *cmd, t_data *data, t_command **t_p)
 {
 	if (cmd->tab_redir)
 	{
@@ -65,6 +65,7 @@ void	exec_builtin(t_command *cmd, t_data *data)
 	ft_lstclear(&data->env, del);
 	ft_lstclear(&data->var, del);
 	ft_lstclear(&data->path, del);
+	free_struc(t_p);
 }
 
 /*
@@ -79,12 +80,12 @@ void	mother_board(t_data *data, t_command **cmd)
 	if (get_cmd_num(cmd) == 1 && ft_strcmp(cmd[0]->tab_cmd[0], "exit") == 0)
 		one_exit(data, cmd);
 	else if (get_cmd_num(cmd) == 1 && is_builtin(cmd[0]))
-		exec_builtin(cmd[0], data);
+		exec_builtin(cmd[0], data, cmd);
 	else if (get_cmd_num(cmd) == 1 && !is_builtin(cmd[0]))
 	{
 		child = fork();
 		if (child == 0)
-			process(data, cmd[0], -1);
+			process(data, cmd[0], -1, cmd);
 		else if (child < 0)
 			msg_err("fork", strerror(errno), 1);
 		waitpid(child, &status, 0);

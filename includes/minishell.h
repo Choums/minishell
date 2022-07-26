@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 23:21:54 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/26 19:05:25 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,10 +132,10 @@ int			check_cmd_neg(char *cmd, struct stat path_stat);
 void		mother_board(t_data *data, t_command **cmd);
 void		one_exit(t_data *data, t_command **cmd);
 int			is_builtin(t_command *cmd);
-void		exec_builtin(t_command *cmd, t_data *data);
+void		exec_builtin(t_command *cmd, t_data *data, t_command **t_p);
 void		run_builtin(t_data *data, t_command *cmd);
-int			process(t_data *data, t_command *cmd, int pos);
-void		kill_kid(t_data *data, char **env);
+int			process(t_data *data, t_command *cmd, int pos, t_command **t_p);
+void		kill_kid(t_data *data, char **env, t_command **tab);
 void		redir_pipe(int *pipefd, int pos, int n_pipe);
 void		proc_redir(t_data *data, t_command *cmd);
 void		display_here(void);

@@ -6,18 +6,19 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:18:27 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/26 16:08:53 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/26 19:05:12 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	kill_kid(t_data *data, char **env)
+void	kill_kid(t_data *data, char **env, t_command **tab)
 {
 	ft_lstclear(&data->env, del);
 	ft_lstclear(&data->var, del);
 	ft_lstclear(&data->path, del);
 	free_double_tab(env);
+	free_struc(tab);
 	exit(g_signal.status);
 }
 
