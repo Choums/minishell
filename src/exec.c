@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 23:24:32 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/26 17:47:27 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ void	exec_builtin(t_command *cmd, t_data *data)
 	run_builtin(data, cmd);
 	if (cmd->tab_redir)
 		restore_redir(cmd->tab_redir);
+	ft_lstclear(&data->env, del);
+	ft_lstclear(&data->var, del);
+	ft_lstclear(&data->path, del);
 }
 
 /*

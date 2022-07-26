@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/26 17:55:22 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/26 17:56:59 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	main_two(t_data *data, char *line)
 		go_expand(data, table_pipe);
 		parse_quote(table_pipe);
 		fusion_tab_redir(table_pipe);
+		// ft_affiche_t_command(table_pipe);
 		mother_board(data, table_pipe);
 		free_struc(table_pipe);
 	}

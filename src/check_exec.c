@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 15:55:54 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 19:58:28 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/26 16:53:08 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	check_cmd(char *cmd)
 {
 	struct stat	path_stat;
 
+	path_stat.st_mode = 0;
 	if (lstat(cmd, &path_stat) == 0)
 	{
 		if (((path_stat.st_mode & __S_IFMT) == __S_IFDIR)
@@ -88,13 +89,13 @@ int	check_cmd(char *cmd)
 
 int	check_cmd_neg(char *cmd, struct stat path_stat)
 {
-	if ((cmd && (path_stat.st_mode & __S_IFMT) != __S_IFDIR)
+	if (((path_stat.st_mode & __S_IFMT) != __S_IFDIR)
 		&& (cmd[ft_strlen(cmd) - 1] == '/'))
 		return (msg_err(cmd, ": Not a directory", 126));
-	else if (cmd && ((cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0
+	else if (((cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0
 				|| cmd[ft_strlen(cmd) - 1] == '/')))
 		return (msg_err(cmd, ": No such file or directory", 127));
-	if (cmd)
+	else if (cmd)
 		return (msg_err(cmd, ": command not found", 127));
 	else
 		return (1);

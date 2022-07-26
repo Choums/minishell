@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 14:47:01 by root              #+#    #+#             */
-/*   Updated: 2022/07/22 20:04:31 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/26 17:26:35 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,8 @@ int	check_exit_args(char *arg)
 int	is_exit(t_data *data, t_command **tab, int status)
 {
 	rl_clear_history();
-	ft_lstclear(&data->env, del);
-	ft_lstclear(&data->var, del);
+	ft_lstclear(data->h_env, del);
+	ft_lstclear(data->h_var, del);
 	ft_lstclear(&data->path, del);
 	free_struc(tab);
 	exit(status);

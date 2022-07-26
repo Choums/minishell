@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:34:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 23:24:48 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/26 17:42:11 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	pipex(t_data *data, t_command **cmd)
 		child = fork();
 		if (child == 0)
 		{
+			// fprintf(stderr, "cmd: %d\n", getpid());
 			process(data, cmd[i], i);
 			exiter(data, cmd, cmd[i]->tab_cmd);
 		}
