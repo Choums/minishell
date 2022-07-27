@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:34:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/27 15:27:11 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/27 15:42:26 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	end_pipes(t_data *data, t_command **cmd, pid_t child)
 {
 	int	status;
 
+	(void)child;
 	close_pipes(data->pipefd, cmd[0]->len_pipe);
 	while (wait(&status) > 0)
 		status_child(status);
