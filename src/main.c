@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/27 18:41:47 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/27 18:55:45 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char	*which_readline(void)
 		line = readline("minishell: ");
 	return (line);
 }
+
 int	main(int ac, char **av, char **envp)
 {
 	char				*line;

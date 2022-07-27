@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verif_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 16:33:32 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/27 15:30:56 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/27 19:56:08 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	verif_redir_syntax(char *line)
 	return (1);
 }
 
-int	ft_strlen_out_space(char *str)
+int	len_outspace(char *str)
 {
 	int	len;
 
@@ -105,9 +105,9 @@ int	verif_line(char *line)
 {
 	if (line && line[0] == '|')
 		return (error_msg_signal("|"));
-	if (line && line[ft_strlen_out_space(line) - 1] == '|')
+	if (line && line[len_outspace(line) - 1] == '|')
 		return (error_msg_signal("|"));
-	if (line && line[ft_strlen_out_space(line) - 1] == '\\')
+	if (line && line[len_outspace(line) - 1] == '\\')
 		return (error_msg_signal("\\"));
 	else if (line && (line[0] == '>' || line[0] == '<'))
 	{
@@ -117,7 +117,7 @@ int	verif_line(char *line)
 			return (error_msg_signal(">"));
 		else if (line[2] == '<')
 			return (error_msg_signal("<"));
-		else if ((line[1] == '<' || line[1] == '>' ) && ft_strlen_out_space(line) <= 2)
+		else if ((line[1] == '<' || line[1] == '>' ) && len_outspace(line) <= 2)
 			return (error_msg_signal("newline"));
 	}
 	else if (!verif_redir_syntax(line))
