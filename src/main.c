@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/27 18:33:10 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/27 18:41:47 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,14 @@ char	*which_readline(void)
 {
 	char	*line;
 
-	if (!g_signal.sigint)
-		line = readline("minishell: ");
-	else if (g_signal.status == 131)
+	if (g_signal.prompt == 1)
 	{
-		line = readline("");
+		line = readline(" ");
 		g_signal.sigint = 0;
+		g_signal.prompt = 0;
 	}
+	else
+		line = readline("minishell: ");
 	return (line);
 }
 int	main(int ac, char **av, char **envp)

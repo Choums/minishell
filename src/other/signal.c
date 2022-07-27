@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:27:54 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/27 18:07:27 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/27 18:42:15 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	sig_int(int sig, siginfo_t *info, void *context)
 	(void)info;
 	(void)context;
 	g_signal.sigint = 1;
-	ft_putstr_fd("\b\b  \b\b", STDERR);
-	ft_putstr_fd("\n", STDERR);
-	ft_putstr_fd("minishell1: ", STDERR);
+	ft_putstr_fd("\b\b  \b\b", STDOUT);
+	ft_putstr_fd("\n", STDOUT);
+	ft_putstr_fd("minishell:", STDOUT);
 	rl_replace_line(" ", 0);
 }
 

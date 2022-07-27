@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/27 18:17:43 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/27 18:42:25 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ typedef struct s_command
 
 typedef struct s_signal
 {
-	int	quit;
+	int	prompt;
 	int	sigint;
 	int	pid;
 	int	nt_status;
