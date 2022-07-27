@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/26 19:26:37 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/27 15:38:58 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,13 @@ void	exec_builtin(t_command *cmd, t_data *data, t_command **t_p, int proc)
 	run_builtin(data, cmd);
 	if (cmd->tab_redir)
 		restore_redir(cmd->tab_redir);
-	ft_lstclear(&data->env, del);
-	ft_lstclear(&data->var, del);
-	ft_lstclear(&data->path, del);
 	if (proc)
+	{
+		ft_lstclear(&data->env, del);
+		ft_lstclear(&data->var, del);
+		ft_lstclear(&data->path, del);
 		free_struc(t_p);
+	}
 }
 
 /*

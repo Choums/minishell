@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:34:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/26 19:07:27 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/27 15:27:11 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	end_pipes(t_data *data, t_command **cmd, pid_t child)
 	int	status;
 
 	close_pipes(data->pipefd, cmd[0]->len_pipe);
-	while (waitpid(child, &status, 0) > 0)
+	while (wait(&status) > 0)
 		status_child(status);
 }
 
