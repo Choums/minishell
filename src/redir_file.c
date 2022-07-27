@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 14:17:59 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/25 20:04:28 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/27 15:28:18 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	redir_sc(t_redirection *tab, int i)
 {
 	if (tab->tab_fusion_to[i][0] == '3')
 	{
+		printf("here\n");
 		if (!out_redir(tab, tab->tab_fusion[i]))
 			return (0);
 	}

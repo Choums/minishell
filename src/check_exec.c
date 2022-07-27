@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 15:55:54 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/26 16:53:08 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/27 15:01:57 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	check_cmd(char *cmd)
 {
 	struct stat	path_stat;
 
+	if (!cmd)
+		return (0);
 	path_stat.st_mode = 0;
 	if (lstat(cmd, &path_stat) == 0)
 	{
