@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/27 15:38:58 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/27 17:28:21 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	process(t_data *data, t_command *cmd, int pos, t_command **t_p)
 	if (is_builtin(cmd))
 	{
 		exec_builtin(cmd, data, t_p, 1);
-		exit(EXIT_SUCCESS);
+		exit(g_signal.status);
 	}
 	env = lst_dup(data->h_env);
 	path = get_cmd(data, cmd->tab_cmd[0]);

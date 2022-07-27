@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/26 19:26:55 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/27 17:25:58 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,8 @@ char		*get_lim(t_redirection *args);
 int			redir(t_data *data, t_redirection *tab);
 int			redir_sc(t_redirection *tab, int i);
 void		restore_redir(t_redirection *tab);
+int			restore_in(t_redirection *tab);
+int			restore_out(t_redirection *tab);
 int			close_cpy(t_redirection *tab);
 int			out_redir(t_redirection *tab, char *file);
 int			in_redir(t_redirection *tab, char *file);
@@ -155,7 +157,7 @@ int			end_sig(char *line, char *lim, char *end, int count);
 char		*check_expand(t_data *data, char *line);
 int			opening_mode(char *pathname);
 int			pipex(t_data *data, t_command **cmd);
-void		end_pipes(t_data *data, t_command **cmd, pid_t child);
+void		end_pipes(t_data *data, t_command **cmd);
 int			*create_pipes(int num);
 void		close_pipes(int *pipefd, int n_pipe);
 int			check_perm(char *path);
@@ -312,5 +314,5 @@ char		*parse_str_back_slash(char *str);
 void		parse_back_redir(char **tab, char **tab_token);
 void		parse_back_slash(t_command *(*table_pipe));
 
-void		status_child(int child);
+void		status_child(int status);
 #endif

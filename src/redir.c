@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/27 15:38:49 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/27 16:15:21 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,30 @@
 */
 void	restore_redir(t_redirection *tab)
 {
+	restore_in(tab);
+	restore_out(tab);
+	unlink(".here");
+}
+
+int	restore_in(t_redirection *tab)
+{
 	if (tab->cpy_in)
 	{
-		dup2(tab->cpy_in, 0);
+		dup2(tab->cpy_in, STDIN);
 		close(tab->cpy_in);
 	}
+	unlink(".here");
+	return (1);
+}
+
+int	restore_out(t_redirection *tab)
+{
 	if (tab->cpy_out)
 	{
-		dup2(tab->cpy_out, 1);
+		dup2(tab->cpy_out, STDOUT);
 		close(tab->cpy_out);
 	}
-	unlink(".here");
+	return (1);
 }
 
 int	close_cpy(t_redirection *tab)
