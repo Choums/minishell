@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 16:33:32 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/25 19:04:16 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/27 15:30:56 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	verif_line(char *line)
 			return (error_msg_signal(">"));
 		else if (line[2] == '<')
 			return (error_msg_signal("<"));
-		else if ((line[1] == '<' || line[1] == '>' ) && ft_strlen(line) >= 2)
+		else if ((line[1] == '<' || line[1] == '>' ) && ft_strlen_out_space(line) <= 2)
 			return (error_msg_signal("newline"));
 	}
 	else if (!verif_redir_syntax(line))
