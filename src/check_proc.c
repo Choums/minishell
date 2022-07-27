@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:18:27 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/27 19:02:20 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/27 21:01:58 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,15 @@ void	status_child(int status)
 		g_signal.prompt = 1;
 }
 
-void	proc_redir(t_data *data, t_command *cmd)
+int	proc_redir(t_data *data, t_command *cmd)
 {
 	if (!redir(data, cmd->tab_redir))
 	{
 		restore_redir(cmd->tab_redir);
-		exit (EXIT_FAILURE);
+		return (0);
 	}
 	close_cpy(cmd->tab_redir);
+	return (1);
 }
 
 int	is_builtin(t_command *cmd)

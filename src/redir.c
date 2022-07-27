@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:28:16 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/27 16:15:21 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/27 21:10:38 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 */
 void	restore_redir(t_redirection *tab)
 {
+	fprintf(stderr, "doing restore\n");
 	restore_in(tab);
 	restore_out(tab);
 	unlink(".here");

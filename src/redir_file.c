@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 14:17:59 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/27 16:16:44 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/27 21:05:36 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,7 @@ int	out_redir(t_redirection *tab, char *file)
 	tab->out_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (tab->out_fd < 0)
 		return (redir_err(file));
-	tab->cpy_out = dup(1);
-	close(1);
+	make_cpy_out(tab);
 	dup2(tab->out_fd, 1);
 	close(tab->out_fd);
 	return (1);
@@ -84,8 +83,7 @@ int	in_redir(t_redirection *tab, char *file)
 	if (tab->in_fd < 0)
 		return (redir_err(file));
 	tab->cpy_in = dup(0);
-	close(0);
-	dup2(tab->in_fd, 0);
+	make_cpy_in(tab);
 	close(tab->in_fd);
 	return (1);
 }
