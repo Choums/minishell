@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_proc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:18:27 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/27 17:43:21 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/27 18:14:59 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ void	status_child(int status)
 	 	if (g_signal.status != 131)
 	 		g_signal.status += 114;
 	}
-	
+	if (g_signal.status == 130)
+		g_signal.prompt = 1;
+
 }
 
 void	proc_redir(t_data *data, t_command *cmd)

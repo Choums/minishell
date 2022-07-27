@@ -6,11 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:27:54 by aptive            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/07/27 17:46:43 by chaidel          ###   ########.fr       */
-=======
-/*   Updated: 2022/07/27 17:30:39 by tdelauna         ###   ########.fr       */
->>>>>>> 42b91a62be6ddc8c36a051fa3825cfe7bb0953bc
+/*   Updated: 2022/07/27 18:25:09 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +36,9 @@ void	sig_int(int sig, siginfo_t *info, void *context)
 	(void)info;
 	(void)context;
 	g_signal.sigint = 1;
-	ft_putstr_fd("\b\b  \b\b", STDERR);
-	ft_putstr_fd("\n", STDERR);
-	ft_putstr_fd("minishell1: ", STDERR);
+	ft_putstr_fd("\b\b  \b\b", STDOUT);
+	ft_putstr_fd("\n", STDOUT);
+	ft_putstr_fd("minishell:", STDOUT);
 	rl_replace_line(" ", 0);
 }
 
