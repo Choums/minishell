@@ -6,11 +6,25 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 02:26:06 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/22 16:38:26 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/28 18:54:43 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	len_outspace(char *str)
+{
+	int	len;
+
+	if (str && ft_strlen(str) > 0)
+	{
+		len = (int)ft_strlen(str);
+		while (len > 1 && str[len - 1] && str[len - 1] == ' ')
+			len--;
+		return (len);
+	}
+	return (1);
+}
 
 int	error_msg(char *line)
 {

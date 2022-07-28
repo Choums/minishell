@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verif_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 16:33:32 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/27 19:56:08 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/28 19:00:54 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,8 @@ int	verif_pipe(char *line, int *i)
 	return (1);
 }
 
-int	verif_redir_syntax(char *line)
+int	verif_redir_syntax(char *line, int i)
 {
-	int		i;
-
-	i = 0;
 	while (line[i])
 	{
 		if (line[i] == '"' || line[i] == '\'')
@@ -76,27 +73,12 @@ int	verif_redir_syntax(char *line)
 			else if (line[i] == '|')
 				return (error_msg_signal("|"));
 		}
-		else if (line[i] == '|')
-		{
-			if (!verif_pipe(line, &i))
-				return (0);
-		}
+		else if (line[i] == '>' && line[i + 1] == '<' )
+			return (error_msg_signal("<"));
+		else if (line[i] == '|' && !verif_pipe(line, &i))
+			return (0);
 		else
 			i++;
-	}
-	return (1);
-}
-
-int	len_outspace(char *str)
-{
-	int	len;
-
-	if (str && ft_strlen(str) > 0)
-	{
-		len = (int)ft_strlen(str);
-		while (len > 1 && str[len - 1] && str[len - 1] == ' ')
-			len--;
-		return (len);
 	}
 	return (1);
 }
@@ -120,7 +102,7 @@ int	verif_line(char *line)
 		else if ((line[1] == '<' || line[1] == '>' ) && len_outspace(line) <= 2)
 			return (error_msg_signal("newline"));
 	}
-	else if (!verif_redir_syntax(line))
+	else if (!verif_redir_syntax(line, 0))
 	{
 		g_signal.status = 2;
 		return (0);
