@@ -6,7 +6,7 @@
 #    By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 20:18:17 by tdelauna          #+#    #+#              #
-#    Updated: 2022/07/28 19:32:15 by chaidel          ###   ########.fr        #
+#    Updated: 2022/07/28 20:17:37 by chaidel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,7 @@ PARSEDIR	=	obj/parsing
 GNLDIR		=	obj/gnl
 OTHERDIR	=	obj/other
 
-SRC			=	affichage2.c\
-				main.c\
+SRC			=	main.c\
 				env.c\
 				path.c\
 				builtin.c\
@@ -44,6 +43,7 @@ SRC			=	affichage2.c\
 				other/errors.c\
 				other/free.c\
 				other/utils.c\
+				other/utils2.c\
 				other/signal.c\
 				other/fusion_tab_redir.c\
 				gnl/get_next_line.c\

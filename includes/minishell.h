@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/28 19:32:05 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/28 21:16:32 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int			check_exit_args(char *arg);
 /*	Exec */
 char		*find_bin(t_data *data, char *bin);
 int			check_cmd(char *cmd);
+int			check_inv_perm(char *cmd, struct stat path_stat);
 int			check_cmd_neg(char *cmd, struct stat path_stat);
 void		mother_board(t_data *data, t_command **cmd);
 void		one_exit(t_data *data, t_command **cmd);
@@ -183,7 +184,6 @@ size_t		get_lst_len(t_list **head);
 
 /*	Utils */
 void		free_double_tab(char **tab);
-void		print_double_tab(char **tab); //DEBUG
 size_t		get_cmd_num(t_command **cmd);
 void		data_init(t_data *data);
 
