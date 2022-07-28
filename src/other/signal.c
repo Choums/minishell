@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:27:54 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/28 22:31:32 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/28 22:55:16 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	sig_int(int code)
 	ft_putstr_fd("\n", STDOUT);
 	if (g_signal.prompt != 1)
 	{
-	g_signal.status = 130;
+		g_signal.status = 130;
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
@@ -31,7 +31,8 @@ void	sig_quit(int code)
 {
 	(void)code;
 	ft_putstr_fd("\b\b  \b\b", STDERR);
-	ft_putendl_fd("Quit (core dump)", STDERR);
+	if (g_signal.prompt == 1)
+		ft_putendl_fd("Quit (core dump)", STDERR);
 }
 
 /* Interruption (ctrl-C) == sigint == Terminaison int sig 2
