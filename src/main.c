@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/28 20:12:03 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/28 21:08:06 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,12 @@ int	main(int ac, char **av, char **envp)
 {
 	char				*line;
 	t_data				data;
-	struct sigaction	s_sigaction;
-	sigset_t			block_mask;
 
 	(void)ac;
 	(void)av;
-	ft_memset(&s_sigaction, 0, sizeof(s_sigaction));
-	signal_init(&s_sigaction, &block_mask);
-	sigaction(SIGINT, &s_sigaction, 0);
-	sigaction(SIGQUIT, &s_sigaction, 0);
+	signal_init();
+	signal(SIGQUIT, &sig_quit);
+	signal(SIGINT, &sig_int);
 	data_init(&data);
 	get_env(&data, envp);
 	while (1)
