@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 14:17:59 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/28 16:38:47 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/29 00:17:04 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	redir(t_data *data, t_redirection *tab)
 		}
 		else if (tab->tab_fusion_to[i][0] == '2')
 		{
-			if (restore_in(tab) && !heredoc(data, tab, tab->tab_fusion[i]))
+			restore_redir(tab);
+			if (!heredoc(data, tab, tab->tab_fusion[i]))
 				return (0);
 		}
 		else if (!redir_sc(tab, i))
@@ -100,8 +101,7 @@ int	append_mode(t_redirection *tab, char *file)
 	tab->out_fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (tab->out_fd < 0)
 		return (redir_err(file));
-	tab->cpy_out = dup(1);
-	close(1);
+	make_cpy_out(tab);
 	dup2(tab->out_fd, 1);
 	close(tab->out_fd);
 	return (1);

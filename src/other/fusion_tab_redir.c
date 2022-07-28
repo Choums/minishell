@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 19:16:21 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/28 18:36:57 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/29 00:58:57 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,32 @@ void	tab_fusion_init(t_redirection *tab_redir)
 		= malloc(sizeof(char *) * (len_tab_in + len_tab_out + 1));
 	if (!tab_redir->tab_fusion)
 		return ;
-	tab_redir->tab_fusion[len_tab_in + len_tab_out] = NULL;
+	init_tab_fusion(tab_redir, len_tab_in + len_tab_out);
 	tab_redir->tab_fusion_to
 		= malloc(sizeof(char *) * (len_tab_in + len_tab_out + 1));
 	if (!tab_redir->tab_fusion_to)
 		return ;
-	tab_redir->tab_fusion_to[len_tab_in + len_tab_out] = NULL;
+	init_tab_fusion_to(tab_redir, len_tab_in + len_tab_out);
+}
+
+void	init_tab_fusion(t_redirection *tab, int max)
+{
+	int	i;
+
+	i = 0;
+	while (i < max)
+		tab->tab_fusion[i++] = NULL;
+	tab->tab_fusion[max] = NULL;
+}
+
+void	init_tab_fusion_to(t_redirection *tab, int max)
+{
+	int	i;
+
+	i = 0;
+	while (i < max)
+		tab->tab_fusion_to[i++] = NULL;
+	tab->tab_fusion_to[max] = NULL;
 }
 
 void	fusion(t_command *t_p)
@@ -44,12 +64,12 @@ void	fusion(t_command *t_p)
 	m = 0;
 	while (t_p->redir_place[++i])
 	{
-		if (t_p->tab_redir->tab_fusion[j] && t_p->redir_place[i] == '2')
+		if (t_p->redir_place[i] == '2')
 		{
 			t_p->tab_redir->tab_fusion[j] = t_p->tab_redir->in[k];
 			t_p->tab_redir->tab_fusion_to[j++] = t_p->tab_redir->token_in[k++];
 		}
-		else if (t_p->tab_redir->tab_fusion[j] && t_p->redir_place[i] == '1')
+		else if (t_p->redir_place[i] == '1')
 		{
 			t_p->tab_redir->tab_fusion[j] = t_p->tab_redir->out[m];
 			t_p->tab_redir->tab_fusion_to[j++] = t_p->tab_redir->token_out[m++];

@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/28 21:28:02 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/28 23:29:27 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	process(t_data *data, t_command *cmd, int pos, t_command **t_p)
 	if (!path)
 		kill_kid(data, env, t_p);
 	if (execve(path, cmd->tab_cmd, env) < 0)
-		exit (g_signal.status);
+		exit (msg_err_ex(strerror(errno), 126));
 	return (1);
 }
 

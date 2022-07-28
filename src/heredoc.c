@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 14:03:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/24 15:02:28 by root             ###   ########.fr       */
+/*   Updated: 2022/07/29 00:58:19 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	heredoc(t_data *data, t_redirection *tab, char *lim)
 	int		file;
 	int		count;
 
-	count = 1;
+	g_signal.here = 1;
+	count = 0;
 	file = open(".here", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	new_line = ft_calloc(1, 1);
 	end = lim;
@@ -40,7 +41,8 @@ int	heredoc(t_data *data, t_redirection *tab, char *lim)
 	while (1)
 	{
 		display_here();
-		line = get_next_line(STDIN_FILENO);
+		signal(SIGINT, &sig_in_here);
+		line = get_next_line(STDIN);
 		count++;
 		if (end_sig(line, lim, end, count))
 			break ;
@@ -61,12 +63,14 @@ int	end_sig(char *line, char *lim, char *end, int count)
 			STDERR);
 		ft_putstr_fd(lim, STDERR);
 		ft_putendl_fd("')", STDERR);
+		free(end);
 		return (1);
 	}
-	else if (ft_strcmp(line, end) == 0)
+	else if (ft_strcmp(line, end) == 0 || g_signal.here == 2)
 	{
 		free(end);
 		free(line);
+		g_signal.here = 0;
 		return (1);
 	}
 	return (0);
@@ -78,8 +82,7 @@ int	here_linker(t_redirection *tab, int file, char *new_line)
 	free(new_line);
 	close(file);
 	file = open(".here", O_RDONLY);
-	tab->cpy_in = dup(STDIN);
-	close(STDIN);
+	make_cpy_in(tab);
 	dup2(file, STDIN);
 	close(file);
 	return (1);

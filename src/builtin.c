@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 05:48:30 by root              #+#    #+#             */
-/*   Updated: 2022/07/21 15:48:29 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/28 23:05:23 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ int	pwd(void)
 	if (!path)
 	{
 		ft_putstr_fd("minishell: pwd: ", STDERR);
-		ft_putstr_fd("error retrieving current directory", STDERR);
+		ft_putendl_fd("error retrieving current directory", STDERR);
 		free(path);
-		g_signal.status = 1;
+		return (1);
 	}
 	ft_putendl_fd(path, STDOUT);
 	free(path);

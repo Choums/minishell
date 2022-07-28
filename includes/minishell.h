@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/28 21:18:41 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/29 00:40:28 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <assert.h>
 # include <dirent.h>
 # include <sys/ioctl.h>
 # include <sys/types.h>
@@ -82,6 +83,7 @@ typedef struct s_signal
 	int	pid;
 	int	nt_status;
 	int	status;
+	int	here;
 }	t_signal;
 
 extern t_signal	g_signal;
@@ -193,6 +195,7 @@ void		export_err(char *command);
 void		exit_err(t_data *data, t_command **tab, char *arg);
 int			msg_err(char *cmd, char *msg, int status);
 int			redir_err(char *file);
+int			msg_err_ex(char *msg, int status);
 /*
 AFFICHAGE_C----------------------------------------------------------------------
 */
@@ -238,6 +241,10 @@ char		*ft_search_redir(char *str, char c);
 FUSION_TAB_REDIR_C---------------------------------------------------------------
 */
 void		fusion_tab_redir(t_command	*(*table_pipe));
+void		init_tab_fusion(t_redirection *tab, int max);
+void		init_tab_fusion_to(t_redirection *tab, int max);
+void		fusion(t_command *t_p);
+void		tab_fusion_init(t_redirection *tab_redir);
 
 /*
 PARSING_UTILS_C------------------------------------------------------------------
@@ -276,7 +283,7 @@ SIGNAL_C------------------------------------------------------------------------
 void		sig_int(int code);
 void		sig_quit(int code);
 void		signal_init(void);
-
+void		sig_in_here(int code);
 /*
 SPLIT_PIPE_C---------------------------------------------------------------------
 */

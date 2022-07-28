@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:27:54 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/28 22:55:16 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/29 00:55:50 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	sig_int(int code)
 {
 	(void)code;
+	if (g_signal.here == 1)
+		return ;
 	g_signal.sigint = 1;
 	ft_putstr_fd("\b\b  \b\b", STDOUT);
 	ft_putstr_fd("\n", STDOUT);
@@ -25,6 +27,13 @@ void	sig_int(int code)
 		rl_on_new_line();
 		rl_redisplay();
 	}
+}
+
+void	sig_in_here(int code)
+{
+	(void)code;
+	g_signal.here = 2;
+	ft_putstr_fd("\n", STDOUT);
 }
 
 void	sig_quit(int code)
@@ -43,4 +52,5 @@ void	signal_init(void)
 	g_signal.nt_status = 0;
 	g_signal.status = 0;
 	g_signal.sigint = 0;
+	g_signal.here = 0;
 }
