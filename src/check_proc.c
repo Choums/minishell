@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:18:27 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/27 21:01:58 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/28 19:24:54 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	status_child(int status)
 	if ((WIFEXITED (status)))
 		g_signal.status = WEXITSTATUS (status);
 	if (WIFSIGNALED(status))
-		g_signal.status = WTERMSIG(status) + 128 - 14;
+		g_signal.status = WTERMSIG(status) + 128;
 	if (g_signal.status == 130)
 		g_signal.prompt = 1;
 }

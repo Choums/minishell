@@ -6,7 +6,7 @@
 #    By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 20:18:17 by tdelauna          #+#    #+#              #
-#    Updated: 2022/07/28 16:20:41 by chaidel          ###   ########.fr        #
+#    Updated: 2022/07/28 18:31:04 by chaidel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ PARSEDIR	=	obj/parsing
 GNLDIR		=	obj/gnl
 OTHERDIR	=	obj/other
 
-SRC			=	main.c\
+SRC			=	affichage2.c\
+				main.c\
 				env.c\
 				path.c\
 				builtin.c\
@@ -65,7 +66,7 @@ SRC			=	main.c\
 OBJ			=	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
 CC			=	gcc
-CFLAGS		=	-g -Wall -Wextra -Werror #-fsanitize=address #-static-libasan
+CFLAGS		=	-g -Wall -Wextra -Werror -fsanitize=address #-static-libasan
 
 FT			=	./libft/
 FT_LIB		=	$(addprefix $(FT),libft.a)

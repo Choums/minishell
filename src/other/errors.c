@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 21:35:36 by root              #+#    #+#             */
-/*   Updated: 2022/07/27 20:29:59 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/28 18:23:08 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,9 @@ int	pipe_err(int *pipefd, int i)
 	if (i == 0)
 		i += 2;
 	while (i)
-	{
-		close(pipefd[i]);
-		i--;
-	}
+		close(pipefd[i--]);
 	free(pipefd);
-	return (msg_err("pipe", "failed to create pipes", 1));
+	return (msg_err("pipe", "failed to create pipes", errno));
 }
 
 void	exit_err(t_data *data, t_command **tab, char *arg)

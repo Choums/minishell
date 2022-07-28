@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fusion_tab_redir.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 19:16:21 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/24 18:50:40 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/28 18:36:57 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ void	fusion(t_command *t_p)
 	m = 0;
 	while (t_p->redir_place[++i])
 	{
-		if (t_p->redir_place[i] == '2')
+		if (t_p->tab_redir->tab_fusion[j] && t_p->redir_place[i] == '2')
 		{
 			t_p->tab_redir->tab_fusion[j] = t_p->tab_redir->in[k];
 			t_p->tab_redir->tab_fusion_to[j++] = t_p->tab_redir->token_in[k++];
 		}
-		else if (t_p->redir_place[i] == '1')
+		else if (t_p->tab_redir->tab_fusion[j] && t_p->redir_place[i] == '1')
 		{
 			t_p->tab_redir->tab_fusion[j] = t_p->tab_redir->out[m];
 			t_p->tab_redir->tab_fusion_to[j++] = t_p->tab_redir->token_out[m++];
