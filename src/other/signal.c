@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:27:54 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/28 16:16:31 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/28 19:47:22 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,13 @@ void	sig_int(int sig, siginfo_t *info, void *context)
 	g_signal.sigint = 1;
 	ft_putstr_fd("\b\b  \b\b", STDOUT);
 	ft_putstr_fd("\n", STDOUT);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	if (g_signal.prompt != 1)
+	{
+		g_signal.status = 130;
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
 /* Interruption (ctrl-C) == sigint == Terminaison int sig 2
@@ -51,8 +55,9 @@ void	signal_init(struct sigaction *s_sigaction, sigset_t *block_mask)
 	g_signal.nt_status = 0;
 	g_signal.status = 0;
 	g_signal.sigint = 0;
-	sigemptyset(block_mask);
-	s_sigaction->sa_handler = 0;
+	// sigemptyset(block_mask);
+	// s_sigaction->sa_handler = 0;
+	(void) block_mask;
 	s_sigaction->sa_flags = SA_SIGINFO;
 	s_sigaction->sa_sigaction = ft_signal;
 }

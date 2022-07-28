@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/28 18:47:49 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/28 19:37:41 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	main_two(t_data *data, char *line)
 	table_pipe = NULL;
 	if (verif_line(line))
 	{
+		g_signal.prompt = 1;
 		table_pipe = ft_parsing(data, line, table_pipe);
 		parse_back_slash(table_pipe);
 		go_expand(data, table_pipe);
@@ -42,6 +43,7 @@ void	main_two(t_data *data, char *line)
 		mother_board(data, table_pipe);
 		if (table_pipe)
 			free_struc(table_pipe);
+		g_signal.prompt = 0;
 	}
 }
 
@@ -59,14 +61,7 @@ char	*which_readline(void)
 {
 	char	*line;
 
-	if (g_signal.prompt == 1)
-	{
-		line = readline(" ");
-		g_signal.sigint = 0;
-		g_signal.prompt = 0;
-	}
-	else
-		line = readline("minishell: ");
+	line = readline("minishell: ");
 	return (line);
 }
 
@@ -79,9 +74,10 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
-	ft_memset(&s_sigaction, 0, sizeof(s_sigaction));
+	// ft_memset(&s_sigaction, 0, sizeof(s_sigaction));
 	signal_init(&s_sigaction, &block_mask);
 	sigaction(SIGINT, &s_sigaction, 0);
+	// sigaction(SIGUSR1, &s_sigaction, 0);
 	sigaction(SIGQUIT, &s_sigaction, 0);
 	data_init(&data);
 	get_env(&data, envp);

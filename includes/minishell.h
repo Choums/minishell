@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/28 19:20:50 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/28 19:32:05 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,6 +286,7 @@ char		**split_pipe(char *str);
 /*
 VERIF_LINE_UTILS_C---------------------------------------------------------------
 */
+int			len_outspace(char *str);
 int			error_msg(char *line);
 int			error_msg_signal(char *msg);
 int			pass_quote_verif_line(char *line, int i);
@@ -295,7 +296,7 @@ VERIF_LINE_C--------------------------------------------------------------------
 */
 int			verif_quote(char *line);
 int			verif_pipe(char *line, int *i);
-int			verif_redir_syntax(char *line);
+int			verif_redir_syntax(char *line, int i);
 int			verif_line(char *line);
 
 /*
