@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:19:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/27 21:08:59 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/28 16:34:06 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,7 @@ int	process(t_data *data, t_command *cmd, int pos, t_command **t_p)
 	char	*path;
 
 	if (pos != -1 && cmd->len_pipe > 0)
-	{
-		make_cpy(cmd->tab_redir);
 		redir_pipe(data->pipefd, pos, cmd->len_pipe);
-	}
 	if (cmd->len_pipe > 0)
 		close_pipes(data->pipefd, cmd->len_pipe);
 	if (cmd->tab_cmd[0] && !ft_strcmp(cmd->tab_cmd[0], "exit"))
