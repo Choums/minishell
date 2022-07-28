@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 14:17:59 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/27 21:05:36 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/28 16:38:47 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ int	in_redir(t_redirection *tab, char *file)
 	tab->in_fd = open(file, O_RDONLY);
 	if (tab->in_fd < 0)
 		return (redir_err(file));
-	tab->cpy_in = dup(0);
 	make_cpy_in(tab);
+	dup2(tab->in_fd, 0);
 	close(tab->in_fd);
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_quote.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:34:59 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/07/19 02:32:07 by aptive           ###   ########.fr       */
+/*   Updated: 2022/07/28 18:37:32 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ char	*parse_str_quote_utils(char *str, int *i, char *tmp)
 	c = str[*i];
 	while (str[++*i] != c)
 	{
-		if (str[*i] == '\\')
-			tmp = ft_straddc(tmp, str[*i++]);
 		tmp = ft_straddc(tmp, str[*i]);
 	}
 	return (tmp);

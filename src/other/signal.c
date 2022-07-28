@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:27:54 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/28 16:22:11 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/28 18:22:11 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,14 @@ void	sig_int(int sig, siginfo_t *info, void *context)
 	(void)info;
 	(void)context;
 	g_signal.sigint = 1;
-	ft_putstr_fd("\b\b  \b\b", STDERR);
-	ft_putstr_fd("\n", STDERR);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-
+	ft_putstr_fd("\b\b  \b\b", STDOUT);
+	ft_putstr_fd("\n", STDOUT);
+	if (g_signal.prompt != 1)
+	{
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
 /* Interruption (ctrl-C) == sigint == Terminaison int sig 2
