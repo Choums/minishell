@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:18:27 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/28 18:22:36 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/28 19:09:59 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	status_child(int status)
 {
 	if ((WIFEXITED (status)))
 		g_signal.status = WEXITSTATUS (status);
+		printf(WIFSINALED)
 	if (WIFSIGNALED(status))
 		g_signal.status = WTERMSIG(status) + 128 - 14;
 }
