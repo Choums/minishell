@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/27 18:55:45 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/28 16:21:29 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,7 @@ char	*which_readline(void)
 {
 	char	*line;
 
-	if (g_signal.prompt == 1)
-	{
-		line = readline(" ");
-		g_signal.sigint = 0;
-		g_signal.prompt = 0;
-	}
-	else
+	if (g_signal.prompt != 1)
 		line = readline("minishell: ");
 	return (line);
 }
