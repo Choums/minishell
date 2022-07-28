@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/28 19:54:36 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/28 20:12:03 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	main_two(t_data *data, char *line)
 	table_pipe = NULL;
 	if (verif_line(line))
 	{
-		g_signal.prompt = 1;
 		table_pipe = ft_parsing(data, line, table_pipe);
 		parse_back_slash(table_pipe);
 		go_expand(data, table_pipe);
@@ -43,7 +42,6 @@ void	main_two(t_data *data, char *line)
 		mother_board(data, table_pipe);
 		if (table_pipe)
 			free_struc(table_pipe);
-		g_signal.prompt = 0;
 	}
 }
 

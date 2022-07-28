@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/28 18:56:40 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/28 19:32:05 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ int			end_sig(char *line, char *lim, char *end, int count);
 char		*check_expand(t_data *data, char *line);
 int			opening_mode(char *pathname);
 int			pipex(t_data *data, t_command **cmd);
-void		end_pipes(t_data *data, t_command **cmd);
+void		end_pipes(t_data *data, t_command **cmd, pid_t child);
 int			*create_pipes(int num);
 void		close_pipes(int *pipefd, int n_pipe);
 int			check_perm(char *path);

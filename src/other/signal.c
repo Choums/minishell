@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:27:54 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/28 19:34:59 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/07/28 20:12:45 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ void	sig_int(int sig, siginfo_t *info, void *context)
 	(void)info;
 	(void)context;
 	g_signal.sigint = 1;
+	// printf("prompt %i\n", g_signal.prompt);
 	ft_putstr_fd("\b\b  \b\b", STDOUT);
 	ft_putstr_fd("\n", STDOUT);
-	if (g_signal.prompt != 1)
+	if (!g_signal.prompt != 1)
 	{
 		rl_replace_line("", 0);
 		rl_on_new_line();
