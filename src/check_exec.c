@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 15:55:54 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/28 21:17:08 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/28 22:25:26 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,8 @@ int	check_cmd(char *cmd)
 			return (msg_err(cmd, ": Not a directory", 126));
 		else
 		{
-			if ((path_stat.st_mode & S_IXUSR)
-				&& (path_stat.st_mode & S_IRUSR) && !(ft_strncmp(cmd, "./", 2)
-					|| cmd[0] == '/'))
+			if ((path_stat.st_mode & S_IXUSR) && (path_stat.st_mode & S_IRUSR)
+				&& ((!ft_strncmp(cmd, "./", 2) || cmd[0] == '/')))
 				return (1);
 			else if (check_inv_perm(cmd, path_stat))
 				return (msg_err(cmd, ": Permission denied", 126));

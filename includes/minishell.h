@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:39:11 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/28 21:16:32 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/28 21:18:41 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,10 +273,9 @@ void		free_struc(t_command **table_pipe);
 /*
 SIGNAL_C-------------------------------------------------------------------------
 */
-void		ft_signal(int sig, siginfo_t *info, void *context);
-void		sig_int(int sig, siginfo_t *info, void *context);
-void		sig_quit(int sig, siginfo_t *info, void *context);
-void		signal_init(struct sigaction *s_sigaction, sigset_t *block_mask);
+void		sig_int(int code);
+void		sig_quit(int code);
+void		signal_init(void);
 
 /*
 SPLIT_PIPE_C---------------------------------------------------------------------

@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:18:27 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/28 20:33:19 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/28 21:19:04 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ void	status_child(int status)
 	if ((WIFEXITED (status)))
 		g_signal.status = WEXITSTATUS (status);
 	if (WIFSIGNALED(status))
-	{
-		printf("WTERMSIG: %d\n", WTERMSIG(status));
 		g_signal.status = WTERMSIG(status) + 128;
-	}
 }
 
 int	proc_redir(t_data *data, t_command *cmd)

@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:38:58 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/28 20:29:58 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/28 21:18:48 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	main_two(t_data *data, char *line)
 	table_pipe = NULL;
 	if (verif_line(line))
 	{
-		g_signal.prompt = 1;
 		table_pipe = ft_parsing(data, line, table_pipe);
 		parse_back_slash(table_pipe);
 		go_expand(data, table_pipe);
@@ -43,7 +42,6 @@ void	main_two(t_data *data, char *line)
 		mother_board(data, table_pipe);
 		if (table_pipe)
 			free_struc(table_pipe);
-		g_signal.prompt = 0;
 	}
 }
 
@@ -69,16 +67,12 @@ int	main(int ac, char **av, char **envp)
 {
 	char				*line;
 	t_data				data;
-	struct sigaction	s_sigaction;
-	sigset_t			block_mask;
 
 	(void)ac;
 	(void)av;
-	// ft_memset(&s_sigaction, 0, sizeof(s_sigaction));
-	signal_init(&s_sigaction, &block_mask);
-	sigaction(SIGINT, &s_sigaction, 0);
-	// sigaction(SIGUSR1, &s_sigaction, 0);
-	sigaction(SIGQUIT, &s_sigaction, 0);
+	signal_init();
+	signal(SIGQUIT, &sig_quit);
+	signal(SIGINT, &sig_int);
 	data_init(&data);
 	get_env(&data, envp);
 	while (1)
