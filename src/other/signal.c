@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:27:54 by aptive            #+#    #+#             */
-/*   Updated: 2022/07/29 00:55:50 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/29 10:37:18 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 void	sig_int(int code)
 {
 	(void)code;
-	if (g_signal.here == 1)
-		return ;
 	g_signal.sigint = 1;
 	ft_putstr_fd("\b\b  \b\b", STDOUT);
 	ft_putstr_fd("\n", STDOUT);
@@ -33,7 +31,12 @@ void	sig_in_here(int code)
 {
 	(void)code;
 	g_signal.here = 2;
+	ft_putstr_fd("\b\b  \b\b", STDERR);
 	ft_putstr_fd("\n", STDOUT);
+	g_signal.status = 130;
+	rl_replace_line(NULL, 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
 void	sig_quit(int code)
