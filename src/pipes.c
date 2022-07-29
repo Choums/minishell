@@ -6,7 +6,7 @@
 /*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:34:48 by chaidel           #+#    #+#             */
-/*   Updated: 2022/07/28 19:23:18 by chaidel          ###   ########.fr       */
+/*   Updated: 2022/07/29 11:05:21 by chaidel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,13 @@ int	pipex(t_data *data, t_command **cmd)
 void	end_pipes(t_data *data, t_command **cmd, pid_t child)
 {
 	int		status;
-	pid_t	ret;
 
 	status = 0;
 	close_pipes(data->pipefd, cmd[0]->len_pipe);
-	while (1)
+	while (waitpid(-1, &status, 0) > 0)
 	{
-		ret = waitpid(-1, &status, 0);
-		if (ret > 0 && ret == child)
-		{
+		if (waitpid(child, &status, 0) == child)
 			status_child(status);
-			break ;
-		}
 	}
 }
 
